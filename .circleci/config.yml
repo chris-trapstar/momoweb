@@ -24,9 +24,8 @@ jobs:
             - v1-dependencies-
 
       - run: npm install
-
-
-      - run: ./build.sh
+      - run: npm run build
+      - run: aws s3 sync ./build s3://momoweb.com
 
       - save_cache:
           paths:
