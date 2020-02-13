@@ -26,7 +26,7 @@ jobs:
       - run: npm install
 
 
-      # - run: ./build.sh
+      - run: ./build.sh
 
       - save_cache:
           paths:
