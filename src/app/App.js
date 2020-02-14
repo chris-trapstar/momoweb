@@ -9,22 +9,41 @@ import Sidebar from './shared/Sidebar';
 import Footer from './shared/Footer';
 import { withTranslation } from "react-i18next";
 import Login from './user-pages/Login';
+import Spinner from '../app/shared/Spinner';
 
 class App extends Component {
+  state = {
+    authenticated: false,
+    loading: true
+  }
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        loading: false,
+        authenticated: false
+      })
+    }, 3000)
+  }
+
   render() {
     return <Switch>
       <Route exact path="/login" component={ Login } />
-      <ProtectedApp{...this.props}/>
+      <ProtectedApp{...this.props} loading={this.state.loading} authenticated={this.state.authenticated}/>
     </Switch>
   }
 }
 
 class ProtectedApp extends Component {
   state = {}
-  componentDidMount() {
-    this.onRouteChanged();
-  }
+
   render () {
+
+    if (this.props.loading) {
+      return <Spinner/>
+    } else if (!this.props.authenticated) {
+      return <Redirect to="/login"/>
+    }
     let navbarComponent = !this.state.isFullPageLayout ? <Navbar/> : '';
     let sidebarComponent = !this.state.isFullPageLayout ? <Sidebar/> : '';
     let footerComponent = !this.state.isFullPageLayout ? <Footer/> : '';
@@ -43,43 +62,6 @@ class ProtectedApp extends Component {
       </div>
     );
   }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
-      this.onRouteChanged();
-    }
-  }
-
-  onRouteChanged() {
-    console.log("ROUTE CHANGED");
-    const { i18n } = this.props;
-    const body = document.querySelector('body');
-    if(this.props.location.pathname === '/layout/RtlLayout') {
-      body.classList.add('rtl');
-      i18n.changeLanguage('ar');
-    }
-    else {
-      body.classList.remove('rtl')
-      i18n.changeLanguage('en');
-    }
-    window.scrollTo(0, 0);
-    const fullPageLayoutRoutes = ['/user-pages/login-1', '/user-pages/login-2', '/user-pages/register-1', '/user-pages/register-2', '/user-pages/lockscreen', '/error-pages/error-404', '/error-pages/error-500', '/general-pages/landing-page'];
-    for ( let i = 0; i < fullPageLayoutRoutes.length; i++ ) {
-      if (this.props.location.pathname === fullPageLayoutRoutes[i]) {
-        this.setState({
-          isFullPageLayout: true
-        })
-        document.querySelector('.page-body-wrapper').classList.add('full-page-wrapper');
-        break;
-      } else {
-        this.setState({
-          isFullPageLayout: false
-        })
-        document.querySelector('.page-body-wrapper').classList.remove('full-page-wrapper');
-      }
-    }
-  }
-
 }
 
 export default withTranslation()(withRouter(App));
