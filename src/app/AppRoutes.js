@@ -1,110 +1,110 @@
-import React, { Component, lazy } from 'react';
+import React, { Component, Fragment, lazy } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-
 import Spinner from '../app/shared/Spinner';
 
-const Dashboard = lazy(() => import('./dashboard/Dashboard'));
+import Dashboard from './dashboard/Dashboard';
 
-const RtlLayout = lazy(() => import('./layout/RtlLayout'));
+// const RtlLayout = lazy(() => import('./layout/RtlLayout'));
 
-const Widgets = lazy(() => import('./widgets/Widgets'));
+// const Widgets = lazy(() => import('./widgets/Widgets'));
 
-const KanbanBoard = lazy(() => import('./apps/KanbanBoard'));
-const Tickets = lazy(() => import('./apps/Tickets'));
-const Chats = lazy(() => import('./apps/Chats'));
-const TodoList = lazy( () => import('./apps/TodoList'));
-const TodoListRtl = lazy( () => import('./apps/TodoListRtl'));
+// const KanbanBoard = lazy(() => import('./apps/KanbanBoard'));
+// const Tickets = lazy(() => import('./apps/Tickets'));
+// const Chats = lazy(() => import('./apps/Chats'));
+// const TodoList = lazy( () => import('./apps/TodoList'));
+// const TodoListRtl = lazy( () => import('./apps/TodoListRtl'));
 
-const Accordions = lazy(() => import('./basic-ui/Accordions')); 
-const Buttons = lazy(() => import('./basic-ui/Buttons'));
-const Badges = lazy(() => import('./basic-ui/Badges'));
-const Breadcrumbs = lazy(() => import('./basic-ui/Breadcrumbs'));
-const Dropdowns = lazy(() => import('./basic-ui/Dropdowns'));
-const Modals = lazy(() => import('./basic-ui/Modals'));
-const Progress = lazy(() => import('./basic-ui/Progress'));
-const Paginations = lazy(() => import('./basic-ui/Paginations'));
-const TabsPage = lazy(() => import('./basic-ui/TabsPage'));
-const Typography = lazy(() => import('./basic-ui/Typography'));
-const Tooltips = lazy(() => import('./basic-ui/Tooltips'));
-const Popups = lazy(() => import('./basic-ui/Popups'));
+// const Accordions = lazy(() => import('./basic-ui/Accordions')); 
+// const Buttons = lazy(() => import('./basic-ui/Buttons'));
+// const Badges = lazy(() => import('./basic-ui/Badges'));
+// const Breadcrumbs = lazy(() => import('./basic-ui/Breadcrumbs'));
+// const Dropdowns = lazy(() => import('./basic-ui/Dropdowns'));
+// const Modals = lazy(() => import('./basic-ui/Modals'));
+// const Progress = lazy(() => import('./basic-ui/Progress'));
+// const Paginations = lazy(() => import('./basic-ui/Paginations'));
+// const TabsPage = lazy(() => import('./basic-ui/TabsPage'));
+// const Typography = lazy(() => import('./basic-ui/Typography'));
+// const Tooltips = lazy(() => import('./basic-ui/Tooltips'));
+// const Popups = lazy(() => import('./basic-ui/Popups'));
 
-const Dragula = lazy(() => import('./advanced-ui/Dragula'));
-const Clipboard = lazy(() => import('./advanced-ui/Clipboards'));
-const ContextMenu = lazy(() => import('./advanced-ui/ContextMenus'));
-const Sliders = lazy(() => import('./advanced-ui/Sliders'));
-const Carousel = lazy(() => import('./advanced-ui/Carousel'));
-const Loaders = lazy(() => import('./advanced-ui/Loaders'));
-const TreeView = lazy(() => import('./advanced-ui/TreeView'));
+// const Dragula = lazy(() => import('./advanced-ui/Dragula'));
+// const Clipboard = lazy(() => import('./advanced-ui/Clipboards'));
+// const ContextMenu = lazy(() => import('./advanced-ui/ContextMenus'));
+// const Sliders = lazy(() => import('./advanced-ui/Sliders'));
+// const Carousel = lazy(() => import('./advanced-ui/Carousel'));
+// const Loaders = lazy(() => import('./advanced-ui/Loaders'));
+// const TreeView = lazy(() => import('./advanced-ui/TreeView'));
 
-const BasicElements = lazy(() => import('./form-elements/BasicElements'));
-const AdvancedElements = lazy(() => import('./form-elements/AdvancedElements'));
-const Validation = lazy(() => import('./form-elements/Validation'));
-const Wizard = lazy(() => import('./form-elements/Wizard'));
+// const BasicElements = lazy(() => import('./form-elements/BasicElements'));
+// const AdvancedElements = lazy(() => import('./form-elements/AdvancedElements'));
+// const Validation = lazy(() => import('./form-elements/Validation'));
+// const Wizard = lazy(() => import('./form-elements/Wizard'));
 
-const BasicTable = lazy(() => import('./tables/BasicTable'));
-const DataTable = lazy(() => import('./tables/DataTables'));
-const ReactTable = lazy(() => import('./tables/ReactTable'));
-const SortableTable = lazy(() => import('./tables/SortableTable'));
+// const BasicTable = lazy(() => import('./tables/BasicTable'));
+// const DataTable = lazy(() => import('./tables/DataTables'));
+// const ReactTable = lazy(() => import('./tables/ReactTable'));
+// const SortableTable = lazy(() => import('./tables/SortableTable'));
 
-const VectorMap = lazy(() => import('./maps/VectorMap'));
-const SimpleMap = lazy(() => import('./maps/SimpleMap'));
+// const VectorMap = lazy(() => import('./maps/VectorMap'));
+// const SimpleMap = lazy(() => import('./maps/SimpleMap'));
 
-const Notifications = lazy(() => import('./notifications/Notifications'));
+// const Notifications = lazy(() => import('./notifications/Notifications'));
 
-const Mdi = lazy(() => import('./icons/Mdi'));
-const FlagIcons = lazy(() => import('./icons/FlagIcons'));
-const FontAwesome = lazy(() => import('./icons/FontAwesome'));
-const SimpleLine = lazy(() => import('./icons/SimpleLine'));
-const Themify = lazy(() => import('./icons/Themify'));
-const TypIcons = lazy(() => import('./icons/TypIcons'));
+// const Mdi = lazy(() => import('./icons/Mdi'));
+// const FlagIcons = lazy(() => import('./icons/FlagIcons'));
+// const FontAwesome = lazy(() => import('./icons/FontAwesome'));
+// const SimpleLine = lazy(() => import('./icons/SimpleLine'));
+// const Themify = lazy(() => import('./icons/Themify'));
+// const TypIcons = lazy(() => import('./icons/TypIcons'));
 
-const TextEditors = lazy(() => import('./editors/TextEditors'));
-const CodeEditor = lazy(() => import('./editors/CodeEditor'));
+// const TextEditors = lazy(() => import('./editors/TextEditors'));
+// const CodeEditor = lazy(() => import('./editors/CodeEditor'));
 
-const ChartJs = lazy(() => import('./charts/ChartJs'));
-const C3Charts = lazy(() => import('./charts/C3Charts'));
-const Chartist = lazy(() => import('./charts/Chartist'));
-const GoogleCharts = lazy(() => import('./charts/GoogleCharts'));
-const SparkLineCharts = lazy(() => import('./charts/SparkLineCharts'));
-const GuageChart = lazy(() => import('./charts/GuageChart'));
+// const ChartJs = lazy(() => import('./charts/ChartJs'));
+// const C3Charts = lazy(() => import('./charts/C3Charts'));
+// const Chartist = lazy(() => import('./charts/Chartist'));
+// const GoogleCharts = lazy(() => import('./charts/GoogleCharts'));
+// const SparkLineCharts = lazy(() => import('./charts/SparkLineCharts'));
+// const GuageChart = lazy(() => import('./charts/GuageChart'));
 
-const Error404 = lazy(() => import('./error-pages/Error404'));
-const Error500 = lazy(() => import('./error-pages/Error500'));
+// const Error404 = lazy(() => import('./error-pages/Error404'));
+// const Error500 = lazy(() => import('./error-pages/Error500'));
 
-const Login = lazy(() => import('./user-pages/Login'));
-const Login2 = lazy(() => import('./user-pages/Login2'));
-const Register1 = lazy(() => import('./user-pages/Register'));
-const Register2 = lazy(() => import('./user-pages/Register2'));
-const Lockscreen = lazy(() => import('./user-pages/Lockscreen'));
+// const Login = lazy(() => import('./user-pages/Login'));
+// const Login2 = lazy(() => import('./user-pages/Login2'));
+// const Register1 = lazy(() => import('./user-pages/Register'));
+// const Register2 = lazy(() => import('./user-pages/Register2'));
+// const Lockscreen = lazy(() => import('./user-pages/Lockscreen'));
 
-const LandingPage = lazy(() => import('./general-pages/LandingPage'));
-const BlankPage = lazy(() => import('./general-pages/BlankPage'));
-const Profile = lazy(() => import('./general-pages/Profile'));
-const Faq = lazy(() => import('./general-pages/Faq'));
-const Faq2 = lazy(() => import('./general-pages/Faq2'));
-const NewsGrid = lazy(() => import('./general-pages/NewsGrid'));
-const Timeline = lazy(() => import('./general-pages/Timeline'));
-const SearchResults = lazy(() => import('./general-pages/SearchResults'));
-const Portfolio = lazy(() => import('./general-pages/Portfolio'));
-const UserListing = lazy(() => import('./general-pages/UserListing'));
+// const LandingPage = lazy(() => import('./general-pages/LandingPage'));
+// const BlankPage = lazy(() => import('./general-pages/BlankPage'));
+// const Profile = lazy(() => import('./general-pages/Profile'));
+// const Faq = lazy(() => import('./general-pages/Faq'));
+// const Faq2 = lazy(() => import('./general-pages/Faq2'));
+// const NewsGrid = lazy(() => import('./general-pages/NewsGrid'));
+// const Timeline = lazy(() => import('./general-pages/Timeline'));
+// const SearchResults = lazy(() => import('./general-pages/SearchResults'));
+// const Portfolio = lazy(() => import('./general-pages/Portfolio'));
+// const UserListing = lazy(() => import('./general-pages/UserListing'));
 
-const Invoice = lazy(() => import('./ecommerce/Invoice'));
-const Pricing = lazy(() => import('./ecommerce/Pricing'));
-const ProductCatalogue = lazy(() => import('./ecommerce/ProductCatalogue'));
-const ProjectList = lazy(() => import('./ecommerce/ProjectList'));
-const Orders = lazy(() => import('./ecommerce/Orders'));
+// const Invoice = lazy(() => import('./ecommerce/Invoice'));
+// const Pricing = lazy(() => import('./ecommerce/Pricing'));
+// const ProductCatalogue = lazy(() => import('./ecommerce/ProductCatalogue'));
+// const ProjectList = lazy(() => import('./ecommerce/ProjectList'));
+// const Orders = lazy(() => import('./ecommerce/Orders'));
 
-const Email = lazy(() => import('./apps/Email'));
-const Calendar = lazy(() => import('./apps/Calendar'));
-const Gallery = lazy(() => import('./apps/Gallery'));
+// const Email = lazy(() => import('./apps/Email'));
+// const Calendar = lazy(() => import('./apps/Calendar'));
+// const Gallery = lazy(() => import('./apps/Gallery'));
 
 
 class AppRoutes extends Component {
   render () {
     return (
-        <Switch>
+        <Fragment>
           <Route exact path="/dashboard" component={ Dashboard } />
 
+          { /*
           <Route exact path="/layout/RtlLayout" component={ RtlLayout } />
 
           <Route exact path="/widgets" component={ Widgets } />
@@ -200,10 +200,10 @@ class AppRoutes extends Component {
           <Route path="/apps/email" component={ Email } />
           <Route path="/apps/calendar" component={ Calendar } />
           <Route path="/apps/gallery" component={ Gallery } />
-
-
+*/
+          }
           <Redirect to="/dashboard" />
-        </Switch>
+        </Fragment>
     );
   }
 }

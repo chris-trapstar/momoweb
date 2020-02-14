@@ -1,13 +1,25 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
+
 import './App.scss';
 import AppRoutes from './AppRoutes';
 import Navbar from './shared/Navbar';
 import Sidebar from './shared/Sidebar';
 import Footer from './shared/Footer';
 import { withTranslation } from "react-i18next";
+import Login from './user-pages/Login';
 
 class App extends Component {
+  render() {
+    return <Switch>
+      <Route exact path="/login" component={ Login } />
+      <ProtectedApp{...this.props}/>
+    </Switch>
+  }
+}
+
+class ProtectedApp extends Component {
   state = {}
   componentDidMount() {
     this.onRouteChanged();
