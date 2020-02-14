@@ -1,4 +1,4 @@
-import React, { Component,Suspense, lazy } from 'react';
+import React, { Component, lazy } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Spinner from '../app/shared/Spinner';
@@ -102,7 +102,6 @@ const Gallery = lazy(() => import('./apps/Gallery'));
 class AppRoutes extends Component {
   render () {
     return (
-      <Suspense fallback={<Spinner/>}>
         <Switch>
           <Route exact path="/dashboard" component={ Dashboard } />
 
@@ -205,7 +204,6 @@ class AppRoutes extends Component {
 
           <Redirect to="/dashboard" />
         </Switch>
-      </Suspense>
     );
   }
 }
