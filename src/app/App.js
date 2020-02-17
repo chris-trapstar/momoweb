@@ -1,62 +1,71 @@
-import React, { Component, Fragment } from 'react';
-import { withRouter } from 'react-router-dom';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import React, { Component, Fragment } from "react";
+import { withRouter } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
-import './App.scss';
-import AppRoutes from './AppRoutes';
-import Navbar from './shared/Navbar';
-import Sidebar from './shared/Sidebar';
-import Footer from './shared/Footer';
+import "./App.scss";
+import AppRoutes from "./AppRoutes";
+import Navbar from "./shared/Navbar";
+import Sidebar from "./shared/Sidebar";
+import Footer from "./shared/Footer";
 import { withTranslation } from "react-i18next";
-import Login from './user-pages/Login';
-import Spinner from '../app/shared/Spinner';
+import Login from "./user-pages/Login";
+import Spinner from "../app/shared/Spinner";
+import { AuthActions } from "./store";
 
 class App extends Component {
-  state = {
-    authenticated: false,
-    loading: true
-  }
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        loading: false,
-        authenticated: false
-      })
-    }, 3000)
-  }
+  onLogout = () => {
+    this.props.setAuthenticated(false);
+    this.props.setLoading(false);
+  };
 
   render() {
-    return <Switch>
-      <Route exact path="/login" component={ Login } />
-      <ProtectedApp{...this.props} loading={this.state.loading} authenticated={this.state.authenticated}/>
-    </Switch>
+    const {loading, authenticated} = this.props;
+    return (
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <ProtectedApp
+          {...this.props}
+          loading={loading}
+          authenticated={authenticated}
+          onLogout={this.onLogout}
+        />
+      </Switch>
+    );
   }
 }
 
 class ProtectedApp extends Component {
-  state = {}
+  state = {};
 
-  render () {
+  onLogout = () => {
+    this.props.onLogout();
+  };
 
+  render() {
     if (this.props.loading) {
-      return <Spinner/>
+      return <Spinner />;
     } else if (!this.props.authenticated) {
-      return <Redirect to="/login"/>
+      return <Redirect to="/login" />;
     }
-    let navbarComponent = !this.state.isFullPageLayout ? <Navbar/> : '';
-    let sidebarComponent = !this.state.isFullPageLayout ? <Sidebar/> : '';
-    let footerComponent = !this.state.isFullPageLayout ? <Footer/> : '';
+    let navbarComponent = !this.state.isFullPageLayout ? (
+      <Navbar onLogout={this.onLogout} />
+    ) : (
+      ""
+    );
+    let sidebarComponent = !this.state.isFullPageLayout ? <Sidebar /> : "";
+    let footerComponent = !this.state.isFullPageLayout ? <Footer /> : "";
     return (
       <div className="container-scroller">
-        { sidebarComponent }
+        {sidebarComponent}
         <div className="container-fluid page-body-wrapper">
-          { navbarComponent }
+          {navbarComponent}
           <div className="main-panel">
             <div className="content-wrapper">
-              <AppRoutes/>
+              <AppRoutes />
             </div>
-            { footerComponent }
+            {footerComponent}
           </div>
         </div>
       </div>
@@ -64,4 +73,16 @@ class ProtectedApp extends Component {
   }
 }
 
-export default withTranslation()(withRouter(App));
+const mapDispatchToProps = {
+  setAuthenticated: AuthActions.setAuthenticated,
+  setLoading: AuthActions.setLoading
+};
+
+const mapStateToProps = state => ({
+  authenticated: state.auth.authenticated,
+  loading: state.auth.loading
+});
+
+export default withTranslation()(
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
+);
