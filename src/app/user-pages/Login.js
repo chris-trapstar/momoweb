@@ -11,10 +11,10 @@ export class Login extends Component {
             <div className="col-lg-4 mx-auto">
               <div className="card text-left py-5 px-4 px-sm-5">
                 <div className="brand-logo">
-                  <img src={require("../../assets/images/logo.svg")} alt="logo" />
+                  <h2>MomoWeb</h2>
                 </div>
                 <h4>Hello! let's get started</h4>
-                <h6 className="font-weight-light">Sign in to continue.</h6>
+                <h6 className="font-weight-light">Momentic Inc.</h6>
                 <Form className="pt-3">
                   <Form.Group className="d-flex search-field">
                     <Form.Control type="email" placeholder="Username" size="lg" className="h-auto" />
