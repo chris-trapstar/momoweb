@@ -192,8 +192,49 @@ export class Dashboard extends Component {
                         <p className="text-muted mb-1"></p>
                       </div>
                       <div className="row data-section popular">
-                        
+
                       </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="row data-section">
+                <div className="col-12">
+                  <div class="card">
+                    <div class="card-body">
+                      <div className="d-flex flex-row justify-content-between">
+                        <h4 className="card-title mb-1">Discovery</h4>
+                        <div className="button">Industry</div>
+                        <div className="button">Favorites</div>
+                        <input className="input" placeholder="symbol search"></input>
+                      </div>
+
+                      <table className="table table-striped">
+                        <thead>
+                          <tr>
+                            <th> SYMBOL </th>
+                            <th> LAST </th>
+                            <th> VOLUME </th>
+                            <th> Momentum </th>
+                            <th> Unusual Vol </th>
+                            <th> VWAP DIST %</th>
+                            <th> Short %</th>
+                            <th> Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>AAPL</td>
+                            <td>312.44</td>
+                            <td>1210,000</td>
+                            <td>+121</td>
+                            <td>+18%</td>
+                            <td>+18%</td>
+                            <td>25%</td>
+                            <td>* ^</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
