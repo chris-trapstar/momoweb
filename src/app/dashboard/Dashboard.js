@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import './dashboard.css';
 
 export class Dashboard extends Component {
   render() {
@@ -72,7 +73,8 @@ export class Dashboard extends Component {
                 </div>
                 <div className="col-1" />
               </div>
-              <div className="row mt-4">
+              {/* Popular Stocks*/}
+              <div className="row mt-4 ">
                 <div className="col-1" />
                 <div className="col-10">
                   <div
@@ -112,6 +114,67 @@ export class Dashboard extends Component {
                   </div>
                 </div>
                 <div className="col-1" />
+              </div>
+              
+              {/** Table | (Popular vs Alert History) */}
+              <div className="row data-section">
+                <div className="col-md-8 grid-margin stretch-card">
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-md-6">
+                          <table className="table table-striped">
+                            <thead>
+                              <tr>
+                                <th> SYMBOL </th>
+                                <th> LAST </th>
+                                <th> COUNT </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td className="py-1">
+                                  <img src={require("../../assets/images/faces/face1.jpg")} alt="user icon" />
+                                </td>
+                                <td> Herman Beck </td>
+                                <td> 3 </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        
+                        </div>
+                        <div className="col-md-6">
+                          <table className="table table-striped">
+                            <thead>
+                              <tr>
+                                <th> SYMBOL </th>
+                                <th> LAST </th>
+                                <th> COUNT </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td className="py-1">
+                                  <img src={require("../../assets/images/faces/face1.jpg")} alt="user icon" />
+                                </td>
+                                <td> Herman Beck </td>
+                                <td> 3 </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        
+                        </div>
+                      </div>
+
+                      
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-4 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
