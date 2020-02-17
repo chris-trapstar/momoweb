@@ -14,52 +14,21 @@ import Spinner from "../app/shared/Spinner";
 import { AuthActions } from "./store";
 
 class App extends Component {
-  state = {
-    authenticated: false,
-    loading: true
-  };
-
-  componentDidMount() {
-    if (this.props.loading) {
-      this.setState({
-        loading: true,
-        authenticated: false
-      });
-    } else if (this.props.authenticated) {
-      this.setState({
-        loading: false,
-        authenticated: true
-      });
-    } else {
-      this.setState({
-        loading: false,
-        authenticated: false
-      });
-    }
-  }
-
-  componentWillReceiveProps(nextProps, nextContext) {
-    if (this.props.loading) {
-      this.setState({ loading: true, authenticated: false });
-    } else if (nextProps.authenticated) {
-      this.setState({ loading: false, authenticated: true });
-    }
-  }
 
   onLogout = () => {
     this.props.setAuthenticated(false);
     this.props.setLoading(false);
-    this.setState({ loading: false, authenticated: false });
   };
 
   render() {
+    const {loading, authenticated} = this.props;
     return (
       <Switch>
         <Route exact path="/login" component={Login} />
         <ProtectedApp
           {...this.props}
-          loading={this.state.loading}
-          authenticated={this.state.authenticated}
+          loading={loading}
+          authenticated={authenticated}
           onLogout={this.onLogout}
         />
       </Switch>
