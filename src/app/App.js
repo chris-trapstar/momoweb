@@ -14,14 +14,13 @@ import Spinner from "../app/shared/Spinner";
 import { AuthActions } from "./store";
 
 class App extends Component {
-
   onLogout = () => {
     this.props.setAuthenticated(false);
     this.props.setLoading(false);
   };
 
   render() {
-    const {loading, authenticated} = this.props;
+    const { loading, authenticated } = this.props;
     return (
       <Switch>
         <Route exact path="/login" component={Login} />

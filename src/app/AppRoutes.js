@@ -1,8 +1,8 @@
-import React, { Component, Fragment, lazy } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import Spinner from '../app/shared/Spinner';
+import React, { Component, Fragment, lazy } from "react";
+import { Switch, Route, Redirect } from "react-router-dom";
+import Spinner from "../app/shared/Spinner";
 
-import Dashboard from './dashboard/Dashboard';
+import Dashboard from "./dashboard/Dashboard";
 
 // const RtlLayout = lazy(() => import('./layout/RtlLayout'));
 
@@ -14,7 +14,7 @@ import Dashboard from './dashboard/Dashboard';
 // const TodoList = lazy( () => import('./apps/TodoList'));
 // const TodoListRtl = lazy( () => import('./apps/TodoListRtl'));
 
-// const Accordions = lazy(() => import('./basic-ui/Accordions')); 
+// const Accordions = lazy(() => import('./basic-ui/Accordions'));
 // const Buttons = lazy(() => import('./basic-ui/Buttons'));
 // const Badges = lazy(() => import('./basic-ui/Badges'));
 // const Breadcrumbs = lazy(() => import('./basic-ui/Breadcrumbs'));
@@ -97,14 +97,13 @@ import Dashboard from './dashboard/Dashboard';
 // const Calendar = lazy(() => import('./apps/Calendar'));
 // const Gallery = lazy(() => import('./apps/Gallery'));
 
-
 class AppRoutes extends Component {
-  render () {
+  render() {
     return (
-        <Fragment>
-          <Route exact path="/dashboard" component={ Dashboard } />
+      <Fragment>
+        <Route exact path="/dashboard" component={Dashboard} />
 
-          { /*
+        {/*
           <Route exact path="/layout/RtlLayout" component={ RtlLayout } />
 
           <Route exact path="/widgets" component={ Widgets } />
@@ -200,10 +199,9 @@ class AppRoutes extends Component {
           <Route path="/apps/email" component={ Email } />
           <Route path="/apps/calendar" component={ Calendar } />
           <Route path="/apps/gallery" component={ Gallery } />
-*/
-          }
-          <Redirect to="/dashboard" />
-        </Fragment>
+*/}
+        <Redirect to="/dashboard" />
+      </Fragment>
     );
   }
 }
