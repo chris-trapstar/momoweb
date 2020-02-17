@@ -115,7 +115,7 @@ export class Dashboard extends Component {
                 </div>
                 <div className="col-1" />
               </div>
-              
+
               {/** Table | (Popular vs Alert History) */}
               <div className="row data-section">
                 <div className="col-md-8 grid-margin stretch-card">
@@ -141,7 +141,7 @@ export class Dashboard extends Component {
                               </tr>
                             </tbody>
                           </table>
-                        
+
                         </div>
                         <div className="col-md-6">
                           <table className="table table-striped">
@@ -162,17 +162,39 @@ export class Dashboard extends Component {
                               </tr>
                             </tbody>
                           </table>
-                        
                         </div>
                       </div>
-
-                      
                     </div>
                   </div>
                 </div>
-                <div className="col-md-4 grid-margin stretch-card">
+                <div className="col-md-4 grid-margin stretch-card column-flex">
                   <div class="card">
-                    <div class="card-body"></div>
+                    <div class="card-body">
+                      <div className="d-flex flex-row justify-content-between">
+                        <h4 className="card-title mb-1">Popular</h4>
+                        <p className="text-muted mb-1"></p>
+                      </div>
+                      <div className="row data-section popular">
+                        <div className="col-12">
+                          <h3>AMZN GOOG NS GE</h3>
+                          <h4>TXN NVCN TVIX JNJ</h4>
+                          <h5>STX SOX UVXY SLT TLT</h5>
+                          <h6>STX SOX UVXY SLT TLT</h6>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="card data-section">
+                    <div class="card-body">
+                      <div className="d-flex flex-row justify-content-between">
+                        <h4 className="card-title mb-1">Alert History</h4>
+                        <p className="text-muted mb-1"></p>
+                      </div>
+                      <div className="row data-section popular">
+                        
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

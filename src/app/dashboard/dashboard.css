@@ -1,3 +1,10 @@
 .data-section {
   margin-top: 1em;
 }
+.popular {
+  margin-left: 1em;
+}
+
+.column-flex {
+  flex-direction: column;
+}
