@@ -182,6 +182,10 @@ class Sidebar extends Component {
 
   componentDidMount() {
     this.onRouteChanged();
+    // default icon only
+    if (document.body.classList.length === 0) {
+      document.body.classList.toggle("sidebar-icon-only");
+    }
     // add class 'hover-open' to sidebar navitem while hover in sidebar-icon-only menu
     const body = document.querySelector("body");
     document.querySelectorAll(".sidebar .nav-item").forEach(el => {
