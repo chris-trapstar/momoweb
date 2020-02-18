@@ -332,7 +332,10 @@ class Navbar extends Component {
                 <Dropdown.Divider />
                 <Dropdown.Item
                   href="!#"
-                  onClick={evt => evt.preventDefault()}
+                  onClick={evt => {
+                    evt.preventDefault();
+                    this.onLogout();
+                  }}
                   className="preview-item"
                 >
                   <div className="preview-thumbnail">
@@ -340,7 +343,7 @@ class Navbar extends Component {
                       <i className="mdi mdi-logout text-danger"></i>
                     </div>
                   </div>
-                  <div className="preview-item-content" onClick={this.onLogout}>
+                  <div className="preview-item-content">
                     <p className="preview-subject mb-1">
                       <Trans>Log Out</Trans>
                     </p>
