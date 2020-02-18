@@ -59,13 +59,15 @@ class Sidebar extends Component {
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
         <div className="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
           <a className="sidebar-brand brand-logo" href="index.html">
-            <img src={require("../../assets/images/logo.svg")} alt="logo" />
+            {/*<img src={require("../../assets/images/logo.svg")} alt="logo" />*/}
+            <h3>Momentic</h3>
           </a>
           <a className="sidebar-brand brand-logo-mini" href="index.html">
-            <img
+            {/*<img
               src={require("../../assets/images/logo-mini.svg")}
               alt="logo"
-            />
+            />*/}
+            <h3>M</h3>
           </a>
         </div>
         <ul className="nav">
