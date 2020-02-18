@@ -1,10 +1,76 @@
 .data-section {
   margin-top: 1em;
 }
+
+.data-section-large {
+  margin-top: 2em;
+}
+
 .popular {
   margin-left: 1em;
 }
 
 .column-flex {
   flex-direction: column;
+}
+
+.static-bar {
+  background: #1a1c23;
+  padding-top: 1.5ex;
+  padding-bottom: 1.5ex;
+}
+
+.static-img {
+  width: 1.5em;
+  height: 1.5em;
+}
+
+.white-no-wrap {
+  white-space: nowrap;
+}
+
+.font-10 {
+  font-size: 10px;
+}
+
+.font-11 {
+  font-size: 11px;
+}
+
+.font-12 {
+  font-size: 12px;
+}
+
+.font-13 {
+  font-size: 13px;
+}
+
+.font-14 {
+  font-size: 14px;
+}
+
+.font-15 {
+  font-size: 15px;
+}
+
+.font-20 {
+  font-size: 20px;
+}
+
+.dash-font-color {
+  color: #6d7291;
+}
+
+.white-color {
+  color: white;
+}
+
+.img-15 {
+  width: 15px;
+  height: 15px;
+}
+
+.img-30 {
+  width: 30px;
+  height: 30px;
 }
