@@ -59,7 +59,7 @@ class jwtService {
     };
     return new Promise((resolve, reject) => {
       fetch(`${baseUrl}/api/auth/login`, header)
-        .then(async response => {          
+        .then(async response => {
           let data = await response.json();
           if (data.access_token) {
             resolve(data);

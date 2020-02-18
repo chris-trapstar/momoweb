@@ -111,3 +111,17 @@ table  { border-collapse: collapse; width: 100%; }
 th {
   background:#191c24;
 }
+
+.bar-icon {
+  width: 30px;
+  height: 30px;
+  background: rgba(108, 114, 147, 0.2);
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bar-txt {
+  margin-left: 1em;
+}

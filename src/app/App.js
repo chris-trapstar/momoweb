@@ -43,7 +43,6 @@ class ProtectedApp extends Component {
   };
 
   render() {
-
     // Check Auth
     if (this.props.loading) {
       return <Spinner />;
@@ -51,7 +50,6 @@ class ProtectedApp extends Component {
       return <Redirect to="/login" />;
     }
 
-    
     let navbarComponent = !this.state.isFullPageLayout ? (
       <Navbar onLogout={this.onLogout} />
     ) : (

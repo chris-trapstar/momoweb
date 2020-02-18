@@ -24,9 +24,9 @@ class Login extends Component {
     const password = this.refPassword.value;
     this.props.setLoading(true);
     Api.login(email, password)
-      .then(({user, access_token}) => {
+      .then(({ user, access_token }) => {
         // Save Session
-        Api.setSession(access_token)
+        Api.setSession(access_token);
 
         this.props.setUser(user);
         this.props.setLoading(false);

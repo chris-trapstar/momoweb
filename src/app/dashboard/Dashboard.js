@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import io from "socket.io-client";
 import "./dashboard.css";
 // import * as firebase from "firebase/app";
@@ -278,67 +279,43 @@ export class Dashboard extends Component {
             <div className="card-body py-0 px-0 px-sm-0">
               {/** Static Bar */}
               <div className="row static-bar">
-                <div className="col-12 table-responsive">
-                  <tbody>
-                    <tr>
-                      <td>
-                        <img
-                          className="static-img"
-                          src={require("../../assets/images/faces-clipart/pic-1.png")}
-                          alt="face"
-                        />
-                        <span className="pl-2 small white-no-wrap">STREAM</span>
-                      </td>
-                      <td className="pl-5">
-                        <img
-                          className="static-img"
-                          src={require("../../assets/images/faces-clipart/pic-1.png")}
-                          alt="face"
-                        />
-                        <span className="pl-2 small white-no-wrap">
-                          ALERT HISTORY
-                        </span>
-                      </td>
-                      <td className="pl-5">
-                        <img
-                          className="static-img"
-                          src={require("../../assets/images/faces-clipart/pic-1.png")}
-                          alt="face"
-                        />
-                        <span className="pl-2 small white-no-wrap">
-                          BREADTH
-                        </span>
-                      </td>
-                      <td className="pl-5">
-                        <img
-                          className="static-img"
-                          src={require("../../assets/images/faces-clipart/pic-1.png")}
-                          alt="face"
-                        />
-                        <span className="pl-2 small white-no-wrap">
-                          POPULAR
-                        </span>
-                      </td>
-                      <td className="pl-5">
-                        <img
-                          className="static-img"
-                          src={require("../../assets/images/faces-clipart/pic-1.png")}
-                          alt="face"
-                        />
-                        <span className="pl-2 small white-no-wrap">QUOTE</span>
-                      </td>
-                      <td className="pl-5">
-                        <img
-                          className="static-img"
-                          src={require("../../assets/images/faces-clipart/pic-1.png")}
-                          alt="face"
-                        />
-                        <span className="pl-2 small white-no-wrap">
-                          DISCOVERY
-                        </span>
-                      </td>
-                    </tr>
-                  </tbody>
+                <div className="row align-items-center ml-3">
+                  <span className="bar-icon">
+                    <i className="mdi mdi-speedometer text-primary" />
+                  </span>
+                  <span className="small white-no-wrap bar-txt">STREAM</span>
+                </div>
+                <div className="row align-items-center ml-5">
+                  <span className="bar-icon">
+                    <i className="mdi mdi-file-restore text-success" />
+                  </span>
+                  <span className="small white-no-wrap bar-txt">
+                    ALERT HISTORY
+                  </span>
+                </div>
+                <div className="row align-items-center ml-5">
+                  <span className="bar-icon">
+                    <i className="mdi mdi-crosshairs-gps text-warning" />
+                  </span>
+                  <span className="small white-no-wrap bar-txt">BREADTH</span>
+                </div>
+                <div className="row align-items-center ml-5">
+                  <span className="bar-icon">
+                    <i className="mdi mdi-clipboard-text text-danger" />
+                  </span>
+                  <span className="small white-no-wrap bar-txt">POPULAR</span>
+                </div>
+                <div className="row align-items-center ml-5">
+                  <span className="bar-icon">
+                    <i className="mdi mdi-chart-bar text-primary" />
+                  </span>
+                  <span className="small white-no-wrap bar-txt">QUOTE</span>
+                </div>
+                <div className="row align-items-center ml-5">
+                  <span className="bar-icon">
+                    <i className="mdi mdi-content-copy text-success" />
+                  </span>
+                  <span className="small white-no-wrap bar-txt">DISCOVERY</span>
                 </div>
               </div>
 
