@@ -1,7 +1,10 @@
 import Axios from "axios";
 import jwtDecode from "jwt-decode";
 
-const baseUrl = window.location.hostname  === 'localhost' ? "http://localhost:8080" : "http://momodev.us-east-1.elasticbeanstalk.com"
+const baseUrl =
+  window.location.hostname === "localhost"
+    ? "http://localhost:8080"
+    : "http://momodev.us-east-1.elasticbeanstalk.com";
 
 const axios = Axios.create({
   baseURL: baseUrl,

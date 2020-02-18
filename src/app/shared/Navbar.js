@@ -33,23 +33,9 @@ class Navbar extends Component {
           >
             <span className="mdi mdi-menu"></span>
           </button>
-          <ul className="navbar-nav w-100">
-            <li className="nav-item w-100">
-              <form className="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search products"
-                />
-              </form>
-            </li>
-          </ul>
+
           <ul className="navbar-nav navbar-nav-right">
             <Dropdown alignRight as="li" className="nav-item d-none d-lg-block">
-              <Dropdown.Toggle className="nav-link btn btn-success create-new-button no-caret">
-                + <Trans>Create New Project</Trans>
-              </Dropdown.Toggle>
-
               <Dropdown.Menu className="navbar-dropdown preview-list create-new-dropdown-menu">
                 <h6 className="p-3 mb-0">
                   <Trans>Projects</Trans>
