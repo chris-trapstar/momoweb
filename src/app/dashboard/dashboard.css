@@ -100,7 +100,8 @@
 }
 
 .tableFixHead {
-  overflow-y: auto; height: 400px;
+  overflow-y: auto;
+  height: calc(40vh);
 }
 
 .tableFixHead thead th { position: sticky; top: 0; }
