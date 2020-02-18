@@ -1,7 +1,103 @@
 import React, { Component } from "react";
+import io from "socket.io-client";
 import "./dashboard.css";
 
+const socketHost = "http://web-backend-docker.us-east-1.elasticbeanstalk.com";
+const filter = {
+  category: [
+    {
+      name: "Basic industries",
+      value: "basic-industries",
+      subscribed: true
+    },
+    { name: "Capital goods", value: "capital-goods", subscribed: true },
+    { name: "Consumer goods", value: "consumer-goods", subscribed: true },
+    {
+      name: "Consumer services",
+      value: "consumer-services",
+      subscribed: true
+    },
+    { name: "Energy", value: "energy", subscribed: true },
+    { name: "Finance", value: "finance", subscribed: true },
+    { name: "Health Care", value: "health-care", subscribed: true },
+    {
+      name: "Public utilities",
+      value: "public-utilities",
+      subscribed: true
+    },
+    { name: "Technology", value: "technology", subscribed: true },
+    { name: "Transportation", value: "transportation", subscribed: true },
+    { name: "Miscellaneous", value: "miscellaneous", subscribed: true },
+    { name: "OTC", value: "otc", subscribed: false }
+  ],
+  price: { min: 0, max: 2000 },
+  volume: { min: 0, max: 200000000 }
+};
+
 export class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.state = this.getInitialState();
+  }
+
+  componentDidMount() {
+    // this.listenTrade();
+    // this._updateStatusBar();
+    // this.buffer = [];
+    // this.flushBufferIntervalId = setInterval(this.flushBuffer, 2000);
+    // this.requestNotificationPermissions();
+  }
+
+  getInitialState = () => {
+    let data_filter = localStorage.getItem("filter");
+    if (data_filter) {
+      try {
+        let cached_filter = JSON.parse(data_filter);
+
+        filter.category.forEach((item, i, arr) => {
+          let cached_item = cached_filter.category.find(
+            a => a.value === item.value
+          );
+          console.log("CACHED", cached_item);
+          if (cached_item && item.subscribed !== cached_item.subscribed) {
+            arr[i].subscribed = cached_item.subscribed;
+          }
+        });
+
+        filter["price"] = cached_filter.price;
+        filter["volume"] = cached_filter.volume || filter.volume;
+        localStorage.setItem("filter", JSON.stringify(filter));
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      localStorage.setItem("filter", JSON.stringify(filter));
+    }
+
+    return {
+      highs: [],
+      lows: [],
+      bars: [1, 0.6, -1],
+      filter: filter,
+      popoverOpened: false
+    };
+  };
+
+  listenTrade = () => {
+    let data_filter = localStorage.getItem("filter");
+    if (!data_filter || !data_filter.category) {
+      data_filter = filter;
+    }
+
+    this.socket = io(socketHost, {
+      transports: ["polling"]
+    });
+
+    // this.socket = io("http://localhost:3000");
+    this.socket.on("compressedUpdate", this._handleData);
+    this.subscribeChannels(data_filter.category);
+  };
+
   render() {
     return (
       <div>

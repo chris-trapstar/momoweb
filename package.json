@@ -89,6 +89,7 @@
     "reduxsauce": "^1.1.2",
     "simple-line-icons": "^2.4.1",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^2.3.0",
     "sweetalert2-react": "^0.8.3",
     "ti-icons": "^0.1.2",
     "typicons.font": "^2.0.9"
