@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import io from "socket.io-client";
 import "./dashboard.css";
+// import * as firebase from "firebase/app";
 
 const socketHost = "http://web-backend-docker.us-east-1.elasticbeanstalk.com";
 const filter = {
@@ -41,11 +42,18 @@ export class Dashboard extends Component {
   }
 
   componentDidMount() {
-    // this.listenTrade();
-    // this._updateStatusBar();
-    // this.buffer = [];
-    // this.flushBufferIntervalId = setInterval(this.flushBuffer, 2000);
-    // this.requestNotificationPermissions();
+    this.listenTrade();
+    this._updateStatusBar();
+    this.buffer = [];
+    this.flushBufferIntervalId = setInterval(this.flushBuffer, 2000);
+    // this.requestNotificationPermissions().then(r => {});
+  }
+
+  componentWillUnmount() {
+    if (this.flushBufferIntervalId) {
+      console.log("clearInterval for flushBufferIntervalId");
+      clearInterval(this.flushBufferIntervalId);
+    }
   }
 
   getInitialState = () => {
@@ -93,12 +101,176 @@ export class Dashboard extends Component {
       transports: ["polling"]
     });
 
-    // this.socket = io("http://localhost:3000");
     this.socket.on("compressedUpdate", this._handleData);
     this.subscribeChannels(data_filter.category);
   };
 
+  _handleData = data => {
+    let msg = data[0];
+    let highs = msg[1];
+    let lows = msg[2];
+
+    if ("DISABLED" in window) {
+      return false;
+    }
+
+    try {
+      this._updateStatusBar([
+        msg[0][1], // dow
+        msg[0][0], // nasdaq
+        msg[0][2] // spy
+      ]);
+    } catch (e) {
+      console.error(e);
+    }
+
+    lows = this.applyPriceFilter(lows);
+    highs = this.applyPriceFilter(highs);
+
+    if (lows.length + highs.length > 0) {
+      if (this.buffer.length > 200) {
+        this.buffer = [];
+        console.error("Buffer too big, truncating");
+      }
+      this.buffer.push({ highs: highs, lows: lows });
+    }
+  };
+
+  subscribeChannels = channels => {
+    channels.forEach(c => {
+      if (c.subscribed === true) this.socket.emit("subscribe", c.value);
+      else this.socket.emit("unsubscribe", c.value);
+    });
+  };
+
+  _updateStatusBar = bars => {
+    bars = bars
+      ? bars
+      : [
+          this.getRandomArbitrary(-1, 1),
+          this.getRandomArbitrary(-1, 1),
+          this.getRandomArbitrary(-1, 1)
+        ];
+    this.setState({
+      bars: bars
+    });
+  };
+
+  getRandomArbitrary = (min, max) => {
+    return Math.random() * (max - min) + min;
+  };
+
+  applyPriceFilter = data => {
+    let self = this;
+
+    return data
+      .filter((item, i) => {
+        let price = item[1];
+        let priceFilter = self.state.filter.price;
+        priceFilter.min = priceFilter.min || 0;
+        priceFilter.max = priceFilter.max || 2000;
+        return price >= priceFilter.min && price <= priceFilter.max;
+      })
+      .filter((item, i) => {
+        let volume = item[5];
+        console.log("AVG VOLUME", volume, item[0]);
+        let volumeFilter = self.state.filter.volume;
+        volumeFilter.min = volumeFilter.min || 0;
+        volumeFilter.max = volumeFilter.max || 200000000;
+        return volume >= volumeFilter.min && volume <= volumeFilter.max;
+      });
+  };
+
+  flushBuffer = () => {
+    if (this.state.freezed) {
+      console.log("Flush buffer freezed");
+      return false;
+    }
+    if (!this.buffer.length) {
+      return false;
+    }
+    console.log("flush buffer");
+    let highs = this.state.highs.slice();
+    let lows = this.state.lows.slice();
+    this.buffer.forEach(function(item, i, arr) {
+      highs = item.highs.concat(highs).slice(0, 100);
+      lows = item.lows.concat(lows).slice(0, 100);
+    });
+    this.buffer = [];
+    this.setState({
+      lows: lows,
+      highs: highs
+    });
+  };
+
+  round = (value, decimals) => {
+    return Number(Math.round(value + "e" + decimals) + "e-" + decimals);
+  };
+
+  getLast = (OTC, ticker) => {
+    return OTC === 1 ? this.round(ticker, 4) : this.round(ticker, 2);
+  };
+
+  getData = (data, type) => {
+    let renderData = [];
+    if (type === "low") {
+      data.map((low, index) => {
+        renderData.push(
+          <tr key={`low_${index}`}>
+            <td className="text-danger">{low[0]}</td>
+            <td className="text-danger">{low[2]}</td>
+            <td className="text-danger">{this.getLast(low[6], low[1])}</td>
+          </tr>
+        );
+      });
+    } else {
+      data.map((high, index) => {
+        renderData.push(
+          <tr key={`high_${index}`}>
+            <td className="text-success">{high[0]}</td>
+            <td className="text-success">{high[2]}</td>
+            <td className="text-success">{this.getLast(high[6], high[1])}</td>
+          </tr>
+        );
+      });
+    }
+    return renderData;
+  };
+
+  // requestNotificationPermissions = async () => {
+  //   const registration_id = await firebase.messaging().getToken();
+  //   if (registration_id) {
+  //     this.registerPushToken(registration_id);
+  //   } else {
+  //     alert(
+  //       "Please allow push notification permissions in the browser settings!"
+  //     );
+  //   }
+  // };
+  //
+  // registerPushToken = async registration_id => {
+  //   try {
+  //     const res = await fetch(`${baseUrl}/api/alert/device/fcm`, {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         registration_id
+  //       }),
+  //       headers: {
+  //         Authorization: `Bearer ${window.localStorage.getItem(
+  //           "jwt_access_token"
+  //         )}`,
+  //         "Content-Type": "application/json"
+  //       }
+  //     });
+  //     const data = await res.json();
+  //     console.info("Push Token Registered:", data);
+  //   } catch (e) {
+  //     console.error("Failed to register the push token", e);
+  //   }
+  // };
+
   render() {
+    const { lows, highs } = this.state;
     return (
       <div>
         <div className="row px-3">
@@ -378,75 +550,28 @@ export class Dashboard extends Component {
                   <div className="card">
                     <div className="card-body">
                       <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-6 tableFixHead">
                           <table className="table table-striped">
                             <thead>
                               <tr>
-                                <th> SYMBOL </th>
-                                <th> COUNT </th>
-                                <th> LAST </th>
+                                <th className="text-white"> SYMBOL </th>
+                                <th className="text-white"> COUNT </th>
+                                <th className="text-white"> LAST </th>
                               </tr>
                             </thead>
-                            <tbody>
-                              <tr>
-                                <td className="text-danger">AAPL</td>
-                                <td className="text-danger">3</td>
-                                <td className="text-danger">3</td>
-                              </tr>
-                              <tr>
-                                <td className="text-danger">AAPL</td>
-                                <td className="text-danger">3</td>
-                                <td className="text-danger">3</td>
-                              </tr>
-                              <tr>
-                                <td className="text-danger">AAPL</td>
-                                <td className="text-danger">3</td>
-                                <td className="text-danger">3</td>
-                              </tr>
-                              <tr>
-                                <td className="text-danger">AAPL</td>
-                                <td className="text-danger">3</td>
-                                <td className="text-danger">3</td>
-                              </tr>
-                              <tr>
-                                <td className="text-danger">AAPL</td>
-                                <td className="text-danger">3</td>
-                                <td className="text-danger">3</td>
-                              </tr>
-                              <tr>
-                                <td className="text-danger">AAPL</td>
-                                <td className="text-danger">3</td>
-                                <td className="text-danger">3</td>
-                              </tr>
-                            </tbody>
+                            <tbody>{this.getData(lows, "low")}</tbody>
                           </table>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-6 tableFixHead">
                           <table className="table table-striped">
                             <thead>
                               <tr>
-                                <th> SYMBOL </th>
-                                <th> COUNT </th>
-                                <th> LAST </th>
+                                <th className="text-white"> SYMBOL </th>
+                                <th className="text-white"> COUNT </th>
+                                <th className="text-white"> LAST </th>
                               </tr>
                             </thead>
-                            <tbody>
-                              <tr>
-                                <td className="text-success">AAPL</td>
-                                <td className="text-success">3</td>
-                                <td className="text-success">3</td>
-                              </tr>
-                              <tr>
-                                <td className="text-success">AAPL</td>
-                                <td className="text-success">3</td>
-                                <td className="text-success">3</td>
-                              </tr>
-                              <tr>
-                                <td className="text-success">AAPL</td>
-                                <td className="text-success">3</td>
-                                <td className="text-success">3</td>
-                              </tr>
-                            </tbody>
+                            <tbody>{this.getData(highs, "high")}</tbody>
                           </table>
                         </div>
                       </div>
