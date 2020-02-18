@@ -1,13 +1,13 @@
 import Axios from "axios";
 import jwtDecode from "jwt-decode";
 
+const baseUrl = window.location.hostname  === 'localhost' ? "https://localhost:8080" : "http://momodev.us-east-1.elasticbeanstalk.com"
+
 const axios = Axios.create({
-  baseURL: "http://momodev.us-east-1.elasticbeanstalk.com",
+  baseURL: baseUrl,
   timeout: 5000,
   headers: { "Content-Type": "application/json", Accept: "application/json" }
 });
-
-const baseUrl = "http://momodev.us-east-1.elasticbeanstalk.com";
 
 class jwtService {
   init() {
