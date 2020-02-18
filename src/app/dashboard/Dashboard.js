@@ -75,159 +75,201 @@ export class Dashboard extends Component {
               </div>
 
               {/** Popular Stocks */}
-              <div className="row data-section-large">
-                <div className="col-xl-3 col-sm-6 grid-margin stretch-card pl-0">
-                  <div className="card p-1">
-                    <div className="d-flex flex-row-reverse">
-                      <img
-                        className="img-15"
-                        src={require("../../assets/images/dashboard/star.jpg")}
-                        alt="face"
-                      />
-                    </div>
-                    <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
-                      <div className="d-flex align-items-center align-self-start">
-                        <label className="mb-0 font-weight-bold font-20">
-                          $31.53
-                        </label>
-                        <label className="text-success ml-2 mb-0 font-10">
-                          +3.5%
-                        </label>
+              <div className="container-fluid px-0 data-section-large">
+                <div className="row flex-row flex-nowrap overflow-scroll">
+                  <div className="col-xl-3 col-md-4 col-sm-6 pl-0">
+                    <div className="card p-1">
+                      <div className="d-flex flex-row-reverse">
+                        <img
+                          className="img-15"
+                          src={require("../../assets/images/dashboard/star.jpg")}
+                          alt="face"
+                        />
                       </div>
-                      <div className="icon icon-box-success img-30">
-                        <span className="mdi mdi-arrow-top-right icon-item font-15" />
+                      <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
+                        <div className="d-flex align-items-center align-self-start">
+                          <label className="mb-0 font-weight-bold font-20">
+                            $31.53
+                          </label>
+                          <label className="text-success ml-2 mb-0 font-10">
+                            +3.5%
+                          </label>
+                        </div>
+                        <div className="icon icon-box-success img-30">
+                          <span className="mdi mdi-arrow-top-right icon-item font-15" />
+                        </div>
                       </div>
-                    </div>
-                    <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
-                      <label className="font-12 dash-font-color">AAPL</label>
-                      <div className="d-flex flex-row mt-1">
-                        <label className="font-13 white-color">H:</label>
-                        <label className="font-13 dash-font-color ml-1">
-                          34:22
-                        </label>
-                      </div>
-                      <div className="d-flex flex-row mt-1">
-                        <label className="font-13 white-color">L:</label>
-                        <label className="font-13 dash-font-color ml-1">
-                          10.99
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-xl-3 col-sm-6 grid-margin stretch-card">
-                  <div className="card p-1">
-                    <div className="d-flex flex-row-reverse">
-                      <img
-                        className="img-15"
-                        src={require("../../assets/images/dashboard/star.jpg")}
-                        alt="face"
-                      />
-                    </div>
-                    <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
-                      <div className="d-flex align-items-center align-self-start">
-                        <label className="mb-0 font-weight-bold font-20">
-                          $31.53
-                        </label>
-                        <label className="text-success ml-2 mb-0 font-10">
-                          +3.5%
-                        </label>
-                      </div>
-                      <div className="icon icon-box-success img-30">
-                        <span className="mdi mdi-arrow-top-right icon-item font-15" />
-                      </div>
-                    </div>
-                    <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
-                      <label className="font-12 dash-font-color">AAPL</label>
-                      <div className="d-flex flex-row mt-1">
-                        <label className="font-13 white-color">H:</label>
-                        <label className="font-13 dash-font-color ml-1">
-                          34:22
-                        </label>
-                      </div>
-                      <div className="d-flex flex-row mt-1">
-                        <label className="font-13 white-color">L:</label>
-                        <label className="font-13 dash-font-color ml-1">
-                          10.99
-                        </label>
+                      <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
+                        <label className="font-12 dash-font-color">AAPL</label>
+                        <div className="d-flex flex-row mt-1">
+                          <label className="font-13 white-color">H:</label>
+                          <label className="font-13 dash-font-color ml-1">
+                            34:22
+                          </label>
+                        </div>
+                        <div className="d-flex flex-row mt-1">
+                          <label className="font-13 white-color">L:</label>
+                          <label className="font-13 dash-font-color ml-1">
+                            10.99
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-xl-3 col-sm-6 grid-margin stretch-card">
-                  <div className="card p-1">
-                    <div className="d-flex flex-row-reverse">
-                      <img
-                        className="img-15"
-                        src={require("../../assets/images/dashboard/star.jpg")}
-                        alt="face"
-                      />
-                    </div>
-                    <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
-                      <div className="d-flex align-items-center align-self-start">
-                        <label className="mb-0 font-weight-bold font-20">
-                          $31.53
-                        </label>
-                        <label className="text-success ml-2 mb-0 font-10">
-                          +3.5%
-                        </label>
+                  <div className="col-xl-3 col-md-4 col-sm-6">
+                    <div className="card ant-card-loading-block p-1">
+                      <div className="d-flex flex-row-reverse">
+                        <img
+                          className="img-15"
+                          src={require("../../assets/images/dashboard/star.jpg")}
+                          alt="face"
+                        />
                       </div>
-                      <div className="icon icon-box-success img-30">
-                        <span className="mdi mdi-arrow-top-right icon-item font-15" />
+                      <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
+                        <div className="d-flex align-items-center align-self-start">
+                          <label className="mb-0 font-weight-bold font-20">
+                            $31.53
+                          </label>
+                          <label className="text-success ml-2 mb-0 font-10">
+                            +3.5%
+                          </label>
+                        </div>
+                        <div className="icon icon-box-success img-30">
+                          <span className="mdi mdi-arrow-top-right icon-item font-15" />
+                        </div>
                       </div>
-                    </div>
-                    <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
-                      <label className="font-12 dash-font-color">AAPL</label>
-                      <div className="d-flex flex-row mt-1">
-                        <label className="font-13 white-color">H:</label>
-                        <label className="font-13 dash-font-color ml-1">
-                          34:22
-                        </label>
-                      </div>
-                      <div className="d-flex flex-row mt-1">
-                        <label className="font-13 white-color">L:</label>
-                        <label className="font-13 dash-font-color ml-1">
-                          10.99
-                        </label>
+                      <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
+                        <label className="font-12 dash-font-color">AAPL</label>
+                        <div className="d-flex flex-row mt-1">
+                          <label className="font-13 white-color">H:</label>
+                          <label className="font-13 dash-font-color ml-1">
+                            34:22
+                          </label>
+                        </div>
+                        <div className="d-flex flex-row mt-1">
+                          <label className="font-13 white-color">L:</label>
+                          <label className="font-13 dash-font-color ml-1">
+                            10.99
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-xl-3 col-sm-6 grid-margin stretch-card">
-                  <div className="card p-1">
-                    <div className="d-flex flex-row-reverse">
-                      <img
-                        className="img-15"
-                        src={require("../../assets/images/dashboard/star.jpg")}
-                        alt="face"
-                      />
+                  <div className="col-xl-3 col-md-4 col-sm-6">
+                    <div className="card ant-card-loading-block p-1">
+                      <div className="d-flex flex-row-reverse">
+                        <img
+                          className="img-15"
+                          src={require("../../assets/images/dashboard/star.jpg")}
+                          alt="face"
+                        />
+                      </div>
+                      <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
+                        <div className="d-flex align-items-center align-self-start">
+                          <label className="mb-0 font-weight-bold font-20">
+                            $31.53
+                          </label>
+                          <label className="text-success ml-2 mb-0 font-10">
+                            +3.5%
+                          </label>
+                        </div>
+                        <div className="icon icon-box-success img-30">
+                          <span className="mdi mdi-arrow-top-right icon-item font-15" />
+                        </div>
+                      </div>
+                      <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
+                        <label className="font-12 dash-font-color">AAPL</label>
+                        <div className="d-flex flex-row mt-1">
+                          <label className="font-13 white-color">H:</label>
+                          <label className="font-13 dash-font-color ml-1">
+                            34:22
+                          </label>
+                        </div>
+                        <div className="d-flex flex-row mt-1">
+                          <label className="font-13 white-color">L:</label>
+                          <label className="font-13 dash-font-color ml-1">
+                            10.99
+                          </label>
+                        </div>
+                      </div>
                     </div>
-                    <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
-                      <div className="d-flex align-items-center align-self-start">
-                        <label className="mb-0 font-weight-bold font-20">
-                          $31.53
-                        </label>
-                        <label className="text-success ml-2 mb-0 font-10">
-                          +3.5%
-                        </label>
+                  </div>
+                  <div className="col-xl-3 col-md-4 col-sm-6">
+                    <div className="card ant-card-loading-block p-1">
+                      <div className="d-flex flex-row-reverse">
+                        <img
+                          className="img-15"
+                          src={require("../../assets/images/dashboard/star.jpg")}
+                          alt="face"
+                        />
                       </div>
-                      <div className="icon icon-box-success img-30">
-                        <span className="mdi mdi-arrow-top-right icon-item font-15" />
+                      <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
+                        <div className="d-flex align-items-center align-self-start">
+                          <label className="mb-0 font-weight-bold font-20">
+                            $31.53
+                          </label>
+                          <label className="text-success ml-2 mb-0 font-10">
+                            +3.5%
+                          </label>
+                        </div>
+                        <div className="icon icon-box-success img-30">
+                          <span className="mdi mdi-arrow-top-right icon-item font-15" />
+                        </div>
+                      </div>
+                      <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
+                        <label className="font-12 dash-font-color">AAPL</label>
+                        <div className="d-flex flex-row mt-1">
+                          <label className="font-13 white-color">H:</label>
+                          <label className="font-13 dash-font-color ml-1">
+                            34:22
+                          </label>
+                        </div>
+                        <div className="d-flex flex-row mt-1">
+                          <label className="font-13 white-color">L:</label>
+                          <label className="font-13 dash-font-color ml-1">
+                            10.99
+                          </label>
+                        </div>
                       </div>
                     </div>
-                    <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
-                      <label className="font-12 dash-font-color">AAPL</label>
-                      <div className="d-flex flex-row mt-1">
-                        <label className="font-13 white-color">H:</label>
-                        <label className="font-13 dash-font-color ml-1">
-                          34:22
-                        </label>
+                  </div>
+
+                  <div className="col-xl-3 col-md-4 col-sm-6">
+                    <div className="card ant-card-loading-block p-1">
+                      <div className="d-flex flex-row-reverse">
+                        <img
+                          className="img-15"
+                          src={require("../../assets/images/dashboard/star.jpg")}
+                          alt="face"
+                        />
                       </div>
-                      <div className="d-flex flex-row mt-1">
-                        <label className="font-13 white-color">L:</label>
-                        <label className="font-13 dash-font-color ml-1">
-                          10.99
-                        </label>
+                      <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
+                        <div className="d-flex align-items-center align-self-start">
+                          <label className="mb-0 font-weight-bold font-20">
+                            $31.53
+                          </label>
+                          <label className="text-success ml-2 mb-0 font-10">
+                            +3.5%
+                          </label>
+                        </div>
+                        <div className="icon icon-box-success img-30">
+                          <span className="mdi mdi-arrow-top-right icon-item font-15" />
+                        </div>
+                      </div>
+                      <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
+                        <label className="font-12 dash-font-color">AAPL</label>
+                        <div className="d-flex flex-row mt-1">
+                          <label className="font-13 white-color">H:</label>
+                          <label className="font-13 dash-font-color ml-1">
+                            34:22
+                          </label>
+                        </div>
+                        <div className="d-flex flex-row mt-1">
+                          <label className="font-13 white-color">L:</label>
+                          <label className="font-13 dash-font-color ml-1">
+                            10.99
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -235,7 +277,7 @@ export class Dashboard extends Component {
               </div>
 
               {/** Table | (Popular vs Alert History) */}
-              <div className="row data-section">
+              <div className="row data-section-large">
                 <div className="col-md-8 grid-margin stretch-card px-0">
                   <div className="card">
                     <div className="card-body">
@@ -316,11 +358,11 @@ export class Dashboard extends Component {
                   </div>
                 </div>
                 <div className="col-md-4 grid-margin stretch-card column-flex pr-0">
-                  <div class="card">
-                    <div class="card-body">
+                  <div className="card">
+                    <div className="card-body">
                       <div className="d-flex flex-row justify-content-between">
                         <h4 className="card-title mb-1">Popular</h4>
-                        <p className="text-muted mb-1"></p>
+                        <p className="text-muted mb-1" />
                       </div>
                       <div className="row data-section popular">
                         <div className="col-12">
@@ -333,78 +375,92 @@ export class Dashboard extends Component {
                     </div>
                   </div>
 
-                  <div class="card data-section">
-                    <div class="card-body">
+                  <div className="card data-section">
+                    <div className="card-body">
                       <div className="d-flex flex-row justify-content-between">
                         <h4 className="card-title mb-1">Alert History</h4>
-                        <p className="text-muted mb-1"></p>
+                        <p className="text-muted mb-1" />
                       </div>
-                      <div className="row data-section popular"></div>
+                      <div className="row data-section popular" />
                     </div>
                   </div>
                 </div>
               </div>
               <div className="row data-section">
                 <div className="col-12 px-0">
-                  <div class="card">
-                    <div class="card-body">
-                      <div className="d-flex flex-row justify-content-between">
-                        <h4 className="card-title mb-1">Discovery</h4>
-                        <div className="button">Industry</div>
-                        <div className="button">Favorites</div>
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="d-flex flex-row justify-content-between text-center">
+                        <h4 className="card-title mb-1 py-1">Discovery</h4>
+                        <div className="row">
+                          <span className="border border-radius-10">
+                            <div className="button btn-dark px-4 py-1 border-radius-10">
+                              Industry
+                            </div>
+                          </span>
+                          <span className="border border-radius-10 ml-4">
+                            <div className="button btn-dark px-4 py-1 border-radius-10">
+                              Favorites
+                            </div>
+                          </span>
+                        </div>
+                        <div />
+                        <div />
                         <input
-                          className="input"
+                          className="input p-0 text-center bg-dark white-color input-border"
                           placeholder="symbol search"
-                        ></input>
+                        />
                       </div>
 
-                      <table className="table table-striped">
+                      <table className="table table-striped data-section">
                         <thead>
                           <tr>
-                            <th> SYMBOL </th>
-                            <th> LAST </th>
-                            <th> VOLUME </th>
-                            <th> Momentum </th>
-                            <th> Unusual Vol </th>
-                            <th> VWAP DIST %</th>
-                            <th> Short %</th>
-                            <th> Actions</th>
+                            <th className="text-center"> SYMBOL </th>
+                            <th className="text-center"> LAST </th>
+                            <th className="text-center"> VOLUME </th>
+                            <th className="text-center"> Momentum </th>
+                            <th className="text-center"> Unusual Vol </th>
+                            <th className="text-center"> VWAP DIST %</th>
+                            <th className="text-center"> Short %</th>
+                            <th className="text-center"> Actions</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td className="text-white font-weight-bold">
+                            <td className="text-white font-weight-bold text-center">
                               AAPL
                             </td>
-                            <td>312.44</td>
-                            <td>1210,000</td>
-                            <td className="text-success">+121</td>
-                            <td className="text-success">+18%</td>
-                            <td className="text-success">+18%</td>
-                            <td>25%</td>
-                            <td>* ^</td>
+                            <td className="text-center">312.44</td>
+                            <td className="text-center">1210,000</td>
+                            <td className="text-success text-center">+121</td>
+                            <td className="text-success text-center">+18%</td>
+                            <td className="text-success text-center">+18%</td>
+                            <td className="text-center">25%</td>
+                            <td className="text-center">* ^</td>
                           </tr>
                           <tr>
-                            <td className="text-white font-weight-bold">TXN</td>
-                            <td>312.44</td>
-                            <td>1210,000</td>
-                            <td className="text-success">+121</td>
-                            <td className="text-success">+18%</td>
-                            <td className="text-success">+18%</td>
-                            <td>25%</td>
-                            <td>* ^</td>
+                            <td className="text-white font-weight-bold text-center">
+                              TXN
+                            </td>
+                            <td className="text-center">312.44</td>
+                            <td className="text-center">1210,000</td>
+                            <td className="text-success text-center">+121</td>
+                            <td className="text-success text-center">+18%</td>
+                            <td className="text-success text-center">+18%</td>
+                            <td className="text-center">25%</td>
+                            <td className="text-center">* ^</td>
                           </tr>
                           <tr>
-                            <td className="text-white font-weight-bold">
+                            <td className="text-white font-weight-bold text-center">
                               GOOG
                             </td>
-                            <td>312.44</td>
-                            <td>1210,000</td>
-                            <td className="text-success">+121</td>
-                            <td className="text-success">+18%</td>
-                            <td className="text-success">+18%</td>
-                            <td>25%</td>
-                            <td>* ^</td>
+                            <td className="text-center">312.44</td>
+                            <td className="text-center">1210,000</td>
+                            <td className="text-success text-center">+121</td>
+                            <td className="text-success text-center">+18%</td>
+                            <td className="text-success text-center">+18%</td>
+                            <td className="text-center">25%</td>
+                            <td className="text-center">* ^</td>
                           </tr>
                         </tbody>
                       </table>
