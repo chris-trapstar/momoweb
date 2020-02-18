@@ -90,3 +90,23 @@
   border-radius: 10px;
   font-size: 13px;
 }
+
+.table-height {
+  height: 400px;
+}
+
+.table-scroll {
+  overflow: scroll;
+}
+
+.tableFixHead {
+  overflow-y: auto; height: 400px;
+}
+
+.tableFixHead thead th { position: sticky; top: 0; }
+
+table  { border-collapse: collapse; width: 100%; }
+
+th {
+  background:#191c24;
+}
