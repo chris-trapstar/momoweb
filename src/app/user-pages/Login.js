@@ -24,10 +24,13 @@ class Login extends Component {
     const password = this.refPassword.value;
     this.props.setLoading(true);
     Api.login(email, password)
-      .then(user => {
+      .then(({user, access_token}) => {
+        // Save Session
+        Api.setSession(access_token)
+
+        this.props.setUser(user);
         this.props.setLoading(false);
         this.props.setAuthenticated(true);
-        this.props.setUser(user);
       })
       .catch(error => {
         let loginErrTxt = i18n.getResource("en", ["translations"], error);

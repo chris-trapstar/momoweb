@@ -43,11 +43,15 @@ class ProtectedApp extends Component {
   };
 
   render() {
+
+    // Check Auth
     if (this.props.loading) {
       return <Spinner />;
     } else if (!this.props.authenticated) {
       return <Redirect to="/login" />;
     }
+
+    
     let navbarComponent = !this.state.isFullPageLayout ? (
       <Navbar onLogout={this.onLogout} />
     ) : (
