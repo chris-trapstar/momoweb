@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import io from "socket.io-client";
 import "./dashboard.css";
 // import * as firebase from "firebase/app";
@@ -216,26 +216,107 @@ export class Dashboard extends Component {
     let renderData = [];
     if (type === "low") {
       data.map((low, index) => {
+        /** Cover Table Cell With Popover Trigger */
         renderData.push(
-          <tr key={`low_${index}`}>
+          <ContextMenuTrigger
+            renderTag="tr"
+            id={`low-context-menu_${index}`}
+            key={`low_${index}`}
+          >
             <td className="text-danger">{low[0]}</td>
             <td className="text-danger">{low[2]}</td>
             <td className="text-danger">{this.getLast(low[6], low[1])}</td>
-          </tr>
+          </ContextMenuTrigger>
         );
+
+        /** Add Popover For this item */
+        renderData.push(this.getMenuItems(`low-context-menu_${index}`, low));
       });
     } else {
       data.map((high, index) => {
+        /** Cover Table Cell With Popover Trigger */
         renderData.push(
-          <tr key={`high_${index}`}>
+          <ContextMenuTrigger
+            renderTag="tr"
+            id={`high-context-menu_${index}`}
+            key={`high_${index}`}
+          >
             <td className="text-success">{high[0]}</td>
             <td className="text-success">{high[2]}</td>
             <td className="text-success">{this.getLast(high[6], high[1])}</td>
-          </tr>
+          </ContextMenuTrigger>
         );
+
+        /** Add Popover For this item */
+        renderData.push(this.getMenuItems(`high-context-menu_${index}`, high));
       });
     }
     return renderData;
+  };
+
+  getMenuItems = (key, data) => {
+    return (
+      <ContextMenu id={key} className="p-0">
+        <div className="bg-dark px-3 py-1">
+          <span>LINKS</span>
+          <MenuItem data={{ data }} onClick={this.onPopover}>
+            <div className="row align-items-center">
+              <i className="mdi mdi-alpha text-white popover-icon" />
+              <span className="small white-no-wrap bar-txt">cnbc.com</span>
+            </div>
+          </MenuItem>
+          <MenuItem data={{ data }} onClick={this.onPopover}>
+            <div className="row align-items-center">
+              <i className="mdi mdi-alpha text-white popover-icon" />
+              <span className="small white-no-wrap bar-txt">
+                marketwatch.com
+              </span>
+            </div>
+          </MenuItem>
+          <MenuItem data={{ data }} onClick={this.onPopover}>
+            <div className="row align-items-center">
+              <i className="mdi mdi-alpha text-white popover-icon" />
+              <span className="small white-no-wrap bar-txt">
+                seekingalpha.com
+              </span>
+            </div>
+          </MenuItem>
+          <MenuItem data={{ data }} onClick={this.onPopover}>
+            <div className="row align-items-center">
+              <i className="mdi mdi-chart-line-variant text-white popover-icon" />
+              <span className="small white-no-wrap bar-txt">nasdaq.com</span>
+            </div>
+          </MenuItem>
+          <MenuItem data={{ data }} onClick={this.onPopover}>
+            <div className="row align-items-center">
+              <i className="mdi mdi-chart-line-variant text-white popover-icon" />
+              <span className="small white-no-wrap bar-txt">
+                stocktwits.com
+              </span>
+            </div>
+          </MenuItem>
+          <span>ACTIONS</span>
+          <div className="row justify-content-between align-items-center">
+            <MenuItem data={{ data }} onClick={this.onPopover}>
+              <div className="row justify-content-center align-items-center">
+                <i className="mdi mdi-bell text-white popover-icon" />
+                <span className="ml-1">Alert</span>
+              </div>
+            </MenuItem>
+            <MenuItem data={{ data }} onClick={this.onPopover}>
+              <div className="row justify-content-center align-items-center">
+                <i className="mdi mdi-star text-white popover-icon" />
+                <span className="ml-1">Favorite</span>
+              </div>
+            </MenuItem>
+          </div>
+        </div>
+      </ContextMenu>
+    );
+  };
+
+  onPopover = (e, data) => {
+    // data.data[0];
   };
 
   // requestNotificationPermissions = async () => {
@@ -584,6 +665,8 @@ export class Dashboard extends Component {
                   </div>
                 </div>
               </div>
+
+              {/** Discovery */}
               <div className="row data-section">
                 <div className="col-12 px-0">
                   <div className="card">

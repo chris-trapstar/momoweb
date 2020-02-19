@@ -122,6 +122,10 @@ th {
   align-items: center;
 }
 
+.popover-icon {
+  font-size: 20px;
+}
+
 .bar-txt {
   margin-left: 1em;
 }
