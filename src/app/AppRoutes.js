@@ -3,6 +3,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import Spinner from "../app/shared/Spinner";
 
 import Dashboard from "./dashboard/Dashboard";
+import Settings from "./settings/Settings";
 
 // const RtlLayout = lazy(() => import('./layout/RtlLayout'));
 
@@ -102,6 +103,7 @@ class AppRoutes extends Component {
     return (
       <Fragment>
         <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/settings" component={Settings} />
 
         {/*
           <Route exact path="/layout/RtlLayout" component={ RtlLayout } />
@@ -200,7 +202,7 @@ class AppRoutes extends Component {
           <Route path="/apps/calendar" component={ Calendar } />
           <Route path="/apps/gallery" component={ Gallery } />
 */}
-        <Redirect to="/dashboard" />
+        <Redirect to="/settings" />
       </Fragment>
     );
   }
