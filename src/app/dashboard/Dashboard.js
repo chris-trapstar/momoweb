@@ -316,7 +316,7 @@ export class Dashboard extends Component {
           </MenuItem>
           <span>ACTIONS</span>
           <div className="row justify-content-between align-items-center">
-            <MenuItem data={{ data }} onClick={this.onStocksAlert}>
+            <MenuItem data={{ data }} onClick={this.onAddAlert}>
               <div className="row justify-content-center align-items-center">
                 <i className="mdi mdi-bell text-white popover-icon" />
                 <span className="ml-1">Alert</span>
@@ -338,8 +338,9 @@ export class Dashboard extends Component {
     // data.data[0];
   };
 
-  onStocksAlert = (e, data) => {
-    console.info(data.data[0]);
+  onAddAlert = (e, data) => {
+    console.info('onAddAlert:', data);
+
   };
 
   // requestNotificationPermissions = async () => {
