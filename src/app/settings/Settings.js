@@ -170,10 +170,10 @@ export class Settings extends Component {
                         this.refLowVal.value !== ""
                       ) {
                         let lows = hLow;
-                        lows.push([
-                          this.refLowName.value.toString(),
-                          parseInt(this.refLowVal.value)
-                        ]);
+                        lows.push({
+                          category: this.refLowName.value.toString(),
+                          rate: parseInt(this.refLowVal.value)
+                        });
                         this.setState({ addingAlert: 0, hLow: lows });
                       }
                     }}
@@ -239,10 +239,10 @@ export class Settings extends Component {
                         this.refVolVal.value !== ""
                       ) {
                         let vols = uVol;
-                        vols.push([
-                          this.refVolName.value.toString(),
-                          parseInt(this.refVolVal.value)
-                        ]);
+                        vols.push({
+                          category: this.refVolName.value.toString(),
+                          rate: parseInt(this.refVolVal.value)
+                        });
                         this.setState({ addingAlert: 0, uVol: vols });
                       }
                     }}
@@ -302,10 +302,10 @@ export class Settings extends Component {
                         this.refWapVal.value !== ""
                       ) {
                         let waps = vWap;
-                        waps.push([
-                          this.refWapName.value.toString(),
-                          parseInt(this.refWapVal.value)
-                        ]);
+                        waps.push({
+                          category: this.refWapName.value.toString(),
+                          rate: parseInt(this.refWapVal.value)
+                        });
                         this.setState({ addingAlert: 0, vWap: waps });
                       }
                     }}
