@@ -351,7 +351,7 @@ export class Dashboard extends Component {
     }).then(response => {
       cogoToast.success(
         <div>
-          Added Alert
+          Added {data[0]}
         </div>
       );
     }).catch(error => {})
