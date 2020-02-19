@@ -12,14 +12,14 @@ const axios = Axios.create({
   headers: { "Content-Type": "application/json", Accept: "application/json" }
 });
 
-class jwtService {
+class API {
   init() {
     this.setInterceptors();
     this.handleAuthentication();
   }
 
   emit() {
-    console.info("jwtService.emit - ", arguments);
+    console.info("API.emit - ", arguments);
   }
 
   setInterceptors = () => {
@@ -188,6 +188,6 @@ class jwtService {
   };
 }
 
-const instance = new jwtService();
+const instance = new API();
 
 export default instance;
