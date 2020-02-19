@@ -316,7 +316,7 @@ export class Dashboard extends Component {
           </MenuItem>
           <span>ACTIONS</span>
           <div className="row justify-content-between align-items-center">
-            <MenuItem data={{ data }} onClick={this.onPopover}>
+            <MenuItem data={{ data }} onClick={this.onStocksAlert}>
               <div className="row justify-content-center align-items-center">
                 <i className="mdi mdi-bell text-white popover-icon" />
                 <span className="ml-1">Alert</span>
@@ -336,6 +336,10 @@ export class Dashboard extends Component {
 
   onPopover = (e, data) => {
     // data.data[0];
+  };
+
+  onStocksAlert = (e, data) => {
+    console.info(data.data[0]);
   };
 
   // requestNotificationPermissions = async () => {
