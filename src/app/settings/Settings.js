@@ -9,15 +9,16 @@ export class Settings extends Component {
     this.state = {
       hLow: [],
       uVol: [
-        { category: "SPY", rate: 25},
-        { category: "SPY", rate: 25},
+        { category: "SPY", rate: 25 },
+        { category: "SPY", rate: 25 },
 
       ],
       vWap: [
-        { category: "SPY", rate: 25},
-        { category: "SPY", rate: 25},
+        { category: "SPY", rate: 25 },
+        { category: "SPY", rate: 25 },
       ],
-      addingAlert: 0
+      addingAlert: 0,
+      addingAlertProgress: 0
     };
   }
 
@@ -36,7 +37,7 @@ export class Settings extends Component {
 
   getFixedData = (data, type) => {
     let renderData = [];
-    data.map(({ category, rate}, index) => {
+    data.map(({ category, rate }, index) => {
       renderData.push(
         <div
           className="row mx-0 justify-content-between align-items-center item-content mt-1"
@@ -95,17 +96,17 @@ export class Settings extends Component {
   };
 
   onHLowAddAlert = () => {
-    this.setState({ addingAlert: 1 });
+    this.setState({ addingAlert: 1, addingAlertProgress: 0 });
   };
   onVolAddAlert = () => {
-    this.setState({ addingAlert: 2 });
+    this.setState({ addingAlert: 2, addingAlertProgress: 0 });
   };
   onWapAddAlert = () => {
-    this.setState({ addingAlert: 3 });
+    this.setState({ addingAlert: 3, addingAlertProgress: 0 });
   };
 
   render() {
-    const { hLow, uVol, vWap, addingAlert } = this.state;
+    const { hLow, uVol, vWap, addingAlert, addingAlertProgress } = this.state;
     return (
       <div>
         {/** General */}
@@ -152,13 +153,14 @@ export class Settings extends Component {
                   }}
                 />
                 <div className="row justify-content-center align-items-center">
-                  <ProgressBar className="progress" variant="white" now={50} />
+                  <ProgressBar className="progress" variant="white" now={addingAlertProgress} />
                   <input
                     placeholder="Sensitivity"
                     className="ml-3 bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
                     ref={ref => {
                       this.refLowVal = ref;
                     }}
+                    onChange={(val) => { this.setState({ addingAlertProgress: parseInt(this.refLowVal.value) }); }}
                   />
                 </div>
                 <div className="row">
@@ -174,7 +176,7 @@ export class Settings extends Component {
                           category: this.refLowName.value.toString(),
                           rate: parseInt(this.refLowVal.value)
                         });
-                        this.setState({ addingAlert: 0, hLow: lows });
+                        this.setState({ addingAlert: 0, hLow: lows, addingAlertProgress: 0 });
                       }
                     }}
                   >
@@ -183,7 +185,7 @@ export class Settings extends Component {
                   <button
                     className="bg-transparent border-0"
                     onClick={() => {
-                      this.setState({ addingAlert: 0 });
+                      this.setState({ addingAlert: 0, addingAlertProgress: 0 });
                     }}
                   >
                     <i className="mdi mdi-close text-white popover-icon" />
@@ -216,18 +218,21 @@ export class Settings extends Component {
             {addingAlert === 2 && (
               <div className="row mx-0 justify-content-between align-items-center item-content mt-1">
                 <input
+                  placeholder="Name"
                   className="bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
                   ref={ref => {
                     this.refVolName = ref;
                   }}
                 />
                 <div className="row justify-content-center align-items-center">
-                  <ProgressBar className="progress" variant="white" now={50} />
+                  <ProgressBar className="progress" variant="white" now={addingAlertProgress} />
                   <input
+                    placeholder="Deviation"
                     className="ml-3 bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
                     ref={ref => {
                       this.refVolVal = ref;
                     }}
+                    onChange={(val) => { this.setState({ addingAlertProgress: parseInt(this.refVolVal.value) }); }}
                   />
                 </div>
                 <div className="row">
@@ -243,7 +248,7 @@ export class Settings extends Component {
                           category: this.refVolName.value.toString(),
                           rate: parseInt(this.refVolVal.value)
                         });
-                        this.setState({ addingAlert: 0, uVol: vols });
+                        this.setState({ addingAlert: 0, uVol: vols, addingAlertProgress: 0 });
                       }
                     }}
                   >
@@ -252,7 +257,7 @@ export class Settings extends Component {
                   <button
                     className="bg-transparent border-0"
                     onClick={() => {
-                      this.setState({ addingAlert: 0 });
+                      this.setState({ addingAlert: 0, addingAlertProgress: 0 });
                     }}
                   >
                     <i className="mdi mdi-close text-white popover-icon" />
@@ -279,18 +284,21 @@ export class Settings extends Component {
             {addingAlert === 3 && (
               <div className="row mx-0 justify-content-between align-items-center item-content mt-1">
                 <input
+                  placeholder="Name"
                   className="bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
                   ref={ref => {
                     this.refWapName = ref;
                   }}
                 />
                 <div className="row justify-content-center align-items-center">
-                  <ProgressBar className="progress" variant="white" now={2} />
+                  <ProgressBar className="progress" variant="white" now={addingAlertProgress} />
                   <input
+                    placeholder="Dist"
                     className="ml-3 bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
                     ref={ref => {
                       this.refWapVal = ref;
                     }}
+                    onChange={(val) => { this.setState({ addingAlertProgress: parseInt(this.refWapVal.value) }); }}
                   />
                 </div>
                 <div className="row">
@@ -306,7 +314,7 @@ export class Settings extends Component {
                           category: this.refWapName.value.toString(),
                           rate: parseInt(this.refWapVal.value)
                         });
-                        this.setState({ addingAlert: 0, vWap: waps });
+                        this.setState({ addingAlert: 0, vWap: waps, addingAlertProgress: 0 });
                       }
                     }}
                   >
@@ -315,7 +323,7 @@ export class Settings extends Component {
                   <button
                     className="bg-transparent border-0"
                     onClick={() => {
-                      this.setState({ addingAlert: 0 });
+                      this.setState({ addingAlert: 0, addingAlertProgress: 0 });
                     }}
                   >
                     <i className="mdi mdi-close text-white popover-icon" />
