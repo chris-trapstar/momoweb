@@ -214,6 +214,7 @@ export class Dashboard extends Component {
 
   getData = (data, type) => {
     let renderData = [];
+    let renderMenuItems = [];
     if (type === "low") {
       data.map((low, index) => {
         /** Cover Table Cell With Popover Trigger */
@@ -230,7 +231,9 @@ export class Dashboard extends Component {
         );
 
         /** Add Popover For this item */
-        renderData.push(this.getMenuItems(`low-context-menu_${index}`, low));
+        renderMenuItems.push(
+          this.getMenuItems(`low-context-menu_${index}`, low)
+        );
       });
     } else {
       data.map((high, index) => {
@@ -248,10 +251,26 @@ export class Dashboard extends Component {
         );
 
         /** Add Popover For this item */
-        renderData.push(this.getMenuItems(`high-context-menu_${index}`, high));
+        renderMenuItems.push(
+          this.getMenuItems(`high-context-menu_${index}`, high)
+        );
       });
     }
-    return renderData;
+    return (
+      <div className="col-md-6 tableFixHead">
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th className="text-white"> SYMBOL </th>
+              <th className="text-white"> COUNT </th>
+              <th className="text-white"> LAST </th>
+            </tr>
+          </thead>
+          <tbody>{renderData}</tbody>
+        </table>
+        {renderMenuItems}
+      </div>
+    );
   };
 
   getMenuItems = (key, data) => {
@@ -608,30 +627,8 @@ export class Dashboard extends Component {
                   <div className="card">
                     <div className="card-body">
                       <div className="row">
-                        <div className="col-md-6 tableFixHead">
-                          <table className="table table-striped">
-                            <thead>
-                              <tr>
-                                <th className="text-white"> SYMBOL </th>
-                                <th className="text-white"> COUNT </th>
-                                <th className="text-white"> LAST </th>
-                              </tr>
-                            </thead>
-                            <tbody>{this.getData(lows, "low")}</tbody>
-                          </table>
-                        </div>
-                        <div className="col-md-6 tableFixHead">
-                          <table className="table table-striped">
-                            <thead>
-                              <tr>
-                                <th className="text-white"> SYMBOL </th>
-                                <th className="text-white"> COUNT </th>
-                                <th className="text-white"> LAST </th>
-                              </tr>
-                            </thead>
-                            <tbody>{this.getData(highs, "high")}</tbody>
-                          </table>
-                        </div>
+                        {this.getData(lows, "low")}
+                        {this.getData(highs, "high")}
                       </div>
                     </div>
                   </div>
