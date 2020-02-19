@@ -1,44 +1,52 @@
 import React, { Component } from "react";
 import { ProgressBar } from "react-bootstrap";
+import API from '../api'
 import "./settings.css";
 
 export class Settings extends Component {
   constructor(props) {
     super(props);
-    this.state = this.getInitialState();
-  }
-
-  getInitialState = () => {
-    return {
-      hLow: [
-        ["AAPL", 100],
-        ["SPCE", 80]
-      ],
+    this.state = {
+      hLow: [],
       uVol: [
-        ["SPY", 25],
-        ["UBER", 20]
+        { category: "SPY", rate: 25},
+        { category: "SPY", rate: 25},
+
       ],
       vWap: [
-        ["AAPL", 25],
-        ["AMZN", 20]
+        { category: "SPY", rate: 25},
+        { category: "SPY", rate: 25},
       ],
       addingAlert: 0
     };
-  };
+  }
+
+  componentDidMount() {
+    this.getAlertSettings()
+  }
+
+  getAlertSettings = async () => {
+    const hLow = await API.getAlerts()
+    console.info('Alert Settings:', hLow)
+
+    this.setState({
+      hLow
+    })
+  }
 
   getFixedData = (data, type) => {
     let renderData = [];
-    data.map((item, index) => {
+    data.map(({ category, rate}, index) => {
       renderData.push(
         <div
           className="row mx-0 justify-content-between align-items-center item-content mt-1"
           key={`render-notification-high-low-${index}`}
         >
-          <span className="small company-name">{item[0]}</span>
+          <span className="small company-name">{category}</span>
           <div className="row justify-content-center align-items-center">
-            <ProgressBar className="progress" variant="white" now={item[1]} />
+            <ProgressBar className="progress" variant="white" now={rate} />
             <div className="ml-3 bg-dark progress-value justify-content-center align-items-center text-center">
-              {`${item[1]}${type !== 0 ? "%" : ""}`}
+              {`${rate}${type !== 0 ? "%" : ""}`}
             </div>
           </div>
           <div className="row">
