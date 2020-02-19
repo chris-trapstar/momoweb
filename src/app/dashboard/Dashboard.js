@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import io from "socket.io-client";
 import "./dashboard.css";
+import API from '../api';
+
 // import * as firebase from "firebase/app";
 
 const socketHost = "http://web-backend-docker.us-east-1.elasticbeanstalk.com";
@@ -338,8 +340,14 @@ export class Dashboard extends Component {
     // data.data[0];
   };
 
-  onAddAlert = (e, data) => {
+  onAddAlert = (e, { data, type }) => {
     console.info("onAddAlert:", data);
+    API.addAlert({
+      category: data[0],
+      rate: 0,
+      high: type === 'high' ? data[1] : 0,
+      low: type === 'low' ? data[1] : 0
+    })
   };
 
   // requestNotificationPermissions = async () => {

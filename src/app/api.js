@@ -186,6 +186,25 @@ class API {
   getAccessToken = () => {
     return window.localStorage.getItem("jwt_access_token");
   };
+
+  addAlert = async ({
+    category,
+    rate,
+    high,
+    low,
+  }) => {
+    const response = await fetch(`${baseUrl}/api/alerts`, {
+      method: 'POST',
+      body: JSON.stringify({
+        category, rate, high, low
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+    const data = await response.json()
+    return data
+  }
 }
 
 const instance = new API();
