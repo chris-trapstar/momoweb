@@ -207,6 +207,19 @@ class API {
     console.info('POST /api/alerts - response - ', data)
     return data
   }
+
+  getAlerts = async() => {
+    const response = await fetch(`${baseUrl}/api/alerts`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
+      }
+    })
+    const data = await response.json()
+    console.info('GET /api/alerts - response - ', data)
+    return data
+  }
 }
 
 const instance = new API();
