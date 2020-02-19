@@ -256,7 +256,7 @@ export class Dashboard extends Component {
 
   getMenuItems = (key, data) => {
     return (
-      <ContextMenu id={key} className="p-0">
+      <ContextMenu id={key} className="p-0" key={`menu-item-${key}`}>
         <div className="bg-dark px-3 py-1">
           <span>LINKS</span>
           <MenuItem data={{ data }} onClick={this.onPopover}>
