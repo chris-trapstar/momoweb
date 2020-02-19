@@ -3,6 +3,7 @@ import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import io from "socket.io-client";
 import "./dashboard.css";
 import API from '../api';
+import cogoToast from 'cogo-toast';
 
 // import * as firebase from "firebase/app";
 
@@ -347,7 +348,13 @@ export class Dashboard extends Component {
       rate: 0,
       high: type === 'high' ? data[1] : 0,
       low: type === 'low' ? data[1] : 0
-    })
+    }).then(response => {
+      cogoToast.success(
+        <div>
+          Added Alert
+        </div>
+      );
+    }).catch(error => {})
   };
 
   // requestNotificationPermissions = async () => {
