@@ -232,7 +232,7 @@ export class Dashboard extends Component {
 
         /** Add Popover For this item */
         renderMenuItems.push(
-          this.getMenuItems(`low-context-menu_${index}`, low)
+          this.getMenuItems(`low-context-menu_${index}`, low, "low")
         );
       });
     } else {
@@ -252,7 +252,7 @@ export class Dashboard extends Component {
 
         /** Add Popover For this item */
         renderMenuItems.push(
-          this.getMenuItems(`high-context-menu_${index}`, high)
+          this.getMenuItems(`high-context-menu_${index}`, high, "high")
         );
       });
     }
@@ -273,18 +273,18 @@ export class Dashboard extends Component {
     );
   };
 
-  getMenuItems = (key, data) => {
+  getMenuItems = (key, data, type) => {
     return (
       <ContextMenu id={key} className="p-0" key={`menu-item-${key}`}>
         <div className="bg-dark px-3 py-1">
           <span>LINKS</span>
-          <MenuItem data={{ data }} onClick={this.onPopover}>
+          <MenuItem data={{ data, type }} onClick={this.onPopover}>
             <div className="row align-items-center">
               <i className="mdi mdi-alpha text-white popover-icon" />
               <span className="small white-no-wrap bar-txt">cnbc.com</span>
             </div>
           </MenuItem>
-          <MenuItem data={{ data }} onClick={this.onPopover}>
+          <MenuItem data={{ data, type }} onClick={this.onPopover}>
             <div className="row align-items-center">
               <i className="mdi mdi-alpha text-white popover-icon" />
               <span className="small white-no-wrap bar-txt">
@@ -292,7 +292,7 @@ export class Dashboard extends Component {
               </span>
             </div>
           </MenuItem>
-          <MenuItem data={{ data }} onClick={this.onPopover}>
+          <MenuItem data={{ data, type }} onClick={this.onPopover}>
             <div className="row align-items-center">
               <i className="mdi mdi-alpha text-white popover-icon" />
               <span className="small white-no-wrap bar-txt">
@@ -300,13 +300,13 @@ export class Dashboard extends Component {
               </span>
             </div>
           </MenuItem>
-          <MenuItem data={{ data }} onClick={this.onPopover}>
+          <MenuItem data={{ data, type }} onClick={this.onPopover}>
             <div className="row align-items-center">
               <i className="mdi mdi-chart-line-variant text-white popover-icon" />
               <span className="small white-no-wrap bar-txt">nasdaq.com</span>
             </div>
           </MenuItem>
-          <MenuItem data={{ data }} onClick={this.onPopover}>
+          <MenuItem data={{ data, type }} onClick={this.onPopover}>
             <div className="row align-items-center">
               <i className="mdi mdi-chart-line-variant text-white popover-icon" />
               <span className="small white-no-wrap bar-txt">
@@ -316,13 +316,13 @@ export class Dashboard extends Component {
           </MenuItem>
           <span>ACTIONS</span>
           <div className="row justify-content-between align-items-center">
-            <MenuItem data={{ data }} onClick={this.onAddAlert}>
+            <MenuItem data={{ data, type }} onClick={this.onAddAlert}>
               <div className="row justify-content-center align-items-center">
                 <i className="mdi mdi-bell text-white popover-icon" />
                 <span className="ml-1">Alert</span>
               </div>
             </MenuItem>
-            <MenuItem data={{ data }} onClick={this.onPopover}>
+            <MenuItem data={{ data, type }} onClick={this.onPopover}>
               <div className="row justify-content-center align-items-center">
                 <i className="mdi mdi-star text-white popover-icon" />
                 <span className="ml-1">Favorite</span>
@@ -339,8 +339,7 @@ export class Dashboard extends Component {
   };
 
   onAddAlert = (e, data) => {
-    console.info('onAddAlert:', data);
-
+    console.info("onAddAlert:", data);
   };
 
   // requestNotificationPermissions = async () => {
