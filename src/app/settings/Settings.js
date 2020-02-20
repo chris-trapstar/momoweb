@@ -97,6 +97,33 @@ export class Settings extends Component {
     this.setState({ addingAlert, addingAlertProgress: 0 });
   };
 
+  onAddAlert = async () => {
+
+    if (
+      this.refLowName.value !== "" &&
+      this.refLowVal.value !== ""
+    ) {
+      
+      await API.addAlert({
+        category: this.refLowName.value.toString(),
+        rate: parseInt(this.refLowVal.value),
+        high: 0,
+        low: 0
+      })
+
+      const hLow = [...this.state.hLow]
+      hLow.push({
+        category: this.refLowName.value.toString(),
+        rate: parseInt(this.refLowVal.value)
+      });
+
+      this.setState({ addingAlert: 0, hLow, addingAlertProgress: 0 })
+
+      // Load Alert Settings Again
+      this.getAlertSettings()
+    }
+  }
+
   render() {
     const { hLow, uVol, vWap, addingAlert, addingAlertProgress } = this.state;
     return (
@@ -158,19 +185,7 @@ export class Settings extends Component {
                 <div className="row">
                   <button
                     className="bg-transparent border-0"
-                    onClick={() => {
-                      if (
-                        this.refLowName.value !== "" &&
-                        this.refLowVal.value !== ""
-                      ) {
-                        let lows = hLow;
-                        lows.push({
-                          category: this.refLowName.value.toString(),
-                          rate: parseInt(this.refLowVal.value)
-                        });
-                        this.setState({ addingAlert: 0, hLow: lows, addingAlertProgress: 0 });
-                      }
-                    }}
+                    onClick={}
                   >
                     <i className="mdi mdi-check text-white popover-icon" />
                   </button>
