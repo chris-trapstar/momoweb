@@ -7,7 +7,7 @@ import cogoToast from 'cogo-toast';
 
 // import * as firebase from "firebase/app";
 
-const socketHost = "https://web-backend-docker.us-east-1.elasticbeanstalk.com";
+const socketHost = "https://momoweb.mometic.com";
 const filter = {
   category: [
     {
