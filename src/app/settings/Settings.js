@@ -161,12 +161,15 @@ export class Settings extends Component {
               </button>
             </div>
             {addingAlert === 1 && (
-              <div className="row mx-0 justify-content-between align-items-center item-content mt-1">
+              <div className="row mx-0 justify-content-between align-items-center item-content mt-1 alert-input">
                 <input
                   placeholder="Name"
                   className="bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
                   ref={ref => {
                     this.refLowName = ref;
+                    if (ref) {
+                      ref.focus()
+                    }
                   }}
                 />
                 <div className="row justify-content-center align-items-center">
