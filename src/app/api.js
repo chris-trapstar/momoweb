@@ -220,6 +220,26 @@ class API {
     console.info('GET /api/alerts - response - ', data)
     return data
   }
+
+  registerPushToken = async (registration_id) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/alerts/device/fcm`, {
+        method: 'POST',
+        body: JSON.stringify({
+          registration_id
+        }),
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      const data = await res.json()
+      console.info('Push Token Registered:', data)
+      return data
+    } catch (e) {
+      console.error('Failed to register the push token', e)
+    }
+  }
 }
 
 const instance = new API();
