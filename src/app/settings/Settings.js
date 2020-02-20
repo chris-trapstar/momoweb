@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { ProgressBar } from "react-bootstrap";
-import API from '../api'
-import "./settings.css";
+import React, { Component } from 'react';
+import { ProgressBar } from 'react-bootstrap';
+import API from '../api';
+import './settings.css';
 
 export class Settings extends Component {
   constructor(props) {
@@ -10,12 +10,11 @@ export class Settings extends Component {
       hLow: [],
       uVol: [
         { category: "SPY", rate: 25 },
-        { category: "SPY", rate: 25 },
-
+        { category: "SPY", rate: 25 }
       ],
       vWap: [
         { category: "SPY", rate: 25 },
-        { category: "SPY", rate: 25 },
+        { category: "SPY", rate: 25 }
       ],
       addingAlert: 0,
       addingAlertProgress: 0
@@ -23,17 +22,17 @@ export class Settings extends Component {
   }
 
   componentDidMount() {
-    this.getAlertSettings()
+    this.getAlertSettings();
   }
 
   getAlertSettings = async () => {
-    const hLow = await API.getAlerts()
-    console.info('Alert Settings:', hLow)
+    const hLow = await API.getAlerts();
+    console.info("Alert Settings:", hLow);
 
     this.setState({
       hLow: hLow.reverse()
-    })
-  }
+    });
+  };
 
   getFixedData = (data, type) => {
     /** type 0 -> High/Low, 1 -> Unusual Vol, 2 -> VWAP */
@@ -45,8 +44,12 @@ export class Settings extends Component {
           key={`render-notification-high-low-${index}`}
         >
           <span className="small company-name">{category}</span>
-          <div className="row justify-content-center align-items-center">
-            <ProgressBar className="progress" variant="white" now={rate} />
+          <div className="row d-flex flex-fill justify-content-center align-items-center progress-section">
+            <ProgressBar
+              className="flex-fill progress"
+              variant="white"
+              now={rate}
+            />
             <div className="ml-3 bg-dark progress-value justify-content-center align-items-center text-center">
               {`${rate}${type !== 0 ? "%" : ""}`}
             </div>
@@ -70,7 +73,7 @@ export class Settings extends Component {
     return renderData;
   };
 
-  deleteFixedData = async (type, index, category, rate) => {
+  deleteFixedData = (type, index, category, rate) => {
     switch (type) {
       case 0:
         let hLow = this.state.hLow;
@@ -92,36 +95,34 @@ export class Settings extends Component {
     }
   };
 
-  onClickAddAlert = (addingAlert) => {
+  onClickAddAlert = addingAlert => {
     /** addingAlert 1 -> High/Low, 2 -> Unusual Vol, 3 -> VWAP */
     this.setState({ addingAlert, addingAlertProgress: 0 });
   };
 
   onAddAlert = async () => {
-
-    if (
-      this.refLowName.value !== "" &&
-      this.refLowVal.value !== ""
-    ) {
-      
+    if (this.refLowName.value !== "" && this.refLowVal.value !== "") {
       await API.addAlert({
         category: this.refLowName.value.toString(),
         rate: parseFloat(this.refLowVal.value),
         high: 0,
         low: 0
-      })
+      });
 
-      const hLow = [{
-        category: this.refLowName.value.toString(),
-        rate: parseFloat(this.refLowVal.value)
-      }, ...this.state.hLow]
+      const hLow = [
+        {
+          category: this.refLowName.value.toString(),
+          rate: parseFloat(this.refLowVal.value)
+        },
+        ...this.state.hLow
+      ];
 
-      this.setState({ addingAlert: 0, hLow, addingAlertProgress: 0 })
+      this.setState({ addingAlert: 0, hLow, addingAlertProgress: 0 });
 
       // Load Alert Settings Again
-      this.getAlertSettings()
+      this.getAlertSettings();
     }
-  }
+  };
 
   render() {
     const { hLow, uVol, vWap, addingAlert, addingAlertProgress } = this.state;
@@ -155,9 +156,13 @@ export class Settings extends Component {
               <label className="small text-symbol">Sensitivity</label>
               <button
                 className="btn bg-transparent border-0 px-0"
-                onClick={() => { this.onClickAddAlert(1); }}
+                onClick={() => {
+                  this.onClickAddAlert(1);
+                }}
               >
-                <label className="small text-alert cursor-pointer">Add Alert</label>
+                <label className="small text-alert cursor-pointer">
+                  Add Alert
+                </label>
               </button>
             </div>
             {addingAlert === 1 && (
@@ -168,19 +173,27 @@ export class Settings extends Component {
                   ref={ref => {
                     this.refLowName = ref;
                     if (ref) {
-                      ref.focus()
+                      ref.focus();
                     }
                   }}
                 />
-                <div className="row justify-content-center align-items-center">
-                  <ProgressBar className="progress" variant="white" now={addingAlertProgress} />
+                <div className="row d-flex flex-fill justify-content-center align-items-center progress-section">
+                  <ProgressBar
+                    className="flex-fill progress"
+                    variant="white"
+                    now={addingAlertProgress}
+                  />
                   <input
                     placeholder="Sensitivity"
                     className="ml-3 bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
                     ref={ref => {
                       this.refLowVal = ref;
                     }}
-                    onChange={(val) => { this.setState({ addingAlertProgress: parseFloat(this.refLowVal.value) }); }}
+                    onChange={val => {
+                      this.setState({
+                        addingAlertProgress: parseFloat(this.refLowVal.value)
+                      });
+                    }}
                   />
                 </div>
                 <div className="row">
@@ -212,9 +225,13 @@ export class Settings extends Component {
               <label className="small text-symbol">% Deviation</label>
               <button
                 className="bg-transparent border-0 px-0"
-                onClick={() => { this.onClickAddAlert(2); }}
+                onClick={() => {
+                  this.onClickAddAlert(2);
+                }}
               >
-                <label className="small text-alert cursor-pointer">Add Alert</label>
+                <label className="small text-alert cursor-pointer">
+                  Add Alert
+                </label>
               </button>
             </div>
             {addingAlert === 2 && (
@@ -226,15 +243,23 @@ export class Settings extends Component {
                     this.refVolName = ref;
                   }}
                 />
-                <div className="row justify-content-center align-items-center">
-                  <ProgressBar className="progress" variant="white" now={addingAlertProgress} />
+                <div className="row d-flex flex-fill justify-content-center align-items-center progress-section">
+                  <ProgressBar
+                    className="flex-fill progress"
+                    variant="white"
+                    now={addingAlertProgress}
+                  />
                   <input
                     placeholder="Deviation"
                     className="ml-3 bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
                     ref={ref => {
                       this.refVolVal = ref;
                     }}
-                    onChange={(val) => { this.setState({ addingAlertProgress: parseFloat(this.refVolVal.value) }); }}
+                    onChange={val => {
+                      this.setState({
+                        addingAlertProgress: parseFloat(this.refVolVal.value)
+                      });
+                    }}
                   />
                 </div>
                 <div className="row">
@@ -250,7 +275,11 @@ export class Settings extends Component {
                           category: this.refVolName.value.toString(),
                           rate: parseFloat(this.refVolVal.value)
                         });
-                        this.setState({ addingAlert: 0, uVol: vols, addingAlertProgress: 0 });
+                        this.setState({
+                          addingAlert: 0,
+                          uVol: vols,
+                          addingAlertProgress: 0
+                        });
                       }
                     }}
                   >
@@ -278,9 +307,13 @@ export class Settings extends Component {
               <label className="small text-symbol">% Dist VWAP</label>
               <button
                 className="bg-transparent border-0 px-0"
-                onClick={() => { this.onClickAddAlert(3); }}
+                onClick={() => {
+                  this.onClickAddAlert(3);
+                }}
               >
-                <label className="small text-alert cursor-pointer">Add Alert</label>
+                <label className="small text-alert cursor-pointer">
+                  Add Alert
+                </label>
               </button>
             </div>
             {addingAlert === 3 && (
@@ -292,15 +325,23 @@ export class Settings extends Component {
                     this.refWapName = ref;
                   }}
                 />
-                <div className="row justify-content-center align-items-center">
-                  <ProgressBar className="progress" variant="white" now={addingAlertProgress} />
+                <div className="row d-flex flex-fill justify-content-center align-items-center progress-section">
+                  <ProgressBar
+                    className="flex-fill progress"
+                    variant="white"
+                    now={addingAlertProgress}
+                  />
                   <input
                     placeholder="Dist"
                     className="ml-3 bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
                     ref={ref => {
                       this.refWapVal = ref;
                     }}
-                    onChange={(val) => { this.setState({ addingAlertProgress: parseFloat(this.refWapVal.value) }); }}
+                    onChange={val => {
+                      this.setState({
+                        addingAlertProgress: parseFloat(this.refWapVal.value)
+                      });
+                    }}
                   />
                 </div>
                 <div className="row">
@@ -316,7 +357,11 @@ export class Settings extends Component {
                           category: this.refWapName.value.toString(),
                           rate: parseFloat(this.refWapVal.value)
                         });
-                        this.setState({ addingAlert: 0, vWap: waps, addingAlertProgress: 0 });
+                        this.setState({
+                          addingAlert: 0,
+                          vWap: waps,
+                          addingAlertProgress: 0
+                        });
                       }
                     }}
                   >

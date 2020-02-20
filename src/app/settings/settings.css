@@ -3,10 +3,9 @@
 }
 
 .value-item {
-    width: calc(40vw);
-    height: auto;
-    margin-left: 3em;
-    margin-top: 3em;
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-top: 3em;
 }
 
 .item-content {
@@ -27,8 +26,9 @@
     color: #fac138;
 }
 
-.progress {
-    width: calc(20vw);
+.progress-section {
+    padding-left: 3em;
+    padding-right: 3em;
 }
 
 .progress-value {
