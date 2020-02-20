@@ -106,7 +106,7 @@ export class Settings extends Component {
       
       await API.addAlert({
         category: this.refLowName.value.toString(),
-        rate: parseInt(this.refLowVal.value),
+        rate: parseFloat(this.refLowVal.value),
         high: 0,
         low: 0
       })
@@ -114,7 +114,7 @@ export class Settings extends Component {
       const hLow = [...this.state.hLow]
       hLow.push({
         category: this.refLowName.value.toString(),
-        rate: parseInt(this.refLowVal.value)
+        rate: parseFloat(this.refLowVal.value)
       });
 
       this.setState({ addingAlert: 0, hLow, addingAlertProgress: 0 })
@@ -179,13 +179,13 @@ export class Settings extends Component {
                     ref={ref => {
                       this.refLowVal = ref;
                     }}
-                    onChange={(val) => { this.setState({ addingAlertProgress: parseInt(this.refLowVal.value) }); }}
+                    onChange={(val) => { this.setState({ addingAlertProgress: parseFloat(this.refLowVal.value) }); }}
                   />
                 </div>
                 <div className="row">
                   <button
                     className="bg-transparent border-0"
-                    onClick={}
+                    onClick={this.onAddAlert}
                   >
                     <i className="mdi mdi-check text-white popover-icon" />
                   </button>
@@ -233,7 +233,7 @@ export class Settings extends Component {
                     ref={ref => {
                       this.refVolVal = ref;
                     }}
-                    onChange={(val) => { this.setState({ addingAlertProgress: parseInt(this.refVolVal.value) }); }}
+                    onChange={(val) => { this.setState({ addingAlertProgress: parseFloat(this.refVolVal.value) }); }}
                   />
                 </div>
                 <div className="row">
@@ -247,7 +247,7 @@ export class Settings extends Component {
                         let vols = uVol;
                         vols.push({
                           category: this.refVolName.value.toString(),
-                          rate: parseInt(this.refVolVal.value)
+                          rate: parseFloat(this.refVolVal.value)
                         });
                         this.setState({ addingAlert: 0, uVol: vols, addingAlertProgress: 0 });
                       }
@@ -299,7 +299,7 @@ export class Settings extends Component {
                     ref={ref => {
                       this.refWapVal = ref;
                     }}
-                    onChange={(val) => { this.setState({ addingAlertProgress: parseInt(this.refWapVal.value) }); }}
+                    onChange={(val) => { this.setState({ addingAlertProgress: parseFloat(this.refWapVal.value) }); }}
                   />
                 </div>
                 <div className="row">
@@ -313,7 +313,7 @@ export class Settings extends Component {
                         let waps = vWap;
                         waps.push({
                           category: this.refWapName.value.toString(),
-                          rate: parseInt(this.refWapVal.value)
+                          rate: parseFloat(this.refWapVal.value)
                         });
                         this.setState({ addingAlert: 0, vWap: waps, addingAlertProgress: 0 });
                       }
