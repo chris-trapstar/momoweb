@@ -58,7 +58,7 @@ export class Settings extends Component {
             <button
               className="bg-transparent border-0"
               onClick={() => {
-                this.deleteFixedData(type, index);
+                this.deleteFixedData(type, index, category, rate);
               }}
             >
               <i className="mdi mdi-close text-white popover-icon" />
@@ -70,7 +70,7 @@ export class Settings extends Component {
     return renderData;
   };
 
-  deleteFixedData = (type, index) => {
+  deleteFixedData = async (type, index, category, rate) => {
     switch (type) {
       case 0:
         let hLow = this.state.hLow;
