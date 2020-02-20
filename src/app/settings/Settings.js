@@ -92,7 +92,7 @@ export class Settings extends Component {
     }
   };
 
-  onAddAlert = (addingAlert) => {
+  onClickAddAlert = (addingAlert) => {
     /** addingAlert 1 -> High/Low, 2 -> Unusual Vol, 3 -> VWAP */
     this.setState({ addingAlert, addingAlertProgress: 0 });
   };
@@ -129,7 +129,7 @@ export class Settings extends Component {
               <label className="small text-symbol">Sensitivity</label>
               <button
                 className="bg-transparent border-0 px-0"
-                onClick={() => { this.onAddAlert(1); }}
+                onClick={() => { this.onClickAddAlert(1); }}
               >
                 <label className="small text-alert">Add Alert</label>
               </button>
@@ -186,12 +186,6 @@ export class Settings extends Component {
               </div>
             )}
           </div>
-          <div className="mt-2">
-            <label className="small text-pink">
-              Grayed out for standard --- PRO ONLY BELOW --- Add opacity & have
-              upgrade link to PLANS
-            </label>
-          </div>
 
           {/** Notifications -> Unusual Vol */}
           <div className="value-item">
@@ -201,7 +195,7 @@ export class Settings extends Component {
               <label className="small text-symbol">% Deviation</label>
               <button
                 className="bg-transparent border-0 px-0"
-                onClick={() => { this.onAddAlert(2); }}
+                onClick={() => { this.onClickAddAlert(2); }}
               >
                 <label className="small text-alert">Add Alert</label>
               </button>
@@ -267,7 +261,7 @@ export class Settings extends Component {
               <label className="small text-symbol">% Dist VWAP</label>
               <button
                 className="bg-transparent border-0 px-0"
-                onClick={() => { this.onAddAlert(3); }}
+                onClick={() => { this.onClickAddAlert(3); }}
               >
                 <label className="small text-alert">Add Alert</label>
               </button>
