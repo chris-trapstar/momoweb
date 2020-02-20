@@ -36,6 +36,7 @@ export class Settings extends Component {
   }
 
   getFixedData = (data, type) => {
+    /** type 0 -> High/Low, 1 -> Unusual Vol, 2 -> VWAP */
     let renderData = [];
     data.map(({ category, rate }, index) => {
       renderData.push(
@@ -51,10 +52,7 @@ export class Settings extends Component {
             </div>
           </div>
           <div className="row">
-            <button
-              className="bg-transparent border-0 invisible"
-              disabled={true}
-            >
+            <button className="bg-transparent border-0 invisible">
               <i className="mdi mdi-close text-white popover-icon" />
             </button>
             <button
@@ -75,34 +73,28 @@ export class Settings extends Component {
   deleteFixedData = (type, index) => {
     switch (type) {
       case 0:
-        let lows = this.state.hLow;
-        lows.splice(index, 1);
-        console.info(lows);
-        this.setState({ hLow: lows });
+        let hLow = this.state.hLow;
+        hLow.splice(index, 1);
+        this.setState({ hLow });
         break;
       case 1:
-        let vols = this.state.uVol;
-        vols.splice(index, 1);
-        this.setState({ uVol: vols });
+        let uVol = this.state.uVol;
+        uVol.splice(index, 1);
+        this.setState({ uVol });
         break;
       case 2:
-        let waps = this.state.vWap;
-        waps.splice(index, 1);
-        this.setState({ vWap: waps });
+        let vWap = this.state.vWap;
+        vWap.splice(index, 1);
+        this.setState({ vWap });
         break;
       default:
         break;
     }
   };
 
-  onHLowAddAlert = () => {
-    this.setState({ addingAlert: 1, addingAlertProgress: 0 });
-  };
-  onVolAddAlert = () => {
-    this.setState({ addingAlert: 2, addingAlertProgress: 0 });
-  };
-  onWapAddAlert = () => {
-    this.setState({ addingAlert: 3, addingAlertProgress: 0 });
+  onAddAlert = (addingAlert) => {
+    /** addingAlert 1 -> High/Low, 2 -> Unusual Vol, 3 -> VWAP */
+    this.setState({ addingAlert, addingAlertProgress: 0 });
   };
 
   render() {
@@ -137,7 +129,7 @@ export class Settings extends Component {
               <label className="small text-symbol">Sensitivity</label>
               <button
                 className="bg-transparent border-0 px-0"
-                onClick={this.onHLowAddAlert}
+                onClick={() => { this.onAddAlert(1); }}
               >
                 <label className="small text-alert">Add Alert</label>
               </button>
@@ -209,7 +201,7 @@ export class Settings extends Component {
               <label className="small text-symbol">% Deviation</label>
               <button
                 className="bg-transparent border-0 px-0"
-                onClick={this.onVolAddAlert}
+                onClick={() => { this.onAddAlert(2); }}
               >
                 <label className="small text-alert">Add Alert</label>
               </button>
@@ -275,7 +267,7 @@ export class Settings extends Component {
               <label className="small text-symbol">% Dist VWAP</label>
               <button
                 className="bg-transparent border-0 px-0"
-                onClick={this.onWapAddAlert}
+                onClick={() => { this.onAddAlert(3); }}
               >
                 <label className="small text-alert">Add Alert</label>
               </button>

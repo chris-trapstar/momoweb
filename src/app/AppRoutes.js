@@ -202,7 +202,7 @@ class AppRoutes extends Component {
           <Route path="/apps/calendar" component={ Calendar } />
           <Route path="/apps/gallery" component={ Gallery } />
 */}
-        <Redirect to="/settings" />
+        <Redirect to="/dashboard" />
       </Fragment>
     );
   }
