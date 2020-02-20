@@ -154,13 +154,12 @@ export class Settings extends Component {
               <label className="small text-symbol">Symbol</label>
               <label className="small text-symbol">Sensitivity</label>
               <button
-                className="bg-transparent border-0 px-0"
+                className="btn bg-transparent border-0 px-0"
                 onClick={() => { this.onClickAddAlert(1); }}
               >
-                <label className="small text-alert">Add Alert</label>
+                <label className="small text-alert cursor-pointer">Add Alert</label>
               </button>
             </div>
-            {this.getFixedData(hLow, 0)}
             {addingAlert === 1 && (
               <div className="row mx-0 justify-content-between align-items-center item-content mt-1">
                 <input
@@ -199,6 +198,7 @@ export class Settings extends Component {
                 </div>
               </div>
             )}
+            {this.getFixedData(hLow, 0)}
           </div>
 
           {/** Notifications -> Unusual Vol */}
@@ -211,10 +211,9 @@ export class Settings extends Component {
                 className="bg-transparent border-0 px-0"
                 onClick={() => { this.onClickAddAlert(2); }}
               >
-                <label className="small text-alert">Add Alert</label>
+                <label className="small text-alert cursor-pointer">Add Alert</label>
               </button>
             </div>
-            {this.getFixedData(uVol, 1)}
             {addingAlert === 2 && (
               <div className="row mx-0 justify-content-between align-items-center item-content mt-1">
                 <input
@@ -265,6 +264,7 @@ export class Settings extends Component {
                 </div>
               </div>
             )}
+            {this.getFixedData(uVol, 1)}
           </div>
 
           {/** Notifications -> VWAP */}
@@ -277,10 +277,9 @@ export class Settings extends Component {
                 className="bg-transparent border-0 px-0"
                 onClick={() => { this.onClickAddAlert(3); }}
               >
-                <label className="small text-alert">Add Alert</label>
+                <label className="small text-alert cursor-pointer">Add Alert</label>
               </button>
             </div>
-            {this.getFixedData(vWap, 2)}
             {addingAlert === 3 && (
               <div className="row mx-0 justify-content-between align-items-center item-content mt-1">
                 <input
@@ -331,6 +330,7 @@ export class Settings extends Component {
                 </div>
               </div>
             )}
+            {this.getFixedData(vWap, 2)}
           </div>
         </div>
       </div>
