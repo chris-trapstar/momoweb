@@ -31,7 +31,7 @@ export class Settings extends Component {
     console.info('Alert Settings:', hLow)
 
     this.setState({
-      hLow
+      hLow: hLow.reverse()
     })
   }
 
@@ -111,11 +111,10 @@ export class Settings extends Component {
         low: 0
       })
 
-      const hLow = [...this.state.hLow]
-      hLow.push({
+      const hLow = [{
         category: this.refLowName.value.toString(),
         rate: parseFloat(this.refLowVal.value)
-      });
+      }, ...this.state.hLow]
 
       this.setState({ addingAlert: 0, hLow, addingAlertProgress: 0 })
 
