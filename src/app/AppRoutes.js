@@ -5,6 +5,11 @@ import Dashboard from "./dashboard/Dashboard";
 import Settings from "./settings/Settings";
 
 class AppRoutes extends Component {
+
+  componentDidMount() {
+
+  }
+
   render() {
     return (
       <Switch>
