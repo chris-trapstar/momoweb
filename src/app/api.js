@@ -12,6 +12,8 @@ const axios = Axios.create({
   headers: { "Content-Type": "application/json", Accept: "application/json" }
 });
 
+const STATS_API = 'http://momodatasource-new-env.u3x7ymcfmz.us-east-1.elasticbeanstalk.com/api/stats'
+
 class API {
   init() {
     this.setInterceptors();
@@ -256,6 +258,13 @@ class API {
       console.error('Failed to register the push token', e)
     }
   }
+
+  getStats  = async () => {
+    const res = await fetch(STATS_API)
+    const data = await res.json()
+    return data
+  }
+
 }
 
 const instance = new API();
