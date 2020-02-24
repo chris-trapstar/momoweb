@@ -121,6 +121,7 @@ export class Dashboard extends Component {
   };
 
   _handleData = data => {
+    console.info('compressedUpdate:', data)
     let msg = data[0];
     let highs = msg[1];
     let lows = msg[2];
@@ -741,7 +742,7 @@ export class Dashboard extends Component {
                                 { stock.symbol }
                               </td>
                               <td className="text-center">{ stock.priorDayLast}</td>
-                              <td className="text-center"> { 'Unknown' /* No Volume*/}</td>
+                              <td className="text-center"> { stock.avgVolume /* No Volume*/}</td>
                               <td className="text-success text-center">+121</td>
                               <td className="text-success text-center">+18%</td>
                               <td className="text-success text-center">+18%</td>
