@@ -51,6 +51,7 @@ export class Dashboard extends Component {
     this.buffer = [];
     this.flushBufferIntervalId = setInterval(this.flushBuffer, 2000);
     // this.requestNotificationPermissions().then(r => {});
+    this.getStats();
   }
 
   componentWillUnmount() {
@@ -58,6 +59,14 @@ export class Dashboard extends Component {
       console.log("clearInterval for flushBufferIntervalId");
       clearInterval(this.flushBufferIntervalId);
     }
+  }
+
+  getStats = async () => {
+    const stats = await API.getStats()
+    console.info('Stats Data:', stats)
+    this.setState({
+      stats
+    })
   }
 
   getInitialState = () => {
@@ -87,10 +96,12 @@ export class Dashboard extends Component {
     }
 
     return {
+
       highs: [],
       lows: [],
       bars: [1, 0.6, -1],
       filter: filter,
+      stats: [],
       popoverOpened: false
     };
   };
@@ -723,42 +734,22 @@ export class Dashboard extends Component {
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
-                            <td className="text-white font-weight-bold text-center">
-                              AAPL
-                            </td>
-                            <td className="text-center">312.44</td>
-                            <td className="text-center">1210,000</td>
-                            <td className="text-success text-center">+121</td>
-                            <td className="text-success text-center">+18%</td>
-                            <td className="text-success text-center">+18%</td>
-                            <td className="text-center">25%</td>
-                            <td className="text-center">* ^</td>
-                          </tr>
-                          <tr>
-                            <td className="text-white font-weight-bold text-center">
-                              TXN
-                            </td>
-                            <td className="text-center">312.44</td>
-                            <td className="text-center">1210,000</td>
-                            <td className="text-success text-center">+121</td>
-                            <td className="text-success text-center">+18%</td>
-                            <td className="text-success text-center">+18%</td>
-                            <td className="text-center">25%</td>
-                            <td className="text-center">* ^</td>
-                          </tr>
-                          <tr>
-                            <td className="text-white font-weight-bold text-center">
-                              GOOG
-                            </td>
-                            <td className="text-center">312.44</td>
-                            <td className="text-center">1210,000</td>
-                            <td className="text-success text-center">+121</td>
-                            <td className="text-success text-center">+18%</td>
-                            <td className="text-success text-center">+18%</td>
-                            <td className="text-center">25%</td>
-                            <td className="text-center">* ^</td>
-                          </tr>
+                          {
+                            this.state.stats.map((stock) => {
+                              return <tr>
+                              <td className="text-white font-weight-bold text-center">
+                                { stock.symbol }
+                              </td>
+                              <td className="text-center">{ stock.priorDayLast}</td>
+                              <td className="text-center"> { 'Unknown' /* No Volume*/}</td>
+                              <td className="text-success text-center">+121</td>
+                              <td className="text-success text-center">+18%</td>
+                              <td className="text-success text-center">+18%</td>
+                              <td className="text-center">25%</td>
+                              <td className="text-center">* ^</td>
+                            </tr>
+                            })
+                          }
                         </tbody>
                       </table>
                     </div>
