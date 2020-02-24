@@ -3,15 +3,22 @@
 }
 
 .value-item {
-    padding-left: 3em;
-    padding-right: 3em;
+    padding-left: 15em;
+    padding-right: 15em;
     padding-top: 3em;
+}
+
+.pricing-container {
+    padding-left: 2em;
 }
 
 .item-content {
     background: #2d2d2d;
-    padding-left: 2em;
     padding-right: 10px;
+}
+
+.margin-top-10 {
+    margin-top: 10px;
 }
 
 .symbol {
@@ -31,6 +38,12 @@
     padding-right: 3em;
 }
 
+.price-section {
+    padding-left: 10em;
+    padding-right: 2em;
+    margin-top: 1em;
+}
+
 .progress-value {
     padding-top: 1px;
     padding-bottom: 1px;
@@ -43,9 +56,52 @@
     width: 50px;
 }
 
+.pricing-separator {
+    height: 3px;
+    background: gray;
+    margin-top: 30px;
+}
+
 .company-name {
     width: 50px;
     text-align: center;
+}
+
+.industry-row {
+    margin-top: 10px;
+    padding-left: 2em;
+}
+
+.industry-txt {
+    margin-left: 0.5rem;
+    font-size: 12px;
+}
+
+.padding-bottom-30 {
+    padding-bottom: 30px;
+}
+
+.company-name-margin {
+    width: 100px;
+    text-align: left;
+    margin-top: 5px;
+}
+
+.industry-checked {
+    width: 15px;
+    height: 15px;
+    background: yellow;
+}
+
+.industry-container {
+    margin-top: 0;
+    background: #2d2d2d
+}
+
+.industry-unchecked {
+    width: 15px;
+    height: 15px;
+    background: gray;
 }
 
 .cursor-pointer {
@@ -55,3 +111,134 @@
 .alert-input {
     border: 1px dashed gray;
 }
+
+.noUi-target .noUi-handle {
+    background: transparent;
+    border: none;
+    width: 18px;
+    height: 18px;
+}
+
+.noUi-horizontal .noUi-handle {
+    right: -10px;
+}
+
+.noUi-target.noUi-horizontal .noUi-handle {
+    top: -7px;
+}
+
+.noUi-target .noUi-base .noUi-connect {
+    background: white;
+}
+
+.noUi-tooltip {
+    background: transparent;
+    color: white;
+    padding: 0;
+    border: none;
+    font-size: 12px;
+}
+
+/** Small iPads */
+@media only screen and (max-width: 812px) {
+    .value-item {
+        padding-left: 3em;
+        padding-right: 3em;
+        padding-top: 3em;
+    }
+
+    .item-content {
+        background: #2d2d2d;
+        padding-right: 10px;
+    }
+
+    .progress-section {
+        padding-left: 3em;
+        padding-right: 3em;
+    }
+
+    .symbol {
+        padding-left: 2em;
+    }
+
+    .price-section {
+        padding-left: 1em;
+        padding-right: 1em;
+        margin-top: 2em;
+    }
+
+    .pricing-container {
+        padding-left: 10px;
+    }
+}
+  
+/** Large Mobiles */
+@media only screen and (max-width: 767px) {
+    .value-item {
+        padding-left: 3em;
+        padding-right: 3em;
+        padding-top: 3em;
+    }
+
+    .item-content {
+        background: #2d2d2d;
+        padding-right: 10px;
+    }
+
+    .progress-section {
+        padding-left: 3em;
+        padding-right: 3em;
+    }
+
+    .symbol {
+        padding-left: 2em;
+    }
+
+    .price-section {
+        padding-left: 1em;
+        padding-right: 1em;
+        margin-top: 2em;
+    }
+
+    .pricing-container {
+        padding-left: 10px;
+    }
+}
+
+/** Mobile Devices */
+@media only screen and (max-width: 415px) { 
+    .value-item {
+        padding-left: 0em;
+        padding-right: 0em;
+        padding-top: 0em;
+    }
+
+    .item-content {
+        background: #2d2d2d;
+        padding-right: 10px;
+    }
+
+    .progress-section {
+        padding-left: 0.5em;
+        padding-right: 1em;
+    }
+
+    .symbol {
+        padding-left: 0.5em;
+    }
+
+    .price-section {
+        padding-left: 1em;
+        padding-right: 1em;
+        margin-top: 2em;
+    }
+
+    .pricing-container {
+        padding-left: 10px;
+    }    
+}
+
+@media only screen and (max-height: 415px) {
+}
+
+

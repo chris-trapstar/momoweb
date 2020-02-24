@@ -16,8 +16,13 @@
 
 .static-bar {
   background: #1a1c23;
-  padding-top: 1.5ex;
-  padding-bottom: 1.5ex;
+}
+
+.static-row {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .static-img {
@@ -106,6 +111,18 @@
 
 .tableFixHead thead th { position: sticky; top: 0; }
 
+.table td {
+  padding: 1rem 0.5rem;
+}
+
+.discovery-table {
+  overflow-y: auto;
+  height: calc(40vh);
+  margin-top: 10px;
+}
+
+.discovery-table thead th { position: sticky; top: 0; }
+
 table  { border-collapse: collapse; width: 100%; }
 
 th {
@@ -128,4 +145,110 @@ th {
 
 .bar-txt {
   margin-left: 1em;
+}
+
+.socket-table {
+  width: 65%;
+}
+
+.popular-table {
+  width: 35%;
+  padding-left: 15px;
+}
+
+.stock-text {
+  font-size: 18px;
+  text-align: center;
+}
+
+/** Small iPads */
+@media only screen and (max-width: 812px) {
+  .socket-table {
+    width: 100%;
+  }
+  
+  .popular-table {
+    width: 100%;
+    padding-left: 0px;
+  }
+
+  .tableFixHead {
+    overflow-y: auto;
+    height: calc(40vh);
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .stock-text {
+    font-size: 18px;
+    text-align: center;
+  }
+}
+
+/** Large Mobiles */
+@media only screen and (max-width: 767px) {
+  .socket-table {
+    width: 100%;
+  }
+  
+  .popular-table {
+    width: 100%;
+    padding-left: 0px;
+  }
+
+  .tableFixHead {
+    overflow-y: auto;
+    height: calc(40vh);
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .stock-text {
+    font-size: 14px;
+    text-align: center;
+  }
+}
+
+/** Mobile Devices */
+@media only screen and (max-width: 415px) { 
+  .socket-table {
+    width: 100%;
+  }
+  
+  .popular-table {
+    width: 100%;
+    padding-left: 0px;
+  }
+
+  .tableFixHead {
+    overflow-y: auto;
+    height: calc(40vh);
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .stock-text {
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .input-border {
+    outline: none !important;
+    border: 1px solid gray;
+    border-radius: 10px;
+    font-size: 13px;
+    height: 34px;
+    margin-top: 15px;
+  }
+
+  .mT15 {
+    margin-top: 15px;
+  }
+}
+
+@media only screen and (max-height: 415px) {
+  .tableFixHead {
+    overflow-y: auto;
+    height: calc(60vh);
+  }
 }

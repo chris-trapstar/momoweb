@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { ProgressBar } from 'react-bootstrap';
 import API from '../api';
 import './settings.css';
+import Nouislider from 'nouislider-react';
 
 export class Settings extends Component {
   constructor(props) {
@@ -17,11 +18,14 @@ export class Settings extends Component {
         { category: "SPY", rate: 25 }
       ],
       addingAlert: 0,
-      addingAlertProgress: 0
+      addingAlertProgress: 0,
+      isSmallDevice: window.matchMedia("(max-width: 768px)").matches
     };
   }
 
   componentDidMount() {
+    const handler = e => this.setState({ isSmallDevice: e.matches });
+    window.matchMedia("(max-width: 767px)").addListener(handler);
     this.getAlertSettings();
   }
 
@@ -34,6 +38,10 @@ export class Settings extends Component {
     });
   };
 
+  onUpdateFixedData = (render, handle, value, un, percent, data, type) => {
+    console.info(data, type);
+  }
+
   getFixedData = (data, type) => {
     /** type 0 -> High/Low, 1 -> Unusual Vol, 2 -> VWAP */
     let renderData = [];
@@ -44,12 +52,8 @@ export class Settings extends Component {
           key={`render-notification-high-low-${index}`}
         >
           <span className="small company-name">{category}</span>
-          <div className="row d-flex flex-fill justify-content-center align-items-center progress-section">
-            <ProgressBar
-              className="flex-fill progress"
-              variant="white"
-              now={rate}
-            />
+          <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
+            <Nouislider range={{ min: 0, max: 100 }} start={rate} connect={[false, false]} className="flex-fill slider-white" onUpdate={(render, handle, value, un, percent) => { this.onUpdateFixedData(render, handle, value, un, percent, data[index], type); }} />
             <div className="ml-3 bg-dark progress-value justify-content-center align-items-center text-center">
               {`${rate}${type !== 0 ? "%" : ""}`}
             </div>
@@ -132,14 +136,89 @@ export class Settings extends Component {
         <div>
           <label>General</label>
         </div>
-        <div className="ml-3 mt-3">
-          <label>High/Low</label>
-        </div>
-        <div className="ml-5 mt-3">
-          <h6 className="small">Price Range</h6>
-          <label className="mt-5 small">Volume</label>
-          <div>
-            <label className="mt-5 small">Industry</label>
+        <div className="value-item">
+          <div className="mx-0 justify-content-between align-items-center item-content mt-1 padding-bottom-30">
+            <div className="pricing-container">
+              <span className="small company-name">PRICE</span>
+              <div className="d-flex flex-row flex-fill price-section">
+                <Nouislider
+                  range={{ min: 0, max: 100 }}
+                  start={[20, 50]}
+                  connect
+                  tooltips={true}
+                  className="flex-fill slider-white"
+                  onUpdate={(render, handle, value, un, percent) => { }}
+                />
+              </div>
+              <div className="pricing-separator" />
+              <div className="small company-name-margin">AVG VOL</div>
+              <div className="d-flex flex-row flex-fill price-section">
+                <Nouislider
+                  range={{ min: 0, max: 100 }}
+                  start={[20, 50]}
+                  connect
+                  tooltips={true}
+                  className="flex-fill slider-white"
+                  onUpdate={(render, handle, value, un, percent) => { }}
+                />
+              </div>
+              <div className="pricing-separator" />
+            </div>
+            <div className="industry-container">
+              <div className="pricing-container">
+                <div className="small company-name-margin">INDUSTRY</div>
+              </div>
+              <div className="d-flex flex-row flex-wrap margin-top-10">
+                <div className="d-flex flex-row align-items-center industry-row">
+                  <div className="industry-checked" />
+                  <span className="small white-no-wrap industry-txt">BASIC INDUSTRIES</span>
+                </div>
+                <div className="d-flex flex-row align-items-center industry-row">
+                  <div className="industry-checked" />
+                  <span className="small white-no-wrap industry-txt">CAPITAL GOODS</span>
+                </div>
+                <div className="d-flex flex-row align-items-center industry-row">
+                  <div className="industry-checked" />
+                  <span className="small white-no-wrap industry-txt">CONSUMER GOODS</span>
+                </div>
+                <div className="d-flex flex-row align-items-center industry-row">
+                  <div className="industry-checked" />
+                  <span className="small white-no-wrap industry-txt">CONSUMER SERVICES</span>
+                </div>
+                <div className="d-flex flex-row align-items-center industry-row">
+                  <div className="industry-checked" />
+                  <span className="small white-no-wrap industry-txt">ENERGY</span>
+                </div>
+                <div className="d-flex flex-row align-items-center industry-row">
+                  <div className="industry-checked" />
+                  <span className="small white-no-wrap industry-txt">FINANCE</span>
+                </div>
+                <div className="d-flex flex-row align-items-center industry-row">
+                  <div className="industry-checked" />
+                  <span className="small white-no-wrap industry-txt">HEALTH CARE</span>
+                </div>
+                <div className="d-flex flex-row align-items-center industry-row">
+                  <div className="industry-checked" />
+                  <span className="small white-no-wrap industry-txt">PUBLIC UTILITIES</span>
+                </div>
+                <div className="d-flex flex-row align-items-center industry-row">
+                  <div className="industry-checked" />
+                  <span className="small white-no-wrap industry-txt">TECHNOLOGY</span>
+                </div>
+                <div className="d-flex flex-row align-items-center industry-row">
+                  <div className="industry-checked" />
+                  <span className="small white-no-wrap industry-txt">TRANSPORTATION</span>
+                </div>
+                <div className="d-flex flex-row align-items-center industry-row">
+                  <div className="industry-checked" />
+                  <span className="small white-no-wrap industry-txt">MISCELLANEOUS</span>
+                </div>
+                <div className="d-flex flex-row align-items-center industry-row">
+                  <div className="industry-unchecked" />
+                  <span className="small white-no-wrap industry-txt">OTC</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -151,7 +230,7 @@ export class Settings extends Component {
           {/** Notifications -> High/Low */}
           <div className="value-item">
             <label className="small">High/Low</label>
-            <div className="row justify-content-between align-items-center mx-0 symbol mt-1">
+            <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
               <label className="small text-symbol">Symbol</label>
               <label className="small text-symbol">Sensitivity</label>
               <button
@@ -162,7 +241,7 @@ export class Settings extends Component {
               >
                 <label className="small text-alert cursor-pointer">
                   Add Alert
-                </label>
+                    </label>
               </button>
             </div>
             {addingAlert === 1 && (
@@ -177,11 +256,16 @@ export class Settings extends Component {
                     }
                   }}
                 />
-                <div className="row d-flex flex-fill justify-content-center align-items-center progress-section">
-                  <ProgressBar
-                    className="flex-fill progress"
-                    variant="white"
-                    now={addingAlertProgress}
+                <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
+                  <Nouislider
+                    range={{ min: 0, max: 100 }}
+                    start={addingAlertProgress}
+                    connect={[false, false]}
+                    className="flex-fill slider-white"
+                    onUpdate={(render, handle, value, un, percent) => {
+                      this.setState({ addingAlertProgress: parseFloat(percent).toFixed(2) });
+                      this.refLowVal.value = parseFloat(percent).toFixed(2);
+                    }}
                   />
                   <input
                     placeholder="Sensitivity"
@@ -220,7 +304,7 @@ export class Settings extends Component {
           {/** Notifications -> Unusual Vol */}
           <div className="value-item">
             <label className="small">Unusual Vol</label>
-            <div className="row justify-content-between align-items-center mx-0 symbol mt-1">
+            <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
               <label className="small text-symbol">Symbol</label>
               <label className="small text-symbol">% Deviation</label>
               <button
@@ -231,7 +315,7 @@ export class Settings extends Component {
               >
                 <label className="small text-alert cursor-pointer">
                   Add Alert
-                </label>
+                    </label>
               </button>
             </div>
             {addingAlert === 2 && (
@@ -243,11 +327,16 @@ export class Settings extends Component {
                     this.refVolName = ref;
                   }}
                 />
-                <div className="row d-flex flex-fill justify-content-center align-items-center progress-section">
-                  <ProgressBar
-                    className="flex-fill progress"
-                    variant="white"
-                    now={addingAlertProgress}
+                <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
+                  <Nouislider
+                    range={{ min: 0, max: 100 }}
+                    start={addingAlertProgress}
+                    connect={[false, false]}
+                    className="flex-fill slider-white"
+                    onUpdate={(render, handle, value, un, percent) => {
+                      this.setState({ addingAlertProgress: parseFloat(percent).toFixed(2) });
+                      this.refVolVal.value = parseFloat(percent).toFixed(2);
+                    }}
                   />
                   <input
                     placeholder="Deviation"
@@ -313,7 +402,7 @@ export class Settings extends Component {
               >
                 <label className="small text-alert cursor-pointer">
                   Add Alert
-                </label>
+                    </label>
               </button>
             </div>
             {addingAlert === 3 && (
@@ -325,11 +414,16 @@ export class Settings extends Component {
                     this.refWapName = ref;
                   }}
                 />
-                <div className="row d-flex flex-fill justify-content-center align-items-center progress-section">
-                  <ProgressBar
-                    className="flex-fill progress"
-                    variant="white"
-                    now={addingAlertProgress}
+                <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
+                  <Nouislider
+                    range={{ min: 0, max: 100 }}
+                    start={addingAlertProgress}
+                    connect={[false, false]}
+                    className="flex-fill slider-white"
+                    onUpdate={(render, handle, value, un, percent) => {
+                      this.setState({ addingAlertProgress: parseFloat(percent).toFixed(2) });
+                      this.refWapVal.value = parseFloat(percent).toFixed(2);
+                    }}
                   />
                   <input
                     placeholder="Dist"

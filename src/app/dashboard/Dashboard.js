@@ -46,6 +46,8 @@ export class Dashboard extends Component {
   }
 
   componentDidMount() {
+    const handler = e => this.setState({ isSmallDevice: e.matches });
+    window.matchMedia("(max-width: 767px)").addListener(handler);
     this.listenTrade();
     this._updateStatusBar();
     this.buffer = [];
@@ -96,13 +98,25 @@ export class Dashboard extends Component {
     }
 
     return {
-
       highs: [],
       lows: [],
       bars: [1, 0.6, -1],
       filter: filter,
       stats: [],
-      popoverOpened: false
+      popoverOpened: false,
+      stockCards: [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ],
+      isSmallDevice: window.matchMedia("(max-width: 768px)").matches
     };
   };
 
@@ -162,10 +176,10 @@ export class Dashboard extends Component {
     bars = bars
       ? bars
       : [
-          this.getRandomArbitrary(-1, 1),
-          this.getRandomArbitrary(-1, 1),
-          this.getRandomArbitrary(-1, 1)
-        ];
+        this.getRandomArbitrary(-1, 1),
+        this.getRandomArbitrary(-1, 1),
+        this.getRandomArbitrary(-1, 1)
+      ];
     this.setState({
       bars: bars
     });
@@ -207,7 +221,7 @@ export class Dashboard extends Component {
     console.log("flush buffer");
     let highs = this.state.highs.slice();
     let lows = this.state.lows.slice();
-    this.buffer.forEach(function(item, i, arr) {
+    this.buffer.forEach(function (item, i, arr) {
       highs = item.highs.concat(highs).slice(0, 100);
       lows = item.lows.concat(lows).slice(0, 100);
     });
@@ -227,6 +241,7 @@ export class Dashboard extends Component {
   };
 
   getData = (data, type) => {
+    const { isSmallDevice } = this.state;
     let renderData = [];
     let renderMenuItems = [];
     if (type === "low") {
@@ -237,10 +252,23 @@ export class Dashboard extends Component {
             renderTag="tr"
             id={`low-context-menu_${index}`}
             key={`low_${index}`}
+            className="d-flex flex-row"
           >
-            <td className="text-danger">{low[0]}</td>
-            <td className="text-danger">{low[2]}</td>
-            <td className="text-danger">{this.getLast(low[6], low[1])}</td>
+            <td className="text-danger flex-fill">
+              <div className="stock-text">
+                {low[0]}
+              </div>
+            </td>
+            <td className="text-danger flex-fill">
+              <div className="stock-text">
+                {low[2]}
+              </div>
+            </td>
+            <td className="text-danger flex-fill">
+              <div className="stock-text">
+                {this.getLast(low[6], low[1])}
+              </div>
+            </td>
           </ContextMenuTrigger>
         );
 
@@ -257,10 +285,23 @@ export class Dashboard extends Component {
             renderTag="tr"
             id={`high-context-menu_${index}`}
             key={`high_${index}`}
+            className="d-flex flex-row"
           >
-            <td className="text-success">{high[0]}</td>
-            <td className="text-success">{high[2]}</td>
-            <td className="text-success">{this.getLast(high[6], high[1])}</td>
+            <td className="text-success flex-fill">
+              <div className="stock-text">
+                {high[0]}
+              </div>
+            </td>
+            <td className="text-success flex-fill">
+              <div className="stock-text">
+                {high[2]}
+              </div>
+            </td>
+            <td className="text-success flex-fill">
+              <div className="stock-text">
+                {this.getLast(high[6], high[1])}
+              </div>
+            </td>
           </ContextMenuTrigger>
         );
 
@@ -273,19 +314,72 @@ export class Dashboard extends Component {
     return (
       <div className="col-md-6 tableFixHead">
         <table className="table table-striped">
-          <thead>
-            <tr>
-              <th className="text-white"> SYMBOL </th>
-              <th className="text-white"> COUNT </th>
-              <th className="text-white"> LAST </th>
-            </tr>
-          </thead>
+          {
+            !isSmallDevice &&
+            <thead>
+              <tr>
+                <th className="text-white"> SYMBOL </th>
+                <th className="text-white"> COUNT </th>
+                <th className="text-white"> LAST </th>
+              </tr>
+            </thead>
+          }
           <tbody>{renderData}</tbody>
         </table>
         {renderMenuItems}
       </div>
     );
   };
+
+  getStockCards = () => {
+    const { stockCards } = this.state;
+    let renderCards = [];
+    stockCards.map((item, index) => {
+      const margin = index === 0 ? "" : "ml-3"
+      renderCards.push(
+        <div className={margin} key={'render-cards-' + index}>
+          <div className="card ant-card-loading-block p-1">
+            <div className="d-flex flex-row-reverse">
+              <img
+                className="img-15"
+                src={require("../../assets/images/dashboard/star.jpg")}
+                alt="face"
+              />
+            </div>
+            <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
+              <div className="d-flex align-items-center align-self-start">
+                <label className="mb-0 font-weight-bold font-20">
+                  $31.53
+                </label>
+                <label className="text-success ml-2 mb-0 font-10">
+                  +3.5%
+                </label>
+              </div>
+              <div className="icon icon-box-success img-30 ml-5">
+                <span className="mdi mdi-arrow-top-right icon-item font-15" />
+              </div>
+            </div>
+            <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
+              <label className="font-12 dash-font-color">AAPL</label>
+              <div className="d-flex flex-row mt-1">
+                <label className="font-13 white-color">H:</label>
+                <label className="font-13 dash-font-color ml-1">
+                  34:22
+                </label>
+              </div>
+              <div className="d-flex flex-row mt-1">
+                <label className="font-13 white-color">L:</label>
+                <label className="font-13 dash-font-color ml-1">
+                  10.99
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    })
+    return renderCards;
+  }
 
   getMenuItems = (key, data, type) => {
     return (
@@ -365,7 +459,7 @@ export class Dashboard extends Component {
           Added {data[0]}
         </div>
       );
-    }).catch(error => {})
+    }).catch(error => { })
   };
 
   // requestNotificationPermissions = async () => {
@@ -401,21 +495,21 @@ export class Dashboard extends Component {
   // };
 
   render() {
-    const { lows, highs } = this.state;
+    const { lows, highs, isSmallDevice } = this.state;
     return (
       <div>
-        <div className="row px-3">
+        <div className="row">
           <div className="col-12 grid-margin stretch-card px-0">
-            <div className="card-body py-0 px-0 px-sm-0">
+            <div className="col-12 card-body py-0 px-0">
               {/** Static Bar */}
-              <div className="row static-bar">
-                <div className="row align-items-center ml-3">
+              <div className="d-flex align-content-start flex-wrap static-bar">
+                <div className="d-flex flex-row align-items-center static-row">
                   <span className="bar-icon">
                     <i className="mdi mdi-speedometer text-primary" />
                   </span>
                   <span className="small white-no-wrap bar-txt">STREAM</span>
                 </div>
-                <div className="row align-items-center ml-5">
+                <div className="d-flex flex-row align-items-center static-row">
                   <span className="bar-icon">
                     <i className="mdi mdi-file-restore text-success" />
                   </span>
@@ -423,25 +517,25 @@ export class Dashboard extends Component {
                     ALERT HISTORY
                   </span>
                 </div>
-                <div className="row align-items-center ml-5">
+                <div className="d-flex flex-row align-items-center static-row">
                   <span className="bar-icon">
                     <i className="mdi mdi-crosshairs-gps text-warning" />
                   </span>
                   <span className="small white-no-wrap bar-txt">BREADTH</span>
                 </div>
-                <div className="row align-items-center ml-5">
+                <div className="d-flex flex-row align-items-center static-row">
                   <span className="bar-icon">
                     <i className="mdi mdi-clipboard-text text-danger" />
                   </span>
                   <span className="small white-no-wrap bar-txt">POPULAR</span>
                 </div>
-                <div className="row align-items-center ml-5">
+                <div className="d-flex flex-row align-items-center static-row">
                   <span className="bar-icon">
                     <i className="mdi mdi-chart-bar text-primary" />
                   </span>
                   <span className="small white-no-wrap bar-txt">QUOTE</span>
                 </div>
-                <div className="row align-items-center ml-5">
+                <div className="d-flex flex-row align-items-center static-row">
                   <span className="bar-icon">
                     <i className="mdi mdi-content-copy text-success" />
                   </span>
@@ -451,219 +545,33 @@ export class Dashboard extends Component {
 
               {/** Popular Stocks */}
               <div className="container-fluid px-0 data-section-large">
-                <div className="row flex-row flex-nowrap overflow-scroll">
-                  <div className="col-xl-3 col-md-4 col-sm-6 pl-0">
-                    <div className="card p-1">
-                      <div className="d-flex flex-row-reverse">
-                        <img
-                          className="img-15"
-                          src={require("../../assets/images/dashboard/star.jpg")}
-                          alt="face"
-                        />
-                      </div>
-                      <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
-                        <div className="d-flex align-items-center align-self-start">
-                          <label className="mb-0 font-weight-bold font-20">
-                            $31.53
-                          </label>
-                          <label className="text-success ml-2 mb-0 font-10">
-                            +3.5%
-                          </label>
-                        </div>
-                        <div className="icon icon-box-success img-30">
-                          <span className="mdi mdi-arrow-top-right icon-item font-15" />
-                        </div>
-                      </div>
-                      <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
-                        <label className="font-12 dash-font-color">AAPL</label>
-                        <div className="d-flex flex-row mt-1">
-                          <label className="font-13 white-color">H:</label>
-                          <label className="font-13 dash-font-color ml-1">
-                            34:22
-                          </label>
-                        </div>
-                        <div className="d-flex flex-row mt-1">
-                          <label className="font-13 white-color">L:</label>
-                          <label className="font-13 dash-font-color ml-1">
-                            10.99
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-xl-3 col-md-4 col-sm-6">
-                    <div className="card ant-card-loading-block p-1">
-                      <div className="d-flex flex-row-reverse">
-                        <img
-                          className="img-15"
-                          src={require("../../assets/images/dashboard/star.jpg")}
-                          alt="face"
-                        />
-                      </div>
-                      <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
-                        <div className="d-flex align-items-center align-self-start">
-                          <label className="mb-0 font-weight-bold font-20">
-                            $31.53
-                          </label>
-                          <label className="text-success ml-2 mb-0 font-10">
-                            +3.5%
-                          </label>
-                        </div>
-                        <div className="icon icon-box-success img-30">
-                          <span className="mdi mdi-arrow-top-right icon-item font-15" />
-                        </div>
-                      </div>
-                      <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
-                        <label className="font-12 dash-font-color">AAPL</label>
-                        <div className="d-flex flex-row mt-1">
-                          <label className="font-13 white-color">H:</label>
-                          <label className="font-13 dash-font-color ml-1">
-                            34:22
-                          </label>
-                        </div>
-                        <div className="d-flex flex-row mt-1">
-                          <label className="font-13 white-color">L:</label>
-                          <label className="font-13 dash-font-color ml-1">
-                            10.99
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-xl-3 col-md-4 col-sm-6">
-                    <div className="card ant-card-loading-block p-1">
-                      <div className="d-flex flex-row-reverse">
-                        <img
-                          className="img-15"
-                          src={require("../../assets/images/dashboard/star.jpg")}
-                          alt="face"
-                        />
-                      </div>
-                      <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
-                        <div className="d-flex align-items-center align-self-start">
-                          <label className="mb-0 font-weight-bold font-20">
-                            $31.53
-                          </label>
-                          <label className="text-success ml-2 mb-0 font-10">
-                            +3.5%
-                          </label>
-                        </div>
-                        <div className="icon icon-box-success img-30">
-                          <span className="mdi mdi-arrow-top-right icon-item font-15" />
-                        </div>
-                      </div>
-                      <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
-                        <label className="font-12 dash-font-color">AAPL</label>
-                        <div className="d-flex flex-row mt-1">
-                          <label className="font-13 white-color">H:</label>
-                          <label className="font-13 dash-font-color ml-1">
-                            34:22
-                          </label>
-                        </div>
-                        <div className="d-flex flex-row mt-1">
-                          <label className="font-13 white-color">L:</label>
-                          <label className="font-13 dash-font-color ml-1">
-                            10.99
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-xl-3 col-md-4 col-sm-6">
-                    <div className="card ant-card-loading-block p-1">
-                      <div className="d-flex flex-row-reverse">
-                        <img
-                          className="img-15"
-                          src={require("../../assets/images/dashboard/star.jpg")}
-                          alt="face"
-                        />
-                      </div>
-                      <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
-                        <div className="d-flex align-items-center align-self-start">
-                          <label className="mb-0 font-weight-bold font-20">
-                            $31.53
-                          </label>
-                          <label className="text-success ml-2 mb-0 font-10">
-                            +3.5%
-                          </label>
-                        </div>
-                        <div className="icon icon-box-success img-30">
-                          <span className="mdi mdi-arrow-top-right icon-item font-15" />
-                        </div>
-                      </div>
-                      <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
-                        <label className="font-12 dash-font-color">AAPL</label>
-                        <div className="d-flex flex-row mt-1">
-                          <label className="font-13 white-color">H:</label>
-                          <label className="font-13 dash-font-color ml-1">
-                            34:22
-                          </label>
-                        </div>
-                        <div className="d-flex flex-row mt-1">
-                          <label className="font-13 white-color">L:</label>
-                          <label className="font-13 dash-font-color ml-1">
-                            10.99
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="col-xl-3 col-md-4 col-sm-6">
-                    <div className="card ant-card-loading-block p-1">
-                      <div className="d-flex flex-row-reverse">
-                        <img
-                          className="img-15"
-                          src={require("../../assets/images/dashboard/star.jpg")}
-                          alt="face"
-                        />
-                      </div>
-                      <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
-                        <div className="d-flex align-items-center align-self-start">
-                          <label className="mb-0 font-weight-bold font-20">
-                            $31.53
-                          </label>
-                          <label className="text-success ml-2 mb-0 font-10">
-                            +3.5%
-                          </label>
-                        </div>
-                        <div className="icon icon-box-success img-30">
-                          <span className="mdi mdi-arrow-top-right icon-item font-15" />
-                        </div>
-                      </div>
-                      <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
-                        <label className="font-12 dash-font-color">AAPL</label>
-                        <div className="d-flex flex-row mt-1">
-                          <label className="font-13 white-color">H:</label>
-                          <label className="font-13 dash-font-color ml-1">
-                            34:22
-                          </label>
-                        </div>
-                        <div className="d-flex flex-row mt-1">
-                          <label className="font-13 white-color">L:</label>
-                          <label className="font-13 dash-font-color ml-1">
-                            10.99
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div className="d-flex flex-row flex-nowrap overflow-scroll">
+                  {this.getStockCards()}
                 </div>
               </div>
 
               {/** Table | (Popular vs Alert History) */}
-              <div className="row data-section-large">
-                <div className="col-md-8 grid-margin stretch-card px-0">
+              <div className="d-flex flex-row data-section-large flex-wrap">
+                <div className="grid-margin stretch-card px-0 flex-fill socket-table">
                   <div className="card">
-                    <div className="card-body">
-                      <div className="row">
-                        {this.getData(lows, "low")}
-                        {this.getData(highs, "high")}
-                      </div>
-                    </div>
+                    {
+                      isSmallDevice ?
+                        <div className="d-flex flex-row">
+                          {this.getData(lows, "low")}
+                          {this.getData(highs, "high")}
+                        </div>
+                        :
+                        <div className="card-body">
+                          <div className="row">
+                            {this.getData(lows, "low")}
+                            {this.getData(highs, "high")}
+                          </div>
+                        </div>
+                    }
+
                   </div>
                 </div>
-                <div className="col-md-4 grid-margin stretch-card column-flex pr-0">
+                <div className="grid-margin stretch-card column-flex pr-0 popular-table">
                   <div className="card">
                     <div className="card-body">
                       <div className="d-flex flex-row justify-content-between">
@@ -694,13 +602,13 @@ export class Dashboard extends Component {
               </div>
 
               {/** Discovery */}
-              <div className="row data-section">
+              <div className="d-flex flex-row data-section">
                 <div className="col-12 px-0">
                   <div className="card">
                     <div className="card-body">
-                      <div className="d-flex flex-row justify-content-between text-center">
+                      <div className="d-flex flex-row justify-content-between text-center flex-wrap">
                         <h4 className="card-title mb-1 py-1">Discovery</h4>
-                        <div className="row">
+                        <div className="d-flex flex-row mT15">
                           <span className="border border-radius-10">
                             <div className="button btn-dark px-4 py-1 border-radius-10">
                               Industry
@@ -712,46 +620,47 @@ export class Dashboard extends Component {
                             </div>
                           </span>
                         </div>
-                        <div />
-                        <div />
                         <input
                           className="input p-0 text-center bg-dark white-color input-border"
                           placeholder="symbol search"
                         />
                       </div>
 
-                      <table className="table table-striped data-section">
-                        <thead>
-                          <tr>
-                            <th className="text-center"> SYMBOL </th>
-                            <th className="text-center"> LAST </th>
-                            <th className="text-center"> VOLUME </th>
-                            <th className="text-center"> Momentum </th>
-                            <th className="text-center"> Unusual Vol </th>
-                            <th className="text-center"> VWAP DIST %</th>
-                            <th className="text-center"> Short %</th>
-                            <th className="text-center"> Actions</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {
-                            this.state.stats.map((stock) => {
-                              return <tr>
-                              <td className="text-white font-weight-bold text-center">
-                                { stock.symbol }
-                              </td>
-                              <td className="text-center">{ stock.priorDayLast}</td>
-                              <td className="text-center"> { 'Unknown' /* No Volume*/}</td>
-                              <td className="text-success text-center">+121</td>
-                              <td className="text-success text-center">+18%</td>
-                              <td className="text-success text-center">+18%</td>
-                              <td className="text-center">25%</td>
-                              <td className="text-center">* ^</td>
+                      {/** Discovery Table */}
+                      <div className="discovery-table">
+                        <table className="table table-striped">
+                          <thead>
+                            <tr>
+                              <th className="text-center"> SYMBOL </th>
+                              <th className="text-center"> LAST </th>
+                              <th className="text-center"> VOLUME </th>
+                              <th className="text-center"> Momentum </th>
+                              <th className="text-center"> Unusual Vol </th>
+                              <th className="text-center"> VWAP DIST %</th>
+                              <th className="text-center"> Short %</th>
+                              <th className="text-center"> Actions</th>
                             </tr>
-                            })
-                          }
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {
+                              this.state.stats.map((stock, index) => {
+                                return <tr key={"discovery-table-" + index}>
+                                  <td className="text-white font-weight-bold text-center">
+                                    {stock.symbol}
+                                  </td>
+                                  <td className="text-center">{stock.priorDayLast}</td>
+                                  <td className="text-center"> {'Unknown' /* No Volume*/}</td>
+                                  <td className="text-success text-center">+121</td>
+                                  <td className="text-success text-center">+18%</td>
+                                  <td className="text-success text-center">+18%</td>
+                                  <td className="text-center">25%</td>
+                                  <td className="text-center">* ^</td>
+                                </tr>
+                              })
+                            }
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                 </div>
