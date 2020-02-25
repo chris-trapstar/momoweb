@@ -6,6 +6,10 @@
   margin-top: 2em;
 }
 
+.data-section-small {
+  margin-top: 0.5em;
+}
+
 .popular {
   margin-left: 1em;
 }
@@ -216,6 +220,22 @@ th {
   font-size: 11px;
   margin: 0;
   white-space: nowrap;
+}
+
+.swiper-slide {
+  width: 250px !important;
+}
+
+.swiper-container {
+  margin-top: 20px;
+}
+
+.swiper-pagination-bullet {
+  background: white !important;
+}
+
+.bullets-section {
+  height: 35px;
 }
 
 /** Small iPads */

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
-import ReactDOM from 'react-dom';
 import io from "socket.io-client";
 import "./dashboard.css";
 import API from '../api';
 import cogoToast from 'cogo-toast';
-
+import Swiper from 'react-id-swiper';
+import 'swiper/css/swiper.css';
 // import * as firebase from "firebase/app";
 
 const socketHost = "https://momoweb.mometic.com";
@@ -39,6 +39,15 @@ const filter = {
   price: { min: 0, max: 2000 },
   volume: { min: 0, max: 200000000 }
 };
+const params = {
+  slidesPerView: 'auto',
+  spaceBetween: 20,
+  pagination: {
+    el: '.swiper-pagination',
+    clickable: true
+  }
+}
+
 
 export class Dashboard extends Component {
   constructor(props) {
@@ -352,10 +361,9 @@ export class Dashboard extends Component {
     const { stockCards } = this.state;
     let renderCards = [];
     stockCards.map((item, index) => {
-      const margin = index === 0 ? "" : "ml-3"
       renderCards.push(
-        <div className={margin} key={'render-cards-' + index}>
-          <div className="card ant-card-loading-block p-1">
+        <div key={'render-cards' + index}>
+          <div className="card p-1">
             <div className="d-flex flex-row-reverse">
               <img
                 className="img-15"
@@ -367,10 +375,10 @@ export class Dashboard extends Component {
               <div className="d-flex align-items-center align-self-start">
                 <label className="mb-0 font-weight-bold font-20">
                   $31.53
-                </label>
+                        </label>
                 <label className="text-success ml-2 mb-0 font-10">
                   +3.5%
-                </label>
+                        </label>
               </div>
               <div className="icon icon-box-success img-30 ml-5">
                 <span className="mdi mdi-arrow-top-right icon-item font-15" />
@@ -382,16 +390,17 @@ export class Dashboard extends Component {
                 <label className="font-13 white-color">H:</label>
                 <label className="font-13 dash-font-color ml-1">
                   34:22
-                </label>
+                        </label>
               </div>
               <div className="d-flex flex-row mt-1">
                 <label className="font-13 white-color">L:</label>
                 <label className="font-13 dash-font-color ml-1">
                   10.99
-                </label>
+                        </label>
               </div>
             </div>
           </div>
+          <div className="bullets-section"/>
         </div>
       )
     })
@@ -512,7 +521,6 @@ export class Dashboard extends Component {
   // };
 
   onIndustry = () => {
-    console.info(this.state.bars);
   }
 
   renderMeters = (type) => {
@@ -628,14 +636,14 @@ export class Dashboard extends Component {
               </div>
 
               {/** Popular Stocks */}
-              <div className="container-fluid px-0 data-section-large">
-                <div className="d-flex flex-row flex-nowrap overflow-scroll">
+              <div className="swiper-container">
+                <Swiper {...params}>
                   {this.getStockCards()}
-                </div>
+                </Swiper>
               </div>
 
               {/** Table | (Popular vs Alert History) */}
-              <div className="d-flex flex-row data-section-large flex-wrap">
+              <div className="d-flex flex-row data-section-small flex-wrap">
                 <div className="grid-margin stretch-card px-0 flex-fill socket-table">
                   <div className="card">
                     {
