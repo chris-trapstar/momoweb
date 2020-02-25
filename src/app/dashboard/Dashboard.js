@@ -400,7 +400,7 @@ export class Dashboard extends Component {
               </div>
             </div>
           </div>
-          <div className="bullets-section"/>
+          <div className="bullets-section" />
         </div>
       )
     })
@@ -744,7 +744,7 @@ export class Dashboard extends Component {
                                   <td className="text-center"> {stock.avgVolume /* No Volume*/}</td>
                                   <td className="text-success text-center">+121</td>
                                   <td className="text-success text-center">+18%</td>
-                                  <td className="text-success text-center">+18%</td>
+                                  <td className={`${stock.VWAP_DIST > 0 ? 'text-success' : (stock.VWAP_DIST < 0 ? 'text-danger' : 'text-secondary')} text-center`}>{isNaN(stock.VWAP_DIST) ? '_' : ((stock.VWAP_DIST > 0 ? '+' : '') + `${stock.VWAP_DIST}%`)}</td>
                                   <td className="text-center">25%</td>
                                   <td className="text-center">* ^</td>
                                 </tr>
