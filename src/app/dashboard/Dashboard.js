@@ -151,6 +151,7 @@ export class Dashboard extends Component {
   };
 
   _handleData = data => {
+    console.info('compressedUpdate:', data)
     let msg = data[0];
     let highs = msg[1];
     let lows = msg[2];
@@ -640,14 +641,14 @@ export class Dashboard extends Component {
                     {
                       isSmallDevice ?
                         <div className="d-flex flex-row">
-                          {/* {this.getData(lows, "low")}
-                          {this.getData(highs, "high")} */}
+                          {this.getData(lows, "low")}
+                          {this.getData(highs, "high")}
                         </div>
                         :
                         <div className="card-body">
                           <div className="row">
-                            {/* {this.getData(lows, "low")}
-                            {this.getData(highs, "high")} */}
+                            {this.getData(lows, "low")}
+                            {this.getData(highs, "high")}
                           </div>
                         </div>
                     }
@@ -711,7 +712,7 @@ export class Dashboard extends Component {
 
                       {/** Discovery Table */}
                       <div className="discovery-table">
-                        <table className="table table-striped">
+                        <table className="table table-striped data-section">
                           <thead>
                             <tr>
                               <th className="text-center"> SYMBOL </th>
@@ -726,20 +727,20 @@ export class Dashboard extends Component {
                           </thead>
                           <tbody>
                             {
-                              // this.state.stats.map((stock, index) => {
-                              //   return <tr key={"discovery-table-" + index}>
-                              //     <td className="text-white font-weight-bold text-center">
-                              //       {stock.symbol}
-                              //     </td>
-                              //     <td className="text-center">{stock.priorDayLast}</td>
-                              //     <td className="text-center"> {'Unknown' /* No Volume*/}</td>
-                              //     <td className="text-success text-center">+121</td>
-                              //     <td className="text-success text-center">+18%</td>
-                              //     <td className="text-success text-center">+18%</td>
-                              //     <td className="text-center">25%</td>
-                              //     <td className="text-center">* ^</td>
-                              //   </tr>
-                              // })
+                              this.state.stats.map((stock, index) => {
+                                return <tr key={"discovery-table-" + index}>
+                                  <td className="text-white font-weight-bold text-center">
+                                    {stock.symbol}
+                                  </td>
+                                  <td className="text-center">{stock.priorDayLast}</td>
+                                  <td className="text-center"> {stock.avgVolume /* No Volume*/}</td>
+                                  <td className="text-success text-center">+121</td>
+                                  <td className="text-success text-center">+18%</td>
+                                  <td className="text-success text-center">+18%</td>
+                                  <td className="text-center">25%</td>
+                                  <td className="text-center">* ^</td>
+                                </tr>
+                              })
                             }
                           </tbody>
                         </table>
