@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
+import ReactDOM from 'react-dom';
 import io from "socket.io-client";
 import "./dashboard.css";
 import API from '../api';
@@ -46,6 +47,8 @@ export class Dashboard extends Component {
   }
 
   componentDidMount() {
+    window.addEventListener("resize", this.updateDimensions);
+    this.updateDimensions();
     const handler = e => this.setState({ isSmallDevice: e.matches });
     window.matchMedia("(max-width: 767px)").addListener(handler);
     this.listenTrade();
@@ -54,6 +57,18 @@ export class Dashboard extends Component {
     this.flushBufferIntervalId = setInterval(this.flushBuffer, 2000);
     // this.requestNotificationPermissions().then(r => {});
     this.getStats();
+  }
+
+  updateDimensions = () => {
+    let restSpace = 300;
+    const width = this.container.offsetWidth;
+    if (width < 415) {
+      restSpace = 30;
+    } else if (width < 900) {
+      restSpace = 150;
+    }
+    const total = Math.ceil((this.container.offsetWidth - restSpace - 160) / 20);
+    this.setState({ total });
   }
 
   componentWillUnmount() {
@@ -116,7 +131,8 @@ export class Dashboard extends Component {
         {},
         {}
       ],
-      isSmallDevice: window.matchMedia("(max-width: 768px)").matches
+      isSmallDevice: window.matchMedia("(max-width: 768px)").matches,
+      total: 0
     };
   };
 
@@ -494,15 +510,82 @@ export class Dashboard extends Component {
   //   }
   // };
 
+  onIndustry = () => {
+    console.info(this.state.bars);
+  }
+
+  renderMeters = (type) => {
+    const { bars, total } = this.state;
+    const statClass = "statsbar " + type;
+    let divs = [];
+    for (let i = bars.length - 1; i >= 0; i--) {
+      var carres = [];
+      var value = bars[i] == -1 ? 0 : bars[i];
+
+      if (type == 'lows') {
+        if (value <= 0) {
+          value = Math.abs(value);
+        } else {
+          value = 1 - value;
+        }
+      } else {
+        if (value < 0) {
+          value = value + 1;
+        }
+      }
+
+      for (var o = total; o >= 0; o--) {
+        var mult = type == 'lows' ? Math.ceil(total * value) : Math.floor(total * value)
+        var active = mult >= o && value != 0;
+        let carreClass = "petitCarre-";
+        if (active) {
+          carreClass = carreClass + "active"
+          if (type == 'highs') {
+            carreClass = carreClass + "-high"
+          }
+        } else {
+          carreClass = carreClass + "inactive"
+        }
+        carres.push(
+          <div className={carreClass} key={o}></div>
+        )
+      }
+
+      if (type == 'highs') {
+        carres = carres.reverse();
+      }
+
+      divs.push(
+        <div className="d-flex carreContainer" key={i}>{carres}</div>
+      );
+    }
+
+    return (
+      <div className={statClass}>
+        {divs.reverse()}
+      </div>
+    )
+  }
+
   render() {
     const { lows, highs, isSmallDevice } = this.state;
     return (
       <div>
-        <div className="row">
+        <div className="row" ref={ref => { this.container = ref; }}>
           <div className="col-12 grid-margin stretch-card px-0">
             <div className="col-12 card-body py-0 px-0">
+              {/** Meters Bar */}
+              <div className="d-flex flex-row justify-content-center">
+                {this.renderMeters('lows')}
+                <div className='logo'>
+                  <h1>MOMO</h1>
+                  <h2>PROFIT FROM MOMENTUM</h2>
+                </div>
+                {this.renderMeters('highs')}
+              </div>
+
               {/** Static Bar */}
-              <div className="d-flex align-content-start flex-wrap static-bar">
+              <div className="d-flex align-content-start flex-wrap static-bar mt-3">
                 <div className="d-flex flex-row align-items-center static-row">
                   <span className="bar-icon">
                     <i className="mdi mdi-speedometer text-primary" />
@@ -557,14 +640,14 @@ export class Dashboard extends Component {
                     {
                       isSmallDevice ?
                         <div className="d-flex flex-row">
-                          {this.getData(lows, "low")}
-                          {this.getData(highs, "high")}
+                          {/* {this.getData(lows, "low")}
+                          {this.getData(highs, "high")} */}
                         </div>
                         :
                         <div className="card-body">
                           <div className="row">
-                            {this.getData(lows, "low")}
-                            {this.getData(highs, "high")}
+                            {/* {this.getData(lows, "low")}
+                            {this.getData(highs, "high")} */}
                           </div>
                         </div>
                     }
@@ -610,7 +693,7 @@ export class Dashboard extends Component {
                         <h4 className="card-title mb-1 py-1">Discovery</h4>
                         <div className="d-flex flex-row mT15">
                           <span className="border border-radius-10">
-                            <div className="button btn-dark px-4 py-1 border-radius-10">
+                            <div className="button btn-dark px-4 py-1 border-radius-10" onClick={this.onIndustry}>
                               Industry
                             </div>
                           </span>
@@ -643,20 +726,20 @@ export class Dashboard extends Component {
                           </thead>
                           <tbody>
                             {
-                              this.state.stats.map((stock, index) => {
-                                return <tr key={"discovery-table-" + index}>
-                                  <td className="text-white font-weight-bold text-center">
-                                    {stock.symbol}
-                                  </td>
-                                  <td className="text-center">{stock.priorDayLast}</td>
-                                  <td className="text-center"> {'Unknown' /* No Volume*/}</td>
-                                  <td className="text-success text-center">+121</td>
-                                  <td className="text-success text-center">+18%</td>
-                                  <td className="text-success text-center">+18%</td>
-                                  <td className="text-center">25%</td>
-                                  <td className="text-center">* ^</td>
-                                </tr>
-                              })
+                              // this.state.stats.map((stock, index) => {
+                              //   return <tr key={"discovery-table-" + index}>
+                              //     <td className="text-white font-weight-bold text-center">
+                              //       {stock.symbol}
+                              //     </td>
+                              //     <td className="text-center">{stock.priorDayLast}</td>
+                              //     <td className="text-center"> {'Unknown' /* No Volume*/}</td>
+                              //     <td className="text-success text-center">+121</td>
+                              //     <td className="text-success text-center">+18%</td>
+                              //     <td className="text-success text-center">+18%</td>
+                              //     <td className="text-center">25%</td>
+                              //     <td className="text-center">* ^</td>
+                              //   </tr>
+                              // })
                             }
                           </tbody>
                         </table>

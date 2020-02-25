@@ -161,6 +161,63 @@ th {
   text-align: center;
 }
 
+.petitCarre-inactive {
+  width: 7px;
+  height: 7px;
+  background: gray;
+  margin: 2px;
+}
+
+.petitCarre-active {
+  width: 7px;
+  height: 7px;
+  background: #73B101;
+  margin: 2px;
+}
+
+.petitCarre-active-high {
+  width: 7px;
+  height: 7px;
+  background: red;
+  margin: 2px;
+}
+
+.statsbar.lows {
+  padding: 12px 0px 0px 0px;
+}
+
+.statsbar.highs {
+  padding: 12px 0px 0px 0px;
+}
+
+.carreContainer {
+  width: 100%;
+  text-align: center;
+  height: 12px;
+}
+
+.logo {
+  width: 160px;
+  text-align: center;
+}
+
+.logo h1 {
+  font-family: 'Lato';
+  font-weight: lighter;
+  letter-spacing: 2px;
+  margin: 0;
+  font-size: 40px;
+}
+
+.logo h2 {
+  letter-spacing: 0px;
+  font-family: "gotham narrow";
+  font-weight: 200;
+  font-size: 11px;
+  margin: 0;
+  white-space: nowrap;
+}
+
 /** Small iPads */
 @media only screen and (max-width: 812px) {
   .socket-table {
