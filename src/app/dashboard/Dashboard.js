@@ -66,6 +66,9 @@ export class Dashboard extends Component {
     this.flushBufferIntervalId = setInterval(this.flushBuffer, 2000);
     // this.requestNotificationPermissions().then(r => {});
     this.getStats();
+    setInterval(() => {
+      this.getStats()
+    }, 3 * 60 * 1000) // Update Every 3 minutes
   }
 
   updateDimensions = () => {
