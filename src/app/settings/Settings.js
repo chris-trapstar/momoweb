@@ -43,6 +43,9 @@ export class Settings extends Component {
     console.info(data, type);
   }
 
+  onEndSliding = (value, data, type) => {
+  }
+
   renderAlertSettings = (data, type) => {
     /** type 0 -> High/Low, 1 -> Unusual Vol, 2 -> VWAP */
     let renderData = [];
@@ -54,7 +57,7 @@ export class Settings extends Component {
         >
           <span className="small company-name">{category}</span>
           <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
-            <Nouislider range={{ min: 0, max: 100 }} start={rate} connect={[false, false]} className="flex-fill slider-white" onUpdate={(render, handle, value, un, percent) => { this.onUpdateFixedData(render, handle, value, un, percent, data[index], type); }} />
+            <Nouislider range={{ min: 0, max: 100 }} start={rate} connect={[false, false]} className="flex-fill slider-white" onUpdate={(render, handle, value, un, percent) => { this.onUpdateFixedData(render, handle, value, un, percent, data[index], type); }} onEnd={(value) => { this.onEndSliding(value, data[index], type ); }} />
             <div className="ml-3 bg-dark progress-value justify-content-center align-items-center text-center">
               {`${rate}${type !== 0 ? "%" : ""}`}
             </div>
