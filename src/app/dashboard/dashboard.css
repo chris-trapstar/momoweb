@@ -253,17 +253,25 @@ th {
   margin-bottom: 0;
 }
 
-.react-bootstrap-table.table-responsive {
-  margin-top: 30px;
+.ReactTable {
+  margin-top: 15px;
 }
 
-.react-bootstrap-table.table-responsive th {
-  padding: 0.9375rem 2rem 0.9375rem 2rem !important;
+.ReactTable .-pagination .-btn {
+  background: white;
+}
+
+.rt-resizable-header-content {
+  font-size: 15px;
+  font-weight: 500;
   text-align: center;
 }
 
-.react-bootstrap-table.table-responsive td {
+.rt-td {
   text-align: center;
+}
+
+.rt-th.rt-resizable-header.-cursor-pointer {
 }
 
 /** Small iPads */
@@ -288,6 +296,12 @@ th {
     font-size: 18px;
     text-align: center;
   }
+
+  .rt-resizable-header-content {
+    font-size: 11px;
+    font-weight: 500;
+    text-align: center;
+  }
 }
 
 /** Large Mobiles */
@@ -310,6 +324,12 @@ th {
 
   .stock-text {
     font-size: 14px;
+    text-align: center;
+  }
+
+  .rt-resizable-header-content {
+    font-size: 11px;
+    font-weight: 500;
     text-align: center;
   }
 }
@@ -362,8 +382,14 @@ th {
     margin-top: 15px;
   }
 
-  .react-bootstrap-table-pagination-list {
-    margin-top: 15px;
+  .rt-resizable-header-content {
+    font-size: 10px;
+    font-weight: 500;
+    text-align: center;
+  }
+
+  .pagination-bottom .-pagination {
+    display: block;
   }
 }
 

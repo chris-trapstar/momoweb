@@ -6,10 +6,6 @@ import API from '../api';
 import cogoToast from 'cogo-toast';
 import Swiper from 'react-id-swiper';
 import 'swiper/css/swiper.css';
-import BootstrapTable from 'react-bootstrap-table-next';
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
-const { SearchBar } = Search;
 import ReactTable from 'react-table'
 
 
@@ -78,6 +74,9 @@ export class Dashboard extends Component {
   }
 
   updateDimensions = () => {
+    if (!this.container) {
+      return;
+    }
     let restSpace = 300;
     const width = this.container.offsetWidth;
     if (width < 415) {
@@ -753,10 +752,18 @@ export class Dashboard extends Component {
                                 data={discoveryData}
                                 filterable={false}
                                 defaultPageSize={10}
+                                sortable={true}
                                 columns={[
                                   {
                                     accessor: 'symbol',
-                                    Header: 'Symbol',
+                                    Header: () => {
+                                      return (
+                                        <div className="d-flex flex-row justify-content-center align-items-center">
+                                          <div>Symbols</div>
+                                          <i class="fa fa-unsorted ml-2"></i>
+                                        </div>
+                                      )
+                                    },
                                     Cell: (cellInfo) => {
                                       console.info(cellInfo);
                                       return (
@@ -765,7 +772,14 @@ export class Dashboard extends Component {
                                     }
                                   }, {
                                     accessor: 'last',
-                                    Header: 'Last',
+                                    Header: () => {
+                                      return (
+                                        <div className="d-flex flex-row justify-content-center align-items-center">
+                                          <div>Last</div>
+                                          <i class="fa fa-unsorted ml-2"></i>
+                                        </div>
+                                      )
+                                    },
                                     Cell: (cellInfo) => {
                                       return (
                                         <div className="">{cellInfo.original.last}</div>
@@ -773,7 +787,14 @@ export class Dashboard extends Component {
                                     },
                                   }, {
                                     accessor: 'volume',
-                                    Header: 'Volume',
+                                    Header: () => {
+                                      return (
+                                        <div className="d-flex flex-row justify-content-center align-items-center">
+                                          <div>Volume</div>
+                                          <i class="fa fa-unsorted ml-2"></i>
+                                        </div>
+                                      )
+                                    },
                                     Cell: (cellInfo) => {
                                       return (
                                         <div className="">{cellInfo.original.volume}</div>
@@ -781,7 +802,14 @@ export class Dashboard extends Component {
                                     }
                                   }, {
                                     accessor: 'momentum',
-                                    Header: 'Momentum',
+                                    Header: () => {
+                                      return (
+                                        <div className="d-flex flex-row justify-content-center align-items-center">
+                                          <div>Momentum</div>
+                                          <i class="fa fa-unsorted ml-2"></i>
+                                        </div>
+                                      )
+                                    },
                                     Cell: (cellInfo) => {
                                       return (
                                         <div className="text-success">{cellInfo.original.momentum}</div>
@@ -789,7 +817,14 @@ export class Dashboard extends Component {
                                     }
                                   }, {
                                     accessor: 'uVol',
-                                    Header: 'Unusual Vol',
+                                    Header: () => {
+                                      return (
+                                        <div className="d-flex flex-row justify-content-center align-items-center">
+                                          <div>Unusual Vol</div>
+                                          <i class="fa fa-unsorted ml-2"></i>
+                                        </div>
+                                      )
+                                    },
                                     Cell: (cellInfo) => {
                                       return (
                                         <div className="text-success">{cellInfo.original.uVol}</div>
@@ -797,7 +832,14 @@ export class Dashboard extends Component {
                                     }
                                   }, {
                                     accessor: 'vWapDist',
-                                    Header: 'VWAP DIST %',
+                                    Header: () => {
+                                      return (
+                                        <div className="d-flex flex-row justify-content-center align-items-center">
+                                          <div>VWAP DIST %</div>
+                                          <i class="fa fa-unsorted ml-2"></i>
+                                        </div>
+                                      )
+                                    },
                                     Cell: (cellInfo) => {
                                       return (
                                         <div className={`${cellInfo.original.vWapDist > 0 ? 'text-success' : (cellInfo.original.vWapDist < 0 ? 'text-danger' : 'text-secondary')}`}>{isNaN(cellInfo.original.vWapDist) ? '_' : ((cellInfo.original.vWapDist > 0 ? '+' : '') + `${cellInfo.original.vWapDist}%`)}</div>
@@ -805,7 +847,14 @@ export class Dashboard extends Component {
                                     }
                                   }, {
                                     accessor: 'short',
-                                    Header: 'Short %',
+                                    Header: () => {
+                                      return (
+                                        <div className="d-flex flex-row justify-content-center align-items-center">
+                                          <div>Short %</div>
+                                          <i class="fa fa-unsorted ml-2"></i>
+                                        </div>
+                                      )
+                                    },
                                     Cell: (cellInfo) => {
                                       return (
                                         <div className="">{cellInfo.original.short}</div>
