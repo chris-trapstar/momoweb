@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ProgressBar } from 'react-bootstrap';
+import { ProgressBar, Alert } from 'react-bootstrap';
 import API from '../api';
 import './settings.css';
 import Nouislider from 'nouislider-react';
@@ -43,8 +43,17 @@ export class Settings extends Component {
     console.info(data, type);
   }
 
-  onEndSliding = (value, data, type) => {
+  onEndSliding = async (value, data, type) => {
     console.info('onEndSliding', value, data, type)
+    try {
+      await API.updateAlert(data.id, {
+        rate: value
+      })
+      cogoToast.success('Alert sensitivity updated for ' + data.category)
+      this.getAlertSettings() // Load Alert Settings Again
+    } catch (e) {
+      cogoToast.error('Failed to update sensitivy')
+    }
   }
 
   renderAlertSettings = (data, type) => {
