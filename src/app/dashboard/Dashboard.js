@@ -185,7 +185,7 @@ export class Dashboard extends Component {
   };
 
   _handleData = data => {
-    console.info('compressedUpdate:', data)
+    // console.info('compressedUpdate:', data)
     let msg = data[0];
     let highs = msg[1];
     let lows = msg[2];
@@ -253,7 +253,7 @@ export class Dashboard extends Component {
       })
       .filter((item, i) => {
         let volume = item[5];
-        console.log("AVG VOLUME", volume, item[0]);
+        // console.log("AVG VOLUME", volume, item[0]);
         let volumeFilter = self.state.filter.volume;
         volumeFilter.min = volumeFilter.min || 0;
         volumeFilter.max = volumeFilter.max || 200000000;
