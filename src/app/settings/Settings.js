@@ -57,7 +57,7 @@ export class Settings extends Component {
         >
           <span className="small company-name">{category}</span>
           <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
-            <Nouislider range={{ min: 0, max: 100 }} start={rate} connect={[false, false]} className="flex-fill slider-white" onUpdate={(render, handle, value, un, percent) => { this.onUpdateFixedData(render, handle, value, un, percent, data[index], type); }} onEnd={(value) => { this.onEndSliding(value, data[index], type ); }} />
+            <Nouislider range={{ min: 0, max: 100 }} start={rate} connect={[false, true]} className="flex-fill slider-white" onUpdate={(render, handle, value, un, percent) => { this.onUpdateFixedData(render, handle, value, un, percent, data[index], type); }} onEnd={(value) => { this.onEndSliding(value, data[index], type ); }} />
             <div className="ml-3 bg-dark progress-value justify-content-center align-items-center text-center">
               {`${rate}${type !== 0 ? "%" : ""}`}
             </div>
@@ -158,7 +158,7 @@ export class Settings extends Component {
                   start={[20, 50]}
                   connect
                   tooltips={true}
-                  className="flex-fill slider-white"
+                  className="flex-fill slider-white slider-range"
                   onUpdate={(render, handle, value, un, percent) => { }}
                 />
               </div>
@@ -170,7 +170,7 @@ export class Settings extends Component {
                   start={[20, 50]}
                   connect
                   tooltips={true}
-                  className="flex-fill slider-white"
+                  className="flex-fill slider-white slider-range"
                   onUpdate={(render, handle, value, un, percent) => { }}
                 />
               </div>

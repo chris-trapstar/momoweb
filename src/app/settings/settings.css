@@ -127,8 +127,12 @@
     top: -7px;
 }
 
-.noUi-target .noUi-base .noUi-connect {
+.noUi-connects {
     background: yellow;
+}
+
+.noUi-target .noUi-base .noUi-connect {
+    background: white;
 }
 
 .noUi-tooltip {
@@ -137,6 +141,14 @@
     padding: 0;
     border: none;
     font-size: 12px;
+}
+
+.slider-range .noUi-connects {
+    background: white;
+}
+
+.slider-range .noUi-connect {
+    background: yellow !important;
 }
 
 /** Small iPads */
