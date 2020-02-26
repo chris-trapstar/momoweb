@@ -3,6 +3,7 @@ import { ProgressBar } from 'react-bootstrap';
 import API from '../api';
 import './settings.css';
 import Nouislider from 'nouislider-react';
+import cogoToast from 'cogo-toast';
 
 export class Settings extends Component {
   constructor(props) {
@@ -77,25 +78,33 @@ export class Settings extends Component {
     return renderData;
   };
 
-  deleteAlertSetting = (type, index, category, rate) => {
-    switch (type) {
-      case 0:
-        let hLow = this.state.hLow;
-        hLow.splice(index, 1);
-        this.setState({ hLow });
-        break;
-      case 1:
-        let uVol = this.state.uVol;
-        uVol.splice(index, 1);
-        this.setState({ uVol });
-        break;
-      case 2:
-        let vWap = this.state.vWap;
-        vWap.splice(index, 1);
-        this.setState({ vWap });
-        break;
-      default:
-        break;
+  deleteAlertSetting = async (type, index, category, rate) => {
+    try {
+      switch (type) {
+        case 0: // Normal High Low Alert
+          const hLow = this.state.hLow;
+          const alert = hLow[index]
+          await API.deleteAlert(alert.id)
+          hLow.splice(index, 1);
+          this.setState({ hLow });
+          cogoToast.success(`Alert removed for ${alert.category}`)
+          this.getAlertSettings()
+          break;
+        case 1:
+          let uVol = this.state.uVol;
+          uVol.splice(index, 1);
+          this.setState({ uVol });
+          break;
+        case 2:
+          let vWap = this.state.vWap;
+          vWap.splice(index, 1);
+          this.setState({ vWap });
+          break;
+        default:
+          break;
+      }
+    } catch (e) {
+      cogoToast.error('Something went wrong!')
     }
   };
 
