@@ -3,6 +3,7 @@ import { ProgressBar } from 'react-bootstrap';
 import API from '../api';
 import './settings.css';
 import Nouislider from 'nouislider-react';
+import cogoToast from 'cogo-toast';
 
 export class Settings extends Component {
   constructor(props) {
@@ -42,7 +43,7 @@ export class Settings extends Component {
     console.info(data, type);
   }
 
-  getFixedData = (data, type) => {
+  renderAlertSettings = (data, type) => {
     /** type 0 -> High/Low, 1 -> Unusual Vol, 2 -> VWAP */
     let renderData = [];
     data.map(({ category, rate }, index) => {
@@ -65,7 +66,7 @@ export class Settings extends Component {
             <button
               className="bg-transparent border-0"
               onClick={() => {
-                this.deleteFixedData(type, index, category, rate);
+                this.deleteAlertSetting(type, index, category, rate);
               }}
             >
               <i className="mdi mdi-close text-white popover-icon" />
@@ -77,25 +78,33 @@ export class Settings extends Component {
     return renderData;
   };
 
-  deleteFixedData = (type, index, category, rate) => {
-    switch (type) {
-      case 0:
-        let hLow = this.state.hLow;
-        hLow.splice(index, 1);
-        this.setState({ hLow });
-        break;
-      case 1:
-        let uVol = this.state.uVol;
-        uVol.splice(index, 1);
-        this.setState({ uVol });
-        break;
-      case 2:
-        let vWap = this.state.vWap;
-        vWap.splice(index, 1);
-        this.setState({ vWap });
-        break;
-      default:
-        break;
+  deleteAlertSetting = async (type, index, category, rate) => {
+    try {
+      switch (type) {
+        case 0: // Normal High Low Alert
+          const hLow = this.state.hLow;
+          const alert = hLow[index]
+          await API.deleteAlert(alert.id)
+          hLow.splice(index, 1);
+          this.setState({ hLow });
+          cogoToast.success(`Alert removed for ${alert.category}`)
+          this.getAlertSettings()
+          break;
+        case 1:
+          let uVol = this.state.uVol;
+          uVol.splice(index, 1);
+          this.setState({ uVol });
+          break;
+        case 2:
+          let vWap = this.state.vWap;
+          vWap.splice(index, 1);
+          this.setState({ vWap });
+          break;
+        default:
+          break;
+      }
+    } catch (e) {
+      cogoToast.error('Something went wrong!')
     }
   };
 
@@ -298,7 +307,7 @@ export class Settings extends Component {
                 </div>
               </div>
             )}
-            {this.getFixedData(hLow, 0)}
+            {this.renderAlertSettings(hLow, 0)}
           </div>
 
           {/** Notifications -> Unusual Vol */}
@@ -385,7 +394,7 @@ export class Settings extends Component {
                 </div>
               </div>
             )}
-            {this.getFixedData(uVol, 1)}
+            {this.renderAlertSettings(uVol, 1)}
           </div>
 
           {/** Notifications -> VWAP */}
@@ -472,7 +481,7 @@ export class Settings extends Component {
                 </div>
               </div>
             )}
-            {this.getFixedData(vWap, 2)}
+            {this.renderAlertSettings(vWap, 2)}
           </div>
         </div>
       </div>
