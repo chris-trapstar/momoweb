@@ -238,6 +238,34 @@ th {
   height: 35px;
 }
 
+#search-bar-0 {
+  outline: none !important;
+  border: 1px solid gray;
+  border-radius: 10px;
+  font-size: 13px;
+  height: 34px;
+  background: #0d0d0d !important;
+  text-align: center;
+  color: white;
+}
+
+.search-label {
+  margin-bottom: 0;
+}
+
+.react-bootstrap-table.table-responsive {
+  margin-top: 30px;
+}
+
+.react-bootstrap-table.table-responsive th {
+  padding: 0.9375rem 2rem 0.9375rem 2rem !important;
+  text-align: center;
+}
+
+.react-bootstrap-table.table-responsive td {
+  text-align: center;
+}
+
 /** Small iPads */
 @media only screen and (max-width: 812px) {
   .socket-table {
@@ -318,7 +346,23 @@ th {
     margin-top: 15px;
   }
 
+  #search-bar-0 {
+    outline: none !important;
+    border: 1px solid gray;
+    border-radius: 10px;
+    font-size: 13px;
+    height: 34px;
+    margin-top: 15px;
+    background: #0d0d0d !important;
+    text-align: center;
+    color: white;
+  }
+
   .mT15 {
+    margin-top: 15px;
+  }
+
+  .react-bootstrap-table-pagination-list {
     margin-top: 15px;
   }
 }

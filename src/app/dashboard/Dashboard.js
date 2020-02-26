@@ -6,6 +6,11 @@ import API from '../api';
 import cogoToast from 'cogo-toast';
 import Swiper from 'react-id-swiper';
 import 'swiper/css/swiper.css';
+import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
+const { SearchBar } = Search;
+
 // import * as firebase from "firebase/app";
 
 const socketHost = "https://momoweb.mometic.com";
@@ -47,7 +52,6 @@ const params = {
     clickable: true
   }
 }
-
 
 export class Dashboard extends Component {
   constructor(props) {
@@ -92,9 +96,24 @@ export class Dashboard extends Component {
 
   getStats = async () => {
     const stats = await API.getStats()
-    console.info('Stats Data:', stats)
+    let discoveryData = [];
+    stats.map((stock, index) => {
+      discoveryData.push(
+        {
+          symbol: stock.symbol,
+          last: stock.priorDayLast,
+          volume: stock.avgVolume, // No Volume
+          momentum: '+121',
+          uVol: '+18%',
+          vWapDist: stock.VWAP_DIST,
+          short: '25%',
+          actions: ''
+        }
+      )
+    })
     this.setState({
-      stats
+      stats,
+      discoveryData
     })
   }
 
@@ -144,7 +163,84 @@ export class Dashboard extends Component {
         {}
       ],
       isSmallDevice: window.matchMedia("(max-width: 768px)").matches,
-      total: 0
+      total: 0,
+      discoveryData: [],
+      columns: [
+        {
+          dataField: 'symbol',
+          text: 'Symbol',
+          sort: false,
+          formatter: (cellContent, row) => {
+            return (
+              <div className="text-white font-weight-bold text-center">{cellContent}</div>
+            );
+          }
+        }, {
+          dataField: 'last',
+          text: 'Last',
+          sort: false,
+          formatter: (cellContent, row) => {
+            return (
+              <div className="">{cellContent}</div>
+            );
+          }
+        }, {
+          dataField: 'volume',
+          text: 'Volume',
+          sort: false,
+          formatter: (cellContent, row) => {
+            return (
+              <div className="">{cellContent}</div>
+            );
+          }
+        }, {
+          dataField: 'momentum',
+          text: 'Momentum',
+          sort: false,
+          formatter: (cellContent, row) => {
+            return (
+              <div className="text-success">{cellContent}</div>
+            );
+          }
+        }, {
+          dataField: 'uVol',
+          text: 'Unusual Vol',
+          sort: false,
+          formatter: (cellContent, row) => {
+            return (
+              <div className="text-success">{cellContent}</div>
+            );
+          }
+        }, {
+          dataField: 'vWapDist',
+          text: 'VWAP DIST %',
+          sort: false,
+          formatter: (cellContent, row) => {
+            return (
+              <div className={`${cellContent > 0 ? 'text-success' : (cellContent < 0 ? 'text-danger' : 'text-secondary')}`}>{isNaN(cellContent) ? '_' : ((cellContent > 0 ? '+' : '') + `${cellContent}%`)}</div>
+            );
+          }
+        }, {
+          dataField: 'short',
+          text: 'Short %',
+          sort: false,
+          formatter: (cellContent, row) => {
+            return (
+              <div className="">{cellContent}</div>
+            );
+          }
+        },
+        {
+          dataField: 'actions',
+          text: 'Actions',
+          sort: false,
+          formatter: (cellContent, row) => {
+            return (
+              <label className="">* ^</label>
+            );
+          }
+        }
+      ]
     };
   };
 
@@ -580,7 +676,7 @@ export class Dashboard extends Component {
   }
 
   render() {
-    const { lows, highs, isSmallDevice } = this.state;
+    const { lows, highs, isSmallDevice, discoveryData, columns } = this.state;
     return (
       <div>
         <div className="row" ref={ref => { this.container = ref; }}>
@@ -701,61 +797,51 @@ export class Dashboard extends Component {
                 <div className="col-12 px-0">
                   <div className="card">
                     <div className="card-body">
-                      <div className="d-flex flex-row justify-content-between text-center flex-wrap">
-                        <h4 className="card-title mb-1 py-1">Discovery</h4>
-                        <div className="d-flex flex-row mT15">
-                          <span className="border border-radius-10">
-                            <div className="button btn-dark px-4 py-1 border-radius-10" onClick={this.onIndustry}>
-                              Industry
+                      {/** Test Table */}
+                      <div className="row">
+                        <div className="col-12">
+                          <div className="row">
+                            <div className="col-12">
+                              <ToolkitProvider
+                                keyField="symbol"
+                                bootstrap4
+                                data={discoveryData}
+                                columns={columns}
+                                search
+                              >
+                                {
+                                  props => (
+                                    <div>
+                                      <div className="d-flex flex-row justify-content-between text-center flex-wrap">
+                                        <h4 className="card-title mb-1 py-1">Discovery</h4>
+                                        <div className="d-flex flex-row mT15">
+                                          <span className="border border-radius-10">
+                                            <div className="button btn-dark px-4 py-1 border-radius-10" onClick={this.onIndustry}>
+                                              Industry
+                                            </div>
+                                          </span>
+                                          <span className="border border-radius-10 ml-4">
+                                            <div className="button btn-dark px-4 py-1 border-radius-10">
+                                              Favorites
+                                            </div>
+                                          </span>
+                                        </div>
+                                        <SearchBar {...props.searchProps} placeholder='Symbol Search' />
+                                      </div>
+                                      <BootstrapTable
+                                        pagination={paginationFactory()}
+                                        {...props.baseProps}
+                                        wrapperClasses="table-responsive"
+                                      />
+                                    </div>
+                                  )
+                                }
+                              </ToolkitProvider>
                             </div>
-                          </span>
-                          <span className="border border-radius-10 ml-4">
-                            <div className="button btn-dark px-4 py-1 border-radius-10">
-                              Favorites
-                            </div>
-                          </span>
+                          </div>
                         </div>
-                        <input
-                          className="input p-0 text-center bg-dark white-color input-border"
-                          placeholder="symbol search"
-                        />
                       </div>
 
-                      {/** Discovery Table */}
-                      <div className="discovery-table">
-                        <table className="table table-striped data-section">
-                          <thead>
-                            <tr>
-                              <th className="text-center"> SYMBOL </th>
-                              <th className="text-center"> LAST </th>
-                              <th className="text-center"> VOLUME </th>
-                              <th className="text-center"> Momentum </th>
-                              <th className="text-center"> Unusual Vol </th>
-                              <th className="text-center"> VWAP DIST %</th>
-                              <th className="text-center"> Short %</th>
-                              <th className="text-center"> Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {
-                              this.state.stats.map((stock, index) => {
-                                return <tr key={"discovery-table-" + index}>
-                                  <td className="text-white font-weight-bold text-center">
-                                    {stock.symbol}
-                                  </td>
-                                  <td className="text-center">{stock.priorDayLast}</td>
-                                  <td className="text-center"> {stock.avgVolume /* No Volume*/}</td>
-                                  <td className="text-success text-center">+121</td>
-                                  <td className="text-success text-center">+18%</td>
-                                  <td className={`${stock.VWAP_DIST > 0 ? 'text-success' : (stock.VWAP_DIST < 0 ? 'text-danger' : 'text-secondary')} text-center`}>{isNaN(stock.VWAP_DIST) ? '_' : ((stock.VWAP_DIST > 0 ? '+' : '') + `${stock.VWAP_DIST}%`)}</td>
-                                  <td className="text-center">25%</td>
-                                  <td className="text-center">* ^</td>
-                                </tr>
-                              })
-                            }
-                          </tbody>
-                        </table>
-                      </div>
                     </div>
                   </div>
                 </div>
