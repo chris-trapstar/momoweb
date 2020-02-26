@@ -210,10 +210,10 @@ class API {
     return data
   }
 
-  updateAlert = async (id, data) => {
+  updateAlert = async (id, alert) => {
     const response = await fetch(`${baseUrl}/api/alerts/${id}`, {
       method: 'PUT',
-      body: JSON.stringify(data),
+      body: JSON.stringify(alert),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
