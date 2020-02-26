@@ -10,6 +10,8 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 const { SearchBar } = Search;
+import ReactTable from 'react-table'
+
 
 // import * as firebase from "firebase/app";
 
@@ -164,83 +166,7 @@ export class Dashboard extends Component {
       ],
       isSmallDevice: window.matchMedia("(max-width: 768px)").matches,
       total: 0,
-      discoveryData: [],
-      columns: [
-        {
-          dataField: 'symbol',
-          text: 'Symbol',
-          sort: false,
-          formatter: (cellContent, row) => {
-            return (
-              <div className="text-white font-weight-bold text-center">{cellContent}</div>
-            );
-          }
-        }, {
-          dataField: 'last',
-          text: 'Last',
-          sort: false,
-          formatter: (cellContent, row) => {
-            return (
-              <div className="">{cellContent}</div>
-            );
-          }
-        }, {
-          dataField: 'volume',
-          text: 'Volume',
-          sort: false,
-          formatter: (cellContent, row) => {
-            return (
-              <div className="">{cellContent}</div>
-            );
-          }
-        }, {
-          dataField: 'momentum',
-          text: 'Momentum',
-          sort: false,
-          formatter: (cellContent, row) => {
-            return (
-              <div className="text-success">{cellContent}</div>
-            );
-          }
-        }, {
-          dataField: 'uVol',
-          text: 'Unusual Vol',
-          sort: false,
-          formatter: (cellContent, row) => {
-            return (
-              <div className="text-success">{cellContent}</div>
-            );
-          }
-        }, {
-          dataField: 'vWapDist',
-          text: 'VWAP DIST %',
-          sort: false,
-          formatter: (cellContent, row) => {
-            return (
-              <div className={`${cellContent > 0 ? 'text-success' : (cellContent < 0 ? 'text-danger' : 'text-secondary')}`}>{isNaN(cellContent) ? '_' : ((cellContent > 0 ? '+' : '') + `${cellContent}%`)}</div>
-            );
-          }
-        }, {
-          dataField: 'short',
-          text: 'Short %',
-          sort: false,
-          formatter: (cellContent, row) => {
-            return (
-              <div className="">{cellContent}</div>
-            );
-          }
-        },
-        {
-          dataField: 'actions',
-          text: 'Actions',
-          sort: false,
-          formatter: (cellContent, row) => {
-            return (
-              <label className="">* ^</label>
-            );
-          }
-        }
-      ]
+      discoveryData: []
     };
   };
 
@@ -676,7 +602,7 @@ export class Dashboard extends Component {
   }
 
   render() {
-    const { lows, highs, isSmallDevice, discoveryData, columns } = this.state;
+    const { lows, highs, isSmallDevice, discoveryData, columns, data } = this.state;
     return (
       <div>
         <div className="row" ref={ref => { this.container = ref; }}>
@@ -797,46 +723,106 @@ export class Dashboard extends Component {
                 <div className="col-12 px-0">
                   <div className="card">
                     <div className="card-body">
-                      {/** Test Table */}
+
                       <div className="row">
                         <div className="col-12">
                           <div className="row">
                             <div className="col-12">
-                              <ToolkitProvider
-                                keyField="symbol"
-                                bootstrap4
-                                data={discoveryData}
-                                columns={columns}
-                                search
-                              >
-                                {
-                                  props => (
-                                    <div>
-                                      <div className="d-flex flex-row justify-content-between text-center flex-wrap">
-                                        <h4 className="card-title mb-1 py-1">Discovery</h4>
-                                        <div className="d-flex flex-row mT15">
-                                          <span className="border border-radius-10">
-                                            <div className="button btn-dark px-4 py-1 border-radius-10" onClick={this.onIndustry}>
-                                              Industry
-                                            </div>
-                                          </span>
-                                          <span className="border border-radius-10 ml-4">
-                                            <div className="button btn-dark px-4 py-1 border-radius-10">
-                                              Favorites
-                                            </div>
-                                          </span>
-                                        </div>
-                                        <SearchBar {...props.searchProps} placeholder='Symbol Search' />
-                                      </div>
-                                      <BootstrapTable
-                                        pagination={paginationFactory()}
-                                        {...props.baseProps}
-                                        wrapperClasses="table-responsive"
-                                      />
+
+                              <div className="d-flex flex-row justify-content-between text-center flex-wrap">
+                                <h4 className="card-title mb-1 py-1">Discovery</h4>
+                                <div className="d-flex flex-row mT15">
+                                  <span className="border border-radius-10">
+                                    <div className="button btn-dark px-4 py-1 border-radius-10" onClick={this.onIndustry}>
+                                      Industry
                                     </div>
-                                  )
-                                }
-                              </ToolkitProvider>
+                                  </span>
+                                  <span className="border border-radius-10 ml-4">
+                                    <div className="button btn-dark px-4 py-1 border-radius-10">
+                                      Favorites
+                                      </div>
+                                  </span>
+                                </div>
+                                <input
+                                  className="input p-0 text-center bg-dark white-color input-border"
+                                  placeholder="symbol search"
+                                />
+                              </div>
+
+                              <ReactTable
+                                data={discoveryData}
+                                filterable={false}
+                                defaultPageSize={10}
+                                columns={[
+                                  {
+                                    accessor: 'symbol',
+                                    Header: 'Symbol',
+                                    Cell: (cellInfo) => {
+                                      console.info(cellInfo);
+                                      return (
+                                        <div className="text-white font-weight-bold text-center">{cellInfo.original.symbol}</div>
+                                      )
+                                    }
+                                  }, {
+                                    accessor: 'last',
+                                    Header: 'Last',
+                                    Cell: (cellInfo) => {
+                                      return (
+                                        <div className="">{cellInfo.original.last}</div>
+                                      )
+                                    },
+                                  }, {
+                                    accessor: 'volume',
+                                    Header: 'Volume',
+                                    Cell: (cellInfo) => {
+                                      return (
+                                        <div className="">{cellInfo.original.volume}</div>
+                                      );
+                                    }
+                                  }, {
+                                    accessor: 'momentum',
+                                    Header: 'Momentum',
+                                    Cell: (cellInfo) => {
+                                      return (
+                                        <div className="text-success">{cellInfo.original.momentum}</div>
+                                      );
+                                    }
+                                  }, {
+                                    accessor: 'uVol',
+                                    Header: 'Unusual Vol',
+                                    Cell: (cellInfo) => {
+                                      return (
+                                        <div className="text-success">{cellInfo.original.uVol}</div>
+                                      );
+                                    }
+                                  }, {
+                                    accessor: 'vWapDist',
+                                    Header: 'VWAP DIST %',
+                                    Cell: (cellInfo) => {
+                                      return (
+                                        <div className={`${cellInfo.original.vWapDist > 0 ? 'text-success' : (cellInfo.original.vWapDist < 0 ? 'text-danger' : 'text-secondary')}`}>{isNaN(cellInfo.original.vWapDist) ? '_' : ((cellInfo.original.vWapDist > 0 ? '+' : '') + `${cellInfo.original.vWapDist}%`)}</div>
+                                      );
+                                    }
+                                  }, {
+                                    accessor: 'short',
+                                    Header: 'Short %',
+                                    Cell: (cellInfo) => {
+                                      return (
+                                        <div className="">{cellInfo.original.short}</div>
+                                      );
+                                    }
+                                  },
+                                  {
+                                    accessor: 'actions',
+                                    Header: 'Actions',
+                                    Cell: (cellInfo) => {
+                                      return (
+                                        <label className="">* ^</label>
+                                      );
+                                    }
+                                  }
+                                ]}
+                              />
                             </div>
                           </div>
                         </div>
