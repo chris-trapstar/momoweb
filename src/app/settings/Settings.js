@@ -42,7 +42,7 @@ export class Settings extends Component {
     console.info(data, type);
   }
 
-  getFixedData = (data, type) => {
+  renderAlertSettings = (data, type) => {
     /** type 0 -> High/Low, 1 -> Unusual Vol, 2 -> VWAP */
     let renderData = [];
     data.map(({ category, rate }, index) => {
@@ -298,7 +298,7 @@ export class Settings extends Component {
                 </div>
               </div>
             )}
-            {this.getFixedData(hLow, 0)}
+            {this.renderAlertSettings(hLow, 0)}
           </div>
 
           {/** Notifications -> Unusual Vol */}
@@ -385,7 +385,7 @@ export class Settings extends Component {
                 </div>
               </div>
             )}
-            {this.getFixedData(uVol, 1)}
+            {this.renderAlertSettings(uVol, 1)}
           </div>
 
           {/** Notifications -> VWAP */}
@@ -472,7 +472,7 @@ export class Settings extends Component {
                 </div>
               </div>
             )}
-            {this.getFixedData(vWap, 2)}
+            {this.renderAlertSettings(vWap, 2)}
           </div>
         </div>
       </div>
