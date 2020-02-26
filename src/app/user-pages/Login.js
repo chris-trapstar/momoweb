@@ -33,10 +33,17 @@ class Login extends Component {
         this.props.setAuthenticated(true);
       })
       .catch(error => {
-        let loginErrTxt = i18n.getResource("en", ["translations"], error);
-        if (!loginErrTxt) {
-          loginErrTxt = "Unknown problem";
+        const errTxt = error.toString()
+        let loginErrTxt
+        if (error.toString() === 'TypeError: Failed to fetch') {
+          loginErrTxt = 'Service not available';
+        } else {
+          loginErrTxt = i18n.getResource("en", ["translations"], errTxt);
+          if (!loginErrTxt) {
+            loginErrTxt = "Unknown problem";
+          }
         }
+        
         this.setState({ loginErrTxt });
         this.props.setLoading(false);
         this.props.setAuthenticated(false);
