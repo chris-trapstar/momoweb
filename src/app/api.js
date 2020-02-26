@@ -210,6 +210,20 @@ class API {
     return data
   }
 
+  updateAlert = async (id, data) => {
+    const response = await fetch(`${baseUrl}/api/alerts/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
+      }
+    })
+    const data = await response.json()
+    console.info('PUT /api/alerts/:id - response - ', data)
+    return data
+  }
+
   deleteAlert = async (id) => {
     const response = await fetch(`${baseUrl}/api/alerts/${id}`, {
       method: 'DELETE',
