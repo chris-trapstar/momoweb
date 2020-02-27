@@ -729,7 +729,7 @@ export class Dashboard extends Component {
                         <h4 className="card-title mb-1">Popular</h4>
                         <p className="text-muted mb-1" />
                       </div>
-                      <div className="column mt-1">
+                      <div className="column mt-3">
                         <div className="d-flex flex-row flex-fill flex-wrap">
                           {this.renderPopularData(0)}
                         </div>
