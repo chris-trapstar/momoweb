@@ -70,9 +70,19 @@ export class Settings extends Component {
     this.setState({ editingAlert: { id, type, index, category, rate } });
   }
 
-  endEditAlert = () => {
+  endEditAlert = async () => {
     const { editingAlert } = this.state;
-    console.info(editingAlert); // edit
+    console.info('edit value', editingAlert);
+    try {
+      await API.updateAlert(editingAlert.id, {
+        category: editingAlert.category,
+        rate: editingAlert.rate
+      })
+      cogoToast.success('Alert sensitivity updated for ' + editingAlert.category)
+      this.getAlertSettings() // Load Alert Settings Again
+    } catch (e) {
+      cogoToast.error('Failed to update sensitivy')
+    }
     this.resetEditAlert();
   }
 
