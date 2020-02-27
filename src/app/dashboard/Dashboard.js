@@ -93,6 +93,7 @@ export class Dashboard extends Component {
       console.log("clearInterval for flushBufferIntervalId");
       clearInterval(this.flushBufferIntervalId);
     }
+    this.socket.disconnect();
   }
 
   getStats = async () => {
