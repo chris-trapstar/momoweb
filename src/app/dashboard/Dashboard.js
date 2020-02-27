@@ -760,12 +760,11 @@ export class Dashboard extends Component {
                                       return (
                                         <div className="d-flex flex-row justify-content-center align-items-center">
                                           <div>Symbols</div>
-                                          <i class="fa fa-unsorted ml-2"></i>
+                                          <i className="fa fa-unsorted ml-2"></i>
                                         </div>
                                       )
                                     },
                                     Cell: (cellInfo) => {
-                                      console.info(cellInfo);
                                       return (
                                         <div className="text-white font-weight-bold text-center">{cellInfo.original.symbol}</div>
                                       )
@@ -776,7 +775,7 @@ export class Dashboard extends Component {
                                       return (
                                         <div className="d-flex flex-row justify-content-center align-items-center">
                                           <div>Last</div>
-                                          <i class="fa fa-unsorted ml-2"></i>
+                                          <i className="fa fa-unsorted ml-2"></i>
                                         </div>
                                       )
                                     },
@@ -791,7 +790,7 @@ export class Dashboard extends Component {
                                       return (
                                         <div className="d-flex flex-row justify-content-center align-items-center">
                                           <div>Volume</div>
-                                          <i class="fa fa-unsorted ml-2"></i>
+                                          <i className="fa fa-unsorted ml-2"></i>
                                         </div>
                                       )
                                     },
@@ -806,7 +805,7 @@ export class Dashboard extends Component {
                                       return (
                                         <div className="d-flex flex-row justify-content-center align-items-center">
                                           <div>Momentum</div>
-                                          <i class="fa fa-unsorted ml-2"></i>
+                                          <i className="fa fa-unsorted ml-2"></i>
                                         </div>
                                       )
                                     },
@@ -821,7 +820,7 @@ export class Dashboard extends Component {
                                       return (
                                         <div className="d-flex flex-row justify-content-center align-items-center">
                                           <div>Unusual Vol</div>
-                                          <i class="fa fa-unsorted ml-2"></i>
+                                          <i className="fa fa-unsorted ml-2"></i>
                                         </div>
                                       )
                                     },
@@ -836,7 +835,7 @@ export class Dashboard extends Component {
                                       return (
                                         <div className="d-flex flex-row justify-content-center align-items-center">
                                           <div>VWAP DIST %</div>
-                                          <i class="fa fa-unsorted ml-2"></i>
+                                          <i className="fa fa-unsorted ml-2"></i>
                                         </div>
                                       )
                                     },
@@ -851,7 +850,7 @@ export class Dashboard extends Component {
                                       return (
                                         <div className="d-flex flex-row justify-content-center align-items-center">
                                           <div>Short %</div>
-                                          <i class="fa fa-unsorted ml-2"></i>
+                                          <i className="fa fa-unsorted ml-2"></i>
                                         </div>
                                       )
                                     },

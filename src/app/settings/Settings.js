@@ -20,7 +20,8 @@ export class Settings extends Component {
       ],
       addingAlert: 0,
       addingAlertProgress: 0,
-      isSmallDevice: window.matchMedia("(max-width: 768px)").matches
+      isSmallDevice: window.matchMedia("(max-width: 768px)").matches,
+      editingAlert: { id: 0, type: -1, index: -1, category: '', rate: '' }
     };
   }
 
@@ -39,10 +40,6 @@ export class Settings extends Component {
     });
   };
 
-  onUpdateFixedData = (render, handle, value, un, percent, data, type) => {
-    console.info(data, type);
-  }
-
   onEndSliding = async (value, data, type) => {
     console.info('onEndSliding', value, data, type)
     try {
@@ -51,39 +48,128 @@ export class Settings extends Component {
       })
       cogoToast.success('Alert sensitivity updated for ' + data.category)
       this.getAlertSettings() // Load Alert Settings Again
+      this.setState({
+        editingAlert: {
+          id: this.state.editingAlert.id,
+          type: this.state.editingAlert.type,
+          index: this.state.editingAlert.index,
+          category: this.state.editingAlert.category,
+          rate: value,
+        }
+      })
     } catch (e) {
       cogoToast.error('Failed to update sensitivy')
     }
   }
 
+  resetEditAlert = () => {
+    this.setState({ editingAlert: { id: 0, type: -1, index: -1, category: '', rate: '' } });
+  }
+
+  startEditAlert = (id, type, index, category, rate) => {
+    this.setState({ editingAlert: { id, type, index, category, rate } });
+  }
+
+  endEditAlert = () => {
+    const { editingAlert } = this.state;
+    console.info(editingAlert); // edit
+    this.resetEditAlert();
+  }
+
+  onEditAlertCategory = () => {
+    this.setState({
+      editingAlert: {
+        id: this.state.editingAlert.id,
+        type: this.state.editingAlert.type,
+        index: this.state.editingAlert.index,
+        category: this.refEditAlertCategory.value,
+        rate: this.state.editingAlert.rate
+      }
+    });
+  }
+
+  onEditAlertRate = () => {
+    this.setState({
+      editingAlert: {
+        id: this.state.editingAlert.id,
+        type: this.state.editingAlert.type,
+        index: this.state.editingAlert.index,
+        category: this.state.editingAlert.category,
+        rate: this.refEditAlertRate.value,
+      }
+    });
+  }
+
   renderAlertSettings = (data, type) => {
     /** type 0 -> High/Low, 1 -> Unusual Vol, 2 -> VWAP */
+
+    const { editingAlert } = this.state;
     let renderData = [];
     data.map(({ category, rate }, index) => {
       renderData.push(
         <div
-          className="row mx-0 justify-content-between align-items-center item-content mt-1"
+          className="row mx-0 justify-content-between align-items-center item-content mt-1 pl-2"
           key={`render-notification-high-low-${index}`}
+          onClick={() => {
+            if (editingAlert.type !== type || editingAlert.index !== index) {
+              this.startEditAlert(data[index].id, type, index, category, rate);
+            }
+          }}
         >
-          <span className="small company-name">{category}</span>
+          {
+            editingAlert.type === type && editingAlert.index === index ?
+              <input
+                className="small company-name edit-alert-input"
+                value={editingAlert.category}
+                onChange={this.onEditAlertCategory}
+                ref={ref => { this.refEditAlertCategory = ref; }}
+                autoFocus
+              /> :
+              <span className="small company-name">{category}</span>
+
+          }
           <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
             <Nouislider
               range={{ min: 0, max: 100 }}
-              start={rate} connect={[false, true]}
+              start={editingAlert.type === type && editingAlert.index === index ? editingAlert.rate : rate}
+              connect={[false, true]}
               className="flex-fill slider-white"
-              onUpdate={(render, handle, value, un, percent) => {
-                this.onUpdateFixedData(render, handle, value, un, percent, data[index], type);
-              }}
-              onEnd={(value) => { this.onEndSliding(value, data[index], type); }}
+              onChange={(value) => { this.onEndSliding(value, data[index], type); }}
             />
-            <div className="ml-3 bg-dark progress-value justify-content-center align-items-center text-center">
-              {`${rate}${type !== 0 ? "%" : ""}`}
-            </div>
+            {
+              editingAlert.type === type && editingAlert.index === index ?
+                <input
+                  className="ml-3 progress-input justify-content-center align-items-center text-center white-color small edit-rate-input"
+                  ref={ref => { this.refEditAlertRate = ref; }}
+                  onChange={this.onEditAlertRate}
+                  value={editingAlert.rate}
+                />
+                :
+                <div className="ml-3 bg-dark progress-value justify-content-center align-items-center text-center">
+                  {`${rate}${type !== 0 ? "%" : ""}`}
+                </div>
+            }
           </div>
           <div className="row">
-            <button className="bg-transparent border-0 invisible">
-              <i className="mdi mdi-close text-white popover-icon" />
-            </button>
+            {
+              editingAlert.type === type && editingAlert.index === index ?
+                <button
+                  className="bg-transparent border-0"
+                  type="button"
+                  onClick={() => {
+                    if (this.refEditAlertCategory.value === '' || this.refEditAlertRate.value === '' || isNaN(this.refEditAlertRate.value)) {
+                      return;
+                    }
+                    this.endEditAlert();
+                  }}
+                >
+                  <i className="mdi mdi-check text-white popover-icon" />
+                </button>
+                :
+                <button className="bg-transparent border-0 invisible">
+                  <i className="mdi mdi-close text-white popover-icon" />
+                </button>
+            }
             <button
               className="bg-transparent border-0"
               onClick={() => {
@@ -177,7 +263,7 @@ export class Settings extends Component {
                   connect
                   tooltips={true}
                   className="flex-fill slider-white slider-range"
-                  onUpdate={(render, handle, value, un, percent) => { }}
+                  onChange={(render, handle, value, un, percent) => { }}
                 />
               </div>
               <div className="pricing-separator" />
@@ -189,7 +275,7 @@ export class Settings extends Component {
                   connect
                   tooltips={true}
                   className="flex-fill slider-white slider-range"
-                  onUpdate={(render, handle, value, un, percent) => { }}
+                  onChange={(render, handle, value, un, percent) => { }}
                 />
               </div>
               <div className="pricing-separator" />
@@ -275,24 +361,22 @@ export class Settings extends Component {
               </button>
             </div>
             {addingAlert === 1 && (
-              <div className="row mx-0 justify-content-between align-items-center item-content mt-1 alert-input">
+              <div className="row mx-0 justify-content-between align-items-center item-content mt-1 pl-2 alert-input">
                 <input
                   placeholder="Name"
                   className="bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
                   ref={ref => {
                     this.refLowName = ref;
-                    if (ref) {
-                      ref.focus();
-                    }
                   }}
+                  autoFocus
                 />
                 <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
                   <Nouislider
                     range={{ min: 0, max: 100 }}
                     start={addingAlertProgress}
-                    connect={[false, false]}
+                    connect={[false, true]}
                     className="flex-fill slider-white"
-                    onUpdate={(render, handle, value, un, percent) => {
+                    onChange={(render, handle, value, un, percent) => {
                       this.setState({ addingAlertProgress: parseFloat(percent).toFixed(2) });
                       this.refLowVal.value = parseFloat(percent).toFixed(2);
                     }}
@@ -349,7 +433,7 @@ export class Settings extends Component {
               </button>
             </div>
             {addingAlert === 2 && (
-              <div className="row mx-0 justify-content-between align-items-center item-content mt-1">
+              <div className="row mx-0 justify-content-between align-items-center item-content mt-1 pl-2">
                 <input
                   placeholder="Name"
                   className="bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
@@ -363,7 +447,7 @@ export class Settings extends Component {
                     start={addingAlertProgress}
                     connect={[false, false]}
                     className="flex-fill slider-white"
-                    onUpdate={(render, handle, value, un, percent) => {
+                    onChange={(render, handle, value, un, percent) => {
                       this.setState({ addingAlertProgress: parseFloat(percent).toFixed(2) });
                       this.refVolVal.value = parseFloat(percent).toFixed(2);
                     }}
@@ -436,7 +520,7 @@ export class Settings extends Component {
               </button>
             </div>
             {addingAlert === 3 && (
-              <div className="row mx-0 justify-content-between align-items-center item-content mt-1">
+              <div className="row mx-0 justify-content-between align-items-center item-content mt-1 pl-2">
                 <input
                   placeholder="Name"
                   className="bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
@@ -450,7 +534,7 @@ export class Settings extends Component {
                     start={addingAlertProgress}
                     connect={[false, false]}
                     className="flex-fill slider-white"
-                    onUpdate={(render, handle, value, un, percent) => {
+                    onChange={(render, handle, value, un, percent) => {
                       this.setState({ addingAlertProgress: parseFloat(percent).toFixed(2) });
                       this.refWapVal.value = parseFloat(percent).toFixed(2);
                     }}

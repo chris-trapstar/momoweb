@@ -151,6 +151,26 @@
     background: yellow !important;
 }
 
+.edit-alert-input {
+    background: transparent;
+    color: white;
+    border: solid 1px white;
+}
+
+.edit-alert-input:focus {
+    border: dotted 1px white;
+}
+
+.edit-rate-input {
+    background: transparent;
+    color: white;
+    border: solid 1px white;
+}
+
+.edit-rate-input:focus {
+    border: dotted 1px white;
+}
+
 /** Small iPads */
 @media only screen and (max-width: 812px) {
     .value-item {

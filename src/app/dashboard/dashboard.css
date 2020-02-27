@@ -274,6 +274,10 @@ th {
 .rt-th.rt-resizable-header.-cursor-pointer {
 }
 
+.ReactTable .-pagination .-btn:not([disabled]):hover {
+  background: gray;
+}
+
 /** Small iPads */
 @media only screen and (max-width: 812px) {
   .socket-table {
