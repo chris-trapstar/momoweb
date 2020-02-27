@@ -10,7 +10,6 @@ class Login extends Component {
   state = {
     loginErrTxt: ""
   };
-  componentDidMount() {}
 
   componentWillReceiveProps(nextProps, nextContext) {
     if (nextProps.authenticated) {
@@ -127,7 +126,7 @@ class Login extends Component {
                   </div>
                   <div className="text-center mt-4 font-weight-light">
                     Don't have an account?{" "}
-                    <Link to="/user-pages/register" className="text-primary">
+                    <Link to="/register" className="text-primary">
                       Create
                     </Link>
                   </div>

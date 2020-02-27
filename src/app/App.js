@@ -11,6 +11,7 @@ import Sidebar from "./shared/Sidebar";
 import Footer from "./shared/Footer";
 import { withTranslation } from "react-i18next";
 import Login from "./user-pages/Login";
+import Register from "./user-pages/Register";
 import Spinner from "../app/shared/Spinner";
 import { AuthActions } from "./store";
 
@@ -25,6 +26,7 @@ class App extends Component {
     return (
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
         <ProtectedApp
           {...this.props}
           loading={loading}

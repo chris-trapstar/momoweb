@@ -12,7 +12,8 @@ i18n
           "Overview dashboard": "Overview dashboard",
           email_not_found: "Invalid email",
           invalid_email_or_password: "Invalid email or password",
-          empty_email_password: "Empty email or password"
+          empty_email_password: "Empty email or password",
+          empty_email_password_username: 'Empty email or password or username'
         }
       },
       ar: {

@@ -75,6 +75,34 @@ class API {
     });
   };
 
+  signup = (email, username, password) => {
+    const header = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email,
+        username,
+        password
+      })
+    };
+    return new Promise((resolve, reject) => {
+      fetch(`${baseUrl}/api/auth/signup`, header)
+        .then(async response => {
+          let data = await response.json();
+          if (data.access_token) {
+            resolve(data);
+          } else {
+            reject(data.error);
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  };
+
   handleAuthentication = () => {
     let access_token = this.getAccessToken();
 
