@@ -90,7 +90,6 @@ export class Dashboard extends Component {
   }
 
   componentWillUnmount() {
-    console.info('unmount');
     if (this.flushBufferIntervalId) {
       console.log("clearInterval for flushBufferIntervalId");
       clearInterval(this.flushBufferIntervalId);
@@ -122,8 +121,12 @@ export class Dashboard extends Component {
   }
 
   getPopularData = () => {
-    API.getPopular().then(data => {
+    API.getPopular().then(popular => {
+      let { popularData } = this.state;
+      popularData.push(popular[0], popular[1], popular[2], popular[3]);
+      this.setState({ popularData });
     }).catch(error => {
+      console.info(error);
     })
   }
 
@@ -610,8 +613,30 @@ export class Dashboard extends Component {
     )
   }
 
+  renderPopularData = (index) => {
+    let data = [];
+    const { popularData } = this.state;
+    if (popularData[index]) {
+      popularData[index].map(item => {
+        data.push(
+          index === 0 ?
+            <h3 className="pr-2">{item}</h3>
+            :
+            index === 1 ?
+              <h4 className="pr-2">{item}</h4>
+              :
+              index === 2 ?
+                <h5 className="pr-2">{item}</h5>
+                :
+                <h6 className="pr-2">{item}</h6>
+        )
+      })
+    }
+    return data;
+  }
+
   render() {
-    const { lows, highs, isSmallDevice, discoveryData, columns, data } = this.state;
+    const { lows, highs, isSmallDevice, discoveryData, popularData } = this.state;
     return (
       <div>
         <div className="row" ref={ref => { this.container = ref; }}>
@@ -704,12 +729,18 @@ export class Dashboard extends Component {
                         <h4 className="card-title mb-1">Popular</h4>
                         <p className="text-muted mb-1" />
                       </div>
-                      <div className="row data-section popular">
-                        <div className="col-12">
-                          <h3>AMZN GOOG NS GE</h3>
-                          <h4>TXN NVCN TVIX JNJ</h4>
-                          <h5>STX SOX UVXY SLT TLT</h5>
-                          <h6>MA V TTX ABA</h6>
+                      <div className="column mt-1">
+                        <div className="d-flex flex-row flex-fill flex-wrap">
+                          {this.renderPopularData(0)}
+                        </div>
+                        <div className="d-flex flex-row flex-fill flex-wrap">
+                          {this.renderPopularData(1)}
+                        </div>
+                        <div className="d-flex flex-row flex-fill flex-wrap">
+                          {this.renderPopularData(2)}
+                        </div>
+                        <div className="d-flex flex-row flex-fill flex-wrap">
+                          {this.renderPopularData(3)}
                         </div>
                       </div>
                     </div>

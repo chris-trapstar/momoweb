@@ -108,12 +108,14 @@ class API {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getAccessToken()}`
       }
     };
     return new Promise((resolve, reject) => {
-      fetch(`https://momoweb.mometic.com/top/`, header)
+      fetch(`${baseUrl}/api/stock_stats/top`, header)
         .then(async response => {
-          resolve(response.json());
+          const data = await response.json();
+          resolve(data);
         })
         .catch(error => {
           reject(error);
@@ -283,7 +285,7 @@ class API {
     return data
   }
 
-  getAlerts = async() => {
+  getAlerts = async () => {
     const response = await fetch(`${baseUrl}/api/alerts`, {
       method: 'GET',
       headers: {
@@ -316,7 +318,7 @@ class API {
     }
   }
 
-  getStats  = async () => {
+  getStats = async () => {
     const res = await fetch(STATS_API)
     const data = await res.json()
 
