@@ -753,6 +753,7 @@ export class Dashboard extends Component {
                                 filterable={false}
                                 defaultPageSize={10}
                                 sortable={true}
+                                noDataText='Loading...'
                                 columns={[
                                   {
                                     accessor: 'symbol',

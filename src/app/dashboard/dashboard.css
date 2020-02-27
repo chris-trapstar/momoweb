@@ -271,7 +271,8 @@ th {
   text-align: center;
 }
 
-.rt-th.rt-resizable-header.-cursor-pointer {
+.ReactTable .rt-thead .rt-th {
+  padding: 1rem 0.2rem;
 }
 
 .ReactTable .-pagination .-btn:not([disabled]):hover {
