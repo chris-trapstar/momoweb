@@ -13,7 +13,8 @@ i18n
           email_not_found: "Invalid email",
           invalid_email_or_password: "Invalid email or password",
           empty_email_password: "Empty email or password",
-          empty_email_password_username: 'Empty email or password or username'
+          empty_email_password_username: 'Empty email or password or username',
+          password_mismatch: 'The passwords do not match'
         }
       },
       ar: {

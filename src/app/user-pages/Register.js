@@ -7,7 +7,8 @@ import i18n from "../../i18n";
 
 export class Register extends Component {
   state = {
-    loginErrTxt: ""
+    loginErrTxt: "",
+    agreedTerms: false
   };
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -16,10 +17,17 @@ export class Register extends Component {
     }
   }
 
+  onChangeTerms = () => {
+    this.setState({ agreedTerms: this.refTerms.checked });
+    if (!this.refTerms.checked) {
+      this.setState({ loginErrTxt: '' });
+    }
+  }
+
   onRegister = () => {
     this.setState({ loginErrTxt: '' })
     if (this.refPassword.value !== this.refConfirm.value) {
-      this.setState({ loginErrTxt: 'The passwords do not match' })
+      this.setState({ loginErrTxt: i18n.getResource("en", ["translations"], 'password_mismatch') });
       return;
     }
     const email = this.refEmail.value;
@@ -57,7 +65,7 @@ export class Register extends Component {
   };
 
   render() {
-    const { loginErrTxt } = this.state;
+    const { loginErrTxt, agreedTerms } = this.state;
     return (
       <div>
         <div className="d-flex align-items-center auth px-0 h-100">
@@ -65,10 +73,10 @@ export class Register extends Component {
             <div className="col-lg-4 mx-auto">
               <div className="card text-left py-5 px-4 px-sm-5">
                 <div className="brand-logo">
-                  <img src={require("../../assets/images/logo.svg")} alt="logo" />
+                  <h2>MomoWeb</h2>
                 </div>
-                <h4>New here?</h4>
-                <h6 className="font-weight-light">Signing up is easy. It only takes a few steps</h6>
+                <h4>Hello! let's get started</h4>
+                <h6 className="font-weight-light">Momentic Inc.</h6>
                 <form className="pt-3">
                   <div className="form-group">
                     <input
@@ -117,7 +125,7 @@ export class Register extends Component {
                   <div className="mb-4">
                     <div className="form-check">
                       <label className="form-check-label text-muted">
-                        <input type="checkbox" className="form-check-input" />
+                        <input type="checkbox" className="form-check-input" onChange={this.onChangeTerms} ref={ref => { this.refTerms = ref; }} />
                         <i className="input-helper"></i>
                         I agree to all Terms & Conditions
                       </label>
@@ -127,13 +135,20 @@ export class Register extends Component {
                     <label className="text-danger">{`${loginErrTxt}`}</label>
                   )}
                   <div className="mt-3">
-                    <a
-                      className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-                      onClick={this.onRegister}
-                    >
-                      SIGN UP
-                    </a>
-                    {/* <Link className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" to="/dashboard">SIGN UP</Link> */}
+                    {
+                      agreedTerms ?
+                        <a
+                          className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+                          onClick={this.onRegister}
+                        >
+                          SIGN UP
+                        </a>
+                        :
+                        <button className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" disabled>
+                          SIGN UP
+                        </button>
+                    }
+
                   </div>
                   <div className="text-center mt-4 font-weight-light">
                     Already have an account? <Link to="/login" className="text-primary">Login</Link>
