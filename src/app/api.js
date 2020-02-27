@@ -12,7 +12,7 @@ const axios = Axios.create({
   headers: { "Content-Type": "application/json", Accept: "application/json" }
 });
 
-const STATS_API = 'http://momodatasource-dev-env.us-east-1.elasticbeanstalk.com/api/stats'
+const STATS_API = 'https://data.mometic.com/api/stats'
 
 class API {
   init() {
