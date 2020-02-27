@@ -8,10 +8,10 @@ import Swiper from 'react-id-swiper';
 import 'swiper/css/swiper.css';
 import ReactTable from 'react-table'
 
-
 // import * as firebase from "firebase/app";
 
-const socketHost = "https://momoweb.mometic.com";
+const socketHost = "https://data.mometic.com";
+
 const filter = {
   category: [
     {
@@ -71,6 +71,7 @@ export class Dashboard extends Component {
     setInterval(() => {
       this.getStats()
     }, 3 * 60 * 1000) // Update Every 3 minutes
+    this.getPopularData();
   }
 
   updateDimensions = () => {
@@ -89,6 +90,7 @@ export class Dashboard extends Component {
   }
 
   componentWillUnmount() {
+    console.info('unmount');
     if (this.flushBufferIntervalId) {
       console.log("clearInterval for flushBufferIntervalId");
       clearInterval(this.flushBufferIntervalId);
@@ -116,6 +118,12 @@ export class Dashboard extends Component {
     this.setState({
       stats,
       discoveryData
+    })
+  }
+
+  getPopularData = () => {
+    API.getPopular().then(data => {
+    }).catch(error => {
     })
   }
 
@@ -166,7 +174,8 @@ export class Dashboard extends Component {
       ],
       isSmallDevice: window.matchMedia("(max-width: 768px)").matches,
       total: 0,
-      discoveryData: []
+      discoveryData: [],
+      popularData: []
     };
   };
 

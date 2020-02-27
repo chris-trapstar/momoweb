@@ -103,6 +103,24 @@ class API {
     });
   };
 
+  getPopular = () => {
+    const header = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      }
+    };
+    return new Promise((resolve, reject) => {
+      fetch(`https://momoweb.mometic.com/top/`, header)
+        .then(async response => {
+          resolve(response.json());
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
   handleAuthentication = () => {
     let access_token = this.getAccessToken();
 
