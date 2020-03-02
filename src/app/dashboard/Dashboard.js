@@ -12,7 +12,7 @@ import ReactTable from 'react-table'
 
 const socketHost = "https://data.mometic.com";
 
-const filter = {
+let filter = {
   category: [
     {
       name: "Basic industries",
@@ -42,6 +42,7 @@ const filter = {
   price: { min: 0, max: 2000 },
   volume: { min: 0, max: 200000000 }
 };
+
 const params = {
   slidesPerView: 'auto',
   spaceBetween: 20,
@@ -160,7 +161,7 @@ export class Dashboard extends Component {
       highs: [],
       lows: [],
       bars: [1, 0.6, -1],
-      filter: filter,
+      filter,
       stats: [],
       popoverOpened: false,
       stockCards: [
@@ -178,7 +179,7 @@ export class Dashboard extends Component {
       isSmallDevice: window.matchMedia("(max-width: 768px)").matches,
       total: 0,
       discoveryData: [],
-      popularData: []
+      popularData: [],
     };
   };
 
@@ -218,6 +219,7 @@ export class Dashboard extends Component {
 
     lows = this.applyPriceFilter(lows);
     highs = this.applyPriceFilter(highs);
+    console.info(highs);
 
     if (lows.length + highs.length > 0) {
       if (this.buffer.length > 200) {
@@ -617,18 +619,18 @@ export class Dashboard extends Component {
     let data = [];
     const { popularData } = this.state;
     if (popularData[index]) {
-      popularData[index].map(item => {
+      popularData[index].map((item, i) => {
         data.push(
           index === 0 ?
-            <h3 className="pr-2">{item}</h3>
+            <h3 key={`popular-data-${index}-${i}`} className="pr-2">{item}</h3>
             :
             index === 1 ?
-              <h4 className="pr-2">{item}</h4>
+              <h4 key={`popular-data-${index}-${i}`} className="pr-2">{item}</h4>
               :
               index === 2 ?
-                <h5 className="pr-2">{item}</h5>
+                <h5 key={`popular-data-${index}-${i}`} className="pr-2">{item}</h5>
                 :
-                <h6 className="pr-2">{item}</h6>
+                <h6 key={`popular-data-${index}-${i}`} className="pr-2">{item}</h6>
         )
       })
     }
@@ -636,10 +638,10 @@ export class Dashboard extends Component {
   }
 
   render() {
-    const { lows, highs, isSmallDevice, discoveryData, popularData } = this.state;
+    const { lows, highs, isSmallDevice, discoveryData } = this.state;
     return (
       <div>
-        <div className="row" ref={ref => { this.container = ref; }}>
+        <div className="row dashboard-content" ref={ref => { this.container = ref; }}>
           <div className="col-12 grid-margin stretch-card px-0">
             <div className="col-12 card-body py-0 px-0">
               {/** Meters Bar */}

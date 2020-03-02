@@ -21,7 +21,8 @@ export class Settings extends Component {
       addingAlert: 0,
       addingAlertProgress: 0,
       isSmallDevice: window.matchMedia("(max-width: 768px)").matches,
-      editingAlert: { id: 0, type: -1, index: -1, category: '', rate: '' }
+      editingAlert: { id: 0, type: -1, index: -1, category: '', rate: '' },
+      filter: null
     };
   }
 
@@ -29,6 +30,64 @@ export class Settings extends Component {
     const handler = e => this.setState({ isSmallDevice: e.matches });
     window.matchMedia("(max-width: 767px)").addListener(handler);
     this.getAlertSettings();
+
+    let filter = {
+      category: [
+        {
+          name: "Basic industries",
+          value: "basic-industries",
+          subscribed: true
+        },
+        { name: "Capital goods", value: "capital-goods", subscribed: true },
+        { name: "Consumer goods", value: "consumer-goods", subscribed: true },
+        {
+          name: "Consumer services",
+          value: "consumer-services",
+          subscribed: true
+        },
+        { name: "Energy", value: "energy", subscribed: true },
+        { name: "Finance", value: "finance", subscribed: true },
+        { name: "Health Care", value: "health-care", subscribed: true },
+        {
+          name: "Public utilities",
+          value: "public-utilities",
+          subscribed: true
+        },
+        { name: "Technology", value: "technology", subscribed: true },
+        { name: "Transportation", value: "transportation", subscribed: true },
+        { name: "Miscellaneous", value: "miscellaneous", subscribed: true },
+        { name: "OTC", value: "otc", subscribed: false }
+      ],
+      price: { min: 0, max: 2000 },
+      volume: { min: 0, max: 200000000 }
+    }
+
+    let data_filter = localStorage.getItem("filter");
+    if (data_filter) {
+      try {
+        let cached_filter = JSON.parse(data_filter);
+
+        filter.category.forEach((item, i, arr) => {
+          let cached_item = cached_filter.category.find(
+            a => a.value === item.value
+          );
+          console.log("CACHED", cached_item);
+          if (cached_item && item.subscribed !== cached_item.subscribed) {
+            arr[i].subscribed = cached_item.subscribed;
+          }
+        });
+
+        filter["price"] = cached_filter.price;
+        filter["volume"] = cached_filter.volume || filter.volume;
+        localStorage.setItem("filter", JSON.stringify(filter));
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      localStorage.setItem("filter", JSON.stringify(filter));
+    }
+
+    this.setState({ filter });
   }
 
   getAlertSettings = async () => {
@@ -254,10 +313,110 @@ export class Settings extends Component {
     }
   };
 
+  priceRangeFormatFrom = value => {
+    if (value === 'MIN') {
+      return 0;
+    } else if (value === 'MAX') {
+      return 500;
+    } else {
+      return value;
+    }
+  }
+
+  priceRangeFormatTo = value => {
+    if (value === 0) {
+      return 'MIN'
+    } else if (value === 500) {
+      return 'MAX';
+    } else {
+      return parseInt(value);
+    }
+  }
+
+  volRangeFormatFrom = value => {
+    if (value === 'MIN') {
+      return 0;
+    } else if (value === 'MAX') {
+      return 200;
+    } else {
+      return value.replace('M', '');
+    }
+  }
+
+  volRangeFormatTo = value => {
+    if (value === 0) {
+      return 'MIN'
+    } else if (value === 200) {
+      return 'MAX';
+    } else {
+      return value + 'M';
+    }
+  }
+
+  renderFilterIndustries = () => {
+    const { filter } = this.state;
+    let renderBtns = [];
+    if (filter) {
+      filter.category.map((item, index) => {
+        renderBtns.push(
+          <div
+            key={`industry-${index}`}
+            className="d-flex flex-row align-items-center industry-row"
+            onClick={() => { this.updateFilterIndustry(item); }}
+          >
+            {
+              item.subscribed ? <div className="industry-checked" /> : <div className="industry-unchecked" />
+            }
+            <span className="small white-no-wrap industry-txt">{item.name.toUpperCase()}</span>
+          </div>
+        )
+      });
+    }
+    return renderBtns;
+  }
+
+  updateFilterIndustry = item => {
+    let { filter } = this.state;
+    if (item.value === 'otc') {
+      filter.category.map((f, index) => {
+        if (f.value === 'otc') {
+          f.subscribed = !item.subscribed;
+        } else {
+          f.subscribed = item.subscribed;
+        }
+      });
+    } else {
+      filter.category.map((f, index) => {
+        if (f.value === item.value) {
+          f.subscribed = !item.subscribed;
+        }
+      })
+    }
+    console.info(filter);
+    localStorage.setItem('filter', JSON.stringify(filter));
+    this.setState({ filter });
+  }
+
+  updateFilterPrice = value => {
+    let { filter } = this.state;
+    filter.price = { min: value[0], max: value[1] };
+    console.info(filter);
+    localStorage.setItem('filter', JSON.stringify(filter));
+    this.setState({ filter });
+  }
+
+  updateFilterVol = value => {
+    let { filter } = this.state;
+    filter.volume = { min: parseInt(value[0]) * 1000000, max: parseInt(value[1]) * 1000000 };
+    console.info(filter);
+    localStorage.setItem('filter', JSON.stringify(filter));
+    this.setState({ filter });
+  }
+
   render() {
-    const { hLow, uVol, vWap, addingAlert, addingAlertProgress } = this.state;
+    const { hLow, uVol, vWap, addingAlert, addingAlertProgress, filter } = this.state;
     return (
-      <div>
+      <div className="settings-content">
         {/** General */}
         <div>
           <label>General</label>
@@ -268,24 +427,34 @@ export class Settings extends Component {
               <span className="small company-name">PRICE</span>
               <div className="d-flex flex-row flex-fill price-section">
                 <Nouislider
-                  range={{ min: 0, max: 100 }}
-                  start={[20, 50]}
+                  range={{ min: 0, max: 500 }}
+                  start={filter ? [filter.price.min, filter.price.max] : [0, 500]}
                   connect
                   tooltips={true}
+                  step={1}
+                  format={{
+                    from: this.priceRangeFormatFrom,
+                    to: this.priceRangeFormatTo
+                  }}
                   className="flex-fill slider-white slider-range"
-                  onChange={(render, handle, value, un, percent) => { }}
+                  onChange={(render, handle, value, un, percent) => { this.updateFilterPrice(value); }}
                 />
               </div>
               <div className="pricing-separator" />
               <div className="small company-name-margin">AVG VOL</div>
               <div className="d-flex flex-row flex-fill price-section">
                 <Nouislider
-                  range={{ min: 0, max: 100 }}
-                  start={[20, 50]}
+                  range={{ min: 0, max: 200 }}
+                  start={filter ? [parseInt(filter.volume.min / 1000000), parseInt(filter.volume.max / 1000000)] : [0, 200]}
                   connect
                   tooltips={true}
+                  step={1}
+                  format={{
+                    from: this.volRangeFormatFrom,
+                    to: this.volRangeFormatTo
+                  }}
                   className="flex-fill slider-white slider-range"
-                  onChange={(render, handle, value, un, percent) => { }}
+                  onChange={(render, handle, value, un, percent) => { this.updateFilterVol(value); }}
                 />
               </div>
               <div className="pricing-separator" />
@@ -295,54 +464,7 @@ export class Settings extends Component {
                 <div className="small company-name-margin">INDUSTRY</div>
               </div>
               <div className="d-flex flex-row flex-wrap margin-top-10">
-                <div className="d-flex flex-row align-items-center industry-row">
-                  <div className="industry-checked" />
-                  <span className="small white-no-wrap industry-txt">BASIC INDUSTRIES</span>
-                </div>
-                <div className="d-flex flex-row align-items-center industry-row">
-                  <div className="industry-checked" />
-                  <span className="small white-no-wrap industry-txt">CAPITAL GOODS</span>
-                </div>
-                <div className="d-flex flex-row align-items-center industry-row">
-                  <div className="industry-checked" />
-                  <span className="small white-no-wrap industry-txt">CONSUMER GOODS</span>
-                </div>
-                <div className="d-flex flex-row align-items-center industry-row">
-                  <div className="industry-checked" />
-                  <span className="small white-no-wrap industry-txt">CONSUMER SERVICES</span>
-                </div>
-                <div className="d-flex flex-row align-items-center industry-row">
-                  <div className="industry-checked" />
-                  <span className="small white-no-wrap industry-txt">ENERGY</span>
-                </div>
-                <div className="d-flex flex-row align-items-center industry-row">
-                  <div className="industry-checked" />
-                  <span className="small white-no-wrap industry-txt">FINANCE</span>
-                </div>
-                <div className="d-flex flex-row align-items-center industry-row">
-                  <div className="industry-checked" />
-                  <span className="small white-no-wrap industry-txt">HEALTH CARE</span>
-                </div>
-                <div className="d-flex flex-row align-items-center industry-row">
-                  <div className="industry-checked" />
-                  <span className="small white-no-wrap industry-txt">PUBLIC UTILITIES</span>
-                </div>
-                <div className="d-flex flex-row align-items-center industry-row">
-                  <div className="industry-checked" />
-                  <span className="small white-no-wrap industry-txt">TECHNOLOGY</span>
-                </div>
-                <div className="d-flex flex-row align-items-center industry-row">
-                  <div className="industry-checked" />
-                  <span className="small white-no-wrap industry-txt">TRANSPORTATION</span>
-                </div>
-                <div className="d-flex flex-row align-items-center industry-row">
-                  <div className="industry-checked" />
-                  <span className="small white-no-wrap industry-txt">MISCELLANEOUS</span>
-                </div>
-                <div className="d-flex flex-row align-items-center industry-row">
-                  <div className="industry-unchecked" />
-                  <span className="small white-no-wrap industry-txt">OTC</span>
-                </div>
+                {this.renderFilterIndustries()}
               </div>
             </div>
           </div>

@@ -70,6 +70,7 @@
 .industry-row {
     margin-top: 10px;
     padding-left: 2em;
+    cursor: pointer;
 }
 
 .industry-txt {
@@ -169,6 +170,11 @@
 
 .edit-rate-input:focus {
     border: dotted 1px white;
+}
+
+.settings-content {
+    padding-left: 1.75rem;
+    padding-right: 1.75rem;
 }
 
 /** Small iPads */
