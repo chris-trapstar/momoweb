@@ -1,10 +1,12 @@
 import Axios from "axios";
 import jwtDecode from "jwt-decode";
 
-const baseUrl =
-  window.location.hostname === "localhost"
-    ? "http://localhost:8080"
-    : "https://dev-api.mometic.com";
+// const baseUrl =
+//   window.location.hostname === "localhost"
+//     ? "http://localhost:8080"
+//     : "https://dev-api.mometic.com";
+
+const baseUrl = "https://dev-api.mometic.com";
 
 const axios = Axios.create({
   baseURL: baseUrl,
@@ -93,6 +95,32 @@ class API {
           let data = await response.json();
           if (data.access_token) {
             resolve(data);
+          } else {
+            reject(data.error);
+          }
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  };
+
+  verify = (email) => {
+    const header = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email
+      })
+    };
+    return new Promise((resolve, reject) => {
+      fetch(`${baseUrl}/api/auth/verify_email`, header)
+        .then(async response => {
+          let data = await response.json();
+          if (data.sent) {
+            resolve();
           } else {
             reject(data.error);
           }

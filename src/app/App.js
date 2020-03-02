@@ -12,6 +12,7 @@ import Footer from "./shared/Footer";
 import { withTranslation } from "react-i18next";
 import Login from "./user-pages/Login";
 import Register from "./user-pages/Register";
+import Verification from "./user-pages/Verification";
 import Spinner from "../app/shared/Spinner";
 import { AuthActions } from "./store";
 
@@ -27,6 +28,7 @@ class App extends Component {
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
+        <Route exact path="/verify" component={Verification} />
         <ProtectedApp
           {...this.props}
           loading={loading}

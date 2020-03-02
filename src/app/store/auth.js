@@ -4,7 +4,8 @@ import { createReducer, createActions } from "reduxsauce";
 const { Types, Creators } = createActions({
   setAuthenticated: ["authenticated"],
   setLoading: ["loading"],
-  setUser: ["user"]
+  setUser: ["user"],
+  setLoginEmail: ["email"]
 });
 
 export const AuthTypes = Types;
@@ -15,6 +16,7 @@ export default Creators;
 const defaultState = {
   authenticated: false,
   loading: false,
+  email: '',
   user: {}
 };
 
@@ -31,10 +33,15 @@ const setUser = (state, { user }) => ({
   ...state,
   user
 });
+const setLoginEmail = (state, { email }) => ({
+  ...state,
+  email
+});
 
 /* ------------- Hookup Reducers To Types ------------- */
 export const authReducer = createReducer(defaultState, {
   [Types.SET_AUTHENTICATED]: setAuthenticated,
   [Types.SET_LOADING]: setLoading,
-  [Types.SET_USER]: setUser
+  [Types.SET_USER]: setUser,
+  [Types.SET_LOGIN_EMAIL]: setLoginEmail,
 });

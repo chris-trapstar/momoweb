@@ -24,12 +24,17 @@ class Login extends Component {
     this.props.setLoading(true);
     Api.login(email, password)
       .then(({ user, access_token }) => {
-        // Save Session
-        Api.setSession(access_token);
+        if (user.email_verified) {
+          // Save Session
+          Api.setSession(access_token);
 
-        this.props.setUser(user);
-        this.props.setLoading(false);
-        this.props.setAuthenticated(true);
+          this.props.setUser(user);
+          this.props.setLoading(false);
+          this.props.setAuthenticated(true);
+        } else {
+          this.props.setLoginEmail(email);
+          this.props.history.push("/verify");
+        }
       })
       .catch(error => {
         const errTxt = error.toString()
@@ -42,14 +47,14 @@ class Login extends Component {
             loginErrTxt = "Unknown problem";
           }
         }
-        
+
         this.setState({ loginErrTxt });
         this.props.setLoading(false);
         this.props.setAuthenticated(false);
       });
   };
 
-  onFacebook = () => {};
+  onFacebook = () => { };
 
   render() {
     const { loginErrTxt } = this.state;
@@ -143,7 +148,8 @@ class Login extends Component {
 const mapDispatchToProps = {
   setAuthenticated: AuthActions.setAuthenticated,
   setLoading: AuthActions.setLoading,
-  setUser: AuthActions.setUser
+  setUser: AuthActions.setUser,
+  setLoginEmail: AuthActions.setLoginEmail
 };
 
 const mapStateToProps = state => ({
