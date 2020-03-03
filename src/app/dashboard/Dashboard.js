@@ -134,7 +134,7 @@ export class Dashboard extends Component {
 
   getAlertHistory = () => {
     API.getAlertHistory().then(alertHistory => {
-      console.info('alert history', alertHistory);
+      this.setState({ alertHistory });
     }).catch(error => {
       console.info(error);
     })
@@ -189,14 +189,7 @@ export class Dashboard extends Component {
       total: 0,
       discoveryData: [],
       popularData: [],
-      alertHistory: [
-        { message: 'AAPL has just reached a new high 315. [Mar 03 - 12:03 PM ]' },
-        { message: 'SPY has just reached a new high 313.73 [Mar 03 - 10:05 AM ]' },
-        { message: 'AAPL has just reached a new high 304.15 [Mar 03 - 09:28 AM ]' },
-        { message: 'AAPL has just reached a new high 315. [Mar 03 - 12:03 PM ]' },
-        { message: 'SPY has just reached a new high 313.73 [Mar 03 - 10:05 AM ]' },
-        { message: 'AAPL has just reached a new high 304.15 [Mar 03 - 09:28 AM ]' }
-      ]
+      alertHistory: []
     };
   };
 
@@ -243,7 +236,7 @@ export class Dashboard extends Component {
         this.buffer = [];
         console.error("Buffer too big, truncating");
       }
-      this.buffer.push({ highs: highs, lows: lows });
+      this.buffer.push({ highs, lows });
     }
   };
 
@@ -661,7 +654,7 @@ export class Dashboard extends Component {
       data.push(
         <div key={`render-alert-history-${index}`}>
           <div className="d-flex flex-row flex-fill flex-wrap">
-            <div className="font-13 alert-history-color">{item.message}</div>
+            <div className="font-13 alert-history-color">{item.msg}</div>
           </div>
           <div className="d-flex flex-row flex-fill alert-history-separator" />
         </div>
