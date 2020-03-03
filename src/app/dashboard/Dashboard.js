@@ -73,6 +73,7 @@ export class Dashboard extends Component {
       this.getStats()
     }, 3 * 60 * 1000) // Update Every 3 minutes
     this.getPopularData();
+    this.getAlertHistory();
   }
 
   updateDimensions = () => {
@@ -126,6 +127,14 @@ export class Dashboard extends Component {
       let { popularData } = this.state;
       popularData.push(popular[0], popular[1], popular[2], popular[3]);
       this.setState({ popularData });
+    }).catch(error => {
+      console.info(error);
+    })
+  }
+
+  getAlertHistory = () => {
+    API.getAlertHistory().then(alertHistory => {
+      console.info('alert history', alertHistory);
     }).catch(error => {
       console.info(error);
     })

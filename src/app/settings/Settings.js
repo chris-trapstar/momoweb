@@ -199,7 +199,7 @@ export class Settings extends Component {
           }
           <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
             <Nouislider
-              range={{ min: 0, max: 100 }}
+              range={{ min: 0, max: 1000 }}
               start={editingAlert.type === type && editingAlert.index === index ? editingAlert.rate : rate}
               connect={[false, true]}
               className="flex-fill slider-white"
@@ -504,13 +504,13 @@ export class Settings extends Component {
                 />
                 <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
                   <Nouislider
-                    range={{ min: 0, max: 100 }}
+                    range={{ min: 0, max: 1000 }}
                     start={addingAlertProgress}
                     connect={[false, true]}
                     className="flex-fill slider-white"
                     onChange={(render, handle, value, un, percent) => {
-                      this.setState({ addingAlertProgress: parseFloat(percent).toFixed(2) });
-                      this.refLowVal.value = parseFloat(percent).toFixed(2);
+                      this.setState({ addingAlertProgress: parseFloat(value).toFixed(2) });
+                      this.refLowVal.value = parseFloat(value).toFixed(2);
                     }}
                   />
                   <input
@@ -575,13 +575,13 @@ export class Settings extends Component {
                 />
                 <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
                   <Nouislider
-                    range={{ min: 0, max: 100 }}
+                    range={{ min: 0, max: 1000 }}
                     start={addingAlertProgress}
                     connect={[false, false]}
                     className="flex-fill slider-white"
                     onChange={(render, handle, value, un, percent) => {
-                      this.setState({ addingAlertProgress: parseFloat(percent).toFixed(2) });
-                      this.refVolVal.value = parseFloat(percent).toFixed(2);
+                      this.setState({ addingAlertProgress: parseFloat(value).toFixed(2) });
+                      this.refVolVal.value = parseFloat(value).toFixed(2);
                     }}
                   />
                   <input
@@ -662,13 +662,13 @@ export class Settings extends Component {
                 />
                 <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
                   <Nouislider
-                    range={{ min: 0, max: 100 }}
+                    range={{ min: 0, max: 1000 }}
                     start={addingAlertProgress}
                     connect={[false, false]}
                     className="flex-fill slider-white"
                     onChange={(render, handle, value, un, percent) => {
-                      this.setState({ addingAlertProgress: parseFloat(percent).toFixed(2) });
-                      this.refWapVal.value = parseFloat(percent).toFixed(2);
+                      this.setState({ addingAlertProgress: parseFloat(value).toFixed(2) });
+                      this.refWapVal.value = parseFloat(value).toFixed(2);
                     }}
                   />
                   <input
