@@ -189,6 +189,14 @@ export class Dashboard extends Component {
       total: 0,
       discoveryData: [],
       popularData: [],
+      alertHistory: [
+        { message: 'AAPL has just reached a new high 315. [Mar 03 - 12:03 PM ]' },
+        { message: 'SPY has just reached a new high 313.73 [Mar 03 - 10:05 AM ]' },
+        { message: 'AAPL has just reached a new high 304.15 [Mar 03 - 09:28 AM ]' },
+        { message: 'AAPL has just reached a new high 315. [Mar 03 - 12:03 PM ]' },
+        { message: 'SPY has just reached a new high 313.73 [Mar 03 - 10:05 AM ]' },
+        { message: 'AAPL has just reached a new high 304.15 [Mar 03 - 09:28 AM ]' }
+      ]
     };
   };
 
@@ -646,6 +654,22 @@ export class Dashboard extends Component {
     return data;
   }
 
+  renderAlertHistory = () => {
+    let data = [];
+    const { alertHistory } = this.state;
+    alertHistory.map((item, index) => {
+      data.push(
+        <div key={`render-alert-history-${index}`}>
+          <div className="d-flex flex-row flex-fill flex-wrap">
+            <div className="font-13 alert-history-color">{item.message}</div>
+          </div>
+          <div className="d-flex flex-row flex-fill alert-history-separator" />
+        </div>
+      )
+    })
+    return data;
+  }
+
   render() {
     const { lows, highs, isSmallDevice, discoveryData } = this.state;
     return (
@@ -733,7 +757,7 @@ export class Dashboard extends Component {
 
                   </div>
                 </div>
-                <div className="grid-margin stretch-card column-flex pr-0 popular-table">
+                <div className="d-flex grid-margin stretch-card flex-column pr-0 popular-table">
                   <div className="card">
                     <div className="card-body">
                       <div className="d-flex flex-row justify-content-between">
@@ -757,13 +781,18 @@ export class Dashboard extends Component {
                     </div>
                   </div>
 
-                  <div className="card data-section">
+                  <div className="card data-section flex-fill">
                     <div className="card-body">
                       <div className="d-flex flex-row justify-content-between">
                         <h4 className="card-title mb-1">Alert History</h4>
                         <p className="text-muted mb-1" />
                       </div>
-                      <div className="row data-section popular" />
+                      <div className="data-section">
+                        <div className="d-flex flex-row flex-fill alert-history-separator" />
+                        <div className="alert-history-data">
+                          {this.renderAlertHistory()}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
