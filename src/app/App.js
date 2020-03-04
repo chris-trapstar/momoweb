@@ -58,13 +58,16 @@ class ProtectedApp extends Component {
   componentDidMount() {
     this.checkEmailVerified()
   }
-  
-  checkEmailVerified = async () => {
-    const data = await API.signInWithToken()
-    console.info('Refreshed User Profile:', data)
-    this.props.setUser(data.user);
-    this.props.setLoading(false);
-    this.props.setAuthenticated(true);
+
+  checkEmailVerified = () => {
+    API.signInWithToken().then((data) => {
+      console.info('sign in with token data', data);
+      this.props.setUser(data.user);
+      this.props.setLoading(false);
+      this.props.setAuthenticated(true);
+    }).catch(error => { 
+      console.info('sign in with token error', error);
+     })
   }
 
   onLogout = () => {
@@ -79,17 +82,10 @@ class ProtectedApp extends Component {
       return <Redirect to="/login" />;
     }
 
-    if (!this.props.user.email_verified) {
-      return <Redirect to="/verify" />;
-    }
+    let navbarComponent = !this.state.isFullPageLayout && this.props.user.email_verified ? <Navbar onLogout={this.onLogout} /> : "";
+    let sidebarComponent = !this.state.isFullPageLayout && this.props.user.email_verified ? <Sidebar /> : "";
+    let footerComponent = !this.state.isFullPageLayout && this.props.user.email_verified ? <Footer /> : "";
 
-    let navbarComponent = !this.state.isFullPageLayout ? (
-      <Navbar onLogout={this.onLogout} />
-    ) : (
-      ""
-    );
-    let sidebarComponent = !this.state.isFullPageLayout ? <Sidebar /> : "";
-    let footerComponent = !this.state.isFullPageLayout ? <Footer /> : "";
     return (
       <div className="container-scroller">
         {sidebarComponent}
@@ -111,7 +107,6 @@ const mapDispatchToProps = {
   setAuthenticated: AuthActions.setAuthenticated,
   setLoading: AuthActions.setLoading,
   setUser: AuthActions.setUser,
-  setLoginEmail: AuthActions.setLoginEmail
 };
 
 const mapStateToProps = state => ({

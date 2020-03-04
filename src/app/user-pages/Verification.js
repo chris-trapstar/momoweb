@@ -13,6 +13,7 @@ class Verification extends Component {
   };
 
   componentWillUpdate() {
+    console.info('verification page update');
     if (this.props.user && this.props.user.email_verified) {
       this.props.history.replace('/dashboard')
     }
@@ -20,8 +21,7 @@ class Verification extends Component {
 
   onResend = () => {
     this.setState({ errTxt: "" });
-    this.props.setLoading(true);
-    Api.verify(this.props.email)
+    Api.verify(this.props.user.email)
       .then(() => {
         this.setState({ errTxt: '', succTxt: 'Sent successfully' })
       })
@@ -36,8 +36,6 @@ class Verification extends Component {
           }
         }
         this.setState({ errTxt, succTxt: '' });
-        this.props.setLoading(false);
-        this.props.setAuthenticated(false);
       });
   };
 
@@ -53,7 +51,7 @@ class Verification extends Component {
                   <h2>MomoWeb</h2>
                 </div>
                 <h4>Please Verify Your Email</h4>
-                <h6 className="font-weight-light">Your email: {this.props.email}</h6>
+                <h6 className="font-weight-light">Your email: {this.props.user.email}</h6>
                 {errTxt !== "" && (
                   <label className="text-danger">{`${errTxt}`}</label>
                 )}
@@ -87,7 +85,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
-  email: state.auth.email,
   user: state.auth.user
 });
 

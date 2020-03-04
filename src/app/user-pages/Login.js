@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { connect } from "react-redux";
 import { AuthActions } from "../store";
@@ -12,7 +12,7 @@ class Login extends Component {
   };
 
   componentWillReceiveProps(nextProps, nextContext) {
-    if (nextProps.authenticated) {
+    if (nextProps.authenticated && nextProps.email_verified) {
       this.props.history.push("/dashboard");
     }
   }
@@ -24,16 +24,17 @@ class Login extends Component {
     this.props.setLoading(true);
     Api.login(email, password)
       .then(({ user, access_token }) => {
-        if (user.email_verified) {
-          // Save Session
-          Api.setSession(access_token);
 
-          this.props.setUser(user);
-          this.props.setLoading(false);
-          this.props.setAuthenticated(true);
-        } else {
-          this.props.setLoginEmail(email);
+        // Save Session
+        Api.setSession(access_token);
+        this.props.setUser(user);
+        this.props.setLoading(false);
+        this.props.setAuthenticated(true);
+
+        if (!user.email_verified) {
           this.props.history.push("/verify");
+        } else {
+          this.props.history.push("/dashboard");
         }
       })
       .catch(error => {
@@ -50,7 +51,7 @@ class Login extends Component {
 
         this.setState({ loginErrTxt });
         this.props.setLoading(false);
-        this.props.setAuthenticated(false);
+        this.props.setAuthenticated(true);
       });
   };
 
@@ -149,7 +150,6 @@ const mapDispatchToProps = {
   setAuthenticated: AuthActions.setAuthenticated,
   setLoading: AuthActions.setLoading,
   setUser: AuthActions.setUser,
-  setLoginEmail: AuthActions.setLoginEmail
 };
 
 const mapStateToProps = state => ({

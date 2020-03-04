@@ -36,8 +36,14 @@ export class Register extends Component {
     this.props.setLoading(true);
     Api.signup(email, username, password)
       .then(({ user, access_token }) => {
-        this.props.setLoginEmail(email);
+
+        // Save Session
+        Api.setSession(access_token);
+
+        this.props.setUser(user);
         this.props.setLoading(false);
+        this.props.setAuthenticated(true);
+
         this.props.history.push("/verify");
       })
       .catch(error => {
@@ -164,7 +170,6 @@ const mapDispatchToProps = {
   setAuthenticated: AuthActions.setAuthenticated,
   setLoading: AuthActions.setLoading,
   setUser: AuthActions.setUser,
-  setLoginEmail: AuthActions.setLoginEmail
 };
 
 const mapStateToProps = state => ({
