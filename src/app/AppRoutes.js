@@ -4,6 +4,8 @@ import * as firebase from 'firebase/app';
 
 import Dashboard from "./dashboard/Dashboard";
 import Settings from "./settings/Settings";
+import Verification from './user-pages/Verification';
+
 import API from './api'
 
 class AppRoutes extends Component {
@@ -30,6 +32,7 @@ class AppRoutes extends Component {
   render() {
     return (
       <Switch>
+        <Route exact path="/verify" component={Verification} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/settings" component={Settings} />
         <Redirect to="/dashboard" />

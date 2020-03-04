@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { connect } from "react-redux";
 import { AuthActions } from "../store";
@@ -11,6 +11,12 @@ class Verification extends Component {
     errTxt: '',
     succTxt: ''
   };
+
+  componentWillUpdate() {
+    if (this.props.user && this.props.user.email_verified) {
+      this.props.history.replace('/dashboard')
+    }
+  }
 
   onResend = () => {
     this.setState({ errTxt: "" });
@@ -81,7 +87,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
-  email: state.auth.email
+  email: state.auth.email,
+  user: state.auth.user
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Verification);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Verification));

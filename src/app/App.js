@@ -14,7 +14,6 @@ import Footer from "./shared/Footer";
 import { withTranslation } from "react-i18next";
 import Login from "./user-pages/Login";
 import Register from "./user-pages/Register";
-import Verification from "./user-pages/Verification";
 import Spinner from "../app/shared/Spinner";
 import { AuthActions } from "./store";
 import API from './api';
@@ -39,7 +38,6 @@ class App extends Component {
       <Switch>
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
-        <Route exact path="/verify" component={Verification} />
         <ProtectedApp
           {...this.props}
           loading={loading}
@@ -58,13 +56,15 @@ class ProtectedApp extends Component {
   }
 
   componentDidMount() {
-    debugger
     this.checkEmailVerified()
   }
   
   checkEmailVerified = async () => {
     const data = await API.signInWithToken()
     console.info('Refreshed User Profile:', data)
+    this.props.setUser(data.user);
+    this.props.setLoading(false);
+    this.props.setAuthenticated(true);
   }
 
   onLogout = () => {
@@ -109,7 +109,9 @@ class ProtectedApp extends Component {
 
 const mapDispatchToProps = {
   setAuthenticated: AuthActions.setAuthenticated,
-  setLoading: AuthActions.setLoading
+  setLoading: AuthActions.setLoading,
+  setUser: AuthActions.setUser,
+  setLoginEmail: AuthActions.setLoginEmail
 };
 
 const mapStateToProps = state => ({
