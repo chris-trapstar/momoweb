@@ -234,7 +234,6 @@ export class Dashboard extends Component {
 
     lows = this.applyPriceFilter(lows);
     highs = this.applyPriceFilter(highs);
-    console.info('highs', highs);
 
     if (lows.length + highs.length > 0) {
       if (this.buffer.length > 200) {
@@ -334,18 +333,25 @@ export class Dashboard extends Component {
             key={`low_${index}`}
             className="d-flex flex-row"
           >
-            <td className="text-danger flex-fill">
-              <div className="stock-text">
+            <td className={`text-low flex-fill${low[3] === 1 ? ' bg-low' : ''}`}>
+              <div className={`stock-text${low[3] === 1 ? ' text-white' : ''}`}>
                 {low[0]}
               </div>
             </td>
-            <td className="text-danger flex-fill">
-              <div className="stock-text">
+            <td className={`text-low flex-fill${low[3] === 1 ? ' bg-low' : ''}`}>
+              <div className={`stock-text${low[3] === 1 ? ' text-white' : ''}`}>
                 {low[2]}
               </div>
             </td>
-            <td className="text-danger flex-fill">
-              <div className="stock-text">
+            <td className={`text-low flex-fill${low[3] === 1 ? ' bg-low' : ''}`}>
+              {
+                low[4] === 1 &&
+                <img
+                  className="stockwits"
+                  src={require("../../assets/images/dashboard/stock-tweets.svg")}
+                />
+              }
+              <div className={`stock-text${low[3] === 1 ? ' text-white' : ''}`}>
                 {this.getLast(low[6], low[1])}
               </div>
             </td>
@@ -367,18 +373,25 @@ export class Dashboard extends Component {
             key={`high_${index}`}
             className="d-flex flex-row"
           >
-            <td className="text-success flex-fill">
-              <div className="stock-text">
+            <td className={`text-high flex-fill${high[3] === 1 ? ' bg-high' : ''}`}>
+              <div className={`stock-text${high[3] === 1 ? ' text-white' : ''}`}>
                 {high[0]}
               </div>
             </td>
-            <td className="text-success flex-fill">
-              <div className="stock-text">
+            <td className={`text-high flex-fill${high[3] === 1 ? ' bg-high' : ''}`}>
+              <div className={`stock-text${high[3] === 1 ? ' text-white' : ''}`}>
                 {high[2]}
               </div>
             </td>
-            <td className="text-success flex-fill">
-              <div className="stock-text">
+            <td className={`text-high flex-fill${high[3] === 1 ? ' bg-high' : ''}`}>
+              {
+                high[4] === 1 &&
+                <img
+                  className="stockwits"
+                  src={require("../../assets/images/dashboard/stock-tweets.svg")}
+                />
+              }
+              <div className={`stock-text${high[3] === 1 ? ' text-white' : ''}`}>
                 {this.getLast(high[6], high[1])}
               </div>
             </td>
@@ -673,10 +686,10 @@ export class Dashboard extends Component {
     const { discoveryData } = this.state;
     let discoveryDataFiltered = [];
     if (discoveryFilter === '') {
-      this.setState({discoveryNoDataText: 'Loading...'});
+      this.setState({ discoveryNoDataText: 'Loading...' });
       discoveryDataFiltered = discoveryData;
     } else {
-      this.setState({discoveryNoDataText: 'No Data'});
+      this.setState({ discoveryNoDataText: 'No Data' });
       discoveryData.map(data => {
         if (data.symbol) {
           if (data.symbol.includes(discoveryFilter)) {

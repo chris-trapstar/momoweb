@@ -109,6 +109,34 @@
   overflow-y: scroll;
 }
 
+.stockwits {
+  position: absolute;
+  border-radius: 0 !important;
+  width: 15px !important;
+  height: 15px !important;
+  right: 30%;
+}
+
+.bg-low {
+  background: #ff0100;
+}
+
+.text-white {
+  color: white;
+}
+
+.text-low {
+  color: #ff0100;
+}
+
+.bg-high {
+  background: #73b101;
+}
+
+.text-high {
+  color: #73b101;
+}
+
 .input-border {
   outline: none !important;
   border: 1px solid gray;
@@ -411,6 +439,14 @@ th {
 
   .pagination-bottom .-pagination {
     display: block;
+  }
+
+  .stockwits {
+    position: absolute;
+    border-radius: 0 !important;
+    width: 12px !important;
+    height: 12px !important;
+    right: 32%;
   }
 }
 
