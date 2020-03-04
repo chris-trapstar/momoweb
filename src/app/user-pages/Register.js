@@ -12,7 +12,7 @@ export class Register extends Component {
   };
 
   componentWillReceiveProps(nextProps, nextContext) {
-    if (nextProps.authenticated) {
+    if (nextProps.authenticated && nextProps.email_verified) {
       this.props.history.push("/dashboard");
     }
   }

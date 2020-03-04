@@ -15,7 +15,7 @@ class Verification extends Component {
   componentWillUpdate() {
     console.info('verification page update');
     if (this.props.user && this.props.user.email_verified) {
-      this.props.history.replace('/dashboard')
+      this.props.history.push('/dashboard')
     }
   }
 
