@@ -224,12 +224,12 @@ export class Dashboard extends Component {
         msg[0][2] // spy
       ]);
     } catch (e) {
-      console.error(e);
+      console.error('_updateStatusBar', e);
     }
 
     lows = this.applyPriceFilter(lows);
     highs = this.applyPriceFilter(highs);
-    console.info(highs);
+    console.info('highs', highs);
 
     if (lows.length + highs.length > 0) {
       if (this.buffer.length > 200) {
