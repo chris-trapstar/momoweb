@@ -2,6 +2,8 @@ import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import * as firebase from "firebase/app";
+import cogoToast from 'cogo-toast';
 
 import "./App.scss";
 import './firebase'; // Init Firebase SDK
@@ -15,6 +17,14 @@ import Register from "./user-pages/Register";
 import Verification from "./user-pages/Verification";
 import Spinner from "../app/shared/Spinner";
 import { AuthActions } from "./store";
+
+const messaging = firebase.messaging();
+
+messaging.onMessage((payload) => {
+  console.info('Firebase Notification Received:', payload)
+  const message = payload.notification.body
+  cogoToast.info(message)
+})
 
 class App extends Component {
   onLogout = () => {
