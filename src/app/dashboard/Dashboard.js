@@ -119,7 +119,8 @@ export class Dashboard extends Component {
     })
     this.setState({
       stats,
-      discoveryData
+      discoveryData,
+      discoveryDataFiltered: discoveryData
     })
   }
 
@@ -189,8 +190,10 @@ export class Dashboard extends Component {
       isSmallDevice: window.matchMedia("(max-width: 768px)").matches,
       total: 0,
       discoveryData: [],
+      discoveryDataFiltered: [],
       popularData: [],
-      alertHistory: []
+      alertHistory: [],
+      discoveryFilter: ''
     };
   };
 
@@ -664,8 +667,26 @@ export class Dashboard extends Component {
     return data;
   }
 
+  onChangeDiscoveryFilter = () => {
+    const discoveryFilter = this.refDiscoveryFilter.value.toUpperCase();
+    const { discoveryData } = this.state;
+    let discoveryDataFiltered = [];
+    if (discoveryFilter === '') {
+      discoveryDataFiltered = discoveryData;
+    } else {
+      discoveryData.map(data => {
+        if (data.symbol) {
+          if (data.symbol.includes(discoveryFilter)) {
+            discoveryDataFiltered.push(data);
+          }  
+        }
+      })  
+    }
+    this.setState({ discoveryFilter, discoveryDataFiltered });
+  }
+
   render() {
-    const { lows, highs, isSmallDevice, discoveryData } = this.state;
+    const { lows, highs, isSmallDevice, discoveryDataFiltered, discoveryFilter } = this.state;
     return (
       <div>
         <div className="row dashboard-content" ref={ref => { this.container = ref; }}>
@@ -819,12 +840,15 @@ export class Dashboard extends Component {
                                 </div>
                                 <input
                                   className="input p-0 text-center bg-dark white-color input-border"
-                                  placeholder="symbol search"
+                                  placeholder="Symbol Search"
+                                  onChange={this.onChangeDiscoveryFilter}
+                                  ref={ref => { this.refDiscoveryFilter = ref; }}
+                                  value={discoveryFilter}
                                 />
                               </div>
 
                               <ReactTable
-                                data={discoveryData}
+                                data={discoveryDataFiltered}
                                 filterable={false}
                                 defaultPageSize={10}
                                 sortable={true}
