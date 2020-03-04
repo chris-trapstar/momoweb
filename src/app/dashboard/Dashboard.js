@@ -193,7 +193,8 @@ export class Dashboard extends Component {
       discoveryDataFiltered: [],
       popularData: [],
       alertHistory: [],
-      discoveryFilter: ''
+      discoveryFilter: '',
+      discoveryNoDataText: 'Loading...'
     };
   };
 
@@ -672,21 +673,23 @@ export class Dashboard extends Component {
     const { discoveryData } = this.state;
     let discoveryDataFiltered = [];
     if (discoveryFilter === '') {
+      this.setState({discoveryNoDataText: 'Loading...'});
       discoveryDataFiltered = discoveryData;
     } else {
+      this.setState({discoveryNoDataText: 'No Data'});
       discoveryData.map(data => {
         if (data.symbol) {
           if (data.symbol.includes(discoveryFilter)) {
             discoveryDataFiltered.push(data);
-          }  
+          }
         }
-      })  
+      })
     }
     this.setState({ discoveryFilter, discoveryDataFiltered });
   }
 
   render() {
-    const { lows, highs, isSmallDevice, discoveryDataFiltered, discoveryFilter } = this.state;
+    const { lows, highs, isSmallDevice, discoveryDataFiltered, discoveryFilter, discoveryNoDataText } = this.state;
     return (
       <div>
         <div className="row dashboard-content" ref={ref => { this.container = ref; }}>
@@ -852,7 +855,7 @@ export class Dashboard extends Component {
                                 filterable={false}
                                 defaultPageSize={10}
                                 sortable={true}
-                                noDataText='Loading...'
+                                noDataText={discoveryNoDataText}
                                 columns={[
                                   {
                                     accessor: 'symbol',
