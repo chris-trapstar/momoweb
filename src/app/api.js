@@ -171,6 +171,26 @@ class API {
     });
   }
 
+  getUserProfile = () => {
+    const header = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getAccessToken()}`
+      }
+    };
+    return new Promise((resolve, reject) => {
+      fetch(`${baseUrl}/api/auth/user`, header)
+        .then(async response => {
+          const data = await response.json();
+          resolve(data);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+
   handleAuthentication = () => {
     let access_token = this.getAccessToken();
 
