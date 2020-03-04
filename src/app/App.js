@@ -17,6 +17,7 @@ import Register from "./user-pages/Register";
 import Verification from "./user-pages/Verification";
 import Spinner from "../app/shared/Spinner";
 import { AuthActions } from "./store";
+import API from './api';
 
 const messaging = firebase.messaging();
 
@@ -51,7 +52,20 @@ class App extends Component {
 }
 
 class ProtectedApp extends Component {
-  state = {};
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
+  componentDidMount() {
+    debugger
+    this.checkEmailVerified()
+  }
+  
+  checkEmailVerified = async () => {
+    const data = await API.signInWithToken()
+    console.info('Refreshed User Profile:', data)
+  }
 
   onLogout = () => {
     this.props.onLogout();
@@ -63,6 +77,10 @@ class ProtectedApp extends Component {
       return <Spinner />;
     } else if (!this.props.authenticated) {
       return <Redirect to="/login" />;
+    }
+
+    if (!this.props.user.email_verified) {
+      return <Redirect to="/verify" />;
     }
 
     let navbarComponent = !this.state.isFullPageLayout ? (
@@ -96,7 +114,8 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
-  loading: state.auth.loading
+  loading: state.auth.loading,
+  user: state.auth.user
 });
 
 export default withTranslation()(

@@ -1,12 +1,12 @@
 import Axios from "axios";
 import jwtDecode from "jwt-decode";
 
-// const baseUrl =
-//   window.location.hostname === "localhost"
-//     ? "http://localhost:8080"
-//     : "https://dev-api.mometic.com";
+const baseUrl =
+  window.location.hostname === "localhost"
+    ? "http://localhost:8080"
+    : "https://dev-api.mometic.com";
 
-const baseUrl = "https://dev-api.mometic.com";
+// const baseUrl = "https://dev-api.mometic.com";
 
 const axios = Axios.create({
   baseURL: baseUrl,
@@ -171,26 +171,6 @@ class API {
     });
   }
 
-  getUserProfile = () => {
-    const header = {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${this.getAccessToken()}`
-      }
-    };
-    return new Promise((resolve, reject) => {
-      fetch(`${baseUrl}/api/auth/user`, header)
-        .then(async response => {
-          const data = await response.json();
-          resolve(data);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-  }
-
   handleAuthentication = () => {
     let access_token = this.getAccessToken();
 
@@ -244,25 +224,21 @@ class API {
   };
 
   signInWithToken = () => {
+    const header = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getAccessToken()}`
+      }
+    };
     return new Promise((resolve, reject) => {
-      axios
-        .get("/api/auth/user", {
-          headers: {
-            Authorization: `Bearer ${this.getAccessToken()}`
-          }
-        })
-        .then(response => {
-          if (response.data.user) {
-            this.setSession(response.data.access_token);
-            resolve(response.data.user);
-          } else {
-            this.logout();
-            reject("Failed to login with token.");
-          }
+      fetch(`${baseUrl}/api/auth/user`, header)
+        .then(async response => {
+          const data = await response.json();
+          resolve(data);
         })
         .catch(error => {
-          this.logout();
-          reject("Failed to login with token.");
+          reject(error);
         });
     });
   };
