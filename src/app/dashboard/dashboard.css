@@ -125,8 +125,20 @@
   color: white;
 }
 
+.stock-text-white {
+  color: white;
+}
+
+.stock-text-white:hover {
+  cursor: pointer;
+}
+
 .text-low {
   color: #ff0100;
+}
+
+.text-low:hover {
+  cursor: pointer;
 }
 
 .bg-high {
@@ -135,6 +147,10 @@
 
 .text-high {
   color: #73b101;
+}
+
+.text-high:hover {
+  cursor: pointer;
 }
 
 .input-border {

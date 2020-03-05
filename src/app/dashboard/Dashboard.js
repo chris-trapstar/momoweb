@@ -332,14 +332,15 @@ export class Dashboard extends Component {
             id={`low-context-menu_${index}`}
             key={`low_${index}`}
             className="d-flex flex-row"
+            holdToDisplay={0}
           >
             <td className={`text-low flex-fill${low[3] === 1 ? ' bg-low' : ''}`}>
-              <div className={`stock-text${low[3] === 1 ? ' text-white' : ''}`}>
+              <div className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
                 {low[0]}
               </div>
             </td>
             <td className={`text-low flex-fill${low[3] === 1 ? ' bg-low' : ''}`}>
-              <div className={`stock-text${low[3] === 1 ? ' text-white' : ''}`}>
+              <div className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
                 {low[2]}
               </div>
             </td>
@@ -351,7 +352,7 @@ export class Dashboard extends Component {
                   src={require("../../assets/images/dashboard/stock-tweets.svg")}
                 />
               }
-              <div className={`stock-text${low[3] === 1 ? ' text-white' : ''}`}>
+              <div className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
                 {this.getLast(low[6], low[1])}
               </div>
             </td>
@@ -372,14 +373,15 @@ export class Dashboard extends Component {
             id={`high-context-menu_${index}`}
             key={`high_${index}`}
             className="d-flex flex-row"
+            holdToDisplay={0}
           >
             <td className={`text-high flex-fill${high[3] === 1 ? ' bg-high' : ''}`}>
-              <div className={`stock-text${high[3] === 1 ? ' text-white' : ''}`}>
+              <div className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
                 {high[0]}
               </div>
             </td>
             <td className={`text-high flex-fill${high[3] === 1 ? ' bg-high' : ''}`}>
-              <div className={`stock-text${high[3] === 1 ? ' text-white' : ''}`}>
+              <div className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
                 {high[2]}
               </div>
             </td>
@@ -391,7 +393,7 @@ export class Dashboard extends Component {
                   src={require("../../assets/images/dashboard/stock-tweets.svg")}
                 />
               }
-              <div className={`stock-text${high[3] === 1 ? ' text-white' : ''}`}>
+              <div className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
                 {this.getLast(high[6], high[1])}
               </div>
             </td>
