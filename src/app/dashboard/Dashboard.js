@@ -948,7 +948,7 @@ export class Dashboard extends Component {
                                     },
                                     Cell: (cellInfo) => {
                                       return (
-                                        <div className="text-success">{cellInfo.original.uVol}</div>
+                                        <div className="text-success">{cellInfo.original.UV}</div>
                                       );
                                     }
                                   }, {
