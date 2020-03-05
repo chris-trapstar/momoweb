@@ -151,6 +151,10 @@ class API {
     });
   }
 
+  getStockPageLink = (domain, stock) => {
+    return `${baseUrl}/api/stock/${domain}/${stock}/`
+  }
+
   getAlertHistory = () => {
     const header = {
       method: "GET",

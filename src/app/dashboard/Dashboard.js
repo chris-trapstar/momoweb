@@ -478,43 +478,45 @@ export class Dashboard extends Component {
     return (
       <ContextMenu id={key} className="p-0" key={`menu-item-${key}`}>
         <div className="bg-dark px-3 py-1">
+          <div className="mt-2" />
           <span>LINKS</span>
-          <MenuItem data={{ data, type }} onClick={this.onPopover}>
-            <div className="row align-items-center">
-              <i className="mdi mdi-alpha text-white popover-icon" />
-              <span className="small white-no-wrap bar-txt">cnbc.com</span>
+          <MenuItem data={{ data, type, domain: 'cnbc.com' }} onClick={this.onPopover}>
+            <div className="row align-items-center mt-1">
+              <img src={require("../../assets/images/dashboard/cnbc.png")} />
+              <span className="medium white-no-wrap bar-txt">cnbc.com</span>
             </div>
           </MenuItem>
-          <MenuItem data={{ data, type }} onClick={this.onPopover}>
-            <div className="row align-items-center">
-              <i className="mdi mdi-alpha text-white popover-icon" />
-              <span className="small white-no-wrap bar-txt">
+          <MenuItem data={{ data, type, domain: 'marketwatch.com' }} onClick={this.onPopover}>
+            <div className="row align-items-center mt-1">
+              <img src={require("../../assets/images/dashboard/marketwatch.png")} />
+              <span className="medium white-no-wrap bar-txt">
                 marketwatch.com
               </span>
             </div>
           </MenuItem>
-          <MenuItem data={{ data, type }} onClick={this.onPopover}>
-            <div className="row align-items-center">
-              <i className="mdi mdi-alpha text-white popover-icon" />
-              <span className="small white-no-wrap bar-txt">
+          <MenuItem data={{ data, type, domain: 'seekingalpha.com' }} onClick={this.onPopover}>
+            <div className="row align-items-center mt-1">
+              <img src={require("../../assets/images/dashboard/seekingalpha.png")} />
+              <span className="medium white-no-wrap bar-txt">
                 seekingalpha.com
               </span>
             </div>
           </MenuItem>
-          <MenuItem data={{ data, type }} onClick={this.onPopover}>
-            <div className="row align-items-center">
+          <MenuItem data={{ data, type, domain: 'nasdaq.com' }} onClick={this.onPopover}>
+            <div className="row align-items-center mt-1">
               <i className="mdi mdi-chart-line-variant text-white popover-icon" />
-              <span className="small white-no-wrap bar-txt">nasdaq.com</span>
+              <span className="medium white-no-wrap bar-txt">nasdaq.com</span>
             </div>
           </MenuItem>
-          <MenuItem data={{ data, type }} onClick={this.onPopover}>
-            <div className="row align-items-center">
-              <i className="mdi mdi-chart-line-variant text-white popover-icon" />
-              <span className="small white-no-wrap bar-txt">
+          <MenuItem data={{ data, type, domain: 'stocktwits.com' }} onClick={this.onPopover}>
+            <div className="row align-items-center mt-1">
+              <img src={require("../../assets/images/dashboard/stocktwits.png")} />
+              <span className="medium white-no-wrap bar-txt">
                 stocktwits.com
               </span>
             </div>
           </MenuItem>
+          <div className="mt-3" />
           <span>ACTIONS</span>
           <div className="row justify-content-between align-items-center">
             <MenuItem data={{ data, type }} onClick={this.onAddAlert}>
@@ -523,7 +525,7 @@ export class Dashboard extends Component {
                 <span className="ml-1">Alert</span>
               </div>
             </MenuItem>
-            <MenuItem data={{ data, type }} onClick={this.onPopover}>
+            <MenuItem data={{ data, type }} onClick={this.onMenuFavorite}>
               <div className="row justify-content-center align-items-center">
                 <i className="mdi mdi-star text-white popover-icon" />
                 <span className="ml-1">Favorite</span>
@@ -535,9 +537,11 @@ export class Dashboard extends Component {
     );
   };
 
-  onPopover = (e, data) => {
-    // data.data[0];
+  onPopover = async (e, data) => {
+    window.open(API.getStockPageLink(data.domain, data.data[0]), '_blank');
   };
+
+  onMenuFavorite = (e, data) => { }
 
   onAddAlert = (e, { data, type }) => {
     console.info("onAddAlert:", data);
