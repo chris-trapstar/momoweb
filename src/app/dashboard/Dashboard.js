@@ -110,7 +110,7 @@ export class Dashboard extends Component {
           last: stock.priorDayLast,
           volume: stock.avgVolume, // No Volume
           momentum: '+121',
-          uVol: '+18%',
+          uVol: stock.UV,
           vWapDist: stock.VWAP_DIST,
           short: '25%',
           actions: ''
@@ -327,7 +327,7 @@ export class Dashboard extends Component {
       data.map((low, index) => {
         /** Cover Table Cell With Popover Trigger */
         renderData.push(
-          <tr>
+          <tr key={`render-stock-data-table-low-${index}`}>
             <td className={`text-low flex-fill${low[3] === 1 ? ' bg-low' : ''}`}>
               <label className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
                 <ContextMenuTrigger id={`low-context-menu_${index}`} holdToDisplay={0}>
@@ -368,7 +368,7 @@ export class Dashboard extends Component {
       data.map((high, index) => {
         /** Cover Table Cell With Popover Trigger */
         renderData.push(
-          <tr key={`high_${index}`} className="">
+          <tr key={`render-stock-data-table-high-${index}`}>
             <td className={`text-high flex-fill${high[3] === 1 ? ' bg-high' : ''}`}>
               <label className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
                 <ContextMenuTrigger id={`high-context-menu_${index}`} holdToDisplay={0}>
@@ -954,7 +954,10 @@ export class Dashboard extends Component {
                                     },
                                     Cell: (cellInfo) => {
                                       return (
-                                        <div className="text-success">{cellInfo.original.uVol}</div>
+                                        <div
+                                          className={`${cellInfo.original.uVol > 0 ? 'text-success' : (cellInfo.original.uVol < 0 ? 'text-danger' : 'text-secondary')}`}>
+                                          {isNaN(cellInfo.original.uVol) ? '_' : ((cellInfo.original.uVol > 0 ? '+' : '') + `${cellInfo.original.uVol.toFixed(2)}%`)}
+                                        </div>
                                       );
                                     }
                                   }, {
@@ -969,7 +972,10 @@ export class Dashboard extends Component {
                                     },
                                     Cell: (cellInfo) => {
                                       return (
-                                        <div className={`${cellInfo.original.vWapDist > 0 ? 'text-success' : (cellInfo.original.vWapDist < 0 ? 'text-danger' : 'text-secondary')}`}>{isNaN(cellInfo.original.vWapDist) ? '_' : ((cellInfo.original.vWapDist > 0 ? '+' : '') + `${cellInfo.original.vWapDist}%`)}</div>
+                                        <div
+                                          className={`${cellInfo.original.vWapDist > 0 ? 'text-success' : (cellInfo.original.vWapDist < 0 ? 'text-danger' : 'text-secondary')}`}>
+                                          {isNaN(cellInfo.original.vWapDist) ? '_' : ((cellInfo.original.vWapDist > 0 ? '+' : '') + `${cellInfo.original.vWapDist}%`)}
+                                        </div>
                                       );
                                     }
                                   }, {
