@@ -135,10 +135,7 @@
 
 .text-low {
   color: #ff0100;
-}
-
-.text-low:hover {
-  cursor: pointer;
+  text-align: center;
 }
 
 .bg-high {
@@ -147,10 +144,7 @@
 
 .text-high {
   color: #73b101;
-}
-
-.text-high:hover {
-  cursor: pointer;
+  text-align: center;
 }
 
 .input-border {
@@ -176,7 +170,7 @@
 .tableFixHead thead th { position: sticky; top: 0; }
 
 .table td {
-  padding: 1rem 0.5rem;
+  /* padding: 1rem 0.5rem; */
 }
 
 .discovery-table {
@@ -222,6 +216,12 @@ th {
 
 .stock-text {
   font-size: 18px;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.stock-header-text {
+  font-size: 14px;
   text-align: center;
 }
 
@@ -360,6 +360,7 @@ th {
   .stock-text {
     font-size: 18px;
     text-align: center;
+    margin-bottom: 0;
   }
 
   .rt-resizable-header-content {
@@ -390,6 +391,7 @@ th {
   .stock-text {
     font-size: 14px;
     text-align: center;
+    margin-bottom: 0;
   }
 
   .rt-resizable-header-content {
@@ -420,6 +422,7 @@ th {
   .stock-text {
     font-size: 12px;
     text-align: center;
+    margin-bottom: 0;
   }
 
   .input-border {

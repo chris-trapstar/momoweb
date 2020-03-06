@@ -327,22 +327,20 @@ export class Dashboard extends Component {
       data.map((low, index) => {
         /** Cover Table Cell With Popover Trigger */
         renderData.push(
-          <ContextMenuTrigger
-            renderTag="tr"
-            id={`low-context-menu_${index}`}
-            key={`low_${index}`}
-            className="d-flex flex-row"
-            holdToDisplay={0}
-          >
+          <tr>
             <td className={`text-low flex-fill${low[3] === 1 ? ' bg-low' : ''}`}>
-              <div className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
-                {low[0]}
-              </div>
+              <label className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
+                <ContextMenuTrigger id={`low-context-menu_${index}`} holdToDisplay={0}>
+                  {low[0]}
+                </ContextMenuTrigger>
+              </label>
             </td>
             <td className={`text-low flex-fill${low[3] === 1 ? ' bg-low' : ''}`}>
-              <div className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
-                {low[2]}
-              </div>
+              <label className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
+                <ContextMenuTrigger id={`low-context-menu_${index}`} holdToDisplay={0}>
+                  {low[2]}
+                </ContextMenuTrigger>
+              </label>
             </td>
             <td className={`text-low flex-fill${low[3] === 1 ? ' bg-low' : ''}`}>
               {
@@ -352,11 +350,13 @@ export class Dashboard extends Component {
                   src={require("../../assets/images/dashboard/stock-tweets.svg")}
                 />
               }
-              <div className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
-                {this.getLast(low[6], low[1])}
-              </div>
+              <label className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
+                <ContextMenuTrigger id={`low-context-menu_${index}`} holdToDisplay={0}>
+                  {this.getLast(low[6], low[1])}
+                </ContextMenuTrigger>
+              </label>
             </td>
-          </ContextMenuTrigger>
+          </tr>
         );
 
         /** Add Popover For this item */
@@ -368,22 +368,20 @@ export class Dashboard extends Component {
       data.map((high, index) => {
         /** Cover Table Cell With Popover Trigger */
         renderData.push(
-          <ContextMenuTrigger
-            renderTag="tr"
-            id={`high-context-menu_${index}`}
-            key={`high_${index}`}
-            className="d-flex flex-row"
-            holdToDisplay={0}
-          >
+          <tr key={`high_${index}`} className="">
             <td className={`text-high flex-fill${high[3] === 1 ? ' bg-high' : ''}`}>
-              <div className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
-                {high[0]}
-              </div>
+              <label className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
+                <ContextMenuTrigger id={`high-context-menu_${index}`} holdToDisplay={0}>
+                  {high[0]}
+                </ContextMenuTrigger>
+              </label>
             </td>
             <td className={`text-high flex-fill${high[3] === 1 ? ' bg-high' : ''}`}>
-              <div className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
-                {high[2]}
-              </div>
+              <label className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
+                <ContextMenuTrigger id={`high-context-menu_${index}`} holdToDisplay={0}>
+                  {high[2]}
+                </ContextMenuTrigger>
+              </label>
             </td>
             <td className={`text-high flex-fill${high[3] === 1 ? ' bg-high' : ''}`}>
               {
@@ -393,11 +391,13 @@ export class Dashboard extends Component {
                   src={require("../../assets/images/dashboard/stock-tweets.svg")}
                 />
               }
-              <div className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
-                {this.getLast(high[6], high[1])}
-              </div>
+              <label className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
+                <ContextMenuTrigger id={`high-context-menu_${index}`} holdToDisplay={0}>
+                  {this.getLast(high[6], high[1])}
+                </ContextMenuTrigger>
+              </label>
             </td>
-          </ContextMenuTrigger>
+          </tr>
         );
 
         /** Add Popover For this item */
@@ -413,9 +413,15 @@ export class Dashboard extends Component {
             !isSmallDevice &&
             <thead>
               <tr>
-                <th className="text-white"> SYMBOL </th>
-                <th className="text-white"> COUNT </th>
-                <th className="text-white"> LAST </th>
+                <th className="text-white">
+                  <div className="stock-header-text"> SYMBOL </div>
+                </th>
+                <th className="text-white">
+                  <div className="stock-header-text"> COUNT </div>
+                </th>
+                <th className="text-white">
+                  <div className="stock-header-text"> LAST </div>
+                </th>
               </tr>
             </thead>
           }
