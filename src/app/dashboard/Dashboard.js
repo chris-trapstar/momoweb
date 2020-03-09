@@ -466,11 +466,11 @@ export class Dashboard extends Component {
                 <label className="mb-0 font-weight-bold font-20">
                   ${item.price}
                 </label>
-                <label className="text-success ml-2 mb-0 font-10">
+                <label className={`${item.percent > 0 ? 'text-success' : (item.percent == 0 ? 'text' : 'text-danger')} ml-2 mb-0 font-10`}>
                   {item.percent}%
                         </label>
               </div>
-              <div className="icon icon-box-success img-30 ml-5">
+              <div className={`icon ${ item.percent > 0 ? 'icon-box-success' : 'icon-box-danger'} img-30 ml-5`}>
                 {item.percent != 0 &&
                   <span className={`mdi ${item.percent > 0 ? 'mdi-arrow-top-right' : 'mdi-arrow-bottom-right'} icon-item font-15`} />
                 }
