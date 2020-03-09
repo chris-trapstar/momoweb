@@ -448,9 +448,9 @@ export class Dashboard extends Component {
   };
 
   renderStockCards = () => {
-    const { stockCards } = this.state;
+    const { quotes } = this.state;
     let renderCards = [];
-    stockCards.map((item, index) => {
+    quotes.map((item, index) => {
       renderCards.push(
         <div key={'render-cards' + index}>
           <div className="card p-1">
@@ -464,28 +464,30 @@ export class Dashboard extends Component {
             <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
               <div className="d-flex align-items-center align-self-start">
                 <label className="mb-0 font-weight-bold font-20">
-                  $31.53
+                  ${item.price}
                         </label>
                 <label className="text-success ml-2 mb-0 font-10">
-                  +3.5%
+      {item.percent}%
                         </label>
               </div>
               <div className="icon icon-box-success img-30 ml-5">
-                <span className="mdi mdi-arrow-top-right icon-item font-15" />
+                { item.price != 0 &&
+                  <span className={`mdi ${item.price > 0 ? 'mdi-arrow-top-right' : 'mdi-arrow-bottom-right'} icon-item font-15`} />
+                }
               </div>
             </div>
             <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
-              <label className="font-12 dash-font-color">AAPL</label>
+      <label className="font-12 dash-font-color">{item.symbol}</label>
               <div className="d-flex flex-row mt-1">
                 <label className="font-13 white-color">H:</label>
                 <label className="font-13 dash-font-color ml-1">
-                  34:22
+                  {item.high}
                         </label>
               </div>
               <div className="d-flex flex-row mt-1">
                 <label className="font-13 white-color">L:</label>
                 <label className="font-13 dash-font-color ml-1">
-                  10.99
+                  {item.low}
                         </label>
               </div>
             </div>
@@ -564,7 +566,7 @@ export class Dashboard extends Component {
     window.open(API.getStockPageLink(data.domain, data.data[0]), '_blank');
   };
 
-  onMenuFavorite = async (e, data) => { 
+  onMenuFavorite = async (e, data) => {
     console.info('onMenuFavorite', data)
     try {
       await API.registerQuotes(data.data[0])
