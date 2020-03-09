@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Trans } from "react-i18next";
+import { connect } from 'react-redux';
+
 import { AuthActions } from "../store";
 
 class Navbar extends Component {
@@ -289,7 +291,7 @@ class Navbar extends Component {
                     alt="profile"
                   />
                   <p className="mb-0 d-none d-sm-block navbar-profile-name">
-                    <Trans>Henry Klein</Trans>
+          <Trans>{this.props.user.username}</Trans>
                   </p>
                   <i className="mdi mdi-menu-down d-none d-sm-block"></i>
                 </div>
@@ -356,4 +358,6 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+export default connect(state => {
+  return { user: state.auth.user }
+})(Navbar);
