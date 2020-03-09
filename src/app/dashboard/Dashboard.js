@@ -74,6 +74,7 @@ export class Dashboard extends Component {
     }, 3 * 60 * 1000) // Update Every 3 minutes
     this.getPopularData();
     this.getAlertHistory();
+    this.getQuotes();
   }
 
   updateDimensions = () => {
@@ -142,6 +143,19 @@ export class Dashboard extends Component {
     })
   }
 
+  getQuotes = async () => {
+    try {
+      const quotes = await API.getQuotes()
+      if (Array.isArray(quotes)) {
+        this.setState({
+          quotes
+        })
+      }
+    } catch (e) {
+      cogoToast.error('Failed to get favorite stocks!')
+    }
+  }
+
   getInitialState = () => {
     let data_filter = localStorage.getItem("filter");
     if (data_filter) {
@@ -169,6 +183,7 @@ export class Dashboard extends Component {
     }
 
     return {
+      quotes: [],
       highs: [],
       lows: [],
       bars: [1, 0.6, -1],
@@ -549,7 +564,15 @@ export class Dashboard extends Component {
     window.open(API.getStockPageLink(data.domain, data.data[0]), '_blank');
   };
 
-  onMenuFavorite = (e, data) => { }
+  onMenuFavorite = async (e, data) => { 
+    console.info('onMenuFavorite', data)
+    try {
+      await API.registerQuotes(data.data[0])
+      this.getQuotes()
+    } catch (e) {
+      cogoToast.error(`Failed to mark ${symbol} as favorite!`)
+    }
+  }
 
   onAddAlert = (e, { data, type }) => {
     console.info("onAddAlert:", data);
