@@ -235,14 +235,14 @@ th {
 .petitCarre-active {
   width: 7px;
   height: 7px;
-  background: #73B101;
+  background: red;
   margin: 2px;
 }
 
 .petitCarre-active-high {
   width: 7px;
   height: 7px;
-  background: red;
+  background: #73B101;
   margin: 2px;
 }
 

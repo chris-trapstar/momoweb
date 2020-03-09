@@ -349,6 +349,49 @@ class API {
     return data
   }
 
+  getQuotes = async () => {
+    const response = await fetch(`${baseUrl}/api/quotes`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
+      }
+    })
+    const data = await response.json()
+    console.info('GET /api/quotes - response - ', data)
+    return data
+  }
+
+  registerQuote = async (symbol) => {
+    console.info('registerQuotes:', symbol)
+    const response = await fetch(`${baseUrl}/api/quotes`, {
+      method: 'POST',
+      body: JSON.stringify({symbol}),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
+      }
+    })
+    const data = await response.json()
+    console.info('POST /api/quotes - response - ', data)
+    return data
+  }
+
+  deleteQuote = async (symbol) => {
+    console.info('registerQuotes:', symbol)
+    const response = await fetch(`${baseUrl}/api/quotes/${symbol}`, {
+      method: 'DELETE',
+      body: JSON.stringify({symbol}),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
+      }
+    })
+    const data = await response.json()
+    console.info('DELETE /api/quotes - response - ', data)
+    return data
+  }
+
   registerPushToken = async (registration_id) => {
     try {
       const res = await fetch(`${baseUrl}/api/alerts/device/fcm`, {
