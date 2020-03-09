@@ -454,7 +454,7 @@ export class Dashboard extends Component {
       renderCards.push(
         <div key={'render-cards' + index}>
           <div className="card p-1">
-            <div className="d-flex flex-row-reverse">
+            <div className="d-flex flex-row-reverse" onClick={() => {this.onRemoveQuote(item)}}>
               <img
                 className="img-15"
                 src={require("../../assets/images/dashboard/star.jpg")}
@@ -465,30 +465,30 @@ export class Dashboard extends Component {
               <div className="d-flex align-items-center align-self-start">
                 <label className="mb-0 font-weight-bold font-20">
                   ${item.price}
-                        </label>
+                </label>
                 <label className="text-success ml-2 mb-0 font-10">
-      {item.percent}%
+                  {item.percent}%
                         </label>
               </div>
               <div className="icon icon-box-success img-30 ml-5">
-                { item.price != 0 &&
-                  <span className={`mdi ${item.price > 0 ? 'mdi-arrow-top-right' : 'mdi-arrow-bottom-right'} icon-item font-15`} />
+                {item.percent != 0 &&
+                  <span className={`mdi ${item.percent > 0 ? 'mdi-arrow-top-right' : 'mdi-arrow-bottom-right'} icon-item font-15`} />
                 }
               </div>
             </div>
             <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
-      <label className="font-12 dash-font-color">{item.symbol}</label>
+              <label className="font-12 dash-font-color">{item.symbol}</label>
               <div className="d-flex flex-row mt-1">
                 <label className="font-13 white-color">H:</label>
                 <label className="font-13 dash-font-color ml-1">
                   {item.high}
-                        </label>
+                </label>
               </div>
               <div className="d-flex flex-row mt-1">
                 <label className="font-13 white-color">L:</label>
                 <label className="font-13 dash-font-color ml-1">
                   {item.low}
-                        </label>
+                </label>
               </div>
             </div>
           </div>
@@ -566,10 +566,20 @@ export class Dashboard extends Component {
     window.open(API.getStockPageLink(data.domain, data.data[0]), '_blank');
   };
 
+  onRemoveQuote = async ({symbol}) => {
+    console.info('onRemoveQuote', )
+    try {
+      await API.deleteQuote(symbol)
+      this.getQuotes()
+    } catch (e) {
+      cogoToast.error(`Failed to remove ${symbol} from favorites!`)
+    }
+  };
+
   onMenuFavorite = async (e, data) => {
     console.info('onMenuFavorite', data)
     try {
-      await API.registerQuotes(data.data[0])
+      await API.registerQuote(data.data[0])
       this.getQuotes()
     } catch (e) {
       cogoToast.error(`Failed to mark ${symbol} as favorite!`)
