@@ -447,7 +447,7 @@ export class Dashboard extends Component {
     );
   };
 
-  getStockCards = () => {
+  renderStockCards = () => {
     const { stockCards } = this.state;
     let renderCards = [];
     stockCards.map((item, index) => {
@@ -798,7 +798,7 @@ export class Dashboard extends Component {
               {/** Popular Stocks */}
               <div className="swiper-container">
                 <Swiper {...params}>
-                  {this.getStockCards()}
+                  {this.renderStockCards()}
                 </Swiper>
               </div>
 
