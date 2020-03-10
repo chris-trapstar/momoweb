@@ -183,6 +183,7 @@ export class Dashboard extends Component {
     }
 
     return {
+      /* Widget Status */
       showStream: true,
       showAlertHistory: true,
       showBreadth: true,
@@ -461,7 +462,7 @@ export class Dashboard extends Component {
       renderCards.push(
         <div key={'render-cards' + index}>
           <div className="card p-1">
-            <div className="d-flex flex-row-reverse" onClick={() => {this.onRemoveQuote(item)}}>
+            <div className="d-flex flex-row-reverse" onClick={() => { this.onRemoveQuote(item) }}>
               <img
                 className="img-15"
                 src={require("../../assets/images/dashboard/star.jpg")}
@@ -477,7 +478,7 @@ export class Dashboard extends Component {
                   {item.percent}%
                         </label>
               </div>
-              <div className={`icon ${ item.percent > 0 ? 'icon-box-success' : 'icon-box-danger'} img-30 ml-5`}>
+              <div className={`icon ${item.percent > 0 ? 'icon-box-success' : 'icon-box-danger'} img-30 ml-5`}>
                 {item.percent != 0 &&
                   <span className={`mdi ${item.percent > 0 ? 'mdi-arrow-top-right' : 'mdi-arrow-bottom-right'} icon-item font-15`} />
                 }
@@ -573,8 +574,8 @@ export class Dashboard extends Component {
     window.open(API.getStockPageLink(data.domain, data.data[0]), '_blank');
   };
 
-  onRemoveQuote = async ({symbol}) => {
-    console.info('onRemoveQuote', )
+  onRemoveQuote = async ({ symbol }) => {
+    console.info('onRemoveQuote')
     try {
       await API.deleteQuote(symbol)
       this.getQuotes()
@@ -771,24 +772,25 @@ export class Dashboard extends Component {
           <div className="col-12 grid-margin stretch-card px-0">
             <div className="col-12 card-body py-0 px-0">
               {/** Meters Bar */}
-              <div className="d-flex flex-row justify-content-center">
-                {this.renderMeters('lows')}
-                <div className='logo'>
-                  <h1>MOMO</h1>
-                  <h2>PROFIT FROM MOMENTUM</h2>
+              {this.state.showBreadth &&
+                <div className="d-flex flex-row justify-content-center">
+                  {this.renderMeters('lows')}
+                  <div className='logo'>
+                    <h1>MOMO</h1>
+                    <h2>PROFIT FROM MOMENTUM</h2>
+                  </div>
+                  {this.renderMeters('highs')}
                 </div>
-                {this.renderMeters('highs')}
-              </div>
-
+              }
               {/** Static Bar */}
               <div className="d-flex align-content-start flex-wrap static-bar mt-3">
-                <div className={`d-flex flex-row align-items-center static-row ${this.state.showStream ? 'show' : ''}`} onClick={this.onClickStream}>
+                <div className={`d-flex flex-row align-items-center static-row ${this.state.showStream ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showStream')}>
                   <span className="bar-icon">
                     <i className="mdi mdi-speedometer text-primary" />
                   </span>
                   <span className="small white-no-wrap bar-txt">STREAM</span>
                 </div>
-                <div className="d-flex flex-row align-items-center static-row">
+                <div className={`d-flex flex-row align-items-center static-row ${this.state.showAlertHistory ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showAlertHistory')}>
                   <span className="bar-icon">
                     <i className="mdi mdi-file-restore text-success" />
                   </span>
@@ -796,25 +798,25 @@ export class Dashboard extends Component {
                     ALERT HISTORY
                   </span>
                 </div>
-                <div className="d-flex flex-row align-items-center static-row">
+                <div className={`d-flex flex-row align-items-center static-row ${this.state.showBreadth ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showBreadth')}>
                   <span className="bar-icon">
                     <i className="mdi mdi-crosshairs-gps text-warning" />
                   </span>
                   <span className="small white-no-wrap bar-txt">BREADTH</span>
                 </div>
-                <div className="d-flex flex-row align-items-center static-row">
+                <div className={`d-flex flex-row align-items-center static-row  ${this.state.showPopular ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showPopular')}>
                   <span className="bar-icon">
                     <i className="mdi mdi-clipboard-text text-danger" />
                   </span>
                   <span className="small white-no-wrap bar-txt">POPULAR</span>
                 </div>
-                <div className="d-flex flex-row align-items-center static-row">
+                <div className={`d-flex flex-row align-items-center static-row ${this.state.showQuotes ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showQuotes')}>
                   <span className="bar-icon">
                     <i className="mdi mdi-chart-bar text-primary" />
                   </span>
                   <span className="small white-no-wrap bar-txt">QUOTE</span>
                 </div>
-                <div className="d-flex flex-row align-items-center static-row">
+                <div className={`d-flex flex-row align-items-center static-row ${this.state.showDiscovery ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showDiscovery')}>
                   <span className="bar-icon">
                     <i className="mdi mdi-content-copy text-success" />
                   </span>
@@ -822,36 +824,40 @@ export class Dashboard extends Component {
                 </div>
               </div>
 
-              {/** Popular Stocks */}
-              <div className="swiper-container">
+              {/** Favorite(Quote) Stocks */}
+              {this.state.showQuotes && <div className="swiper-container">
                 <Swiper {...params}>
                   {this.renderStockCards()}
                 </Swiper>
-              </div>
+              </div>}
 
               {/** Table | (Popular vs Alert History) */}
               <div className="d-flex flex-row data-section-small flex-wrap">
-                <div className="grid-margin stretch-card px-0 flex-fill socket-table">
-                  <div className="card">
-                    {
-                      isSmallDevice ?
-                        <div className="d-flex flex-row">
-                          {this.getData(lows, "low")}
-                          {this.getData(highs, "high")}
-                        </div>
-                        :
-                        <div className="card-body">
-                          <div className="row">
+                {
+                  this.state.showStream &&
+                  <div className="grid-margin stretch-card px-0 flex-fill socket-table">
+                    <div className="card">
+                      {
+                        isSmallDevice ?
+                          <div className="d-flex flex-row">
                             {this.getData(lows, "low")}
                             {this.getData(highs, "high")}
                           </div>
-                        </div>
-                    }
-
+                          :
+                          <div className="card-body">
+                            <div className="row">
+                              {this.getData(lows, "low")}
+                              {this.getData(highs, "high")}
+                            </div>
+                          </div>
+                      }
+                    </div>
                   </div>
-                </div>
+                }
+
                 <div className="d-flex grid-margin stretch-card flex-column pr-0 popular-table">
-                  <div className="card">
+
+                  {this.state.showPopular && <div className="card">
                     <div className="card-body">
                       <div className="d-flex flex-row justify-content-between">
                         <h4 className="card-title mb-1">Popular</h4>
@@ -873,197 +879,202 @@ export class Dashboard extends Component {
                       </div>
                     </div>
                   </div>
-
-                  <div className="card data-section flex-fill">
-                    <div className="card-body">
-                      <div className="d-flex flex-row justify-content-between">
-                        <h4 className="card-title mb-1">Alert History</h4>
-                        <p className="text-muted mb-1" />
-                      </div>
-                      <div className="data-section">
-                        <div className="d-flex flex-row flex-fill alert-history-separator" />
-                        <div className="alert-history-data">
-                          {this.renderAlertHistory()}
+                  }
+                  {this.state.showAlertHistory &&
+                    <div className="card data-section flex-fill">
+                      <div className="card-body">
+                        <div className="d-flex flex-row justify-content-between">
+                          <h4 className="card-title mb-1">Alert History</h4>
+                          <p className="text-muted mb-1" />
+                        </div>
+                        <div className="data-section">
+                          <div className="d-flex flex-row flex-fill alert-history-separator" />
+                          <div className="alert-history-data">
+                            {this.renderAlertHistory()}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  }
                 </div>
               </div>
 
               {/** Discovery */}
-              <div className="d-flex flex-row data-section">
-                <div className="col-12 px-0">
-                  <div className="card">
-                    <div className="card-body">
+              {this.state.showDiscovery &&
+                <div className="d-flex flex-row data-section">
+                  <div className="col-12 px-0">
+                    <div className="card">
+                      <div className="card-body">
 
-                      <div className="row">
-                        <div className="col-12">
-                          <div className="row">
-                            <div className="col-12">
+                        <div className="row">
+                          <div className="col-12">
+                            <div className="row">
+                              <div className="col-12">
 
-                              <div className="d-flex flex-row justify-content-between text-center flex-wrap">
-                                <h4 className="card-title mb-1 py-1">Discovery</h4>
-                                <div className="d-flex flex-row mT15">
-                                  <span className="border border-radius-10">
-                                    <div className="button btn-dark px-4 py-1 border-radius-10" onClick={this.onIndustry}>
-                                      Industry
+                                <div className="d-flex flex-row justify-content-between text-center flex-wrap">
+                                  <h4 className="card-title mb-1 py-1">Discovery</h4>
+                                  <div className="d-flex flex-row mT15">
+                                    <span className="border border-radius-10">
+                                      <div className="button btn-dark px-4 py-1 border-radius-10" onClick={this.onIndustry}>
+                                        Industry
                                     </div>
-                                  </span>
-                                  <span className="border border-radius-10 ml-4">
-                                    <div className="button btn-dark px-4 py-1 border-radius-10">
-                                      Favorites
+                                    </span>
+                                    <span className="border border-radius-10 ml-4">
+                                      <div className="button btn-dark px-4 py-1 border-radius-10">
+                                        Favorites
                                       </div>
-                                  </span>
+                                    </span>
+                                  </div>
+                                  <input
+                                    className="input p-0 text-center bg-dark white-color input-border"
+                                    placeholder="Symbol Search"
+                                    onChange={this.onChangeDiscoveryFilter}
+                                    ref={ref => { this.refDiscoveryFilter = ref; }}
+                                    value={discoveryFilter}
+                                  />
                                 </div>
-                                <input
-                                  className="input p-0 text-center bg-dark white-color input-border"
-                                  placeholder="Symbol Search"
-                                  onChange={this.onChangeDiscoveryFilter}
-                                  ref={ref => { this.refDiscoveryFilter = ref; }}
-                                  value={discoveryFilter}
+
+                                <ReactTable
+                                  data={discoveryDataFiltered}
+                                  filterable={false}
+                                  defaultPageSize={10}
+                                  sortable={true}
+                                  noDataText={discoveryNoDataText}
+                                  columns={[
+                                    {
+                                      accessor: 'symbol',
+                                      Header: () => {
+                                        return (
+                                          <div className="d-flex flex-row justify-content-center align-items-center">
+                                            <div>Symbols</div>
+                                            <i className="fa fa-unsorted ml-2"></i>
+                                          </div>
+                                        )
+                                      },
+                                      Cell: (cellInfo) => {
+                                        return (
+                                          <div className="text-white font-weight-bold text-center">{cellInfo.original.symbol}</div>
+                                        )
+                                      }
+                                    }, {
+                                      accessor: 'last',
+                                      Header: () => {
+                                        return (
+                                          <div className="d-flex flex-row justify-content-center align-items-center">
+                                            <div>Last</div>
+                                            <i className="fa fa-unsorted ml-2"></i>
+                                          </div>
+                                        )
+                                      },
+                                      Cell: (cellInfo) => {
+                                        return (
+                                          <div className="">{cellInfo.original.last}</div>
+                                        )
+                                      },
+                                    }, {
+                                      accessor: 'volume',
+                                      Header: () => {
+                                        return (
+                                          <div className="d-flex flex-row justify-content-center align-items-center">
+                                            <div>Volume</div>
+                                            <i className="fa fa-unsorted ml-2"></i>
+                                          </div>
+                                        )
+                                      },
+                                      Cell: (cellInfo) => {
+                                        return (
+                                          <div className="">{cellInfo.original.volume}</div>
+                                        );
+                                      }
+                                    }, {
+                                      accessor: 'momentum',
+                                      Header: () => {
+                                        return (
+                                          <div className="d-flex flex-row justify-content-center align-items-center">
+                                            <div>Momentum</div>
+                                            <i className="fa fa-unsorted ml-2"></i>
+                                          </div>
+                                        )
+                                      },
+                                      Cell: (cellInfo) => {
+                                        return (
+                                          <div className="text-success">{cellInfo.original.momentum}</div>
+                                        );
+                                      }
+                                    }, {
+                                      accessor: 'uVol',
+                                      Header: () => {
+                                        return (
+                                          <div className="d-flex flex-row justify-content-center align-items-center">
+                                            <div>Unusual Vol</div>
+                                            <i className="fa fa-unsorted ml-2"></i>
+                                          </div>
+                                        )
+                                      },
+                                      Cell: (cellInfo) => {
+                                        return (
+                                          <div
+                                            className={`${cellInfo.original.uVol > 0 ? 'text-success' : (cellInfo.original.uVol < 0 ? 'text-danger' : 'text-secondary')}`}>
+                                            {isNaN(cellInfo.original.uVol) ? '_' : ((cellInfo.original.uVol > 0 ? '+' : '') + `${cellInfo.original.uVol.toFixed(2)}%`)}
+                                          </div>
+                                        );
+                                      }
+                                    }, {
+                                      accessor: 'vWapDist',
+                                      Header: () => {
+                                        return (
+                                          <div className="d-flex flex-row justify-content-center align-items-center">
+                                            <div>VWAP DIST %</div>
+                                            <i className="fa fa-unsorted ml-2"></i>
+                                          </div>
+                                        )
+                                      },
+                                      Cell: (cellInfo) => {
+                                        return (
+                                          <div
+                                            className={`${cellInfo.original.vWapDist > 0 ? 'text-success' : (cellInfo.original.vWapDist < 0 ? 'text-danger' : 'text-secondary')}`}>
+                                            {isNaN(cellInfo.original.vWapDist) ? '_' : ((cellInfo.original.vWapDist > 0 ? '+' : '') + `${cellInfo.original.vWapDist}%`)}
+                                          </div>
+                                        );
+                                      }
+                                    }, {
+                                      accessor: 'short',
+                                      Header: () => {
+                                        return (
+                                          <div className="d-flex flex-row justify-content-center align-items-center">
+                                            <div>Short %</div>
+                                            <i className="fa fa-unsorted ml-2"></i>
+                                          </div>
+                                        )
+                                      },
+                                      Cell: (cellInfo) => {
+                                        return (
+                                          <div className="">{cellInfo.original.short}</div>
+                                        );
+                                      }
+                                    },
+                                    {
+                                      accessor: 'actions',
+                                      Header: 'Actions',
+                                      Cell: (cellInfo) => {
+                                        return (
+                                          <label className="">* ^</label>
+                                        );
+                                      }
+                                    }
+                                  ]}
                                 />
                               </div>
-
-                              <ReactTable
-                                data={discoveryDataFiltered}
-                                filterable={false}
-                                defaultPageSize={10}
-                                sortable={true}
-                                noDataText={discoveryNoDataText}
-                                columns={[
-                                  {
-                                    accessor: 'symbol',
-                                    Header: () => {
-                                      return (
-                                        <div className="d-flex flex-row justify-content-center align-items-center">
-                                          <div>Symbols</div>
-                                          <i className="fa fa-unsorted ml-2"></i>
-                                        </div>
-                                      )
-                                    },
-                                    Cell: (cellInfo) => {
-                                      return (
-                                        <div className="text-white font-weight-bold text-center">{cellInfo.original.symbol}</div>
-                                      )
-                                    }
-                                  }, {
-                                    accessor: 'last',
-                                    Header: () => {
-                                      return (
-                                        <div className="d-flex flex-row justify-content-center align-items-center">
-                                          <div>Last</div>
-                                          <i className="fa fa-unsorted ml-2"></i>
-                                        </div>
-                                      )
-                                    },
-                                    Cell: (cellInfo) => {
-                                      return (
-                                        <div className="">{cellInfo.original.last}</div>
-                                      )
-                                    },
-                                  }, {
-                                    accessor: 'volume',
-                                    Header: () => {
-                                      return (
-                                        <div className="d-flex flex-row justify-content-center align-items-center">
-                                          <div>Volume</div>
-                                          <i className="fa fa-unsorted ml-2"></i>
-                                        </div>
-                                      )
-                                    },
-                                    Cell: (cellInfo) => {
-                                      return (
-                                        <div className="">{cellInfo.original.volume}</div>
-                                      );
-                                    }
-                                  }, {
-                                    accessor: 'momentum',
-                                    Header: () => {
-                                      return (
-                                        <div className="d-flex flex-row justify-content-center align-items-center">
-                                          <div>Momentum</div>
-                                          <i className="fa fa-unsorted ml-2"></i>
-                                        </div>
-                                      )
-                                    },
-                                    Cell: (cellInfo) => {
-                                      return (
-                                        <div className="text-success">{cellInfo.original.momentum}</div>
-                                      );
-                                    }
-                                  }, {
-                                    accessor: 'uVol',
-                                    Header: () => {
-                                      return (
-                                        <div className="d-flex flex-row justify-content-center align-items-center">
-                                          <div>Unusual Vol</div>
-                                          <i className="fa fa-unsorted ml-2"></i>
-                                        </div>
-                                      )
-                                    },
-                                    Cell: (cellInfo) => {
-                                      return (
-                                        <div
-                                          className={`${cellInfo.original.uVol > 0 ? 'text-success' : (cellInfo.original.uVol < 0 ? 'text-danger' : 'text-secondary')}`}>
-                                          {isNaN(cellInfo.original.uVol) ? '_' : ((cellInfo.original.uVol > 0 ? '+' : '') + `${cellInfo.original.uVol.toFixed(2)}%`)}
-                                        </div>
-                                      );
-                                    }
-                                  }, {
-                                    accessor: 'vWapDist',
-                                    Header: () => {
-                                      return (
-                                        <div className="d-flex flex-row justify-content-center align-items-center">
-                                          <div>VWAP DIST %</div>
-                                          <i className="fa fa-unsorted ml-2"></i>
-                                        </div>
-                                      )
-                                    },
-                                    Cell: (cellInfo) => {
-                                      return (
-                                        <div
-                                          className={`${cellInfo.original.vWapDist > 0 ? 'text-success' : (cellInfo.original.vWapDist < 0 ? 'text-danger' : 'text-secondary')}`}>
-                                          {isNaN(cellInfo.original.vWapDist) ? '_' : ((cellInfo.original.vWapDist > 0 ? '+' : '') + `${cellInfo.original.vWapDist}%`)}
-                                        </div>
-                                      );
-                                    }
-                                  }, {
-                                    accessor: 'short',
-                                    Header: () => {
-                                      return (
-                                        <div className="d-flex flex-row justify-content-center align-items-center">
-                                          <div>Short %</div>
-                                          <i className="fa fa-unsorted ml-2"></i>
-                                        </div>
-                                      )
-                                    },
-                                    Cell: (cellInfo) => {
-                                      return (
-                                        <div className="">{cellInfo.original.short}</div>
-                                      );
-                                    }
-                                  },
-                                  {
-                                    accessor: 'actions',
-                                    Header: 'Actions',
-                                    Cell: (cellInfo) => {
-                                      return (
-                                        <label className="">* ^</label>
-                                      );
-                                    }
-                                  }
-                                ]}
-                              />
                             </div>
                           </div>
                         </div>
-                      </div>
 
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              }
+
             </div>
           </div>
         </div>

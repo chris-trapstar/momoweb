@@ -475,3 +475,11 @@ th {
     height: calc(60vh);
   }
 }
+
+.hideWidget {
+  color: gray;
+}
+
+.showWidget {
+  color: white;
+}
