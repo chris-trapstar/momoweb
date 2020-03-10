@@ -755,10 +755,12 @@ export class Dashboard extends Component {
     this.setState({ discoveryFilter, discoveryDataFiltered });
   }
 
-  onClickStream = () => {
-    this.setState({
-      showStream: !this.state.showStream
-    })
+  onToggleWidget = (name) => {
+    return () => {
+      this.setState({
+        [name]: !this.state[name]
+      })
+    }
   }
 
   render() {
