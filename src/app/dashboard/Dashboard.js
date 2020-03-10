@@ -183,6 +183,13 @@ export class Dashboard extends Component {
     }
 
     return {
+      showStream: true,
+      showAlertHistory: true,
+      showBreadth: true,
+      showPopular: true,
+      showQuotes: true,
+      showDiscovery: true,
+
       quotes: [],
       highs: [],
       lows: [],
@@ -748,6 +755,12 @@ export class Dashboard extends Component {
     this.setState({ discoveryFilter, discoveryDataFiltered });
   }
 
+  onClickStream = () => {
+    this.setState({
+      showStream: !this.state.showStream
+    })
+  }
+
   render() {
     const { lows, highs, isSmallDevice, discoveryDataFiltered, discoveryFilter, discoveryNoDataText } = this.state;
     return (
@@ -767,7 +780,7 @@ export class Dashboard extends Component {
 
               {/** Static Bar */}
               <div className="d-flex align-content-start flex-wrap static-bar mt-3">
-                <div className="d-flex flex-row align-items-center static-row">
+                <div className={`d-flex flex-row align-items-center static-row ${this.state.showStream ? 'show' : ''}`} onClick={this.onClickStream}>
                   <span className="bar-icon">
                     <i className="mdi mdi-speedometer text-primary" />
                   </span>
