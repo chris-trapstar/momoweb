@@ -483,3 +483,6 @@ th {
 .showWidget {
   color: white;
 }
+.data-separator {
+  height: 1em;
+}

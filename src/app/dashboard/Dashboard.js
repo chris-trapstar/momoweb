@@ -880,8 +880,9 @@ export class Dashboard extends Component {
                     </div>
                   </div>
                   }
+                  { (this.state.showAlertHistory && this.state.showPopular) && <div className="data-separator"></div> } 
                   {this.state.showAlertHistory &&
-                    <div className="card data-section flex-fill">
+                    <div className="card flex-fill">
                       <div className="card-body">
                         <div className="d-flex flex-row justify-content-between">
                           <h4 className="card-title mb-1">Alert History</h4>
