@@ -68,10 +68,12 @@ export class Dashboard extends Component {
     this.buffer = [];
     this.flushBufferIntervalId = setInterval(this.flushBuffer, 2000);
     // this.requestNotificationPermissions().then(r => {});
-    this.getStats();
-    this.statsTimer = setInterval(() => {
-      this.getStats()
-    }, 3 * 60 * 1000) // Update Every 3 minutes
+    
+    // this.getStats();
+    // this.statsTimer = setInterval(() => {
+    //   this.getStats()
+    // }, 3 * 60 * 1000) // Update Every 3 minutes
+
     this.getPopularData();
     this.getAlertHistory();
     this.getQuotes();
@@ -457,19 +459,15 @@ export class Dashboard extends Component {
     );
   };
 
-  renderStockCards = () => {
+  renderQuoteCards = () => {
     const { quotes } = this.state;
     let renderCards = [];
     quotes.map((item, index) => {
       renderCards.push(
-        <div key={'render-cards' + index}>
+        <div key={'render-cards' + index} className="quote-card">
           <div className="card p-1">
             <div className="d-flex flex-row-reverse" onClick={() => { this.onRemoveQuote(item) }}>
-              <img
-                className="img-15"
-                src={require("../../assets/images/dashboard/star.jpg")}
-                alt="face"
-              />
+              <i className="mdi mdi-star quote-star"></i>
             </div>
             <div className="d-flex flex-row justify-content-between mt-2 pl-3 pr-3">
               <div className="d-flex align-items-center align-self-start">
@@ -829,7 +827,7 @@ export class Dashboard extends Component {
               {/** Favorite(Quote) Stocks */}
               {this.state.showQuotes && <div className="swiper-container">
                 <Swiper {...params}>
-                  {this.renderStockCards()}
+                  {this.renderQuoteCards()}
                 </Swiper>
               </div>}
 

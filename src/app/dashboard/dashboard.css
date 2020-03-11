@@ -497,3 +497,11 @@ th {
 .data-separator {
   height: 1em;
 }
+
+.quote-card {
+  padding: 0.5em;
+}
+
+.quote-star {
+  color: yellow;
+}
