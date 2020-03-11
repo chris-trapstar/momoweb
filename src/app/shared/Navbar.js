@@ -130,7 +130,7 @@ class Navbar extends Component {
                   <div className="preview-thumbnail">
                     <div className="preview-icon bg-dark rounded-circle">
                       <img
-                        src={require("../../assets/images/faces/face4.jpg")}
+                        src={require("../../assets/images/faces/default.png")}
                         alt="profile"
                         className="rounded-circle profile-pic"
                       />
@@ -155,7 +155,7 @@ class Navbar extends Component {
                   <div className="preview-thumbnail">
                     <div className="preview-icon bg-dark rounded-circle">
                       <img
-                        src={require("../../assets/images/faces/face2.jpg")}
+                        src={require("../../assets/images/faces/default.png")}
                         alt="profile"
                         className="rounded-circle profile-pic"
                       />
@@ -180,7 +180,7 @@ class Navbar extends Component {
                   <div className="preview-thumbnail">
                     <div className="preview-icon bg-dark rounded-circle">
                       <img
-                        src={require("../../assets/images/faces/face3.jpg")}
+                        src={require("../../assets/images/faces/default.png")}
                         alt="profile"
                         className="rounded-circle profile-pic"
                       />
@@ -287,7 +287,7 @@ class Navbar extends Component {
                 <div className="navbar-profile">
                   <img
                     className="img-xs rounded-circle"
-                    src={require("../../assets/images/faces/face15.jpg")}
+                    src={require("../../assets/images/faces/default.png")}
                     alt="profile"
                   />
                   <p className="mb-0 d-none d-sm-block navbar-profile-name">

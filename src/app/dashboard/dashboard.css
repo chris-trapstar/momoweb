@@ -125,12 +125,23 @@
   color: white;
 }
 
-.stock-text-white {
-  color: white;
+.stock-active-text {
+  color: black;
+  padding: 0.1em;
+  border-radius: 0.2em;
+  width: 4em;
 }
 
-.stock-text-white:hover {
+.stock-active-text:hover {
   cursor: pointer;
+}
+
+.stock-active-low {
+  background: #e55456;
+}
+
+.stock-active-high {
+  background: #33b941;
 }
 
 .text-low {

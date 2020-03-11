@@ -352,14 +352,14 @@ export class Dashboard extends Component {
         renderData.push( // high[3] === 1 means Active
           <tr key={`render-stock-data-table-low-${index}`}>
             <td className="text-low flex-fill">
-              <label className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
+              <label className={`stock-text ${low[3] === 1 ? 'stock-active-text stock-active-low' : ''}`}>
                 <ContextMenuTrigger id={`low-context-menu_${index}`} holdToDisplay={0}>
                   {low[0]}
                 </ContextMenuTrigger>
               </label>
             </td>
             <td className="text-low flex-fill">
-              <label className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
+              <label className="stock-text">
                 <ContextMenuTrigger id={`low-context-menu_${index}`} holdToDisplay={0}>
                   {low[2]}
                 </ContextMenuTrigger>
@@ -373,7 +373,7 @@ export class Dashboard extends Component {
                   src={require("../../assets/images/dashboard/stock-tweets.svg")}
                 />
               }
-              <label className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
+              <label className="stock-text">
                 <ContextMenuTrigger id={`low-context-menu_${index}`} holdToDisplay={0}>
                   {this.getLast(low[6], low[1])}
                 </ContextMenuTrigger>
@@ -394,14 +394,14 @@ export class Dashboard extends Component {
         renderData.push( // high[3] === 1 means Active
           <tr key={`render-stock-data-table-high-${index}`}>
             <td className="text-high flex-fill">
-              <label className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
+              <label className={`stock-text ${high[3] === 1 ? 'stock-active-text stock-active-high' : ''}`}>
                 <ContextMenuTrigger id={`high-context-menu_${index}`} holdToDisplay={0}>
                   {high[0]}
                 </ContextMenuTrigger>
               </label>
             </td>
             <td className="text-high flex-fill">
-              <label className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
+              <label className="stock-text">
                 <ContextMenuTrigger id={`high-context-menu_${index}`} holdToDisplay={0}>
                   {high[2]}
                 </ContextMenuTrigger>
@@ -415,7 +415,7 @@ export class Dashboard extends Component {
                   src={require("../../assets/images/dashboard/stock-tweets.svg")}
                 />
               }
-              <label className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
+              <label className="stock-text">
                 <ContextMenuTrigger id={`high-context-menu_${index}`} holdToDisplay={0}>
                   {this.getLast(high[6], high[1])}
                 </ContextMenuTrigger>
