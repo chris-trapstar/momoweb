@@ -68,11 +68,11 @@ export class Dashboard extends Component {
     this.buffer = [];
     this.flushBufferIntervalId = setInterval(this.flushBuffer, 2000);
     // this.requestNotificationPermissions().then(r => {});
-    
-    // this.getStats();
-    // this.statsTimer = setInterval(() => {
-    //   this.getStats()
-    // }, 3 * 60 * 1000) // Update Every 3 minutes
+
+    this.getStats();
+    this.statsTimer = setInterval(() => {
+      this.getStats()
+    }, 3 * 60 * 1000) // Update Every 3 minutes
 
     this.getPopularData();
     this.getAlertHistory();
@@ -105,21 +105,18 @@ export class Dashboard extends Component {
 
   getStats = async () => {
     const stats = await API.getStats()
-    let discoveryData = [];
-    stats.map((stock, index) => {
-      discoveryData.push(
-        {
-          symbol: stock.symbol,
-          last: stock.priorDayLast,
-          volume: stock.avgVolume, // No Volume
-          momentum: '+121',
-          uVol: stock.UV,
-          vWapDist: stock.VWAP_DIST,
-          short: '25%',
-          actions: ''
-        }
-      )
-    })
+
+    const discoveryData = stats.map((stock, index) => ({
+      symbol: stock.symbol,
+      last: stock.priorDayLast,
+      volume: stock.avgVolume, // No Volume
+      momentum: stock.highCount - stock.lowCount,
+      uVol: stock.UV,
+      vWapDist: stock.VWAP_DIST,
+      short: '25%',
+      actions: ''
+    }))
+
     this.setState({
       stats,
       discoveryData,
@@ -417,7 +414,7 @@ export class Dashboard extends Component {
               </label>
             </td>
             <td className="text-high flex-fill">
-              
+
               <label className="stock-text">
                 <ContextMenuTrigger id={`high-context-menu_${index}`} holdToDisplay={0}>
                   {this.getLast(high[6], high[1])}
@@ -880,7 +877,7 @@ export class Dashboard extends Component {
                     </div>
                   </div>
                   }
-                  { (this.state.showAlertHistory && this.state.showPopular) && <div className="data-separator"></div> } 
+                  {(this.state.showAlertHistory && this.state.showPopular) && <div className="data-separator"></div>}
                   {this.state.showAlertHistory &&
                     <div className="card flex-fill">
                       <div className="card-body">
