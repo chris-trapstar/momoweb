@@ -349,23 +349,23 @@ export class Dashboard extends Component {
     if (type === "low") {
       data.map((low, index) => {
         /** Cover Table Cell With Popover Trigger */
-        renderData.push(
+        renderData.push( // high[3] === 1 means Active
           <tr key={`render-stock-data-table-low-${index}`}>
-            <td className={`text-low flex-fill${low[3] === 1 ? ' bg-low' : ''}`}>
+            <td className="text-low flex-fill">
               <label className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
                 <ContextMenuTrigger id={`low-context-menu_${index}`} holdToDisplay={0}>
                   {low[0]}
                 </ContextMenuTrigger>
               </label>
             </td>
-            <td className={`text-low flex-fill${low[3] === 1 ? ' bg-low' : ''}`}>
+            <td className="text-low flex-fill">
               <label className={`stock-text${low[3] === 1 ? ' stock-text-white' : ''}`}>
                 <ContextMenuTrigger id={`low-context-menu_${index}`} holdToDisplay={0}>
                   {low[2]}
                 </ContextMenuTrigger>
               </label>
             </td>
-            <td className={`text-low flex-fill${low[3] === 1 ? ' bg-low' : ''}`}>
+            <td className="text-low flex-fill">
               {
                 low[4] === 1 &&
                 <img
@@ -388,25 +388,26 @@ export class Dashboard extends Component {
         );
       });
     } else {
+
       data.map((high, index) => {
         /** Cover Table Cell With Popover Trigger */
-        renderData.push(
+        renderData.push( // high[3] === 1 means Active
           <tr key={`render-stock-data-table-high-${index}`}>
-            <td className={`text-high flex-fill${high[3] === 1 ? ' bg-high' : ''}`}>
+            <td className="text-high flex-fill">
               <label className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
                 <ContextMenuTrigger id={`high-context-menu_${index}`} holdToDisplay={0}>
                   {high[0]}
                 </ContextMenuTrigger>
               </label>
             </td>
-            <td className={`text-high flex-fill${high[3] === 1 ? ' bg-high' : ''}`}>
+            <td className="text-high flex-fill">
               <label className={`stock-text${high[3] === 1 ? ' stock-text-white' : ''}`}>
                 <ContextMenuTrigger id={`high-context-menu_${index}`} holdToDisplay={0}>
                   {high[2]}
                 </ContextMenuTrigger>
               </label>
             </td>
-            <td className={`text-high flex-fill${high[3] === 1 ? ' bg-high' : ''}`}>
+            <td className="text-high flex-fill">
               {
                 high[4] === 1 &&
                 <img
