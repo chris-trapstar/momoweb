@@ -342,7 +342,7 @@ export class Dashboard extends Component {
     return OTC === 1 ? this.round(ticker, 4) : this.round(ticker, 2);
   };
 
-  getData = (data, type) => {
+  renderData = (data, type) => {
     const { isSmallDevice } = this.state;
     let renderData = [];
     let renderMenuItems = [];
@@ -840,14 +840,14 @@ export class Dashboard extends Component {
                       {
                         isSmallDevice ?
                           <div className="d-flex flex-row">
-                            {this.getData(lows, "low")}
-                            {this.getData(highs, "high")}
+                            {this.renderData(lows, "low")}
+                            {this.renderData(highs, "high")}
                           </div>
                           :
                           <div className="card-body">
                             <div className="row">
-                              {this.getData(lows, "low")}
-                              {this.getData(highs, "high")}
+                              {this.renderData(lows, "low")}
+                              {this.renderData(highs, "high")}
                             </div>
                           </div>
                       }
