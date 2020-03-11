@@ -114,7 +114,7 @@
   border-radius: 0 !important;
   width: 15px !important;
   height: 15px !important;
-  right: 30%;
+  margin-left: 0.5em;
 }
 
 .bg-low {

@@ -357,6 +357,13 @@ export class Dashboard extends Component {
                   {low[0]}
                 </ContextMenuTrigger>
               </label>
+              {
+                low[4] === 1 &&
+                <img
+                  className="stockwits"
+                  src={require("../../assets/images/dashboard/stock-tweets.svg")}
+                />
+              }
             </td>
             <td className="text-low flex-fill">
               <label className="stock-text">
@@ -366,13 +373,6 @@ export class Dashboard extends Component {
               </label>
             </td>
             <td className="text-low flex-fill">
-              {
-                low[4] === 1 &&
-                <img
-                  className="stockwits"
-                  src={require("../../assets/images/dashboard/stock-tweets.svg")}
-                />
-              }
               <label className="stock-text">
                 <ContextMenuTrigger id={`low-context-menu_${index}`} holdToDisplay={0}>
                   {this.getLast(low[6], low[1])}
@@ -399,6 +399,13 @@ export class Dashboard extends Component {
                   {high[0]}
                 </ContextMenuTrigger>
               </label>
+              {
+                high[4] === 1 &&
+                <img
+                  className="stockwits"
+                  src={require("../../assets/images/dashboard/stock-tweets.svg")}
+                />
+              }
             </td>
             <td className="text-high flex-fill">
               <label className="stock-text">
@@ -408,13 +415,7 @@ export class Dashboard extends Component {
               </label>
             </td>
             <td className="text-high flex-fill">
-              {
-                high[4] === 1 &&
-                <img
-                  className="stockwits"
-                  src={require("../../assets/images/dashboard/stock-tweets.svg")}
-                />
-              }
+              
               <label className="stock-text">
                 <ContextMenuTrigger id={`high-context-menu_${index}`} holdToDisplay={0}>
                   {this.getLast(high[6], high[1])}
