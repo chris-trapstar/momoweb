@@ -12,6 +12,10 @@ class Subscription extends Component {
     succTxt: ''
   };
 
+  componentWillUpdate() {
+    
+  }
+
   render() {
     const { errTxt, succTxt } = this.state;
     return (
