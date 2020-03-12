@@ -28,6 +28,7 @@ class Subscription extends Component {
                   <h2>MomoWeb</h2>
                 </div>
                 <h4>Subscription</h4>
+                <div id="paymentForm"></div>
               </div>
             </div>
           </div>
