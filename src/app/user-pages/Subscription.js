@@ -6,37 +6,10 @@ import { AuthActions } from "../store";
 import Api from "../api";
 import i18n from "../../i18n";
 
-class Payment extends Component {
+class Subscription extends Component {
   state = {
     errTxt: '',
     succTxt: ''
-  };
-
-  componentWillUpdate() {
-    console.info('verification page update');
-    if (this.props.user && this.props.user.email_verified) {
-      this.props.history.push('/dashboard')
-    }
-  }
-
-  onResend = () => {
-    this.setState({ errTxt: "" });
-    Api.verify(this.props.user.email)
-      .then(() => {
-        this.setState({ errTxt: '', succTxt: 'Sent successfully' })
-      })
-      .catch(error => {
-        let errTxt = error.toString()
-        if (error.toString() === 'TypeError: Failed to fetch') {
-          errTxt = 'Service not available';
-        } else {
-          errTxt = i18n.getResource("en", ["translations"], errTxt);
-          if (!lerrTxt) {
-            errTxt = "Unknown problem";
-          }
-        }
-        this.setState({ errTxt, succTxt: '' });
-      });
   };
 
   render() {
@@ -71,4 +44,4 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Payment));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Subscription));
