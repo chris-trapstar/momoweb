@@ -432,6 +432,19 @@ class API {
     return data
   }
 
+  getStripePlans = async () => {
+    const response = await fetch(`${baseUrl}/api/stripe/plans`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
+      }
+    })
+    const data = await response.json()
+    console.info('GET /api/stripe/plans - response - ', data)
+    return data
+  }
+
 }
 
 const instance = new API();
