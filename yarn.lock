@@ -1660,6 +1660,18 @@
   resolved "https://registry.yarnpkg.com/@restart/hooks/-/hooks-0.3.20.tgz#e7179ab41e5f346b2feca091261fbdad77e8bc19"
   integrity sha512-Q1eeEqcxHQ4oqty7C5Me8/hzWwdCRR643nR/6EHxv8BVxLVYHe4IoWAHg8MIGkE4VtSm3/JnNhkoLJhCkLx5aw==
 
+"@stripe/react-stripe-js@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-1.0.3.tgz#92224921d157728a3e11ce68ca5e5cb6fec37647"
+  integrity sha512-9E0HRAyd95B1jSS+nh5ol4M5RvQUnWTCB+Td9xKKa68OrEvmRqpNy/wvMyY9SGCy7fcMkZfiST9Oy09OkkDM/A==
+  dependencies:
+    prop-types "^15.7.2"
+
+"@stripe/stripe-js@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.0.3.tgz#512ed718d8b64c2965550581dde17642980e4baa"
+  integrity sha512-eixi4Ycc25HLZBrAjT6QYi7QxOAdMbIZkX38Iu4/s/8tAF4xJf+er69LzS0Wy+czVKsdyNGWJ0R0nvKTHaD/Cg==
+
 "@svgr/babel-plugin-add-jsx-attribute@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-4.2.0.tgz#dadcb6218503532d6884b210e7f3c502caaa44b1"
