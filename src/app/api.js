@@ -464,6 +464,23 @@ class API {
       console.error('Failed to create stripe customer', e)
     }
   }
+
+  getCustomer = async () => {
+    try {
+      const res = await fetch(`${baseUrl}/api/stripe/customer`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      const data = await res.json()
+      console.info('Stripe Customer:', data)
+      return data
+    } catch (e) {
+      console.error('Failed to create stripe customer', e)
+    }
+  }
 }
 
 const instance = new API();
