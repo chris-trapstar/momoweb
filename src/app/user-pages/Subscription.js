@@ -19,7 +19,8 @@ class Subscription extends Component {
     errTxt: '',
     succTxt: '',
     plans: [],
-    plan_id: null
+    plan_id: null,
+    changeCard: false
   };
 
   componentDidMount() {
@@ -39,10 +40,31 @@ class Subscription extends Component {
   onClickSubscribe = async () => {
     const payload = await this.stripe.createToken(this.elements.getElement(CardElement));
     console.info('Payment Method:', payload)
+    if (payload && payload.error) {
+      cogoToast.error(payload.error.message)
+      return
+    }
+    const res = await Api.createCustomer(payload.token.id)
+    console.info('Customer Response:', res)
 
-    // const res = await Api.createCustomer({
-    //   token
-    // })
+    if (res && res.error) {
+      cogoToast.error('Payment method verification failed!')
+      return
+    }
+    const { customer, stripe_customer } = res
+    this.setState({
+      customer,
+      stripe_customer
+    })
+  }
+
+  getCard = () => {
+    const { customer } = this.state
+    if (customer) {
+      return `${customer.card_kind} ${customer.last4}`
+    } else {
+      return ''
+    }
   }
 
   render() {
@@ -63,53 +85,67 @@ class Subscription extends Component {
             })
             }
           </div>
-          {this.state.plan_id &&
+          {
             <div className="row w-100 mx-0">
               <div className="col-lg-6 mx-auto">
                 <div className="card p-4">
 
                   <div className="card p-2">
+
                     <div className="row">
                       <div className="col-md-12">
-                        <Form.Group>
-                          <label htmlFor="exampleInputUsername1">PROMO CODE</label>
-                          <Form.Control type="text" id="exampleInputUsername1" placeholder="COUPON CODE" size="lg" />
-                        </Form.Group>
+                        {(!this.state.changeCard && this.state.customer) && <Form.Group>
+                          <label htmlFor="exampleInputUsername1">Your Card</label>
+                          <Button variant="secondary" className="change_card" onClick={() => { this.setState({ changeCard: true }) }}>Change</Button>
+                          <Form.Control type="text" id="exampleInputUsername1" size="lg" value={this.getCard()} disabled />
+                        </Form.Group>}
+
+                        {this.state.plan_id &&
+                          <Form.Group>
+                            <label htmlFor="exampleInputUsername1">PROMO CODE</label>
+                            <Form.Control type="text" id="exampleInputUsername1" placeholder="COUPON CODE" size="lg" />
+                          </Form.Group>
+                        }
+
                       </div>
                     </div>
+
+
                   </div>
 
-                  <div id="paymentForm" className="m-4 p-2">
-                    <Elements stripe={stripePromise}>
-                      <ElementsConsumer>
-                        {({ elements, stripe }) => {
-                          this.elements = elements
-                          this.stripe = stripe
-                          return <CardElement
-                            options={{
-                              style: {
-                                base: {
-                                  fontSize: '16px',
-                                  color: '#424770',
-                                  '::placeholder': {
-                                    color: '#aab7c4',
+                  {this.state.changeCard &&
+                    <div id="paymentForm" className="m-4 p-2">
+                      <Elements stripe={stripePromise}>
+                        <ElementsConsumer>
+                          {({ elements, stripe }) => {
+                            this.elements = elements
+                            this.stripe = stripe
+                            return <CardElement
+                              options={{
+                                style: {
+                                  base: {
+                                    fontSize: '16px',
+                                    color: '#424770',
+                                    '::placeholder': {
+                                      color: '#aab7c4',
+                                    },
+                                  },
+                                  invalid: {
+                                    color: '#9e2146',
                                   },
                                 },
-                                invalid: {
-                                  color: '#9e2146',
-                                },
-                              },
-                            }}
-                          />
-                        }}
-                      </ElementsConsumer>
+                              }}
+                            />
+                          }}
+                        </ElementsConsumer>
 
 
-                    </Elements>
-                  </div>
-
-
-                  <Button variant="primary" onClick={this.onClickSubscribe}>Subscribe</Button>
+                      </Elements>
+                    </div>
+                  }
+                  {this.state.plan_id &&
+                    <Button variant="primary" onClick={this.onClickSubscribe}>Subscribe</Button>
+                  }
                 </div>
               </div>
             </div>}
