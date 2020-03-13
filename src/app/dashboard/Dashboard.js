@@ -981,7 +981,7 @@ export class Dashboard extends Component {
                                       },
                                       Cell: (cellInfo) => {
                                         return (
-                                          <div className="">{cellInfo.original.volume}</div>
+                                          <div className="">{cellInfo.original.accumulatedVolume}</div>
                                         );
                                       }
                                     }, {
