@@ -1,12 +1,12 @@
 import Axios from "axios";
 import jwtDecode from "jwt-decode";
 
-// const baseUrl =
-//   window.location.hostname === "localhost"
-//     ? "http://localhost:8080"
-//     : "https://dev-api.mometic.com";
+const baseUrl =
+  window.location.hostname === "localhost"
+    ? "http://localhost:8080"
+    : "https://dev-api.mometic.com";
 
-const baseUrl = "https://dev-api.mometic.com";
+// const baseUrl = "https://dev-api.mometic.com";
 
 const axios = Axios.create({
   baseURL: baseUrl,
@@ -445,6 +445,25 @@ class API {
     return data
   }
 
+  createCustomer = async (token) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/stripe/customer`, {
+        method: 'POST',
+        body: JSON.stringify({
+          token
+        }),
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      const data = await res.json()
+      console.info('Stripe Customer Created:', data)
+      return data
+    } catch (e) {
+      console.error('Failed to create stripe customer', e)
+    }
+  }
 }
 
 const instance = new API();
