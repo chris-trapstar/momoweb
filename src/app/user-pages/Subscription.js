@@ -26,6 +26,7 @@ class Subscription extends Component {
   componentDidMount() {
     // get plans
     this.getPlans()
+    this.getCustomer()
   }
 
   componentWillUpdate() {
@@ -35,6 +36,13 @@ class Subscription extends Component {
   getPlans = async () => {
     const plans = await Api.getStripePlans()
     this.setState({ plans })
+  }
+
+  getCustomer = async () => {
+    const customer = await Api.getCustomer()
+    this.setState({
+      customer
+    })
   }
 
   onClickSubscribe = async () => {

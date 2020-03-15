@@ -34,7 +34,7 @@ class AppRoutes extends Component {
     return (
       <Switch>
         <Route exact path="/verify" component={Verification} />
-        <Route exact path="/subscribe" component={Subscription} />
+        <Route exact path="/plans" component={Subscription} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/settings" component={Settings} />
         <Redirect to="/dashboard" />

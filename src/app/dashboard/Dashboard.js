@@ -109,7 +109,7 @@ export class Dashboard extends Component {
     const discoveryData = stats.map((stock, index) => ({
       symbol: stock.symbol,
       last: stock.priorDayLast,
-      volume: stock.avgVolume, // No Volume
+      volume: stock.accumulatedVolume, // No Volume
       momentum: stock.highCount - stock.lowCount,
       uVol: stock.UV,
       vWapDist: stock.VWAP_DIST,
@@ -981,7 +981,7 @@ export class Dashboard extends Component {
                                       },
                                       Cell: (cellInfo) => {
                                         return (
-                                          <div className="">{cellInfo.original.accumulatedVolume}</div>
+                                          <div className="">{cellInfo.original.volume}</div>
                                         );
                                       }
                                     }, {

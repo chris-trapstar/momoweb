@@ -1,0 +1,17 @@
+.active-plan {
+  border-color: green;
+}
+
+#paymentForm {
+  border: 1px solid gray;
+}
+
+.form-control:disabled {
+  background-color: #191c24 !important;
+}
+
+.change_card {
+  position: absolute;
+  right: 0px;
+  top: -1em;
+}
