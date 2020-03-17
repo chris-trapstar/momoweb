@@ -61,6 +61,7 @@ class Subscription extends Component {
     }
     const { customer, stripe_customer } = res
     this.setState({
+      changeCard: false,
       customer,
       stripe_customer
     })
