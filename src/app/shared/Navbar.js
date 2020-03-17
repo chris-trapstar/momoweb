@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Dropdown } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { Trans } from "react-i18next";
 import { connect } from 'react-redux';
+
 
 import { AuthActions } from "../store";
 
@@ -303,8 +304,23 @@ class Navbar extends Component {
                 </h6>
                 <Dropdown.Divider />
                 <Dropdown.Item
-                  href="!#"
-                  onClick={evt => evt.preventDefault()}
+                  onClick={evt => { this.props.history.push('/plans')}}
+                  className="preview-item"
+                >
+                  <div className="preview-thumbnail">
+                    <div className="preview-icon bg-dark rounded-circle">
+                      <i className="mdi mdi-code-string text-success"></i>
+                    </div>
+                  </div>
+                  <div className="preview-item-content">
+                    <p className="preview-subject mb-1">
+                      Plan: Free
+                    </p>
+                  </div>
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item
+                  onClick={evt => { this.props.history.push('/settings')}}
                   className="preview-item"
                 >
                   <div className="preview-thumbnail">
@@ -339,9 +355,6 @@ class Navbar extends Component {
                   </div>
                 </Dropdown.Item>
                 <Dropdown.Divider />
-                <p className="p-3 mb-0 text-center">
-                  <Trans>Advanced settings</Trans>
-                </p>
               </Dropdown.Menu>
             </Dropdown>
           </ul>
@@ -358,6 +371,6 @@ class Navbar extends Component {
   }
 }
 
-export default connect(state => {
+export default withRouter(connect(state => {
   return { user: state.auth.user }
-})(Navbar);
+})(Navbar));
