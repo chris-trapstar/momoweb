@@ -20,7 +20,8 @@ class Subscription extends Component {
     succTxt: '',
     plans: [],
     plan_id: null,
-    changeCard: false
+    changeCard: false,
+    subscribing: false
   };
 
   componentDidMount() {
@@ -65,6 +66,8 @@ class Subscription extends Component {
       customer,
       stripe_customer
     })
+
+
   }
 
   getCard = () => {
