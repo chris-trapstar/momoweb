@@ -19,7 +19,7 @@ class Subscription extends Component {
     errTxt: '',
     succTxt: '',
     plans: [],
-    plan_id: null,
+    plan: null,
     changeCard: false,
     subscribing: false
   };
@@ -71,7 +71,7 @@ class Subscription extends Component {
       })
     }
 
-    const subscription = await Api.createSubscription()
+    const subscription = await Api.createSubscription(this.state.pla)
     this.setState({
       subscription
     })
@@ -96,7 +96,7 @@ class Subscription extends Component {
           <div className="row">
             {this.state.plans.map((plan) => {
               return <div className="col-md-3 text-center p-2" key={plan.id}>
-                <div className={`card p-2 ${plan.id === this.state.plan_id ? 'active-plan' : ''} plan-card`} onClick={() => { this.setState({ plan_id: plan.id }) }}>
+                <div className={`card p-2 ${plan.id === this.state.plan ? 'active-plan' : ''} plan-card`} onClick={() => { this.setState({ plan }) }}>
                   <h4>Pro: {plan.name}</h4>
                   <p>${plan.amount / 100} / {plan.interval}</p>
                 </div>
@@ -119,7 +119,7 @@ class Subscription extends Component {
                           <Form.Control type="text" id="exampleInputUsername1" size="lg" value={this.getCard()} disabled />
                         </Form.Group>}
 
-                        {this.state.plan_id &&
+                        {this.state.plan &&
                           <Form.Group>
                             <label htmlFor="exampleInputUsername1">PROMO CODE</label>
                             <Form.Control type="text" id="exampleInputUsername1" placeholder="COUPON CODE" size="lg" />
@@ -162,7 +162,7 @@ class Subscription extends Component {
                       </Elements>
                     </div>
                   }
-                  {this.state.plan_id &&
+                  {this.state.plan &&
                     <Button variant="primary" onClick={this.onClickSubscribe}>Subscribe</Button>
                   }
                 </div>
