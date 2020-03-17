@@ -70,7 +70,7 @@ class Subscription extends Component {
   getCard = () => {
     const { customer } = this.state
     if (customer) {
-      return `${customer.card_kind} ${customer.last4}`
+      return `${customer.card_kind} ${customer.card_last_4}`
     } else {
       return ''
     }
