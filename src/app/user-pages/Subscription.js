@@ -71,7 +71,7 @@ class Subscription extends Component {
       })
     }
 
-    const subscription = await Api.createSubscription(this.state.pla)
+    const subscription = await Api.createSubscription(this.state.plan.id)
     this.setState({
       subscription
     })
@@ -96,7 +96,7 @@ class Subscription extends Component {
           <div className="row">
             {this.state.plans.map((plan) => {
               return <div className="col-md-3 text-center p-2" key={plan.id}>
-                <div className={`card p-2 ${plan.id === this.state.plan ? 'active-plan' : ''} plan-card`} onClick={() => { this.setState({ plan }) }}>
+                <div className={`card p-2 ${this.state.plan && plan.id === this.state.plan.id ? 'active-plan' : ''} plan-card`} onClick={() => { this.setState({ plan }) }}>
                   <h4>Pro: {plan.name}</h4>
                   <p>${plan.amount / 100} / {plan.interval}</p>
                 </div>
@@ -157,8 +157,6 @@ class Subscription extends Component {
                             />
                           }}
                         </ElementsConsumer>
-
-
                       </Elements>
                     </div>
                   }
