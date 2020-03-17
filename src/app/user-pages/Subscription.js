@@ -47,27 +47,34 @@ class Subscription extends Component {
   }
 
   onClickSubscribe = async () => {
-    const payload = await this.stripe.createToken(this.elements.getElement(CardElement));
-    console.info('Payment Method:', payload)
-    if (payload && payload.error) {
-      cogoToast.error(payload.error.message)
-      return
-    }
-    const res = await Api.createCustomer(payload.token.id)
-    console.info('Customer Response:', res)
+    this.setState({ subscribing: true })
+    if (this.state.changeCard) {
+      const payload = await this.stripe.createToken(this.elements.getElement(CardElement));
+      console.info('Payment Method:', payload)
+      if (payload && payload.error) {
+        cogoToast.error(payload.error.message)
+        return
+      }
+      const res = await Api.createCustomer(payload.token.id)
+      console.info('Customer Response:', res)
 
-    if (res && res.error) {
-      cogoToast.error('Payment method verification failed!')
-      return
+      if (res && res.error) {
+        cogoToast.error('Payment method verification failed!')
+        return
+      }
+      const { customer, stripe_customer } = res
+
+      this.setState({
+        changeCard: false,
+        customer,
+        stripe_customer
+      })
     }
-    const { customer, stripe_customer } = res
+
+    const subscription = await Api.createSubscription()
     this.setState({
-      changeCard: false,
-      customer,
-      stripe_customer
+      subscription
     })
-
-
   }
 
   getCard = () => {
