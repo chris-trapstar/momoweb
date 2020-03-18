@@ -19,7 +19,8 @@ class Subscription extends Component {
     errTxt: '',
     succTxt: '',
     plans: [],
-    plan: null,
+    plan: null, // selected plan
+    currentPlan: null,
     changeCard: false,
     subscribing: false
   };
@@ -28,10 +29,6 @@ class Subscription extends Component {
     // get plans
     this.getPlans()
     this.getCustomer()
-  }
-
-  componentWillUpdate() {
-
   }
 
   getPlans = async () => {
@@ -43,7 +40,7 @@ class Subscription extends Component {
         plan = plans.find(({id}) => (id === subscription.plan))
       }
 
-      this.setState({ plans, plan })
+      this.setState({ plans, plan, currentPlan: plan })
     } catch (e) {
       cogoToast.error('Failed to get plans!')
     }
@@ -96,6 +93,12 @@ class Subscription extends Component {
     }
   }
 
+  canSubscribe = () => {
+    const { plan, currentPlan} = this.state
+
+    return plan && (!currentPlan || currentPlan.id !== plan.id)
+  }
+
   render() {
     return (
       <div>
@@ -129,7 +132,7 @@ class Subscription extends Component {
                           <Form.Control type="text" id="exampleInputUsername1" size="lg" value={this.getCard()} disabled />
                         </Form.Group>}
 
-                        {this.state.plan &&
+                        {this.canSubscribe() &&
                           <Form.Group>
                             <label htmlFor="exampleInputUsername1">PROMO CODE</label>
                             <Form.Control type="text" id="exampleInputUsername1" placeholder="COUPON CODE" size="lg" />
@@ -170,7 +173,7 @@ class Subscription extends Component {
                       </Elements>
                     </div>
                   }
-                  {this.state.plan &&
+                  {this.canSubscribe() &&
                     <Button variant="primary" onClick={this.onClickSubscribe}>Subscribe</Button>
                   }
                 </div>
