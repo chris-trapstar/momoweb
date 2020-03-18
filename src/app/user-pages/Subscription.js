@@ -177,6 +177,7 @@ class Subscription extends Component {
           <div className="row ">
             <div className="col-12 text-center">
               <h2>Subscription</h2>
+              <small className="text-muted">Please select your subscription plan.</small>
             </div>
           </div>
           <div className="div text-center">
