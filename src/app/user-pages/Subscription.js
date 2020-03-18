@@ -54,41 +54,45 @@ class Subscription extends Component {
     })
   }
 
+  onClickSaveCard = async () => {
+    const payload = await this.stripe.createToken(this.elements.getElement(CardElement));
+    console.info('Payment Method:', payload)
+    if (payload && payload.error) {
+      cogoToast.error(payload.error.message)
+      return
+    }
+    const res = await Api.createCustomer(payload.token.id)
+    console.info('Customer Response:', res)
+
+    if (res && res.error) {
+      cogoToast.error('Payment method verification failed!')
+      return
+    }
+    const { customer, stripe_customer } = res
+
+    this.setState({
+      showCardInput: false,
+      customer,
+      stripe_customer
+    })
+  }
+
   onClickSubscribe = async () => {
     this.setState({ subscribing: true })
-    if (this.state.changeCard) {
-      const payload = await this.stripe.createToken(this.elements.getElement(CardElement));
-      console.info('Payment Method:', payload)
-      if (payload && payload.error) {
-        cogoToast.error(payload.error.message)
-        return
-      }
-      const res = await Api.createCustomer(payload.token.id)
-      console.info('Customer Response:', res)
-
-      if (res && res.error) {
-        cogoToast.error('Payment method verification failed!')
-        return
-      }
-      const { customer, stripe_customer } = res
-
-      this.setState({
-        changeCard: false,
-        customer,
-        stripe_customer
-      })
-    }
-
     const subscription = await Api.createSubscription(this.state.plan.id)
     this.setState({
       subscription
     })
   }
 
-  getCard = () => {
+  renderCurrentCard = () => {
     const { customer } = this.state
     if (customer) {
-      return `${customer.card_kind} ${customer.card_last_4}`
+      return <div>
+        <span>{`${customer.card_kind} ***${customer.card_last_4}`} </span>
+        <small>ending in </small>
+        <span>{`${customer.card_exp_month}/${customer.card_exp_year}`}</span>
+      </div>
     } else {
       return ''
     }
@@ -103,27 +107,60 @@ class Subscription extends Component {
   renderCardInput() {
     return <Modal
       show={this.state.showCardInput}
-      onHide={() => { this.setState({ showCardInput: false })}}
+      onHide={() => { this.setState({ showCardInput: false }) }}
       aria-labelledby="example-modal-sizes-title-md"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Modal title</Modal.Title>
+        <Modal.Title>Change Card</Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <p>Modal body text goes here.</p>
+        <Form.Group>
+          <label htmlFor="cardInput">Current Card</label>
+          <div id="cardInput">{this.renderCurrentCard()}</div>
+        </Form.Group>
+        {this.renderStripeCard()}
       </Modal.Body>
 
       <Modal.Footer className="fleex-wrap">
-        <Button variant="success m-2" onClick={() => { this.setState({ showCardInput: false })}}>Change Card</Button>
-        <Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false })}}>Cancel</Button>
+        <Button variant="success m-2" onClick={() => { this.onClickSaveCard }}>Save</Button>
+        <Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>
       </Modal.Footer>
     </Modal>
+  }
+
+  renderStripeCard() {
+    return <div className="p-1 card-container"><Elements stripe={stripePromise} className="p-4 b-1">
+      <ElementsConsumer>
+        {({ elements, stripe }) => {
+          this.elements = elements
+          this.stripe = stripe
+          return <CardElement
+            options={{
+              style: {
+                base: {
+                  fontSize: '16px',
+                  color: '#ffffff',
+                  '::placeholder': {
+                    color: '#aab7c4',
+                  },
+                },
+                invalid: {
+                  color: '#9e2146',
+                },
+              },
+            }}
+          />
+        }}
+      </ElementsConsumer>
+    </Elements>
+    </div>
   }
 
   render() {
     return (
       <div>
+        {this.renderCardInput()}
         <div className="align-items-center auth px-0">
           <div className="row">
             <h2 className="col-12 text-center">Subscription</h2>
@@ -148,10 +185,10 @@ class Subscription extends Component {
 
                     <div className="row">
                       <div className="col-md-12">
-                        {(!this.state.changeCard && this.state.customer) && <Form.Group>
-                          <label htmlFor="exampleInputUsername1">Your Card</label>
-                          <Button variant="secondary" className="change_card" onClick={() => { this.setState({ changeCard: true }) }}>Change</Button>
-                          <Form.Control type="text" id="exampleInputUsername1" size="lg" value={this.getCard()} disabled />
+                        {this.state.customer && <Form.Group>
+                          <label>Your Card</label>
+                          <Button variant="secondary" className="change_card" onClick={() => { this.setState({ showCardInput: true }) }}>Change</Button>
+                          {this.renderCurrentCard()}
                         </Form.Group>}
 
                         {this.canSubscribe() &&
@@ -163,38 +200,7 @@ class Subscription extends Component {
 
                       </div>
                     </div>
-
-
                   </div>
-
-                  {this.state.changeCard &&
-                    <div id="paymentForm" className="m-4 p-2">
-                      <Elements stripe={stripePromise}>
-                        <ElementsConsumer>
-                          {({ elements, stripe }) => {
-                            this.elements = elements
-                            this.stripe = stripe
-                            return <CardElement
-                              options={{
-                                style: {
-                                  base: {
-                                    fontSize: '16px',
-                                    color: '#424770',
-                                    '::placeholder': {
-                                      color: '#aab7c4',
-                                    },
-                                  },
-                                  invalid: {
-                                    color: '#9e2146',
-                                  },
-                                },
-                              }}
-                            />
-                          }}
-                        </ElementsConsumer>
-                      </Elements>
-                    </div>
-                  }
                   {this.canSubscribe() &&
                     <Button variant="primary" onClick={this.onClickSubscribe}>Subscribe</Button>
                   }
