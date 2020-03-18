@@ -1,6 +1,12 @@
 .active-plan {
-  border-color: green;
+  border-color: gray;
+  border-width: 0.1rem;
 }
+
+.selected-plan {
+  border-color: gray;
+}
+
 
 #paymentForm {
   border: 1px solid gray;
@@ -11,11 +17,26 @@
 }
 
 .change_card {
+  right: 0.5em;
+  top: 0.5em;
   position: absolute;
-  right: 0px;
-  top: -1em;
+  font-size: 0.8em;
+}
+
+.my_card {
+  margin-left: auto !important;
+  margin-right: auto !important;
 }
 
 .card-container {
   border: 1px solid gray;
+}
+
+.couponCode {
+  font-size: 0.8em;
+  margin-bottom: 1.6em;
+}
+
+.cancelBt {
+  margin-top: 0.5em;
 }

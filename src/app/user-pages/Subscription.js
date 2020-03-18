@@ -85,6 +85,10 @@ class Subscription extends Component {
     })
   }
 
+  onClickCancelSubscription = async () => {
+
+  }
+
   renderCurrentCard = () => {
     const { customer } = this.state
     if (customer) {
@@ -102,6 +106,11 @@ class Subscription extends Component {
     const { plan, currentPlan } = this.state
 
     return plan && (!currentPlan || currentPlan.id !== plan.id)
+  }
+
+  getPlanClassName = (plan) => {
+    return this.state.currentPlan && plan.id === this.state.currentPlan.id ? ' active-plan' : '' +
+      this.state.plan && plan.id === this.state.plan.id ? ' selected-plan' : ''
   }
 
   renderCardInput() {
@@ -157,56 +166,54 @@ class Subscription extends Component {
     </div>
   }
 
+
+
   render() {
+    const { currentPlan } = this.state
     return (
       <div>
         {this.renderCardInput()}
         <div className="align-items-center auth px-0">
-          <div className="row">
-            <h2 className="col-12 text-center">Subscription</h2>
+          <div className="row ">
+            <div className="col-12 text-center">
+              <h2>Subscription</h2>
+            </div>
+          </div>
+          <div className="div text-center">
+            <div className="card p-2 col-md-4 my_card">
+              {this.state.customer && <Form.Group>
+                <label>Your Card</label>
+                <Button variant="primary" className="change_card" onClick={() => { this.setState({ showCardInput: true }) }} size="md">Change</Button>
+                {this.renderCurrentCard()}
+              </Form.Group>}
+            </div>
           </div>
           <div className="row">
             {this.state.plans.map((plan) => {
               return <div className="col-md-3 text-center p-2" key={plan.id}>
-                <div className={`card p-2 ${this.state.plan && plan.id === this.state.plan.id ? 'active-plan' : ''} plan-card`} onClick={() => { this.setState({ plan }) }}>
+                <div className={`card p-2 ${this.getPlanClassName(plan)} plan-card`}
+                  onClick={() => { this.setState({ plan }) }}>
                   <h4>Pro: {plan.name}</h4>
                   <p>${plan.amount / 100} / {plan.interval}</p>
+                  {currentPlan && currentPlan.id === plan.id &&
+                    <React.Fragment>
+                      <p>Active</p>
+                      <Button variant="secondary" onClick={this.onClickCancelSubscription} className="cancelBt">Cancel Subscription</Button>
+                    </React.Fragment>
+                  }
+                  {this.state.plan && this.state.plan.id === plan.id && (!currentPlan || currentPlan.id !== plan.id) &&
+                    <React.Fragment>
+                      <div><input type="text" placeholder="COUPON CODE" className="couponCode" /></div>
+                      <Button variant="primary" onClick={this.onClickSubscribe}>
+                        {currentPlan ? 'Change Plan' : 'Subscribe'}
+                      </Button>
+                    </React.Fragment>
+                  }
                 </div>
               </div>
             })
             }
           </div>
-          {
-            <div className="row w-100 mx-0">
-              <div className="col-lg-6 mx-auto">
-                <div className="card p-4">
-
-                  <div className="card p-2">
-
-                    <div className="row">
-                      <div className="col-md-12">
-                        {this.state.customer && <Form.Group>
-                          <label>Your Card</label>
-                          <Button variant="secondary" className="change_card" onClick={() => { this.setState({ showCardInput: true }) }}>Change</Button>
-                          {this.renderCurrentCard()}
-                        </Form.Group>}
-
-                        {this.canSubscribe() &&
-                          <Form.Group>
-                            <label htmlFor="exampleInputUsername1">PROMO CODE</label>
-                            <Form.Control type="text" id="exampleInputUsername1" placeholder="COUPON CODE" size="lg" />
-                          </Form.Group>
-                        }
-
-                      </div>
-                    </div>
-                  </div>
-                  {this.canSubscribe() &&
-                    <Button variant="primary" onClick={this.onClickSubscribe}>Subscribe</Button>
-                  }
-                </div>
-              </div>
-            </div>}
         </div>
       </div>
     );
