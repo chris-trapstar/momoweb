@@ -35,8 +35,18 @@ class Subscription extends Component {
   }
 
   getPlans = async () => {
-    const plans = await Api.getStripePlans()
-    this.setState({ plans })
+    try {
+      const plans = await Api.getStripePlans()
+      const { subscription } = this.props.user
+      let plan = null
+      if (subscription) {
+        plan = plans.find(({id}) => (id === subscription.plan))
+      }
+
+      this.setState({ plans, plan })
+    } catch (e) {
+      cogoToast.error('Failed to get plans!')
+    }
   }
 
   getCustomer = async () => {
