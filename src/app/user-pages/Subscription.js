@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Modal } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Elements, CardElement, ElementsConsumer } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
@@ -22,7 +22,8 @@ class Subscription extends Component {
     plan: null, // selected plan
     currentPlan: null,
     changeCard: false,
-    subscribing: false
+    subscribing: false,
+    showCardInput: false
   };
 
   componentDidMount() {
@@ -37,7 +38,7 @@ class Subscription extends Component {
       const { subscription } = this.props.user
       let plan = null
       if (subscription) {
-        plan = plans.find(({id}) => (id === subscription.plan))
+        plan = plans.find(({ id }) => (id === subscription.plan))
       }
 
       this.setState({ plans, plan, currentPlan: plan })
@@ -94,9 +95,30 @@ class Subscription extends Component {
   }
 
   canSubscribe = () => {
-    const { plan, currentPlan} = this.state
+    const { plan, currentPlan } = this.state
 
     return plan && (!currentPlan || currentPlan.id !== plan.id)
+  }
+
+  renderCardInput() {
+    return <Modal
+      show={this.state.showCardInput}
+      onHide={() => { this.setState({ showCardInput: false })}}
+      aria-labelledby="example-modal-sizes-title-md"
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>Modal title</Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body>
+        <p>Modal body text goes here.</p>
+      </Modal.Body>
+
+      <Modal.Footer className="fleex-wrap">
+        <Button variant="success m-2" onClick={() => { this.setState({ showCardInput: false })}}>Change Card</Button>
+        <Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false })}}>Cancel</Button>
+      </Modal.Footer>
+    </Modal>
   }
 
   render() {
