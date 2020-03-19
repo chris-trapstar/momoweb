@@ -47,20 +47,20 @@ class Subscription extends Component {
   }
 
   onClickSaveCard = async () => {
-    this.setState({changingCard: true})
+    this.setState({ changingCard: true })
     try {
       const payload = await this.stripe.createToken(this.elements.getElement(CardElement));
       console.info('Payment Method:', payload)
       if (payload && payload.error) {
         cogoToast.error(payload.error.message)
-        return
+        throw payload.error
       }
       const res = await Api.createCustomer(payload.token.id)
       console.info('Customer Response:', res)
-  
+
       if (res && res.error) {
         cogoToast.error('Payment method verification failed!')
-        return
+        throw res.error
       }
       const { customer } = res
       this.props.setUser({
@@ -72,9 +72,9 @@ class Subscription extends Component {
       })
       cogoToast.success('Card saved!')
     } catch (e) {
-      console.error('Failed to save card:', e)      
+      console.error('Failed to save card:', e)
     }
-    this.setState({changingCard: false})
+    this.setState({ changingCard: false })
   }
 
   onClickSubscribe = async () => {
@@ -94,7 +94,7 @@ class Subscription extends Component {
 
     try {
       await Api.cancelSubscription(subscription.id)
-      this.props.setUser({...this.props.user, subscription: null})
+      this.props.setUser({ ...this.props.user, subscription: null })
     } catch (e) {
       console.error(e)
       cogoToast.error('Sorry, failed to cancel the subscription, please try again')
@@ -121,7 +121,9 @@ class Subscription extends Component {
   }
 
   getPlanClassName = (plan) => {
-    return this.state.currentPlan && plan.id === this.state.currentPlan.id ? ' active-plan' : '' +
+    const { currentPlan } = this.state
+
+    return currentPlan && plan.id === currentPlan ? ' active-plan' : '' +
       this.state.plan && plan.id === this.state.plan.id ? ' selected-plan' : ''
   }
 
