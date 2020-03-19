@@ -69,12 +69,13 @@ class Subscription extends Component {
       cogoToast.error('Payment method verification failed!')
       return
     }
-    const { customer, stripe_customer } = res
-
+    const { customer } = res
+    this.props.setUser({
+      ...this.props.user,
+      customer
+    })
     this.setState({
       showCardInput: false,
-      customer,
-      stripe_customer
     })
   }
 
@@ -95,6 +96,7 @@ class Subscription extends Component {
 
     try {
       await Api.cancelSubscription(subscription.id)
+      this.props.setUser({...this.props.user, subscription: null})
     } catch (e) {
       console.error(e)
       cogoToast.error('Sorry, failed to cancel the subscription, please try again')
@@ -182,6 +184,7 @@ class Subscription extends Component {
 
   render() {
     const { currentPlan } = this.state
+    const { customer } = this.props.user
     return (
       <div>
         {this.renderCardInput()}
@@ -194,7 +197,7 @@ class Subscription extends Component {
           </div>
           <div className="div text-center">
             <div className="card p-2 col-md-4 my_card">
-              {this.state.customer && <Form.Group>
+              {customer && <Form.Group>
                 <label>Your Card</label>
                 <Button variant="primary" className="change_card" onClick={() => { this.setState({ showCardInput: true }) }} size="md">Change</Button>
                 {this.renderCurrentCard()}
