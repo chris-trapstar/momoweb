@@ -23,7 +23,8 @@ class Subscription extends Component {
     currentPlan: null,
     subscribing: false,
     changingCard: false,
-    showCardInput: false
+    showCardInput: false,
+    coupon: ''
   };
 
   componentDidMount() {
@@ -77,7 +78,7 @@ class Subscription extends Component {
     this.setState({ changingCard: false })
   }
 
-  onClickSubscribe = async () => {
+  onClickSubscribe = async (e) => {
     this.setState({ subscribing: true })
     try {
       let subscription = this.props.user.subscription
@@ -90,16 +91,20 @@ class Subscription extends Component {
         }
       }
 
-      subscription = await Api.createSubscription(this.state.plan.id)
+      subscription = await Api.createSubscription(this.state.plan.id, this.state.coupon)
       if (subscription && subscription.error) {
-        return cogoToast.error('Subscription failed, please try again!')
+        if (subscription.error.startsWith('Error: No such coupon:')) {
+          return cogoToast.error('Invalid Coupon Code!')
+        } else {
+          return cogoToast.error('Subscription Failed, please try again!')
+        }
       }
 
       // Set subscription
       this.props.setUser({ ...this.props.user, subscription })
-  
+
       const plan = this.state.plans.find(({ id }) => (id === subscription.plan))
-  
+
       this.setState({
         plan,
         currentPlan: plan
@@ -242,7 +247,13 @@ class Subscription extends Component {
             {this.state.plans.map((plan) => {
               return <div className="col-md-3 text-center p-2" key={plan.id}>
                 <div className={`card p-2 ${this.getPlanClassName(plan)} plan-card`}
-                  onClick={() => { this.setState({ plan }) }}>
+                  onClick={() => {
+                    this.setState({ plan })
+
+                    if (plan.id !== (this.state.plan && this.state.plan.id)) {
+                      this.setState({ plan, coupon: '' })
+                    }
+                  }}>
                   <h4>Pro: {plan.name}</h4>
                   <p>${plan.amount / 100} / {plan.interval}</p>
                   {currentPlan && currentPlan.id === plan.id &&
@@ -253,7 +264,14 @@ class Subscription extends Component {
                   }
                   {this.state.plan && this.state.plan.id === plan.id && (!currentPlan || currentPlan.id !== plan.id) &&
                     <React.Fragment>
-                      <div><input type="text" placeholder="COUPON CODE" className="couponCode" /></div>
+                      <div>
+                        <input type="text" placeholder="COUPON CODE" className="couponCode"
+                          value={this.state.coupon} onChange={(e) => {
+                            this.setState({
+                              coupon: e.target.value
+                            })
+                          }} />
+                      </div>
                       <Button variant="primary" onClick={this.onClickSubscribe}>
                         {currentPlan ? 'Change Plan' : 'Subscribe'}
                       </Button>
