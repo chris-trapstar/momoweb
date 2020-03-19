@@ -55,6 +55,7 @@ class Subscription extends Component {
   }
 
   onClickSaveCard = async () => {
+    debugger
     const payload = await this.stripe.createToken(this.elements.getElement(CardElement));
     console.info('Payment Method:', payload)
     if (payload && payload.error) {
@@ -86,7 +87,18 @@ class Subscription extends Component {
   }
 
   onClickCancelSubscription = async () => {
+    const { subscription } = this.props.user
+    if (!subscription) {
+      console.error('onClickCancelSubscription: no subscription')
+      return
+    }
 
+    try {
+      await Api.cancelSubscription(subscription.id)
+    } catch (e) {
+      console.error(e)
+      cogoToast.error('Sorry, failed to cancel the subscription, please try again')
+    }
   }
 
   renderCurrentCard = () => {
@@ -132,7 +144,7 @@ class Subscription extends Component {
       </Modal.Body>
 
       <Modal.Footer className="fleex-wrap">
-        <Button variant="success m-2" onClick={() => { this.onClickSaveCard }}>Save</Button>
+        <Button variant="success m-2" onClick={this.onClickSaveCard}>Save</Button>
         <Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>
       </Modal.Footer>
     </Modal>
