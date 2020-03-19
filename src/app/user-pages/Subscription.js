@@ -80,8 +80,9 @@ class Subscription extends Component {
   onClickSubscribe = async () => {
     this.setState({ subscribing: true })
     try {
-      if (this.props.subscription) {
-        const res = await Api.cancelSubscription(this.props.subscription.id)
+      let subscription = this.props.user.subscription
+      if (subscription) {
+        const res = await Api.cancelSubscription(subscription.id)
         console.info('Cancel Sub Result:', res)
         if (res && res.error) {
           cogoToast.error('Failed to upgrade the subscription, please try again!')
@@ -89,7 +90,7 @@ class Subscription extends Component {
         }
       }
 
-      const subscription = await Api.createSubscription(this.state.plan.id)
+      subscription = await Api.createSubscription(this.state.plan.id)
       if (subscription && subscription.error) {
         return cogoToast.error('Subscription failed, please try again!')
       }
@@ -103,6 +104,7 @@ class Subscription extends Component {
         plan,
         currentPlan: plan
       })
+      return cogoToast.success('Successfully subscribed!')
     } catch (e) {
       console.error('onClickSubscribe - ', e)
     }
