@@ -496,7 +496,24 @@ class API {
       console.info('createSubscription:', data)
       return data
     } catch (e) {
-      console.error('Failed to create stripe customer', e)
+      console.error('Failed to create createSubscription', e)
+    }
+  }
+
+  deleteSubscription = async (id) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/stripe/subscription/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      const data = await res.json()
+      console.info('delete subscription:', data)
+      return data
+    } catch (e) {
+      console.error('Failed to deleteSubscription', e)
     }
   }
 }
