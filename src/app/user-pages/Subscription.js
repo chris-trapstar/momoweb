@@ -79,20 +79,34 @@ class Subscription extends Component {
 
   onClickSubscribe = async () => {
     this.setState({ subscribing: true })
-    const subscription = await Api.createSubscription(this.state.plan.id)
-    if (subscription && subscription.error) {
-      return cogoToast.error('Subscription failed, please try again!')
+    try {
+      if (this.props.subscription) {
+        const res = await Api.cancelSubscription(this.props.subscription.id)
+        console.info('Cancel Sub Result:', res)
+        if (res && res.error) {
+          cogoToast.error('Failed to upgrade the subscription, please try again!')
+          throw res.error
+        }
+      }
+
+      const subscription = await Api.createSubscription(this.state.plan.id)
+      if (subscription && subscription.error) {
+        return cogoToast.error('Subscription failed, please try again!')
+      }
+
+      // Set subscription
+      this.props.setUser({ ...this.props.user, subscription })
+  
+      const plan = this.state.plans.find(({ id }) => (id === subscription.plan))
+  
+      this.setState({
+        plan,
+        currentPlan: plan
+      })
+    } catch (e) {
+      console.error('onClickSubscribe - ', e)
     }
-    // Set subscription
-    this.props.setUser({ ...this.props.user, subscription })
-
-    const plan = this.state.plans.find(({ id }) => (id === subscription.plan))
-
-    this.setState({
-      subscription,
-      plan,
-      currentPlan: plan
-    })
+    this.setState({ subscribing: false })
   }
 
   onClickCancelSubscription = async () => {
@@ -117,7 +131,7 @@ class Subscription extends Component {
       })
     } catch (e) {
       console.error(e)
-      cogoToast.error('Sorry, failed to cancel the subscription, please try again')
+      cogoToast.error('Sorry, failed to cancel the current subscription, please try again')
     }
   }
 
