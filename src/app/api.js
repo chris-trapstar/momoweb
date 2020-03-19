@@ -482,11 +482,11 @@ class API {
     }
   }
 
-  createSubscription = async (plan) => {
+  createSubscription = async (plan, coupon) => {
     try {
       const res = await fetch(`${baseUrl}/api/stripe/subscription`, {
         method: 'POST',
-        body: JSON.stringify({plan}),
+        body: JSON.stringify({plan, coupon}),
         headers: {
           Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
           'Content-Type': 'application/json'
