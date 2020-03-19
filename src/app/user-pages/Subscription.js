@@ -80,8 +80,18 @@ class Subscription extends Component {
   onClickSubscribe = async () => {
     this.setState({ subscribing: true })
     const subscription = await Api.createSubscription(this.state.plan.id)
+    if (subscription && subscription.error) {
+      return cogoToast.error('Subscription failed, please try again!')
+    }
+    // Set subscription
+    this.props.setUser({ ...this.props.user, subscription })
+
+    const plan = this.state.plans.find(({ id }) => (id === subscription.plan))
+
     this.setState({
-      subscription
+      subscription,
+      plan,
+      currentPlan: plan
     })
   }
 
@@ -93,8 +103,18 @@ class Subscription extends Component {
     }
 
     try {
-      await Api.cancelSubscription(subscription.id)
+      const res = await Api.cancelSubscription(subscription.id)
+      console.info('Cancel Sub Result:', res)
+      if (res && res.error) {
+        cogoToast.error('Failed to cancel the subscription, please try again!')
+        return
+      }
       this.props.setUser({ ...this.props.user, subscription: null })
+
+      this.setState({
+        currentPlan: null,
+        plan: null
+      })
     } catch (e) {
       console.error(e)
       cogoToast.error('Sorry, failed to cancel the subscription, please try again')
@@ -123,8 +143,8 @@ class Subscription extends Component {
   getPlanClassName = (plan) => {
     const { currentPlan } = this.state
 
-    return currentPlan && plan.id === currentPlan ? ' active-plan' : '' +
-      this.state.plan && plan.id === this.state.plan.id ? ' selected-plan' : ''
+    return plan.id === (currentPlan && currentPlan.id) ? ' active-plan' : '' +
+      plan.id === (this.state.plan && this.state.plan.id) ? ' selected-plan' : ''
   }
 
   renderCardInput() {
