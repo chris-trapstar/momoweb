@@ -500,7 +500,7 @@ class API {
     }
   }
 
-  deleteSubscription = async (id) => {
+  cancelSubscription = async (id) => {
     try {
       const res = await fetch(`${baseUrl}/api/stripe/subscription/${id}`, {
         method: 'DELETE',
@@ -513,7 +513,7 @@ class API {
       console.info('delete subscription:', data)
       return data
     } catch (e) {
-      console.error('Failed to deleteSubscription', e)
+      console.error('Failed to cancelSubscription', e)
     }
   }
 }

@@ -21,15 +21,14 @@ class Subscription extends Component {
     plans: [],
     plan: null, // selected plan
     currentPlan: null,
-    changeCard: false,
     subscribing: false,
+    changingCard: false,
     showCardInput: false
   };
 
   componentDidMount() {
     // get plans
     this.getPlans()
-    this.getCustomer()
   }
 
   getPlans = async () => {
@@ -47,36 +46,35 @@ class Subscription extends Component {
     }
   }
 
-  getCustomer = async () => {
-    const customer = await Api.getCustomer()
-    this.setState({
-      customer
-    })
-  }
-
   onClickSaveCard = async () => {
-    debugger
-    const payload = await this.stripe.createToken(this.elements.getElement(CardElement));
-    console.info('Payment Method:', payload)
-    if (payload && payload.error) {
-      cogoToast.error(payload.error.message)
-      return
+    this.setState({changingCard: true})
+    try {
+      const payload = await this.stripe.createToken(this.elements.getElement(CardElement));
+      console.info('Payment Method:', payload)
+      if (payload && payload.error) {
+        cogoToast.error(payload.error.message)
+        return
+      }
+      const res = await Api.createCustomer(payload.token.id)
+      console.info('Customer Response:', res)
+  
+      if (res && res.error) {
+        cogoToast.error('Payment method verification failed!')
+        return
+      }
+      const { customer } = res
+      this.props.setUser({
+        ...this.props.user,
+        customer
+      })
+      this.setState({
+        showCardInput: false,
+      })
+      cogoToast.success('Card saved!')
+    } catch (e) {
+      console.error('Failed to save card:', e)      
     }
-    const res = await Api.createCustomer(payload.token.id)
-    console.info('Customer Response:', res)
-
-    if (res && res.error) {
-      cogoToast.error('Payment method verification failed!')
-      return
-    }
-    const { customer } = res
-    this.props.setUser({
-      ...this.props.user,
-      customer
-    })
-    this.setState({
-      showCardInput: false,
-    })
+    this.setState({changingCard: false})
   }
 
   onClickSubscribe = async () => {
@@ -104,7 +102,7 @@ class Subscription extends Component {
   }
 
   renderCurrentCard = () => {
-    const { customer } = this.state
+    const { customer } = this.props.user
     if (customer) {
       return <div>
         <span>{`${customer.card_kind} ***${customer.card_last_4}`} </span>
@@ -146,7 +144,7 @@ class Subscription extends Component {
       </Modal.Body>
 
       <Modal.Footer className="fleex-wrap">
-        <Button variant="success m-2" onClick={this.onClickSaveCard}>Save</Button>
+        <Button variant="success m-2" onClick={this.onClickSaveCard} disabled={this.state.changingCard}>Save</Button>
         <Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>
       </Modal.Footer>
     </Modal>
@@ -179,8 +177,6 @@ class Subscription extends Component {
     </Elements>
     </div>
   }
-
-
 
   render() {
     const { currentPlan } = this.state
