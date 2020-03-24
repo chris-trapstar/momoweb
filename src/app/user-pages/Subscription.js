@@ -229,10 +229,12 @@ class Subscription extends Component {
         {this.renderCardInput()}
         <div className="align-items-center auth px-0">
           <div className="row ">
-            <div className="col-12 text-center">
-              <h2>Subscription</h2>
-              <small className="text-muted">Please select your subscription plan.</small>
+            <div className="col-2"/>
+            <div className="col-8 text-center">
+              <h2>Select your Plan</h2>
+              <p className="text-muted">Choose the plan that suits you the best. All plans come with a free no-risk 3 day trial. Cancel anytime via accounts</p>
             </div>
+            <div className="col-2"/>
           </div>
           <div className="div text-center">
             <div className="card p-2 col-md-4 my_card">
