@@ -180,7 +180,44 @@ class Subscription extends Component {
           <label htmlFor="cardInput">Current Card</label>
           <div id="cardInput">{this.renderCurrentCard()}</div>
         </Form.Group>
-        {this.renderStripeCard()}
+
+        <Form.Group>
+          <label>Name</label>
+
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <span className="input-group-text">@</span>
+            </div>
+            <Form.Control type="text" className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" />
+          </div>
+        </Form.Group>
+
+        <Form.Group>
+          <label>Card Number</label>
+          {this.renderStripeCard()}
+        </Form.Group>
+
+        <Form.Group>
+          <label>Phone</label>
+
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <span className="input-group-text">
+                <i className="mdi mdi-cellphone"/>
+              </span>
+            </div>
+            <Form.Control type="text" className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" />
+          </div>
+        </Form.Group>
+        <Form.Group>
+          <div className="row">
+            <div className="col-4"></div>
+            <div className="col-4"></div>
+            <div className="col-4">
+              <a className="text-success">apply</a>
+            </div>
+          </div>
+        </Form.Group>
       </Modal.Body>
 
       <Modal.Footer className="fleex-wrap">
@@ -289,8 +326,8 @@ class Subscription extends Component {
                       return <h5 className="my-2" key={`feature:${index}`}> - {feature}</h5>
                     })
                   }
-                  <div className="pb-5"/>
-                  <div className="pb-5"/>
+                  <div className="pb-5" />
+                  <div className="pb-5" />
 
                   <div className="bottomDiv text-center">
                     {currentPlan && currentPlan.id === plan.id &&
@@ -300,7 +337,7 @@ class Subscription extends Component {
                     }
                     {(!currentPlan || currentPlan.id !== plan.id) &&
                       <React.Fragment>
-                        <Button variant="success" onClick={() => {this.onClickSubscribe(plan)}} className="cardBt selectBt mb-2">
+                        <Button variant="success" onClick={() => { this.onClickSubscribe(plan) }} className="cardBt selectBt mb-2">
                           Select
                       </Button>
                       </React.Fragment>
