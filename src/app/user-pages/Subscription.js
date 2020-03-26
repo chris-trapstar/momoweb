@@ -206,23 +206,29 @@ class Subscription extends Component {
                 <i className="mdi mdi-cellphone"/>
               </span>
             </div>
-            <Form.Control type="text" className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" />
+            <Form.Control type="text" className="form-control" placeholder="" aria-label="Name" aria-describedby="basic-addon1" />
           </div>
         </Form.Group>
         <Form.Group>
           <div className="row">
-            <div className="col-4"></div>
-            <div className="col-4"></div>
+            <div className="col-4 pt-2">
+              <span className="text-muted">Discount Code</span>
+            </div>
             <div className="col-4">
-              <a className="text-success">apply</a>
+              <Form.Control type="text" className="form-control" />
+            </div>
+            <div className="col-4 pt-2">
+              <button className="text-success coupon-apply">apply</button>
             </div>
           </div>
         </Form.Group>
       </Modal.Body>
 
-      <Modal.Footer className="fleex-wrap">
-        <Button variant="success m-2" onClick={this.onClickSaveCard} disabled={this.state.changingCard}>Save</Button>
-        <Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>
+      <Modal.Footer>
+        <div className="footer-container">
+            <Button variant="success col-12" onClick={this.onClickSaveCard} disabled={this.state.changingCard}className="payBt">Save</Button>
+        </div>
+  {/*<Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>*/}
       </Modal.Footer>
     </Modal>
   }

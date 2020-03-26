@@ -7,7 +7,6 @@
   border-color: gray;
 }
 
-
 #paymentForm {
   border: 1px solid gray;
 }
@@ -39,4 +38,34 @@
 
 .cancelBt {
   margin-top: 0.5em;
+}
+
+.selectBt {
+
+  background-color: transparent;
+}
+
+.cardBt {
+  width: 80%;
+}
+
+.bottomDiv {
+  width: 100%;
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+}
+
+.plan-card {
+  border: 1px solid #00d25b;
+}
+
+.coupon-apply {
+  background-color: transparent;
+  border: none;
+}
+
+.footer-container {
+  width: 100%;
+  
 }
