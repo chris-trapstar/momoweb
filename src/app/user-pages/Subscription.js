@@ -19,12 +19,14 @@ class Subscription extends Component {
     errTxt: '',
     succTxt: '',
     plans: [],
+    selectedPlan: null,
     currentPlan: null,
     subscribing: false,
     changingCard: false,
     showCardInput: false,
     coupon: '',
-    firstPayment: false
+    name: '',
+    phone: ''
   };
 
   componentDidMount() {
@@ -146,6 +148,13 @@ class Subscription extends Component {
     }
   }
 
+  onSelectPlan = (plan) => {
+    this.setState({
+      selectedPlan: plan,
+      showCardInput: true
+    })
+  }
+
   renderCurrentCard = () => {
     const { customer } = this.props.user
     if (customer) {
@@ -172,23 +181,34 @@ class Subscription extends Component {
       aria-labelledby="example-modal-sizes-title-md"
     >
       <Modal.Header closeButton>
-        <Modal.Title>Change Card</Modal.Title>
+        <Modal.Title>
+          <span className="h1">MOMO</span> <small className="bg-light text-dark"> PRO</small>
+        </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <Form.Group>
-          <label htmlFor="cardInput">Current Card</label>
-          <div id="cardInput">{this.renderCurrentCard()}</div>
-        </Form.Group>
+        {this.state.selectedPlan &&
+          <React.Fragment>
+            <h4>Payment</h4>
+            <h4> >> Selected Plan: <span className="text-success">{this.state.selectedPlan.nickname}</span></h4>
+          </React.Fragment>
+        }
+
+
+        {this.props.user.customer ?
+          <Form.Group>
+            <label htmlFor="cardInput">Current Card</label>
+            <div id="cardInput">{this.renderCurrentCard()}</div>
+          </Form.Group> : null
+        }
 
         <Form.Group>
           <label>Name</label>
-
           <div className="input-group">
             <div className="input-group-prepend">
               <span className="input-group-text">@</span>
             </div>
-            <Form.Control type="text" className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1" />
+            <Form.Control type="text" className="form-control text-light" value={this.state.name} onChange={(e) => { this.setState({ name: e.target.value }) }} />
           </div>
         </Form.Group>
 
@@ -203,10 +223,10 @@ class Subscription extends Component {
           <div className="input-group">
             <div className="input-group-prepend">
               <span className="input-group-text">
-                <i className="mdi mdi-cellphone"/>
+                <i className="mdi mdi-cellphone" />
               </span>
             </div>
-            <Form.Control type="text" className="form-control" placeholder="" aria-label="Name" aria-describedby="basic-addon1" />
+            <Form.Control type="text" className="form-control text-light" value={this.state.phone} onChange={(e) => { this.setState({ phone: e.target.value }) }} />
           </div>
         </Form.Group>
         <Form.Group>
@@ -226,37 +246,11 @@ class Subscription extends Component {
 
       <Modal.Footer>
         <div className="footer-container">
-            <Button variant="success col-12" onClick={this.onClickSaveCard} disabled={this.state.changingCard}className="payBt">Save</Button>
+          <Button variant="success col-12" onClick={this.onClickSaveCard} disabled={this.state.changingCard} className="payBt">
+            {this.state.plan ? `Pay $${this.state.plan.amount / 100}` : 'Save'}
+          </Button>
         </div>
-  {/*<Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>*/}
-      </Modal.Footer>
-    </Modal>
-  }
-
-  renderPaymentDetails() {
-    return <Modal
-      show={this.state.firstPayment}
-      onHide={() => { this.setState({ showCardInput: false }) }}
-      aria-labelledby="example-modal-sizes-title-md"
-    >
-      <Modal.Header closeButton>
-        <Modal.Title>MOMO Pro</Modal.Title>
-      </Modal.Header>
-
-      <Modal.Body>
-        <Form.Group>
-          <h2>Payment</h2>
-          <div className="h3">>>Selected plan: <span className="text-succeess">{this.state.plan.nickname}</span></div>
-
-          <label htmlFor="cardInput">Enter Payment Details</label>
-          <div id="cardInput">{this.renderCurrentCard()}</div>
-        </Form.Group>
-        {this.renderStripeCard()}
-      </Modal.Body>
-
-      <Modal.Footer className="fleex-wrap">
-        <Button variant="success m-2" onClick={this.onClickSaveCard} disabled={this.state.changingCard}>Save</Button>
-        <Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>
+        {/*<Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>*/}
       </Modal.Footer>
     </Modal>
   }
@@ -343,7 +337,7 @@ class Subscription extends Component {
                     }
                     {(!currentPlan || currentPlan.id !== plan.id) &&
                       <React.Fragment>
-                        <Button variant="success" onClick={() => { this.onClickSubscribe(plan) }} className="cardBt selectBt mb-2">
+                        <Button variant="success" onClick={() => { this.onSelectPlan(plan) }} className="cardBt selectBt mb-2">
                           Select
                       </Button>
                       </React.Fragment>
