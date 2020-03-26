@@ -177,7 +177,7 @@ class Subscription extends Component {
   renderCardInput() {
     return <Modal
       show={this.state.showCardInput}
-      onHide={() => { this.setState({ showCardInput: false }) }}
+      onHide={() => { this.setState({ showCardInput: false, selectedPlan: null }) }}
       aria-labelledby="example-modal-sizes-title-md"
     >
       <Modal.Header closeButton>
