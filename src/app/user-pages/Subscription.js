@@ -38,12 +38,12 @@ class Subscription extends Component {
     try {
       const plans = await Api.getStripePlans()
       const { subscription } = this.props.user
-      let plan = null
+      let currentPlan = null
       if (subscription) {
-        plan = plans.find(({ id }) => (id === subscription.plan))
+        currentPlan = plans.find(({ id }) => (id === subscription.plan))
       }
 
-      this.setState({ plans, plan, currentPlan: plan })
+      this.setState({ plans, currentPlan })
     } catch (e) {
       cogoToast.error('Failed to get plans!')
     }
@@ -247,7 +247,7 @@ class Subscription extends Component {
       <Modal.Footer>
         <div className="footer-container">
           <Button variant="success col-12" onClick={this.onClickSaveCard} disabled={this.state.changingCard} className="payBt">
-            {this.state.plan ? `Pay $${this.state.plan.amount / 100}` : 'Save'}
+            {this.state.selectedPlan ? `Pay $${this.state.selectedPlan.amount / 100}` : 'Save'}
           </Button>
         </div>
         {/*<Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>*/}
@@ -310,14 +310,7 @@ class Subscription extends Component {
           <div className="row">
             {this.state.plans.map((plan) => {
               return <div className="col-md-4 p-4" key={plan.id}>
-                <div className={`card p-4 plan-card h-100`}
-                  onClick={() => {
-                    this.setState({ plan })
-
-                    if (plan.id !== (this.state.plan && this.state.plan.id)) {
-                      this.setState({ plan, coupon: '' })
-                    }
-                  }}>
+                <div className={`card p-4 plan-card h-100`}>
                   <h3 className="text-center">{plan.nickname}</h3>
                   <p className="text-center">{plan.metadata.description}</p>
                   <h2 className="text-center">${plan.amount / 100}</h2>
