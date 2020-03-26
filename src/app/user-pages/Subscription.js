@@ -19,12 +19,12 @@ class Subscription extends Component {
     errTxt: '',
     succTxt: '',
     plans: [],
-    plan: null, // selected plan
     currentPlan: null,
     subscribing: false,
     changingCard: false,
     showCardInput: false,
-    coupon: ''
+    coupon: '',
+    firstPayment: false
   };
 
   componentDidMount() {
@@ -78,8 +78,9 @@ class Subscription extends Component {
     this.setState({ changingCard: false })
   }
 
-  onClickSubscribe = async (e) => {
+  onClickSubscribe = async (plan) => {
     this.setState({ subscribing: true })
+    cogoToast.loading('Please wait for a moment!')
     try {
       let subscription = this.props.user.subscription
       if (subscription) {
@@ -91,7 +92,7 @@ class Subscription extends Component {
         }
       }
 
-      subscription = await Api.createSubscription(this.state.plan.id, this.state.coupon)
+      subscription = await Api.createSubscription(plan.id, this.state.coupon)
       if (subscription && subscription.error) {
         if (subscription.error.startsWith('Error: No such coupon:')) {
           return cogoToast.error('Invalid Coupon Code!')
@@ -103,14 +104,15 @@ class Subscription extends Component {
       // Set subscription
       this.props.setUser({ ...this.props.user, subscription })
 
-      const plan = this.state.plans.find(({ id }) => (id === subscription.plan))
+      const currentPlan = this.state.plans.find(({ id }) => (id === subscription.plan))
 
       this.setState({
-        plan,
-        currentPlan: plan
+        currentPlan
       })
-      return cogoToast.success('Successfully subscribed!')
+      cogoToast.success('Successfully subscribed!')
+      this.props.history.push('/dashboard')
     } catch (e) {
+      cogoToast.error('Subscription failed, please try again!')
       console.error('onClickSubscribe - ', e)
     }
     this.setState({ subscribing: false })
@@ -124,6 +126,7 @@ class Subscription extends Component {
     }
 
     try {
+      cogoToast.loading('Please wait for a moment!');
       const res = await Api.cancelSubscription(subscription.id)
       console.info('Cancel Sub Result:', res)
       if (res && res.error) {
@@ -136,6 +139,7 @@ class Subscription extends Component {
         currentPlan: null,
         plan: null
       })
+      cogoToast.warn('Subscription cancelled, please subscribe to use the app!');
     } catch (e) {
       console.error(e)
       cogoToast.error('Sorry, failed to cancel the current subscription, please try again')
@@ -161,13 +165,6 @@ class Subscription extends Component {
     return plan && (!currentPlan || currentPlan.id !== plan.id)
   }
 
-  getPlanClassName = (plan) => {
-    const { currentPlan } = this.state
-
-    return plan.id === (currentPlan && currentPlan.id) ? ' active-plan' : '' +
-      plan.id === (this.state.plan && this.state.plan.id) ? ' selected-plan' : ''
-  }
-
   renderCardInput() {
     return <Modal
       show={this.state.showCardInput}
@@ -181,6 +178,34 @@ class Subscription extends Component {
       <Modal.Body>
         <Form.Group>
           <label htmlFor="cardInput">Current Card</label>
+          <div id="cardInput">{this.renderCurrentCard()}</div>
+        </Form.Group>
+        {this.renderStripeCard()}
+      </Modal.Body>
+
+      <Modal.Footer className="fleex-wrap">
+        <Button variant="success m-2" onClick={this.onClickSaveCard} disabled={this.state.changingCard}>Save</Button>
+        <Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>
+      </Modal.Footer>
+    </Modal>
+  }
+
+  renderPaymentDetails() {
+    return <Modal
+      show={this.state.firstPayment}
+      onHide={() => { this.setState({ showCardInput: false }) }}
+      aria-labelledby="example-modal-sizes-title-md"
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>MOMO Pro</Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body>
+        <Form.Group>
+          <h2>Payment</h2>
+          <div className="h3">>>Selected plan: <span className="text-succeess">{this.state.plan.nickname}</span></div>
+
+          <label htmlFor="cardInput">Enter Payment Details</label>
           <div id="cardInput">{this.renderCurrentCard()}</div>
         </Form.Group>
         {this.renderStripeCard()}
@@ -229,12 +254,12 @@ class Subscription extends Component {
         {this.renderCardInput()}
         <div className="align-items-center auth px-0">
           <div className="row ">
-            <div className="col-2"/>
+            <div className="col-2" />
             <div className="col-8 text-center">
               <h2>Select your Plan</h2>
-              <p className="text-muted">Choose the plan that suits you the best. All plans come with a free no-risk 3 day trial. Cancel anytime via accounts</p>
+              <p>Choose the plan that suits you the best. All plans come with a free no-risk 3 day trial. Cancel anytime via accounts</p>
             </div>
-            <div className="col-2"/>
+            <div className="col-2" />
           </div>
           <div className="div text-center">
             <div className="card p-2 col-md-4 my_card">
@@ -247,8 +272,8 @@ class Subscription extends Component {
           </div>
           <div className="row">
             {this.state.plans.map((plan) => {
-              return <div className="col-md-3 text-center p-2" key={plan.id}>
-                <div className={`card p-2 ${this.getPlanClassName(plan)} plan-card`}
+              return <div className="col-md-4 p-4" key={plan.id}>
+                <div className={`card p-4 plan-card h-100`}
                   onClick={() => {
                     this.setState({ plan })
 
@@ -256,29 +281,33 @@ class Subscription extends Component {
                       this.setState({ plan, coupon: '' })
                     }
                   }}>
-                  <h4>Pro: {plan.name}</h4>
-                  <p>${plan.amount / 100} / {plan.interval}</p>
-                  {currentPlan && currentPlan.id === plan.id &&
-                    <React.Fragment>
-                      <p>Active</p>
-                      <Button variant="secondary" onClick={this.onClickCancelSubscription} className="cancelBt">Cancel Subscription</Button>
-                    </React.Fragment>
+                  <h3 className="text-center">{plan.nickname}</h3>
+                  <p className="text-center">{plan.metadata.description}</p>
+                  <h2 className="text-center">${plan.amount / 100}</h2>
+                  {
+                    plan.metadata.features.split(', ').map((feature, index) => {
+                      return <h5 className="my-2" key={`feature:${index}`}> - {feature}</h5>
+                    })
                   }
-                  {this.state.plan && this.state.plan.id === plan.id && (!currentPlan || currentPlan.id !== plan.id) &&
-                    <React.Fragment>
-                      <div>
-                        <input type="text" placeholder="COUPON CODE" className="couponCode"
-                          value={this.state.coupon} onChange={(e) => {
-                            this.setState({
-                              coupon: e.target.value
-                            })
-                          }} />
-                      </div>
-                      <Button variant="primary" onClick={this.onClickSubscribe}>
-                        {currentPlan ? 'Change Plan' : 'Subscribe'}
+                  <div className="pb-5"/>
+                  <div className="pb-5"/>
+
+                  <div className="bottomDiv text-center">
+                    {currentPlan && currentPlan.id === plan.id &&
+                      <React.Fragment>
+                        <Button variant="secondary" onClick={this.onClickCancelSubscription} className="cardBt cancelBt mb-2">Cancel Subscription</Button>
+                      </React.Fragment>
+                    }
+                    {(!currentPlan || currentPlan.id !== plan.id) &&
+                      <React.Fragment>
+                        <Button variant="success" onClick={() => {this.onClickSubscribe(plan)}} className="cardBt selectBt mb-2">
+                          Select
                       </Button>
-                    </React.Fragment>
-                  }
+                      </React.Fragment>
+                    }
+                    <div className="text-muted">Renews every {plan.interval}.</div>
+                    <div className="text-muted">Cancel anytime</div>
+                  </div>
                 </div>
               </div>
             })
