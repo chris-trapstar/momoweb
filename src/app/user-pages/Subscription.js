@@ -26,6 +26,7 @@ class Subscription extends Component {
     showCardInput: false,
     discountCode: '',
     name: '',
+    coupon: null
   };
 
   componentDidMount() {
@@ -154,7 +155,17 @@ class Subscription extends Component {
   }
 
   onClickApplyCoupon = async () => {
+    if (!this.state.discountCode) {
+      return cogoToast.error('Please enter the discount code!')
+    }
 
+    try {
+      const coupon = await Api.getCoupon(this.state.discountCode)
+      this.setState({coupon})
+      cogoToast.success(`Successfully applied the discount code:${coupon.name}`)
+    } catch (e) {
+      cogoToast.error('Invalid discount code!')
+    }
   }
 
   onSelectPlan = (plan) => {
