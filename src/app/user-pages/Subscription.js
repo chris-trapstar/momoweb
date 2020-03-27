@@ -211,7 +211,7 @@ class Subscription extends Component {
     return `Pay $${amount}`
   }
 
-  renderCardInput() {
+  renderCardInputModal() {
     return <Modal
       show={this.state.showCardInput}
       onHide={() => { this.setState({ showCardInput: false, selectedPlan: null, changeCard: false, coupon: null, discountCode: '' }) }}
@@ -326,7 +326,7 @@ class Subscription extends Component {
     const { customer } = this.props.user
     return (
       <div>
-        {this.renderCardInput()}
+        {this.renderCardInputModal()}
         <div className="align-items-center auth px-0">
           <div className="row ">
             <div className="col-2" />
@@ -340,7 +340,7 @@ class Subscription extends Component {
             <div className="card p-2 col-md-4 my_card">
               {customer && <Form.Group>
                 <label>Your Card</label>
-                <Button variant="primary" className="change_card" onClick={() => { this.setState({ showCardInput: true }) }} size="md">Change</Button>
+                <Button variant="primary" className="change_card" onClick={() => { this.setState({ showCardInput: true, changeCard: true }) }} size="md">Change</Button>
                 {this.renderCurrentCard()}
               </Form.Group>}
             </div>
