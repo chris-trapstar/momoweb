@@ -23,7 +23,7 @@ class Subscription extends Component {
     currentPlan: null,
     subscribing: false,
     showCardInput: false,
-    showCardInput: false,
+    changeCard: false,
     discountCode: '',
     name: '',
     coupon: null
