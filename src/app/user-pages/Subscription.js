@@ -26,7 +26,6 @@ class Subscription extends Component {
     showCardInput: false,
     coupon: '',
     name: '',
-    phone: ''
   };
 
   componentDidMount() {
@@ -217,18 +216,6 @@ class Subscription extends Component {
           {this.renderStripeCard()}
         </Form.Group>
 
-        <Form.Group>
-          <label>Phone</label>
-
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <span className="input-group-text">
-                <i className="mdi mdi-cellphone" />
-              </span>
-            </div>
-            <Form.Control type="text" className="form-control text-light" value={this.state.phone} onChange={(e) => { this.setState({ phone: e.target.value }) }} />
-          </div>
-        </Form.Group>
         <Form.Group>
           <div className="row">
             <div className="col-4 pt-2">
