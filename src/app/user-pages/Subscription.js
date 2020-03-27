@@ -284,7 +284,7 @@ class Subscription extends Component {
 
       <Modal.Footer>
         <div className="footer-container">
-          <Button variant="success col-12" onClick={this.onClickSaveCard} disabled={this.state.showCardInput} className="payBt">
+          <Button variant="success col-12" onClick={this.onClickSaveCard} className="payBt">
             {this.state.selectedPlan ? this.getPayAmount() : 'Save'}
           </Button>
         </div>
