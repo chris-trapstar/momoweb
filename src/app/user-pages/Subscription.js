@@ -230,7 +230,7 @@ class Subscription extends Component {
               <Form.Control type="text" className="form-control" />
             </div>
             <div className="col-4 pt-2">
-              <button className="text-success coupon-apply">apply</button>
+              <button className="text-success coupon-apply" onClick={this.onClickApplyCoupon}>apply</button>
             </div>
           </div>
         </Form.Group>
