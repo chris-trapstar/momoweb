@@ -161,7 +161,7 @@ class Subscription extends Component {
 
     try {
       const coupon = await Api.getCoupon(this.state.discountCode)
-      this.setState({coupon})
+      this.setState({ coupon })
       cogoToast.success(`Successfully applied the discount code:${coupon.name}`)
     } catch (e) {
       cogoToast.error('Invalid discount code!')
@@ -234,20 +234,24 @@ class Subscription extends Component {
           </Form.Group> : null
         }
 
-        <Form.Group>
-          <label>Name</label>
-          <div className="input-group">
-            <div className="input-group-prepend">
-              <span className="input-group-text">@</span>
-            </div>
-            <Form.Control type="text" className="form-control text-light" value={this.state.name} onChange={(e) => { this.setState({ name: e.target.value }) }} />
-          </div>
-        </Form.Group>
+        {this.state.changeCard &&
+          <React.Fragment>
+            <Form.Group>
+              <label>Name</label>
+              <div className="input-group">
+                <div className="input-group-prepend">
+                  <span className="input-group-text">@</span>
+                </div>
+                <Form.Control type="text" className="form-control text-light" value={this.state.name} onChange={(e) => { this.setState({ name: e.target.value }) }} />
+              </div>
+            </Form.Group>
 
-        <Form.Group>
-          <label>Card Number</label>
-          {this.renderStripeCard()}
-        </Form.Group>
+            <Form.Group>
+              <label>Card Number</label>
+              {this.renderStripeCard()}
+            </Form.Group>
+          </React.Fragment>
+        }
 
         {this.state.selectedPlan ? <Form.Group>
           <div className="row">
@@ -259,7 +263,7 @@ class Subscription extends Component {
                 this.setState({
                   discountCode: e.target.value
                 })
-              }}/>
+              }} />
             </div>
             <div className="col-4 pt-2">
               <button className="text-success coupon-apply" onClick={this.onClickApplyCoupon}>apply</button>
