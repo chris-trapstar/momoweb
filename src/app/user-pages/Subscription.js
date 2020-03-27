@@ -227,10 +227,15 @@ class Subscription extends Component {
           </React.Fragment>
         }
 
-        {this.props.user.customer ?
+        {(this.props.user.customer && !this.state.changeCard) ?
           <Form.Group>
-            <label htmlFor="cardInput">Current Card</label>
-            <div id="cardInput">{this.renderCurrentCard()}</div>
+            <label htmlFor="currentCard">Current Card</label>
+            <div id="currentCard">
+              {this.renderCurrentCard()}
+              <button className="mx-4 text-primary btn" onClick={() => { this.setState({ changeCard: true }) }}>
+                <small>Change</small>
+              </button>
+            </div>
           </Form.Group> : null
         }
 
