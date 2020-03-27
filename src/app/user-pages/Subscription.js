@@ -297,6 +297,34 @@ class Subscription extends Component {
     </Modal>
   }
 
+  renderSuccessModal() {
+    return <Modal
+      show={this.state.success}
+      onHide={() => {
+
+      }}
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>
+          <span className="h1">MOMO</span> <small className="bg-light text-dark"> PRO</small>
+        </Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body>
+
+      </Modal.Body>
+
+      <Modal.Footer>
+        <div className="footer-container">
+          <Button variant="success col-12" onClick={() => { this.props.history.replace('/dashboard') }} className="payBt">
+            Start using MOMO
+          </Button>
+        </div>
+        {/*<Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>*/}
+      </Modal.Footer>
+    </Modal>
+  }
+
   renderStripeCard() {
     return <div className="p-1 card-container"><Elements stripe={stripePromise} className="p-4 b-1">
       <ElementsConsumer>
