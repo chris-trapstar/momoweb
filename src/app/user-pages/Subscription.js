@@ -204,7 +204,7 @@ class Subscription extends Component {
       }
     }
 
-    return `Pay $${this.state.selectedPlan.amount / 100}`
+    return `Pay $${amount}`
   }
 
   renderCardInput() {
