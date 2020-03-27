@@ -520,7 +520,7 @@ class API {
   getCoupon = async(code) => {
     try {
       const res = await fetch(`${baseUrl}/api/stripe/coupon/${code}`, {
-        method: 'DELETE',
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
           'Content-Type': 'application/json'
