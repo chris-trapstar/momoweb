@@ -22,7 +22,7 @@ class Subscription extends Component {
     selectedPlan: null,
     currentPlan: null,
     subscribing: false,
-    changingCard: false,
+    showCardInput: false,
     showCardInput: false,
     discountCode: '',
     name: '',
@@ -54,7 +54,7 @@ class Subscription extends Component {
       return cogoToast.error('Please enter the name')
     }
 
-    this.setState({ changingCard: true })
+    this.setState({ showCardInput: true })
     try {
       const payload = await this.stripe.createToken(this.elements.getElement(CardElement), {
         name: this.state.name
@@ -83,7 +83,7 @@ class Subscription extends Component {
     } catch (e) {
       console.error('Failed to save card:', e)
     }
-    this.setState({ changingCard: false })
+    this.setState({ showCardInput: false })
   }
 
   onClickSubscribe = async (plan) => {
@@ -195,7 +195,7 @@ class Subscription extends Component {
   }
 
   getPayAmount = () => {
-    let amount = this.selectedPlan.amount / 100
+    let amount = this.state.selectedPlan.amount / 100
 
     if (this.state.coupon) {
       const { percent_off } = this.state.coupon
@@ -271,7 +271,7 @@ class Subscription extends Component {
 
       <Modal.Footer>
         <div className="footer-container">
-          <Button variant="success col-12" onClick={this.onClickSaveCard} disabled={this.state.changingCard} className="payBt">
+          <Button variant="success col-12" onClick={this.onClickSaveCard} disabled={this.state.showCardInput} className="payBt">
             {this.state.selectedPlan ? this.getPayAmount() : 'Save'}
           </Button>
         </div>
