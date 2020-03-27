@@ -24,7 +24,7 @@ class Subscription extends Component {
     subscribing: false,
     changingCard: false,
     showCardInput: false,
-    coupon: '',
+    discountCode: '',
     name: '',
   };
 
@@ -153,6 +153,10 @@ class Subscription extends Component {
     }
   }
 
+  onClickApplyCoupon = async () => {
+
+  }
+
   onSelectPlan = (plan) => {
     this.setState({
       selectedPlan: plan,
@@ -227,7 +231,11 @@ class Subscription extends Component {
               <span className="text-muted">Discount Code</span>
             </div>
             <div className="col-4">
-              <Form.Control type="text" className="form-control" />
+              <Form.Control type="text" className="form-control" value={this.state.discountCode} onChange={(e) => {
+                this.setState({
+                  discountCode
+                })
+              }}/>
             </div>
             <div className="col-4 pt-2">
               <button className="text-success coupon-apply" onClick={this.onClickApplyCoupon}>apply</button>
