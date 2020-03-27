@@ -54,36 +54,39 @@ class Subscription extends Component {
       return cogoToast.error('Please enter the name')
     }
 
-    this.setState({ showCardInput: true })
     try {
-      const payload = await this.stripe.createToken(this.elements.getElement(CardElement), {
-        name: this.state.name
-      });
-      console.info('Payment Method:', payload)
-      if (payload && payload.error) {
-        cogoToast.error(payload.error.message)
-        throw payload.error
+      if (this.state.changeCard) {
+        const payload = await this.stripe.createToken(this.elements.getElement(CardElement), {
+          name: this.state.name
+        });
+        console.info('Payment Method:', payload)
+        if (payload && payload.error) {
+          cogoToast.error(payload.error.message)
+          throw payload.error
+        }
+        const res = await Api.createCustomer(payload.token.id)
+        console.info('Customer Response:', res)
+  
+        if (res && res.error) {
+          cogoToast.error('Payment method verification failed!')
+          throw res.error
+        }
+        const { customer } = res
+        this.props.setUser({
+          ...this.props.user,
+          customer
+        })
+        if (!this.state.selectedPlan) {
+          cogoToast.success('Successfully saved card!')
+        }
       }
-      const res = await Api.createCustomer(payload.token.id)
-      console.info('Customer Response:', res)
 
-      if (res && res.error) {
-        cogoToast.error('Payment method verification failed!')
-        throw res.error
+      if (this.state.selectedPlan) {
+        this.onClickSubscribe(this.state.selectedPlan)
       }
-      const { customer } = res
-      this.props.setUser({
-        ...this.props.user,
-        customer
-      })
-      this.setState({
-        showCardInput: false,
-      })
-      cogoToast.success('Card saved!')
     } catch (e) {
       console.error('Failed to save card:', e)
     }
-    this.setState({ showCardInput: false })
   }
 
   onClickSubscribe = async (plan) => {
