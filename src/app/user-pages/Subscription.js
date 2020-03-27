@@ -186,55 +186,53 @@ class Subscription extends Component {
       </Modal.Header>
 
       <Modal.Body>
-        <form onSubmit={this.onClickSaveCard}>
-          {this.state.selectedPlan &&
-            <React.Fragment>
-              <h4>Payment</h4>
-              <h4> >> Selected Plan: <span className="text-success">{this.state.selectedPlan.nickname}</span></h4>
-            </React.Fragment>
-          }
+        {this.state.selectedPlan &&
+          <React.Fragment>
+            <h4>Payment</h4>
+            <h4> >> Selected Plan: <span className="text-success">{this.state.selectedPlan.nickname}</span></h4>
+          </React.Fragment>
+        }
 
-          {this.props.user.customer ?
-            <Form.Group>
-              <label htmlFor="cardInput">Current Card</label>
-              <div id="cardInput">{this.renderCurrentCard()}</div>
-            </Form.Group> : null
-          }
-
+        {this.props.user.customer ?
           <Form.Group>
-            <label>Name</label>
-            <div className="input-group">
-              <div className="input-group-prepend">
-                <span className="input-group-text">@</span>
-              </div>
-              <Form.Control type="text" className="form-control text-light" value={this.state.name} onChange={(e) => { this.setState({ name: e.target.value }) }} required/>
+            <label htmlFor="cardInput">Current Card</label>
+            <div id="cardInput">{this.renderCurrentCard()}</div>
+          </Form.Group> : null
+        }
+
+        <Form.Group>
+          <label>Name</label>
+          <div className="input-group">
+            <div className="input-group-prepend">
+              <span className="input-group-text">@</span>
             </div>
-          </Form.Group>
+            <Form.Control type="text" className="form-control text-light" value={this.state.name} onChange={(e) => { this.setState({ name: e.target.value }) }} />
+          </div>
+        </Form.Group>
 
-          <Form.Group>
-            <label>Card Number</label>
-            {this.renderStripeCard()}
-          </Form.Group>
+        <Form.Group>
+          <label>Card Number</label>
+          {this.renderStripeCard()}
+        </Form.Group>
 
-          <Form.Group>
-            <div className="row">
-              <div className="col-4 pt-2">
-                <span className="text-muted">Discount Code</span>
-              </div>
-              <div className="col-4">
-                <Form.Control type="text" className="form-control" />
-              </div>
-              <div className="col-4 pt-2">
-                <button className="text-success coupon-apply">apply</button>
-              </div>
+        <Form.Group>
+          <div className="row">
+            <div className="col-4 pt-2">
+              <span className="text-muted">Discount Code</span>
             </div>
-          </Form.Group>
-        </form>
+            <div className="col-4">
+              <Form.Control type="text" className="form-control" />
+            </div>
+            <div className="col-4 pt-2">
+              <button className="text-success coupon-apply">apply</button>
+            </div>
+          </div>
+        </Form.Group>
       </Modal.Body>
 
       <Modal.Footer>
         <div className="footer-container">
-          <Button variant="success col-12" disabled={this.state.changingCard} className="payBt">
+          <Button variant="success col-12" onClick={this.onClickSaveCard} disabled={this.state.changingCard} className="payBt">
             {this.state.selectedPlan ? `Pay $${this.state.selectedPlan.amount / 100}` : 'Save'}
           </Button>
         </div>
