@@ -194,6 +194,19 @@ class Subscription extends Component {
     return plan && (!currentPlan || currentPlan.id !== plan.id)
   }
 
+  getPayAmount = () => {
+    let amount = this.selectedPlan.amount / 100
+
+    if (this.state.coupon) {
+      const { percent_off } = this.state.coupon
+      if (percent_off > 0) {
+        amount = (amount * (100 - percent_off) / 100).toFixed(2)
+      }
+    }
+
+    return `Pay $${this.state.selectedPlan.amount / 100}`
+  }
+
   renderCardInput() {
     return <Modal
       show={this.state.showCardInput}
@@ -259,7 +272,7 @@ class Subscription extends Component {
       <Modal.Footer>
         <div className="footer-container">
           <Button variant="success col-12" onClick={this.onClickSaveCard} disabled={this.state.changingCard} className="payBt">
-            {this.state.selectedPlan ? `Pay $${this.state.selectedPlan.amount / 100}` : 'Save'}
+            {this.state.selectedPlan ? this.getPayAmount() : 'Save'}
           </Button>
         </div>
         {/*<Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>*/}
