@@ -179,7 +179,7 @@ class Subscription extends Component {
     this.setState({
       selectedPlan: plan,
       showCardInput: true,
-      changeCard: this.state.customer ? false : true
+      changeCard: this.props.user.customer ? false : true
     })
   }
 
@@ -210,6 +210,8 @@ class Subscription extends Component {
       if (percent_off > 0) {
         amount = (amount * (100 - percent_off) / 100).toFixed(2)
       }
+    } else {
+      amount = amount.toFixed(2)
     }
 
     return `Pay $${amount}`
@@ -382,7 +384,7 @@ class Subscription extends Component {
                 <div className={`card p-4 plan-card h-100`}>
                   <h3 className="text-center">{plan.nickname}</h3>
                   <p className="text-center">{plan.metadata.description}</p>
-                  <h2 className="text-center">${plan.amount / 100}</h2>
+                  <h2 className="text-center">${(plan.amount / 100).toFixed(2)}</h2>
                   {
                     plan.metadata.features.split(', ').map((feature, index) => {
                       return <h5 className="my-2" key={`feature:${index}`}> - {feature}</h5>
