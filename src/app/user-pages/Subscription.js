@@ -244,7 +244,7 @@ class Subscription extends Component {
             <div className="col-4">
               <Form.Control type="text" className="form-control" value={this.state.discountCode} onChange={(e) => {
                 this.setState({
-                  discountCode
+                  discountCode: e.target.value
                 })
               }}/>
             </div>
