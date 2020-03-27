@@ -66,7 +66,7 @@ class Subscription extends Component {
         }
         const res = await Api.createCustomer(payload.token.id)
         console.info('Customer Response:', res)
-  
+
         if (res && res.error) {
           cogoToast.error('Payment method verification failed!')
           throw res.error
@@ -103,7 +103,7 @@ class Subscription extends Component {
         }
       }
 
-      subscription = await Api.createSubscription(plan.id, this.state.coupon)
+      subscription = await Api.createSubscription(plan.id, this.state.coupon ? this.state.coupon.id : undefined)
       if (subscription && subscription.error) {
         if (subscription.error.startsWith('Error: No such coupon:')) {
           return cogoToast.error('Invalid Coupon Code!')
