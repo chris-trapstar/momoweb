@@ -320,7 +320,6 @@ class Subscription extends Component {
             Start using MOMO
           </Button>
         </div>
-        {/*<Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>*/}
       </Modal.Footer>
     </Modal>
   }
