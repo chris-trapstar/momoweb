@@ -59,7 +59,7 @@ class Sidebar extends Component {
       <nav className="sidebar sidebar-offcanvas" id="sidebar">
         <div className="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
           <a className="sidebar-brand brand-logo" href="index.html">
-            <h3>Momentic</h3>
+            <h3>Mometic</h3>
           </a>
           <a className="sidebar-brand brand-logo-mini" href="index.html">
             <h3>M</h3>

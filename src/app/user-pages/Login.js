@@ -69,7 +69,7 @@ class Login extends Component {
                   <h2>MomoWeb</h2>
                 </div>
                 <h4>Hello! let's get started</h4>
-                <h6 className="font-weight-light">Momentic Inc.</h6>
+                <h6 className="font-weight-light">Mometic Inc.</h6>
                 <Form className="pt-3">
                   <Form.Group className="d-flex search-field">
                     <Form.Control

@@ -321,7 +321,7 @@ class Subscription extends Component {
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <p className="text-muted text-center">You may manage your account under settings</p>
+        <p className="text-muted text-center w-100">You may manage your account under settings</p>
       </Modal.Footer>
     </Modal>
   }
