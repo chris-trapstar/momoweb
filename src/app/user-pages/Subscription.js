@@ -120,7 +120,8 @@ class Subscription extends Component {
 
       this.setState({
         currentPlan,
-        success: true
+        success: true,
+        showCardInput: false
       })
     } catch (e) {
       cogoToast.error('Subscription failed, please try again!')
@@ -303,25 +304,24 @@ class Subscription extends Component {
     return <Modal
       show={this.state.success}
       onHide={() => {
-
+        this.props.history.replace('/dashboard')
       }}
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          <span className="h1">MOMO</span> <small className="bg-light text-dark"> PRO</small>
+          <span className="h3">Payment complete</span>
         </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-
-      </Modal.Body>
-
-      <Modal.Footer>
-        <div className="footer-container">
-          <Button variant="success col-12" onClick={() => { this.props.history.replace('/dashboard') }} className="payBt">
+        <div className="text-center">
+          <Button variant="success col-12" onClick={() => { this.props.history.replace('/dashboard') }} className="successBt">
             Start using MOMO
           </Button>
         </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <p className="text-muted text-center">You may manage your account under settings</p>
       </Modal.Footer>
     </Modal>
   }
@@ -360,6 +360,7 @@ class Subscription extends Component {
     return (
       <div>
         {this.renderCardInputModal()}
+        {this.renderSuccessModal()}
         <div className="align-items-center auth px-0">
           <div className="row ">
             <div className="col-2" />
