@@ -161,8 +161,12 @@ class Subscription extends Component {
 
     try {
       const coupon = await Api.getCoupon(this.state.discountCode)
-      this.setState({ coupon })
-      cogoToast.success(`Successfully applied the discount code:${coupon.name}`)
+      if (coupon && coupon.error) {
+        cogoToast.error(`Invalid discount code!`)
+      } else {
+        this.setState({ coupon })
+        cogoToast.success(`Successfully applied the discount code:${coupon.name}`)
+      }
     } catch (e) {
       cogoToast.error('Invalid discount code!')
     }
@@ -210,7 +214,7 @@ class Subscription extends Component {
   renderCardInput() {
     return <Modal
       show={this.state.showCardInput}
-      onHide={() => { this.setState({ showCardInput: false, selectedPlan: null }) }}
+      onHide={() => { this.setState({ showCardInput: false, selectedPlan: null, changeCard: false, coupon: null, discountCode: '' }) }}
       aria-labelledby="example-modal-sizes-title-md"
     >
       <Modal.Header closeButton>
