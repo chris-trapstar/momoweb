@@ -516,6 +516,23 @@ class API {
       console.error('Failed to cancelSubscription', e)
     }
   }
+
+  getCoupon = async(code) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/stripe/coupon/${code}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      const data = await res.json()
+      console.info('coupon data:', data)
+      return data
+    } catch (e) {
+      console.error('Failed to getCoupon', e)
+    }
+  }
 }
 
 const instance = new API();
