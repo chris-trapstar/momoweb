@@ -26,7 +26,8 @@ class Subscription extends Component {
     changeCard: false,
     discountCode: '',
     name: '',
-    coupon: null
+    coupon: null,
+    success: false
   };
 
   componentDidMount() {
@@ -118,10 +119,9 @@ class Subscription extends Component {
       const currentPlan = this.state.plans.find(({ id }) => (id === subscription.plan))
 
       this.setState({
-        currentPlan
+        currentPlan,
+        success: true
       })
-      cogoToast.success('Successfully subscribed!')
-      this.props.history.push('/dashboard')
     } catch (e) {
       cogoToast.error('Subscription failed, please try again!')
       console.error('onClickSubscribe - ', e)
