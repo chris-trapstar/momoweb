@@ -236,7 +236,7 @@ class Subscription extends Component {
           {this.renderStripeCard()}
         </Form.Group>
 
-        <Form.Group>
+        {this.state.selectedPlan ? <Form.Group>
           <div className="row">
             <div className="col-4 pt-2">
               <span className="text-muted">Discount Code</span>
@@ -252,7 +252,8 @@ class Subscription extends Component {
               <button className="text-success coupon-apply" onClick={this.onClickApplyCoupon}>apply</button>
             </div>
           </div>
-        </Form.Group>
+        </Form.Group> : null}
+
       </Modal.Body>
 
       <Modal.Footer>
