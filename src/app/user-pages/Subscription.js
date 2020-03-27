@@ -49,9 +49,15 @@ class Subscription extends Component {
   }
 
   onClickSaveCard = async () => {
+    if (this.state.name === '') {
+      return cogoToast.error('Please enter the name')
+    }
+
     this.setState({ changingCard: true })
     try {
-      const payload = await this.stripe.createToken(this.elements.getElement(CardElement));
+      const payload = await this.stripe.createToken(this.elements.getElement(CardElement), {
+        name: this.state.name
+      });
       console.info('Payment Method:', payload)
       if (payload && payload.error) {
         cogoToast.error(payload.error.message)
