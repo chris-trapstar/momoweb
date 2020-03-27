@@ -50,7 +50,7 @@ class Subscription extends Component {
   }
 
   onClickSaveCard = async () => {
-    if (this.state.name === '') {
+    if (this.state.changeCard && this.state.name === '') {
       return cogoToast.error('Please enter the name')
     }
 
@@ -178,7 +178,8 @@ class Subscription extends Component {
   onSelectPlan = (plan) => {
     this.setState({
       selectedPlan: plan,
-      showCardInput: true
+      showCardInput: true,
+      changeCard: this.state.customer ? false : true
     })
   }
 
