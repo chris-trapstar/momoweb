@@ -32,9 +32,11 @@ class Login extends Component {
         this.props.setAuthenticated(true);
 
         if (!user.email_verified) {
-          this.props.history.push("/verify");
+          this.props.history.push('/verify');
+        } else if (!user.subscription) {
+          this.props.history.push('/plans');
         } else {
-          this.props.history.push("/dashboard");
+          this.props.history.push('/dashboard');
         }
       })
       .catch(error => {
