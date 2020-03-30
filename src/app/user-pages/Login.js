@@ -73,28 +73,34 @@ class Login extends Component {
                 <h4>Hello! let's get started</h4>
                 <h6 className="font-weight-light">Mometic Inc.</h6>
                 <Form className="pt-3">
-                  <Form.Group className="d-flex search-field">
-                    <Form.Control
-                      type="email"
-                      placeholder="Username"
-                      size="lg"
-                      className="h-auto"
-                      ref={ref => {
-                        this.refEmail = ref;
-                      }}
-                    />
+                  <Form.Group>
+                    <label>Email</label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">@</span>
+                      </div>
+                      <Form.Control type="text" className="form-control text-light" placeholder="Email"
+                        ref={ref => {
+                          this.refEmail = ref;
+                        }}
+                      />
+                    </div>
                   </Form.Group>
-                  <Form.Group className="d-flex search-field">
-                    <Form.Control
-                      type="password"
-                      placeholder="Password"
-                      size="lg"
-                      className="h-auto"
-                      ref={ref => {
-                        this.refPassword = ref;
-                      }}
-                    />
+
+                  <Form.Group>
+                    <label>Password</label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">@</span>
+                      </div>
+                      <Form.Control type="password" className="form-control text-light" placeholder="Password"
+                        ref={ref => {
+                          this.refPassword = ref;
+                        }}
+                      />
+                    </div>
                   </Form.Group>
+
                   {loginErrTxt !== "" && (
                     <label className="text-danger">{`${loginErrTxt}`}</label>
                   )}
