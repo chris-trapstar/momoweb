@@ -76,10 +76,10 @@ export class Register extends Component {
             <div className="col-lg-4 mx-auto">
               <div className="card text-left py-5 px-4 px-sm-5">
                 <div className="brand-logo">
-                  <h2>MomoWeb</h2>
+                  <span className="h2 pr-2">MOMO</span><span className="bg-light text-dark ">PRO</span>
                 </div>
-                <h4>Hello! let's get started</h4>
-                <h6 className="font-weight-light">Mometic Inc.</h6>
+                <h4>New here?</h4>
+                <h6 className="font-weight-light"> Join us today. It takes only a few steps</h6>
                 <form className="pt-3">
                   <div className="form-group">
                     <input
