@@ -74,6 +74,11 @@ class ProtectedApp extends Component {
     this.props.onLogout();
   };
 
+  isVerified() { // email verified, subscribed
+    const { user } = this.props
+    return user.email_verified && user.subscription
+  }
+
   render() {
     // Check Auth
     if (this.props.loading) {
@@ -82,9 +87,9 @@ class ProtectedApp extends Component {
       return <Redirect to="/login" />;
     }
 
-    let navbarComponent = !this.state.isFullPageLayout && this.props.user.email_verified ? <Navbar onLogout={this.onLogout} /> : "";
-    let sidebarComponent = !this.state.isFullPageLayout && this.props.user.email_verified ? <Sidebar /> : "";
-    let footerComponent = !this.state.isFullPageLayout && this.props.user.email_verified ? <Footer /> : "";
+    let navbarComponent = !this.state.isFullPageLayout && this.isVerified() ? <Navbar onLogout={this.onLogout} /> : null;
+    let sidebarComponent = !this.state.isFullPageLayout && this.isVerified() ? <Sidebar /> : "";
+    let footerComponent = !this.state.isFullPageLayout && this.isVerified() ? <Footer /> : "";
 
     return (
       <div className="container-scroller">
