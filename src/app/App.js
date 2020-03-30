@@ -88,8 +88,8 @@ class ProtectedApp extends Component {
     }
 
     let navbarComponent = !this.state.isFullPageLayout && this.isVerified() ? <Navbar onLogout={this.onLogout} /> : null;
-    let sidebarComponent = !this.state.isFullPageLayout && this.isVerified() ? <Sidebar /> : "";
-    let footerComponent = !this.state.isFullPageLayout && this.isVerified() ? <Footer /> : "";
+    let sidebarComponent = !this.state.isFullPageLayout && this.isVerified() ? <Sidebar /> : null;
+    let footerComponent = !this.state.isFullPageLayout && this.isVerified() ? <Footer /> : null;
 
     return (
       <div className="container-scroller">
