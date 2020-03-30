@@ -91,6 +91,15 @@ class ProtectedApp extends Component {
     let sidebarComponent = !this.state.isFullPageLayout && this.isVerified() ? <Sidebar /> : null;
     let footerComponent = !this.state.isFullPageLayout && this.isVerified() ? <Footer /> : null;
 
+    const { user } = this.props
+    if (!user.email_verified) {
+      return <Redirect to="/verify" />;
+    }
+
+    if (!user.subscription) {
+      return <Redirect to="/plans" />;
+    }
+
     return (
       <div className="container-scroller">
         {sidebarComponent}
