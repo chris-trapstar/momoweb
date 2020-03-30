@@ -91,13 +91,20 @@ class ProtectedApp extends Component {
     let sidebarComponent = !this.state.isFullPageLayout && this.isVerified() ? <Sidebar /> : null;
     let footerComponent = !this.state.isFullPageLayout && this.isVerified() ? <Footer /> : null;
 
-    const { user } = this.props
+    const { user, history } = this.props
+    
+    console.info('Path:', this.props.history)
+  
     if (!user.email_verified) {
-      return <Redirect to="/verify" />;
+      if (history.location.pathname !== '/verify') {
+        return <Redirect to="/verify" />;
+      }
     }
 
     if (!user.subscription) {
-      return <Redirect to="/plans" />;
+      if (history.location.pathname !== '/plans') {
+        return <Redirect to="/plans" />;
+      }
     }
 
     return (
