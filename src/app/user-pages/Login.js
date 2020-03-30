@@ -70,8 +70,8 @@ class Login extends Component {
                 <div className="brand-logo">
                   <h2>MomoWeb</h2>
                 </div>
-                <h4>Hello! let's get started</h4>
-                <h6 className="font-weight-light">Mometic Inc.</h6>
+                <h4>Sign Into your Account</h4>
+                <h6 className="font-weight-light">You may use your registered details or social account</h6>
                 <Form className="pt-3">
                   <Form.Group>
                     <label>Email</label>
@@ -106,7 +106,7 @@ class Login extends Component {
                   )}
                   <div className="mt-3">
                     <a
-                      className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
+                      className="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn"
                       onClick={this.onLogin}
                     >
                       SIGN IN
@@ -128,20 +128,31 @@ class Login extends Component {
                       Forgot password?
                     </a>
                   </div>
-                  <div className="mb-2">
-                    <button
-                      type="button"
-                      className="btn btn-block btn-facebook auth-form-btn"
-                      onClick={this.onFacebook}
-                    >
-                      <i className="mdi mdi-facebook mr-2"></i>Connect using
-                      facebook
-                    </button>
+                  <div className="row">
+                    <div className="mb-2 col">
+                      <button
+                        type="button"
+                        className="btn btn-block btn-facebook auth-form-btn"
+                        onClick={this.onFacebook}
+                      >
+                        <i className="mdi mdi-facebook mr-2"></i>Facebook
+                      </button>
+                    </div>
+
+                    <div className="mb-2 col">
+                      <button
+                        type="button"
+                        className="btn btn-block btn-google auth-form-btn"
+                        onClick={this.onFacebook}
+                      >
+                        <i className="mdi mdi-google mr-2"></i>Google
+                      </button>
+                    </div>
                   </div>
                   <div className="text-center mt-4 font-weight-light">
                     Don't have an account?{" "}
-                    <Link to="/register" className="text-primary">
-                      Create
+                    <Link to="/register" className="text-success">
+                      Create now
                     </Link>
                   </div>
                 </Form>
