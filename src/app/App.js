@@ -96,12 +96,11 @@ class ProtectedApp extends Component {
     console.info('Path:', this.props.history)
   
     if (!user.email_verified) {
+      debugger
       if (history.location.pathname !== '/verify') {
         return <Redirect to="/verify" />;
       }
-    }
-
-    if (!user.subscription) {
+    } else if (!user.subscription) {
       if (history.location.pathname !== '/plans') {
         return <Redirect to="/plans" />;
       }
