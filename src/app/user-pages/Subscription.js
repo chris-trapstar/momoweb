@@ -218,6 +218,11 @@ class Subscription extends Component {
     return `Pay $${amount}`
   }
 
+  onClickLogout = () => {
+    this.props.setAuthenticated(false);
+    this.props.setLoading(false);
+  }
+
   renderCardInputModal() {
     return <Modal
       show={this.state.showCardInput}
@@ -415,6 +420,13 @@ class Subscription extends Component {
             })
             }
           </div>
+          {!this.props.user.subscription &&
+            <div className="row">
+              <div className="text-center col-12">
+                <button className="btn btn-primary" onClick={this.onClickLogout}>Logout</button>
+              </div>
+            </div>
+          }
         </div>
       </div>
     );
