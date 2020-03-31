@@ -35,7 +35,7 @@ class Verification extends Component {
       }
     }
 
-    Api.verify( this.refEmail.value || this.props.user.email)
+    Api.verify(this.refEmail.value || this.props.user.email)
       .then(() => {
         this.setState({ errTxt: '', succTxt: 'Sent successfully' })
       })
@@ -45,7 +45,7 @@ class Verification extends Component {
           errTxt = 'Service not available';
         } else {
           errTxt = i18n.getResource("en", ["translations"], errTxt);
-          if (!lerrTxt) {
+          if (!errTxt) {
             errTxt = "Unknown problem";
           }
         }
@@ -68,19 +68,19 @@ class Verification extends Component {
                 <div>An email was sent to your registered email account.</div>
                 <div>Please click the confirmation link in email to continue.</div>
                 <Form.Group>
-                    <label>Email</label>
-                    <div className="input-group">
-                      <div className="input-group-prepend">
-                        <i className="input-group-text mdi mdi-email text-success"/>
-                      </div>
-                      <Form.Control type="text" className="form-control text-light" placeholder="Email"
-                        ref={ref => {
-                          this.refEmail = ref;
-                        }}
-                      />
+                  <label>Email</label>
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <i className="input-group-text mdi mdi-email text-success" />
                     </div>
-                  </Form.Group>
-                  <small className="text-center text-muted">You may change your email if you didn't receive the verification email at <u>{this.props.user.email}</u>.</small>
+                    <Form.Control type="text" className="form-control text-light" placeholder="Email"
+                      ref={ref => {
+                        this.refEmail = ref;
+                      }}
+                    />
+                  </div>
+                </Form.Group>
+                <small className="text-center text-muted">You may change your email if you didn't receive the verification email at <u>{this.props.user.email}</u>.</small>
 
                 {errTxt !== "" && (
                   <label className="text-danger">{`${errTxt}`}</label>

@@ -96,7 +96,6 @@ class ProtectedApp extends Component {
     console.info('Path:', this.props.history)
   
     if (!user.email_verified) {
-      debugger
       if (history.location.pathname !== '/verify') {
         return <Redirect to="/verify" />;
       }
