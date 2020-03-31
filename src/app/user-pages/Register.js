@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from "react-redux";
+import { Form } from "react-bootstrap";
+
 import { AuthActions } from "../store";
 import Api from "../api";
 import i18n from "../../i18n";
@@ -81,50 +83,60 @@ export class Register extends Component {
                 <h4>New here?</h4>
                 <h6 className="font-weight-light"> Join us today. It takes only a few steps</h6>
                 <form className="pt-3">
-                  <div className="form-group">
-                    <input
-                      type="text"
-                      className="form-control form-control-lg"
-                      id="exampleInputUsername1"
-                      placeholder="Username"
-                      ref={ref => {
-                        this.refUser = ref;
-                      }}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="email"
-                      className="form-control form-control-lg"
-                      id="exampleInputEmail1"
-                      placeholder="Email"
-                      ref={ref => {
-                        this.refEmail = ref;
-                      }}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      className="form-control form-control-lg"
-                      id="exampleInputPassword1"
-                      placeholder="Password"
-                      ref={ref => {
-                        this.refPassword = ref;
-                      }}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <input
-                      type="password"
-                      className="form-control form-control-lg"
-                      id="exampleInputPassword1"
-                      placeholder="Password (again)"
-                      ref={ref => {
-                        this.refConfirm = ref;
-                      }}
-                    />
-                  </div>
+                  <Form.Group>
+                    <label>Username</label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <i className="input-group-text mdi mdi-account text-success" />
+                      </div>
+                      <Form.Control type="text" className="form-control text-light" placeholder="Username"
+                        ref={ref => {
+                          this.refUser = ref;
+                        }}
+                      />
+                    </div>
+                  </Form.Group>
+
+                  <Form.Group>
+                    <label>Email</label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <i className="input-group-text mdi mdi-account text-success" />
+                      </div>
+                      <Form.Control type="text" className="form-control text-light" placeholder="Email"
+                        ref={ref => {
+                          this.refEmail = ref;
+                        }}
+                      />
+                    </div>
+                  </Form.Group>
+
+                  <Form.Group>
+                    <label>Password</label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <i className="input-group-text mdi mdi-lock text-success" />
+                      </div>
+                      <Form.Control type="password" className="form-control text-light" placeholder="Password"
+                        ref={ref => {
+                          this.refPassword = ref;
+                        }}
+                      />
+                    </div>
+                  </Form.Group>
+                  <Form.Group>
+                    <label>Confirm Password</label>
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <i className="input-group-text mdi mdi-lock text-success" />
+                      </div>
+                      <Form.Control type="password" className="form-control text-light" placeholder="Password"
+                        ref={ref => {
+                          this.refConfirm = ref;
+                        }}
+                      />
+                    </div>
+                  </Form.Group>
                   <div className="mb-4">
                     <div className="form-check">
                       <label className="form-check-label text-muted">
@@ -138,20 +150,9 @@ export class Register extends Component {
                     <label className="text-danger">{`${loginErrTxt}`}</label>
                   )}
                   <div className="mt-3">
-                    {
-                      agreedTerms ?
-                        <a
-                          className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn"
-                          onClick={this.onRegister}
-                        >
-                          SIGN UP
-                        </a>
-                        :
-                        <button className="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn" disabled>
-                          SIGN UP
-                        </button>
-                    }
-
+                    <button className="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn" disabled={!agreedTerms}>
+                      SIGN UP >>
+                    </button>
                   </div>
                   <div className="text-center mt-4 font-weight-light">
                     Already have an account? <Link to="/login" className="text-primary">Login</Link>
