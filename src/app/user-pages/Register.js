@@ -26,7 +26,8 @@ export class Register extends Component {
     }
   }
 
-  onRegister = () => {
+  onRegister = (e) => {
+    e.preventDefault()
     this.setState({ loginErrTxt: '' })
     if (this.refPassword.value !== this.refConfirm.value) {
       this.setState({ loginErrTxt: i18n.getResource("en", ["translations"], 'password_mismatch') });
@@ -82,7 +83,7 @@ export class Register extends Component {
                 </div>
                 <h4>New here?</h4>
                 <h6 className="font-weight-light"> Join us today. It takes only a few steps</h6>
-                <form className="pt-3">
+                <form className="pt-3" onSubmit={this.onRegister}>
                   <Form.Group>
                     <label>Username</label>
                     <div className="input-group">
@@ -150,7 +151,7 @@ export class Register extends Component {
                     <label className="text-danger">{`${loginErrTxt}`}</label>
                   )}
                   <div className="mt-3">
-                    <button className="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn" disabled={!agreedTerms}>
+                    <button className="btn btn-block btn-success btn-lg font-weight-medium auth-form-btn" type="submit" disabled={!agreedTerms}>
                       SIGN UP >>
                     </button>
                   </div>
