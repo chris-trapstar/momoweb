@@ -102,7 +102,7 @@ export class Register extends Component {
                     <label>Email</label>
                     <div className="input-group">
                       <div className="input-group-prepend">
-                        <i className="input-group-text mdi mdi-account text-success" />
+                        <i className="input-group-text mdi mdi-email text-success" />
                       </div>
                       <Form.Control type="text" className="form-control text-light" placeholder="Email"
                         ref={ref => {

@@ -68,7 +68,7 @@ class Login extends Component {
             <div className="col-lg-4 mx-auto">
               <div className="card text-left py-5 px-4 px-sm-5">
                 <div className="brand-logo">
-                  <h2>MomoWeb</h2>
+                  <span className="h2 pr-2">MOMO</span><span className="bg-light text-dark ">PRO</span>
                 </div>
                 <h4>Sign Into your Account</h4>
                 <h6 className="font-weight-light">You may use your registered details or social account</h6>
@@ -77,7 +77,7 @@ class Login extends Component {
                     <label>Email</label>
                     <div className="input-group">
                       <div className="input-group-prepend">
-                        <span className="input-group-text">@</span>
+                        <i className="input-group-text mdi mdi-email text-success"/>
                       </div>
                       <Form.Control type="text" className="form-control text-light" placeholder="Email"
                         ref={ref => {
@@ -91,7 +91,7 @@ class Login extends Component {
                     <label>Password</label>
                     <div className="input-group">
                       <div className="input-group-prepend">
-                        <span className="input-group-text">@</span>
+                        <i className="input-group-text mdi mdi-lock text-success"/>
                       </div>
                       <Form.Control type="password" className="form-control text-light" placeholder="Password"
                         ref={ref => {
@@ -115,7 +115,7 @@ class Login extends Component {
                   <div className="my-2 d-flex justify-content-between align-items-center">
                     <div className="form-check">
                       <label className="form-check-label text-muted">
-                        <input type="checkbox" className="form-check-input" />
+                        <input type="checkbox" className="form-check-input text-success" />
                         <i className="input-helper"></i>
                         Keep me signed in
                       </label>
