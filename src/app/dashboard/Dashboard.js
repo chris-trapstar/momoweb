@@ -733,6 +733,10 @@ export class Dashboard extends Component {
     return data;
   }
 
+  renderDiscoveryTableResponsive = () => {
+
+  }
+
   renderDiscoveryTableOld = () => {
     const { discoveryDataFiltered, discoveryNoDataText } = this.state;
 
