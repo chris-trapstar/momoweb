@@ -7,6 +7,8 @@ import cogoToast from 'cogo-toast';
 import Swiper from 'react-id-swiper';
 import 'swiper/css/swiper.css';
 import ReactTable from 'react-table'
+import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 
 // import * as firebase from "firebase/app";
 
@@ -77,6 +79,31 @@ export class Dashboard extends Component {
     this.getPopularData();
     this.getAlertHistory();
     this.getQuotes();
+
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  getScrollPercent() {
+    const h = document.documentElement,
+      b = document.body,
+      st = 'scrollTop',
+      sh = 'scrollHeight';
+    return (h[st] || b[st]) / ((h[sh] || b[sh]) - h.clientHeight) * 100;
+  }
+
+  handleScroll = (e) => {
+    console.info('Scroll Precent:', this.getScrollPercent())
+    if (this.getScrollPercent() === 100) {
+      const { discoveryIndex } = this.state
+      this.setState({
+        discoveryIndex: discoveryIndex + 5
+      })
+    }
   }
 
   updateDimensions = () => {
@@ -216,7 +243,8 @@ export class Dashboard extends Component {
       popularData: [],
       alertHistory: [],
       discoveryFilter: '',
-      discoveryNoDataText: 'Loading...'
+      discoveryNoDataText: 'Loading...',
+      discoveryIndex: 5
     };
   };
 
@@ -734,7 +762,41 @@ export class Dashboard extends Component {
   }
 
   renderDiscoveryTableResponsive = () => {
+    const { discoveryDataFiltered, discoveryNoDataText, discoveryIndex } = this.state;
 
+    return (
+      <Table>
+        <Thead>
+          <Tr>
+            <Th>Symbols</Th>
+            <Th>Last</Th>
+            <Th>Volume</Th>
+            <Th>Momentum</Th>
+            <Th>Unusual Vol</Th>
+            <Th>vWapDist</Th>
+            <Th>Short %</Th>
+            <Th>Actions</Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {
+            discoveryDataFiltered.slice(0, discoveryIndex).map(({
+              symbol, last, volume, momentum, uVol, vWapDist, short
+            }, index) => {
+              return <Tr key={index}>
+                <Td>{symbol}</Td>
+                <Td>{last}</Td>
+                <Td>{volume}</Td>
+                <Td>{momentum}</Td>
+                <Td>{uVol}</Td>
+                <Td>{vWapDist}</Td>
+                <Td>{short}</Td>
+              </Tr>
+            })
+          }
+        </Tbody>
+      </Table>
+    )
   }
 
   renderDiscoveryTableOld = () => {
@@ -1070,7 +1132,8 @@ export class Dashboard extends Component {
                                     value={discoveryFilter}
                                   />
                                 </div>
-                                { this.renderDiscoveryTableOld() }
+                                { /*this.renderDiscoveryTableOld()*/}
+                                {this.renderDiscoveryTableResponsive()}
                               </div>
                             </div>
                           </div>
