@@ -135,10 +135,10 @@ export class Dashboard extends Component {
 
     const discoveryData = stats.map((stock, index) => ({
       symbol: stock.symbol,
-      last: stock.priorDayLast,
-      volume: stock.accumulatedVolume, // No Volume
-      momentum: stock.highCount - stock.lowCount,
-      uVol: stock.UV,
+      last: `${stock.priorDayLast || ''}`,
+      volume: `${stock.accumulatedVolume}`, // No Volume
+      momentum: `${stock.highCount - stock.lowCount}`,
+      uVol: `${stock.UV}`,
       vWapDist: stock.VWAP_DIST,
       short: '25%',
       actions: ''
@@ -786,10 +786,15 @@ export class Dashboard extends Component {
               return <Tr key={index}>
                 <Td>{symbol}</Td>
                 <Td>{last}</Td>
-                <Td>{volume}</Td>
+                <Td>{volume.toString()}</Td>
                 <Td>{momentum}</Td>
                 <Td>{uVol}</Td>
-                <Td>{vWapDist}</Td>
+                <Td>
+                  <div
+                    className={`${vWapDist > 0 ? 'text-success' : (vWapDist < 0 ? 'text-danger' : 'text-secondary')}`}>
+                    {isNaN(vWapDist) ? '_' : ((vWapDist > 0 ? '+' : '') + `${vWapDist}%`)}
+                  </div>
+                </Td>
                 <Td>{short}</Td>
               </Tr>
             })
