@@ -248,7 +248,7 @@ export class Dashboard extends Component {
       discoveryIndex: 5,
       discoverySort: {
         field: 'symbol',
-        direction: false
+        reverse: false
       }
     };
   };
