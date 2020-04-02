@@ -248,7 +248,7 @@ export class Dashboard extends Component {
       discoveryIndex: 5,
       discoverySort: {
         field: 'symbol',
-        reverse: false
+        reverse: true
       }
     };
   };
@@ -1192,7 +1192,7 @@ export class Dashboard extends Component {
                                     value={discoveryFilter}
                                   />
                                 </div>
-                                {this.renderDiscoveryTableOld()}
+                                {/* {this.renderDiscoveryTableOld()} */}
                                 {this.renderDiscoveryTableResponsive()}
                               </div>
                             </div>

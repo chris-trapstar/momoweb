@@ -505,3 +505,9 @@ th {
 .quote-star {
   color: yellow;
 }
+
+.table-header {
+  box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0);
+    border-bottom: 1px solid #2c2e33;
+    background: #000000;
+}
