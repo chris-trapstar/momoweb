@@ -766,16 +766,40 @@ export class Dashboard extends Component {
 
     return (
       <Table>
-        <Thead>
+        <Thead className="my-2 table-header">
           <Tr>
-            <Th>Symbols</Th>
-            <Th>Last</Th>
-            <Th>Volume</Th>
-            <Th>Momentum</Th>
-            <Th>Unusual Vol</Th>
-            <Th>vWapDist</Th>
-            <Th>Short %</Th>
-            <Th>Actions</Th>
+            <Th className="py-2">
+              <span>Symbols</span>
+              <i className="fa fa-unsorted ml-2" />
+            </Th>
+            <Th>
+              <span>Last</span>
+              <i className="fa fa-unsorted ml-2" />
+            </Th>
+            <Th>
+              <span>Volume</span>
+              <i className="fa fa-unsorted ml-2" />
+            </Th>
+            <Th>
+              <span>Momentum</span>
+              <i className="fa fa-unsorted ml-2" />
+            </Th>
+            <Th>
+              <span>Unusual Vol</span>
+              <i className="fa fa-unsorted ml-2" />
+            </Th>
+            <Th>
+              <span>vWapDist</span>
+              <i className="fa fa-unsorted ml-2" />
+            </Th>
+            <Th>
+              <span>Short %</span>
+              <i className="fa fa-unsorted ml-2" />
+            </Th>
+            <Th>
+              <span>Actions</span>
+              <i className="fa fa-unsorted ml-2" />
+            </Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -784,11 +808,16 @@ export class Dashboard extends Component {
               symbol, last, volume, momentum, uVol, vWapDist, short
             }, index) => {
               return <Tr key={index}>
-                <Td>{symbol}</Td>
+                <Td><div className="py-1"><b>{symbol}</b></div></Td>
                 <Td>{last}</Td>
                 <Td>{volume.toString()}</Td>
-                <Td>{momentum}</Td>
-                <Td>{uVol}</Td>
+                <Td><div className="text-success">{momentum}</div></Td>
+                <Td>
+                  <div
+                    className={`${uVol > 0 ? 'text-success' : (uVol < 0 ? 'text-danger' : 'text-secondary')}`}>
+                    {isNaN(uVol) ? '_' : ((uVol > 0 ? '+' : '') + `${uVol}%`)}
+                  </div>
+                </Td>
                 <Td>
                   <div
                     className={`${vWapDist > 0 ? 'text-success' : (vWapDist < 0 ? 'text-danger' : 'text-secondary')}`}>
@@ -1137,7 +1166,7 @@ export class Dashboard extends Component {
                                     value={discoveryFilter}
                                   />
                                 </div>
-                                { this.renderDiscoveryTableOld() }
+                                {this.renderDiscoveryTableOld()}
                                 {this.renderDiscoveryTableResponsive()}
                               </div>
                             </div>
