@@ -794,31 +794,31 @@ export class Dashboard extends Component {
       <Table>
         <Thead className="my-2 table-header">
           <Tr>
-            <Th className="py-2">
+            <Th className="py-2" onClick={() => { this.onSort('symbol')}}>
               <span>Symbols</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
-            <Th>
+            <Th className="py-2" onClick={() => { this.onSort('last')}}>
               <span>Last</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
-            <Th>
+            <Th className="py-2" onClick={() => { this.onSort('volume')}}>
               <span>Volume</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
-            <Th>
+            <Th className="py-2" onClick={() => { this.onSort('momentum')}}>
               <span>Momentum</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
-            <Th>
+            <Th className="py-2" onClick={() => { this.onSort('uVol')}}>
               <span>Unusual Vol</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
-            <Th>
+            <Th className="py-2" onClick={() => { this.onSort('vWapDist')}}>
               <span>vWapDist</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
-            <Th>
+            <Th className="py-2" onClick={() => { this.onSort('short')}}>
               <span>Short %</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
