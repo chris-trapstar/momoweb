@@ -9,6 +9,7 @@ import 'swiper/css/swiper.css';
 import ReactTable from 'react-table'
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
+import * as _ from 'lodash'
 
 // import * as firebase from "firebase/app";
 
@@ -675,18 +676,24 @@ export class Dashboard extends Component {
   }
 
   onSort = (field) => {
-    const { discoverySort } = this.state
+    const { discoverySort, discoveryDataFiltered } = this.state
     const sortOption = {
       field,
-      direction: false
+      reverse: false
     }
     if (discoverySort.field === field) {
-      sortOption.direction = !discoverySort.direction
+      sortOption.reverse = !discoverySort.reverse
     } else {
-      sortOption.direction = false
+      sortOption.reverse = false
     }
 
+    const sorted = _.sortBy(discoveryDataFiltered, field)
 
+    this.setState({
+      discoverySort: sortOption,
+      discoveryIndex: 5,
+      discoveryDataFiltered: sortOption.reverse ? sorted.reverse() : sorted
+    })
   }
 
   renderMeters = (type) => {
