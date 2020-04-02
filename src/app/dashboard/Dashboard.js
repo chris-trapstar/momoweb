@@ -138,7 +138,7 @@ export class Dashboard extends Component {
       last: `${stock.priorDayLast || ''}`,
       volume: `${stock.accumulatedVolume}`, // No Volume
       momentum: `${stock.highCount - stock.lowCount}`,
-      uVol: `${stock.UV}`,
+      uVol: `${stock.UV.toFixed(2)}`,
       vWapDist: stock.VWAP_DIST,
       short: '25%',
       actions: ''
@@ -888,7 +888,7 @@ export class Dashboard extends Component {
             return (
               <div
                 className={`${cellInfo.original.uVol > 0 ? 'text-success' : (cellInfo.original.uVol < 0 ? 'text-danger' : 'text-secondary')}`}>
-                {isNaN(cellInfo.original.uVol) ? '_' : ((cellInfo.original.uVol > 0 ? '+' : '') + `${cellInfo.original.uVol.toFixed(2)}%`)}
+                {isNaN(cellInfo.original.uVol) ? '_' : ((cellInfo.original.uVol > 0 ? '+' : '') + `${cellInfo.original.uVol}%`)}
               </div>
             );
           }
@@ -1137,7 +1137,7 @@ export class Dashboard extends Component {
                                     value={discoveryFilter}
                                   />
                                 </div>
-                                { /*this.renderDiscoveryTableOld()*/}
+                                { this.renderDiscoveryTableOld() }
                                 {this.renderDiscoveryTableResponsive()}
                               </div>
                             </div>
