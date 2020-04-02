@@ -674,6 +674,21 @@ export class Dashboard extends Component {
   onIndustry = () => {
   }
 
+  onSort = (field) => {
+    const { discoverySort } = this.state
+    const sortOption = {
+      field,
+      direction: false
+    }
+    if (discoverySort.field === field) {
+      sortOption.direction = !discoverySort.direction
+    } else {
+      sortOption.direction = false
+    }
+
+
+  }
+
   renderMeters = (type) => {
     const { bars, total } = this.state;
     const statClass = "statsbar " + type;
