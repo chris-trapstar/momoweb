@@ -244,7 +244,11 @@ export class Dashboard extends Component {
       alertHistory: [],
       discoveryFilter: '',
       discoveryNoDataText: 'Loading...',
-      discoveryIndex: 5
+      discoveryIndex: 5,
+      discoverySort: {
+        field: 'symbol',
+        direction: false
+      }
     };
   };
 
