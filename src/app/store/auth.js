@@ -27,10 +27,13 @@ const setLoading = (state, { loading }) => ({
   ...state,
   loading
 });
-const setUser = (state, { user }) => ({
-  ...state,
-  user
-});
+const setUser = (state, { user }) => {
+  console.info('setUser - ', user)
+  return {
+    ...state,
+    user
+  }
+};
 
 /* ------------- Hookup Reducers To Types ------------- */
 export const authReducer = createReducer(defaultState, {
