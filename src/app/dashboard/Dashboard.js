@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from "react-contextmenu";
 import io from "socket.io-client";
 import "./dashboard.css";
@@ -10,6 +12,9 @@ import ReactTable from 'react-table'
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 import * as _ from 'lodash'
+import { withTranslation } from 'react-i18next';
+
+import { AuthActions } from '../store';
 
 // import * as firebase from "firebase/app";
 
@@ -794,31 +799,31 @@ export class Dashboard extends Component {
       <Table>
         <Thead className="my-2 table-header">
           <Tr>
-            <Th className="py-2" onClick={() => { this.onSort('symbol')}}>
+            <Th className="py-2" onClick={() => { this.onSort('symbol') }}>
               <span>Symbols</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
-            <Th className="py-2" onClick={() => { this.onSort('last')}}>
+            <Th className="py-2" onClick={() => { this.onSort('last') }}>
               <span>Last</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
-            <Th className="py-2" onClick={() => { this.onSort('volume')}}>
+            <Th className="py-2" onClick={() => { this.onSort('volume') }}>
               <span>Volume</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
-            <Th className="py-2" onClick={() => { this.onSort('momentum')}}>
+            <Th className="py-2" onClick={() => { this.onSort('momentum') }}>
               <span>Momentum</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
-            <Th className="py-2" onClick={() => { this.onSort('uVol')}}>
+            <Th className="py-2" onClick={() => { this.onSort('uVol') }}>
               <span>Unusual Vol</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
-            <Th className="py-2" onClick={() => { this.onSort('vWapDist')}}>
+            <Th className="py-2" onClick={() => { this.onSort('vWapDist') }}>
               <span>vWapDist</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
-            <Th className="py-2" onClick={() => { this.onSort('short')}}>
+            <Th className="py-2" onClick={() => { this.onSort('short') }}>
               <span>Short %</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
@@ -1193,7 +1198,9 @@ export class Dashboard extends Component {
                                   />
                                 </div>
                                 {/* {this.renderDiscoveryTableOld()} */}
-                                {this.renderDiscoveryTableResponsive()}
+                                {(this.props.user.subscription.plan === 'pro_monthly' || this.props.user.subscription.plan === 'pro_semi_annual') &&
+                                  this.renderDiscoveryTableResponsive()
+                                }
                               </div>
                             </div>
                           </div>
@@ -1213,4 +1220,19 @@ export class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+
+const mapDispatchToProps = {
+  setAuthenticated: AuthActions.setAuthenticated,
+  setLoading: AuthActions.setLoading,
+  setUser: AuthActions.setUser,
+};
+
+const mapStateToProps = state => ({
+  authenticated: state.auth.authenticated,
+  loading: state.auth.loading,
+  user: state.auth.user
+});
+
+export default withTranslation()(
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(Dashboard))
+);
