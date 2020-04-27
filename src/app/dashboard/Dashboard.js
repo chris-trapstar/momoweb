@@ -98,7 +98,7 @@ export class Dashboard extends Component {
   }
 
   handleScroll = (e) => {
-    console.info('Scroll Precent:', this.getScrollPercent())
+    // console.info('Scroll Precent:', this.getScrollPercent())
     if (this.getScrollPercent() === 100) {
       const { discoveryIndex } = this.state
       this.setState({
