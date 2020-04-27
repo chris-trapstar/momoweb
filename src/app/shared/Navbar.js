@@ -110,7 +110,7 @@ class Navbar extends Component {
                 <i className="mdi mdi-view-grid"></i>
               </a>
             </li>
-            <Dropdown alignRight as="li" className="nav-item border-left">
+            {/*<Dropdown alignRight as="li" className="nav-item border-left">
               <Dropdown.Toggle
                 as="a"
                 className="nav-link count-indicator cursor-pointer"
@@ -280,6 +280,7 @@ class Navbar extends Component {
                 </p>
               </Dropdown.Menu>
             </Dropdown>
+            */}
             <Dropdown alignRight as="li" className="nav-item">
               <Dropdown.Toggle
                 as="a"
@@ -314,7 +315,7 @@ class Navbar extends Component {
                   </div>
                   <div className="preview-item-content">
                     <p className="preview-subject mb-1">
-                      Plan: Free
+                      Plan: {this.props.user.subscription ? this.props.user.subscription.plan : ''}
                     </p>
                   </div>
                 </Dropdown.Item>
@@ -372,5 +373,6 @@ class Navbar extends Component {
 }
 
 export default withRouter(connect(state => {
+  console.info('NavBar user - ', state.auth.user)
   return { user: state.auth.user }
 })(Navbar));

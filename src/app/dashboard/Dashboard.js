@@ -1079,12 +1079,14 @@ export class Dashboard extends Component {
                   </span>
                   <span className="small white-no-wrap bar-txt">QUOTE</span>
                 </div>
-                <div className={`d-flex flex-row align-items-center static-row ${this.state.showDiscovery ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showDiscovery')}>
-                  <span className="bar-icon">
-                    <i className="mdi mdi-content-copy text-success" />
-                  </span>
-                  <span className="small white-no-wrap bar-txt">DISCOVERY</span>
-                </div>
+                { this.props.isPro &&
+                  <div className={`d-flex flex-row align-items-center static-row ${this.state.showDiscovery ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showDiscovery')}>
+                    <span className="bar-icon">
+                      <i className="mdi mdi-content-copy text-success" />
+                    </span>
+                    <span className="small white-no-wrap bar-txt">DISCOVERY</span>
+                  </div>
+                }
               </div>
 
               {/** Favorite(Quote) Stocks */}
@@ -1164,7 +1166,7 @@ export class Dashboard extends Component {
               </div>
 
               {/** Discovery */}
-              {this.state.showDiscovery &&
+              {this.props.isPro &&
                 <div className="d-flex flex-row data-section">
                   <div className="col-12 px-0">
                     <div className="card">
@@ -1198,7 +1200,7 @@ export class Dashboard extends Component {
                                   />
                                 </div>
                                 {/* {this.renderDiscoveryTableOld()} */}
-                                {(this.props.user.subscription.plan === 'pro_monthly' || this.props.user.subscription.plan === 'pro_semi_annual') &&
+                                { (this.props.isPro  && this.state.showDiscovery) &&
                                   this.renderDiscoveryTableResponsive()
                                 }
                               </div>
@@ -1227,10 +1229,11 @@ const mapDispatchToProps = {
   setUser: AuthActions.setUser,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, props) => ({
   authenticated: state.auth.authenticated,
   loading: state.auth.loading,
-  user: state.auth.user
+  user: state.auth.user,
+  isPro: state.auth.user.subscription.plan === 'pro_monthly' || state.auth.user.subscription.plan === 'pro_semi_annual'
 });
 
 export default withTranslation()(

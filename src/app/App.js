@@ -4,6 +4,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import * as firebase from "firebase/app";
 import cogoToast from 'cogo-toast';
+import { withTranslation } from "react-i18next";
 
 import "./App.scss";
 import './firebase'; // Init Firebase SDK
@@ -11,7 +12,6 @@ import AppRoutes from "./AppRoutes";
 import Navbar from "./shared/Navbar";
 import Sidebar from "./shared/Sidebar";
 import Footer from "./shared/Footer";
-import { withTranslation } from "react-i18next";
 import Login from "./user-pages/Login";
 import Register from "./user-pages/Register";
 import Spinner from "../app/shared/Spinner";
