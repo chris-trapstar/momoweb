@@ -18,7 +18,7 @@ import { AuthActions } from '../store';
 
 // import * as firebase from "firebase/app";
 
-const socketHost = "https://data.mometic.com";
+const socketHost = "https://beta-data.mometic.com";
 
 let filter = {
   category: [
