@@ -421,7 +421,7 @@ class API {
     data.map((stock) => {
       const { VWAP } = stock
       if (VWAP > 0) { // VWAP exists
-        stock.VWAP_DIST = (stock.priorDayLast - VWAP) / VWAP * 100
+        stock.VWAP_DIST = (stock.lastTradePrice - VWAP) / VWAP * 100
       }
       if (isNaN(stock.VWAP_DIST)) {
         stock.VWAP_DIST = undefined
