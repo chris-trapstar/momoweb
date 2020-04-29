@@ -218,7 +218,7 @@ export class Dashboard extends Component {
       /* Widget Status */
       showStream: true,
       showAlertHistory: true,
-      showBreadth: true,
+      showMeters: true,
       showPopular: true,
       showQuotes: true,
       showDiscovery: true,
@@ -903,7 +903,7 @@ export class Dashboard extends Component {
           <div className="col-12 grid-margin stretch-card px-0">
             <div className="col-12 card-body py-0 px-0">
               {/** Meters Bar */}
-              {this.state.showBreadth &&
+              {this.state.showMeters &&
                 <div className="d-flex flex-row justify-content-center">
                   {this.renderMeters('lows')}
                   <div className='logo'>
@@ -929,11 +929,11 @@ export class Dashboard extends Component {
                     ALERT HISTORY
                   </span>
                 </div>
-                <div className={`d-flex flex-row align-items-center static-row ${this.state.showBreadth ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showBreadth')}>
+                <div className={`d-flex flex-row align-items-center static-row ${this.state.showMeters ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showMeters')}>
                   <span className="bar-icon">
                     <i className="mdi mdi-crosshairs-gps text-warning" />
                   </span>
-                  <span className="small white-no-wrap bar-txt">BREADTH</span>
+                  <span className="small white-no-wrap bar-txt">METERS</span>
                 </div>
                 <div className={`d-flex flex-row align-items-center static-row  ${this.state.showPopular ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showPopular')}>
                   <span className="bar-icon">
