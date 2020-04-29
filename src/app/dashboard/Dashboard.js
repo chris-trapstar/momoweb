@@ -301,6 +301,9 @@ export class Dashboard extends Component {
         console.error("Buffer too big, truncating");
       }
       this.buffer.push({ highs, lows });
+      if (this.buffer.length > 1000) {
+        this.buffer.shift()
+      }
     }
   };
 
