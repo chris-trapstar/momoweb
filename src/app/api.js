@@ -294,11 +294,12 @@ class API {
     rate,
     high,
     low,
+    type
   }) => {
     const response = await fetch(`${baseUrl}/api/alerts`, {
       method: 'POST',
       body: JSON.stringify({
-        category, rate, high, low
+        category, rate, high, low, type
       }),
       headers: {
         'Content-Type': 'application/json',
