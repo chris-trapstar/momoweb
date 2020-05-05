@@ -142,7 +142,7 @@ export class Dashboard extends Component {
     const discoveryData = stats.map((stock, index) => ({
       symbol: stock.symbol,
       last: `${stock.lastTradePrice || ''}`,
-      volume: `${stock.AV}`, // No Volume
+      volume: `${stock.avgVolume || '_'}`, // No Volume
       momentum: `${stock.highCount - stock.lowCount}`,
       uVol: `${stock.UV.toFixed(2)}`,
       vWapDist: stock.VWAP_DIST,
@@ -648,6 +648,11 @@ export class Dashboard extends Component {
     }).catch(error => { })
   };
 
+  onAddDiscoveryAlert = (data) => {
+    console.info("onAddDiscoveryAlert:", data);
+
+  }
+
   // requestNotificationPermissions = async () => {
   //   const registration_id = await firebase.messaging().getToken();
   //   if (registration_id) {
@@ -826,10 +831,10 @@ export class Dashboard extends Component {
               <span>vWapDist</span>
               <i className="fa fa-unsorted ml-2" />
             </Th>
-            <Th className="py-2" onClick={() => { this.onSort('short') }}>
+            { /*<Th className="py-2" onClick={() => { this.onSort('short') }}>
               <span>Short %</span>
               <i className="fa fa-unsorted ml-2" />
-            </Th>
+    </Th>*/}
             <Th>
               <span>Actions</span>
               <i className="fa fa-unsorted ml-2" />
@@ -858,7 +863,21 @@ export class Dashboard extends Component {
                     {isNaN(vWapDist) ? '_' : ((vWapDist > 0 ? '+' : '') + `${vWapDist}%`)}
                   </div>
                 </Td>
-                <Td>{short}</Td>
+                { /*<Td>{short}</Td>*/}
+                <Td>
+                  <div className="row text-center">
+                    <MenuItem data={{ data: [symbol] }} onClick={this.onAddAlert}>
+                      <div className="row justify-content-center align-items-center">
+                        <i className="mdi mdi-bell text-white popover-icon" />
+                      </div>
+                    </MenuItem>
+                    <MenuItem data={{ data: [symbol] }} onClick={this.onMenuFavorite}>
+                      <div className="row justify-content-center align-items-center">
+                        <i className="mdi mdi-star text-white popover-icon" />
+                      </div>
+                    </MenuItem>
+                  </div>
+                </Td>
               </Tr>
             })
           }
@@ -947,7 +966,7 @@ export class Dashboard extends Component {
                   </span>
                   <span className="small white-no-wrap bar-txt">QUOTE</span>
                 </div>
-                { this.props.isPro &&
+                {this.props.isPro &&
                   <div className={`d-flex flex-row align-items-center static-row ${this.state.showDiscovery ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showDiscovery')}>
                     <span className="bar-icon">
                       <i className="mdi mdi-content-copy text-success" />
@@ -1068,7 +1087,7 @@ export class Dashboard extends Component {
                                   />
                                 </div>
                                 {/* {this.renderDiscoveryTableOld()} */}
-                                { (this.props.isPro  && this.state.showDiscovery) &&
+                                {(this.props.isPro && this.state.showDiscovery) &&
                                   this.renderDiscoveryTableResponsive()
                                 }
                               </div>
