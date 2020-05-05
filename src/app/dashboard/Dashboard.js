@@ -638,19 +638,32 @@ export class Dashboard extends Component {
       category: data[0],
       rate: 0,
       high: type === 'high' ? data[1] : 0,
-      low: type === 'low' ? data[1] : 0
+      low: type === 'low' ? data[1] : 0,
+      type: 'trade'
     }).then(response => {
       cogoToast.success(
         <div>
-          Added {data[0]}
+          Alert added for {data[0]} for tr
         </div>
       );
     }).catch(error => { })
   };
 
-  onAddDiscoveryAlert = (data) => {
-    console.info("onAddDiscoveryAlert:", data);
-
+  onAddDiscoveryAlert = async (symbol, vWapDist) => {
+    console.info("onAddDiscoveryAlert:", symbol);
+    await API.addAlert({
+      category: symbol,
+      rate: vWapDist,
+      high: vWapDist,
+      low: vWapDist,
+      type: 'discovery'
+    }).then(response => {
+      cogoToast.success(
+        <div>
+          Discovery alert added for {data[0]}
+        </div>
+      );
+    }).catch(error => { })
   }
 
   // requestNotificationPermissions = async () => {
@@ -866,7 +879,9 @@ export class Dashboard extends Component {
                 { /*<Td>{short}</Td>*/}
                 <Td>
                   <div className="row text-center">
-                    <MenuItem data={{ data: [symbol] }} onClick={this.onAddAlert}>
+                    <MenuItem data={{ data: [symbol] }} onClick={() => {
+                      this.onAddDiscoveryAlert(symbol)
+                    }}>
                       <div className="row justify-content-center align-items-center">
                         <i className="mdi mdi-bell text-white popover-icon" />
                       </div>
