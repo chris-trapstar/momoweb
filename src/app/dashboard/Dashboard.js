@@ -951,6 +951,7 @@ export class Dashboard extends Component {
       <div className="col-12 px-0">
         <div>
           <button type="button" className="btn btn-icon btn-max" onClick={() => {
+            window.scrollTo(0,0)
             this.setState({
               max: max ? null : 'discovery',
               discoveryIndex: 50
