@@ -653,7 +653,7 @@ export class Dashboard extends Component {
     console.info("onAddDiscoveryAlert:", symbol);
     await API.addAlert({
       category: symbol,
-      rate: vWapDist,
+      rate: 0, // From the user settings
       high: vWapDist,
       low: vWapDist,
       type: 'discovery'
@@ -873,7 +873,7 @@ export class Dashboard extends Component {
                 <Td><div className="py-1"><b>{symbol}</b></div></Td>
                 <Td>{last}</Td>
                 <Td>{volume.toString()}</Td>
-                <Td><div className="text-success">{momentum}</div></Td>
+                <Td><div className={momentum < 0 ? 'text-danger' : 'text-success'}>{momentum}</div></Td>
                 <Td>
                   <div
                     className={`${uVol > 0 ? 'text-success' : (uVol < 0 ? 'text-danger' : 'text-secondary')}`}>
@@ -911,6 +911,28 @@ export class Dashboard extends Component {
         </Tbody>
       </Table>
     )
+  }
+
+  renderStream = () => {
+    const { isSmallDevice } = this.state
+    return <div className="grid-margin stretch-card px-0 flex-fill socket-table">
+      <div className="card">
+        {
+          isSmallDevice ?
+            <div className="d-flex flex-row">
+              {this.renderData(lows, "low")}
+              {this.renderData(highs, "high")}
+            </div>
+            :
+            <div className="card-body">
+              <div className="row">
+                {this.renderData(lows, "low")}
+                {this.renderData(highs, "high")}
+              </div>
+            </div>
+        }
+      </div>
+    </div>
   }
 
   onChangeDiscoveryFilter = () => {
