@@ -384,7 +384,7 @@ export class Dashboard extends Component {
   };
 
   renderData = (data, type) => {
-    const { isSmallDevice } = this.state;
+    const { isSmallDevice, max } = this.state;
     let renderData = [];
     let renderMenuItems = [];
     if (type === "low") {
@@ -473,7 +473,7 @@ export class Dashboard extends Component {
       });
     }
     return (
-      <div className="col-md-6 tableFixHead">
+      <div className={"col-md-6 tableFixHead " + (max ? 'table-max' : '')}>
         <table className="table table-striped">
           {
             !isSmallDevice &&
@@ -916,12 +916,12 @@ export class Dashboard extends Component {
 
   renderStream = () => {
     const { isSmallDevice, lows, highs, max } = this.state
-    return <div className={max ? "w-100 h-100" : "grid-margin stretch-card px-0 flex-fill socket-table"}>
+    return <div className={max ? "w-100" : "grid-margin stretch-card px-0 flex-fill socket-table"}>
       <div className="card">
         <div>
           <button type="button" className="btn btn-icon btn-max" onClick={() => {
             this.setState({
-              max: !this.state.max
+              max: max ? null : 'stream'
             })
           }}>
             <i className="mdi mdi-window-maximize"></i>
@@ -941,6 +941,63 @@ export class Dashboard extends Component {
               </div>
             </div>
         }
+      </div>
+    </div>
+  }
+
+  renderDiscovery = () => {
+    const { discoveryFilter, max } = this.state;
+
+    return <div className={ max ? "w-100" : "d-flex flex-row data-section"} >
+      <div className="col-12 px-0">
+        <div>
+          <button type="button" className="btn btn-icon btn-max" onClick={() => {
+            this.setState({
+              max: max ? null : 'discovery',
+              discoveryIndex: max ? 20 : 200
+            })
+          }}>
+            <i className="mdi mdi-window-maximize"></i>
+          </button>
+        </div>
+        <div className="card">
+          <div className="card-body">
+
+            <div className="row">
+              <div className="col-12">
+                <div className="row">
+                  <div className="col-12">
+
+                    <div className="d-flex flex-row justify-content-between text-center flex-wrap">
+                      <h4 className="card-title mb-1 py-1">Discovery</h4>
+                      <div className="d-flex flex-row mT15">
+                        <span className="border border-radius-10">
+                          <div className="button btn-dark px-4 py-1 border-radius-10" onClick={this.onIndustry}>
+                            Industry
+                      </div>
+                        </span>
+                        <span className="border border-radius-10 ml-4">
+                          <div className="button btn-dark px-4 py-1 border-radius-10">
+                            Favorites
+                        </div>
+                        </span>
+                      </div>
+                      <input
+                        className="input p-0 text-center bg-dark white-color input-border"
+                        placeholder="Symbol Search"
+                        onChange={this.onChangeDiscoveryFilter}
+                        ref={ref => { this.refDiscoveryFilter = ref; }}
+                        value={discoveryFilter}
+                      />
+                    </div>
+                    {this.renderDiscoveryTableResponsive()}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
   }
@@ -976,7 +1033,10 @@ export class Dashboard extends Component {
   render() {
     const { lows, highs, isSmallDevice, discoveryDataFiltered, discoveryFilter, discoveryNoDataText, max } = this.state;
     if (max) {
-      return this.renderStream()
+      return <div className="row dashboard-content">
+        {max === 'stream' && this.renderStream()}
+        {max === 'discovery' && this.renderDiscovery()}
+      </div>
     }
     return (
       <div>
@@ -1099,48 +1159,7 @@ export class Dashboard extends Component {
 
               {/** Discovery */}
               {(this.props.isPro && this.state.showDiscovery) &&
-                <div className="d-flex flex-row data-section">
-                  <div className="col-12 px-0">
-                    <div className="card">
-                      <div className="card-body">
-
-                        <div className="row">
-                          <div className="col-12">
-                            <div className="row">
-                              <div className="col-12">
-
-                                <div className="d-flex flex-row justify-content-between text-center flex-wrap">
-                                  <h4 className="card-title mb-1 py-1">Discovery</h4>
-                                  <div className="d-flex flex-row mT15">
-                                    <span className="border border-radius-10">
-                                      <div className="button btn-dark px-4 py-1 border-radius-10" onClick={this.onIndustry}>
-                                        Industry
-                                    </div>
-                                    </span>
-                                    <span className="border border-radius-10 ml-4">
-                                      <div className="button btn-dark px-4 py-1 border-radius-10">
-                                        Favorites
-                                      </div>
-                                    </span>
-                                  </div>
-                                  <input
-                                    className="input p-0 text-center bg-dark white-color input-border"
-                                    placeholder="Symbol Search"
-                                    onChange={this.onChangeDiscoveryFilter}
-                                    ref={ref => { this.refDiscoveryFilter = ref; }}
-                                    value={discoveryFilter}
-                                  />
-                                </div>
-                                {this.renderDiscoveryTableResponsive()}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                this.renderDiscovery()
               }
 
             </div>

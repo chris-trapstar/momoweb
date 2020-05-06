@@ -511,3 +511,15 @@ th {
     border-bottom: 1px solid #2c2e33;
     background: #000000;
 }
+
+.btn-max {
+  position: absolute;
+  right: 0.1em;
+  top: 0.1em;
+  z-index: 100;
+}
+
+.table-max {
+  height: calc(100vh - 15rem) !important;
+  overflow: scroll;
+}
