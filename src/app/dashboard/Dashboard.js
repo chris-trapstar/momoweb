@@ -666,6 +666,16 @@ export class Dashboard extends Component {
     }).catch(error => { })
   }
 
+  onAddDiscoveryFavorite = async (symbol) => {
+    console.info('onMenuFavorite', data)
+    try {
+      await API.registerQuote(symbol)
+      this.getQuotes()
+    } catch (e) {
+      cogoToast.error(`Failed to mark ${symbol} as favorite!`)
+    }
+  }
+
   // requestNotificationPermissions = async () => {
   //   const registration_id = await firebase.messaging().getToken();
   //   if (registration_id) {
@@ -879,14 +889,16 @@ export class Dashboard extends Component {
                 { /*<Td>{short}</Td>*/}
                 <Td>
                   <div className="row text-center">
-                    <MenuItem data={{ data: [symbol] }} onClick={() => {
-                      this.onAddDiscoveryAlert(symbol)
+                    <MenuItem onClick={() => {
+                      this.onAddDiscoveryAlert(symbol, vWapDist)
                     }}>
                       <div className="row justify-content-center align-items-center">
                         <i className="mdi mdi-bell text-white popover-icon" />
                       </div>
                     </MenuItem>
-                    <MenuItem data={{ data: [symbol] }} onClick={this.onMenuFavorite}>
+                    <MenuItem onClick={() => {
+                      this.onAddDiscoveryFavorite(symbol)
+                    }}>
                       <div className="row justify-content-center align-items-center">
                         <i className="mdi mdi-star text-white popover-icon" />
                       </div>
