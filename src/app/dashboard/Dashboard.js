@@ -141,13 +141,12 @@ export class Dashboard extends Component {
 
     const discoveryData = stats.map((stock, index) => ({
       symbol: stock.symbol,
-      last: `${stock.lastTradePrice || ''}`,
-      volume: `${stock.avgVolume || '_'}`, // No Volume
-      momentum: `${stock.highCount - stock.lowCount}`,
-      uVol: `${stock.UV.toFixed(2)}`,
+      last: stock.lastTradePrice || '',
+      volume: stock.avgVolume || '_', // No Volume
+      momentum: stock.highCount - stock.lowCount,
+      uVol: parseFloat(stock.UV.toFixed(2)),
       vWapDist: stock.VWAP_DIST,
-      short: '25%',
-      actions: ''
+      // short: '25%',
     }))
 
     this.setState({
@@ -728,7 +727,7 @@ export class Dashboard extends Component {
 
     this.setState({
       discoverySort: sortOption,
-      discoveryIndex: 5,
+      discoveryIndex: 50,
       discoveryDataFiltered: sortOption.reverse ? sorted.reverse() : sorted
     })
   }
@@ -924,7 +923,7 @@ export class Dashboard extends Component {
               max: max ? null : 'stream'
             })
           }}>
-            <i className="mdi mdi-window-maximize"></i>
+            <i className={ max ? "mdi mdi-window-minimize" : "mdi mdi-window-maximize"}/>
           </button>
         </div>
         {
@@ -954,10 +953,10 @@ export class Dashboard extends Component {
           <button type="button" className="btn btn-icon btn-max" onClick={() => {
             this.setState({
               max: max ? null : 'discovery',
-              discoveryIndex: max ? 20 : 200
+              discoveryIndex: 50
             })
           }}>
-            <i className="mdi mdi-window-maximize"></i>
+            <i className={ max ? "mdi mdi-window-minimize" : "mdi mdi-window-maximize"}/>
           </button>
         </div>
         <div className="card">
@@ -967,8 +966,7 @@ export class Dashboard extends Component {
               <div className="col-12">
                 <div className="row">
                   <div className="col-12">
-
-                    <div className="d-flex flex-row justify-content-between text-center flex-wrap">
+                    <div className="d-flex flex-row justify-content-between text-center flex-wrap py-2">
                       <h4 className="card-title mb-1 py-1">Discovery</h4>
                       <div className="d-flex flex-row mT15">
                         <span className="border border-radius-10">
