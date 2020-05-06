@@ -254,7 +254,8 @@ export class Dashboard extends Component {
       discoverySort: {
         field: 'symbol',
         reverse: true
-      }
+      },
+      max: false
     };
   };
 
@@ -914,9 +915,18 @@ export class Dashboard extends Component {
   }
 
   renderStream = () => {
-    const { isSmallDevice } = this.state
-    return <div className="grid-margin stretch-card px-0 flex-fill socket-table">
+    const { isSmallDevice, lows, highs, max } = this.state
+    return <div className={max ? "w-100 h-100" : "grid-margin stretch-card px-0 flex-fill socket-table"}>
       <div className="card">
+        <div>
+          <button type="button" className="btn btn-icon btn-max" onClick={() => {
+            this.setState({
+              max: !this.state.max
+            })
+          }}>
+            <i className="mdi mdi-window-maximize"></i>
+          </button>
+        </div>
         {
           isSmallDevice ?
             <div className="d-flex flex-row">
@@ -964,7 +974,10 @@ export class Dashboard extends Component {
   }
 
   render() {
-    const { lows, highs, isSmallDevice, discoveryDataFiltered, discoveryFilter, discoveryNoDataText } = this.state;
+    const { lows, highs, isSmallDevice, discoveryDataFiltered, discoveryFilter, discoveryNoDataText, max } = this.state;
+    if (max) {
+      return this.renderStream()
+    }
     return (
       <div>
         <div className="row dashboard-content" ref={ref => { this.container = ref; }}>
@@ -1036,24 +1049,7 @@ export class Dashboard extends Component {
               <div className="d-flex flex-row data-section-small flex-wrap">
                 {
                   this.state.showStream &&
-                  <div className="grid-margin stretch-card px-0 flex-fill socket-table">
-                    <div className="card">
-                      {
-                        isSmallDevice ?
-                          <div className="d-flex flex-row">
-                            {this.renderData(lows, "low")}
-                            {this.renderData(highs, "high")}
-                          </div>
-                          :
-                          <div className="card-body">
-                            <div className="row">
-                              {this.renderData(lows, "low")}
-                              {this.renderData(highs, "high")}
-                            </div>
-                          </div>
-                      }
-                    </div>
-                  </div>
+                  this.renderStream()
                 }
 
                 <div className="d-flex grid-margin stretch-card flex-column pr-0 popular-table">
@@ -1102,7 +1098,7 @@ export class Dashboard extends Component {
               </div>
 
               {/** Discovery */}
-              {this.props.isPro &&
+              {(this.props.isPro && this.state.showDiscovery) &&
                 <div className="d-flex flex-row data-section">
                   <div className="col-12 px-0">
                     <div className="card">
@@ -1135,10 +1131,7 @@ export class Dashboard extends Component {
                                     value={discoveryFilter}
                                   />
                                 </div>
-                                {/* {this.renderDiscoveryTableOld()} */}
-                                {(this.props.isPro && this.state.showDiscovery) &&
-                                  this.renderDiscoveryTableResponsive()
-                                }
+                                {this.renderDiscoveryTableResponsive()}
                               </div>
                             </div>
                           </div>
