@@ -380,7 +380,7 @@ class API {
   }
 
   deleteQuote = async (symbol) => {
-    console.info('registerQuotes:', symbol)
+    console.info('deleteQuote:', symbol)
     const response = await fetch(`${baseUrl}/api/quotes/${symbol}`, {
       method: 'DELETE',
       body: JSON.stringify({symbol}),

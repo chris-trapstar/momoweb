@@ -523,7 +523,7 @@ export class Dashboard extends Component {
               </div>
             </div>
             <div className="d-flex flex-row justify-content-between pl-3 pr-3 mt-1">
-              <label className="font-12 dash-font-color">{item.symbol}</label>
+              <label className="font-15 dash-font-color">{item.symbol}</label>
               <div className="d-flex flex-row mt-1">
                 <label className="font-13 white-color">H:</label>
                 <label className="font-13 dash-font-color ml-1">
@@ -590,13 +590,17 @@ export class Dashboard extends Component {
           <div className="mt-3" />
           <span>ACTIONS</span>
           <div className="row justify-content-between align-items-center">
-            <MenuItem data={{ data, type }} onClick={this.onAddAlert}>
+            <MenuItem data={{ data, type }} onClick={() => {
+              this.registerAlert(data[0], 'trade', type === 'high' ? data[1] : 0, type === 'low' ? data[1] : 0)
+            }}>
               <div className="row justify-content-center align-items-center">
                 <i className="mdi mdi-bell text-white popover-icon" />
                 <span className="ml-1">Alert</span>
               </div>
             </MenuItem>
-            <MenuItem data={{ data, type }} onClick={this.onMenuFavorite}>
+            <MenuItem data={{ data, type }} onClick={() => {
+              this.registerQuote(data[0])
+            }}>
               <div className="row justify-content-center align-items-center">
                 <i className="mdi mdi-star text-white popover-icon" />
                 <span className="ml-1">Favorite</span>
@@ -615,64 +619,59 @@ export class Dashboard extends Component {
   onRemoveQuote = async ({ symbol }) => {
     console.info('onRemoveQuote')
     try {
-      await API.deleteQuote(symbol)
-      this.getQuotes()
+      const result = await API.deleteQuote(symbol)
+      if (result && result.success) {
+        this.setState({
+          quotes: result.data
+        })
+      }
     } catch (e) {
       cogoToast.error(`Failed to remove ${symbol} from favorites!`)
     }
   };
 
-  onMenuFavorite = async (e, data) => {
-    console.info('onMenuFavorite', data)
+  registerQuote = async (symbol) => {
+    console.info('registerQuote', symbol)
     try {
-      await API.registerQuote(data.data[0])
-      this.getQuotes()
+      const result = await API.registerQuote(symbol)
+      if (result && result.success && result.data) {
+        cogoToast.success(`Quote added for ${symbol}`)
+        this.setState({
+          quotes: result.data
+        })
+      } else if (result && result.error) {
+        throw result.error
+      }
     } catch (e) {
-      cogoToast.error(`Failed to mark ${symbol} as favorite!`)
+      if (e === 'SequelizeUniqueConstraintError: Validation error') {
+        cogoToast.error(`${symbol} is already registered!`)
+      } else {
+        cogoToast.error(`Failed to mark ${symbol} as favorite!`)
+      }
     }
   }
 
-  onAddAlert = (e, { data, type }) => {
-    console.info("onAddAlert:", data);
-    API.addAlert({
-      category: data[0],
-      rate: 0,
-      high: type === 'high' ? data[1] : 0,
-      low: type === 'low' ? data[1] : 0,
-      type: 'trade'
-    }).then(response => {
-      cogoToast.success(
-        <div>
-          Alert added for {data[0]} for tr
-        </div>
-      );
-    }).catch(error => { })
-  };
-
-  onAddDiscoveryAlert = async (symbol, vWapDist) => {
-    console.info("onAddDiscoveryAlert:", symbol);
-    await API.addAlert({
-      category: symbol,
-      rate: 0, // From the user settings
-      high: vWapDist,
-      low: vWapDist,
-      type: 'discovery'
-    }).then(response => {
-      cogoToast.success(
-        <div>
-          Discovery alert added for {data[0]}
-        </div>
-      );
-    }).catch(error => { })
-  }
-
-  onAddDiscoveryFavorite = async (symbol) => {
-    console.info('onMenuFavorite', data)
+  registerAlert = async (symbol, type, high = 0, low = 0) => {
+    console.info("registerAlert:", symbol, type, high, low);
     try {
-      await API.registerQuote(symbol)
-      this.getQuotes()
+      const result = await API.addAlert({
+        category: symbol,
+        rate: 0,
+        high,
+        low,
+        type
+      })
+      if (result && result.success) {
+        cogoToast.success(`Alert added for ${symbol}`);
+      } else if (result && result.error) {
+        throw result.error
+      }
     } catch (e) {
-      cogoToast.error(`Failed to mark ${symbol} as favorite!`)
+      if (e === 'SequelizeUniqueConstraintError: Validation error') {
+        cogoToast.error(`${symbol} is already registered!`)
+      } else {
+        cogoToast.error(`Failed to register alert for ${symbol}`);
+      }
     }
   }
 
@@ -890,14 +889,14 @@ export class Dashboard extends Component {
                 <Td>
                   <div className="row text-center">
                     <MenuItem onClick={() => {
-                      this.onAddDiscoveryAlert(symbol, vWapDist)
+                      this.registerAlert(symbol, 'discovery', vWapDist, vWapDist)
                     }}>
                       <div className="row justify-content-center align-items-center">
                         <i className="mdi mdi-bell text-white popover-icon" />
                       </div>
                     </MenuItem>
                     <MenuItem onClick={() => {
-                      this.onAddDiscoveryFavorite(symbol)
+                      this.registerQuote(symbol)
                     }}>
                       <div className="row justify-content-center align-items-center">
                         <i className="mdi mdi-star text-white popover-icon" />
@@ -923,7 +922,7 @@ export class Dashboard extends Component {
               max: max ? null : 'stream'
             })
           }}>
-            <i className={ max ? "mdi mdi-window-minimize" : "mdi mdi-window-maximize"}/>
+            <i className={max ? "mdi mdi-window-minimize" : "mdi mdi-window-maximize"} />
           </button>
         </div>
         {
@@ -947,17 +946,17 @@ export class Dashboard extends Component {
   renderDiscovery = () => {
     const { discoveryFilter, max } = this.state;
 
-    return <div className={ max ? "w-100" : "d-flex flex-row data-section"} >
+    return <div className={max ? "w-100" : "d-flex flex-row data-section"} >
       <div className="col-12 px-0">
         <div>
           <button type="button" className="btn btn-icon btn-max" onClick={() => {
-            window.scrollTo(0,0)
+            window.scrollTo(0, 0)
             this.setState({
               max: max ? null : 'discovery',
               discoveryIndex: 50
             })
           }}>
-            <i className={ max ? "mdi mdi-window-minimize" : "mdi mdi-window-maximize"}/>
+            <i className={max ? "mdi mdi-window-minimize" : "mdi mdi-window-maximize"} />
           </button>
         </div>
         <div className="card">
