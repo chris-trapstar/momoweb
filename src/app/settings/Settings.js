@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ProgressBar, Alert } from 'react-bootstrap';
 import API from '../api';
 import './settings.css';
-import Nouislider from 'nouislider-react';
+import Slider from 'nouislider-react';
 import cogoToast from 'cogo-toast';
 
 export class Settings extends Component {
@@ -198,7 +198,7 @@ export class Settings extends Component {
 
           }
           <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
-            <Nouislider
+            <Slider
               range={{ min: 0, max: 1000 }}
               start={editingAlert.type === type && editingAlert.index === index ? editingAlert.rate : rate}
               connect={[false, true]}
@@ -426,7 +426,7 @@ export class Settings extends Component {
             <div className="pricing-container">
               <span className="small company-name">PRICE</span>
               <div className="d-flex flex-row flex-fill price-section">
-                <Nouislider
+                <Slider
                   range={{ min: 0, max: 500 }}
                   start={filter ? [filter.price.min, filter.price.max] : [0, 500]}
                   connect
@@ -443,7 +443,7 @@ export class Settings extends Component {
               <div className="pricing-separator" />
               <div className="small company-name-margin">AVG VOL</div>
               <div className="d-flex flex-row flex-fill price-section">
-                <Nouislider
+                <Slider
                   range={{ min: 0, max: 200 }}
                   start={filter ? [parseInt(filter.volume.min / 1000000), parseInt(filter.volume.max / 1000000)] : [0, 200]}
                   connect
@@ -503,7 +503,7 @@ export class Settings extends Component {
                   autoFocus
                 />
                 <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
-                  <Nouislider
+                  <Slider
                     range={{ min: 0, max: 1000 }}
                     start={addingAlertProgress}
                     connect={[false, true]}
@@ -574,7 +574,7 @@ export class Settings extends Component {
                   }}
                 />
                 <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
-                  <Nouislider
+                  <Slider
                     range={{ min: 0, max: 1000 }}
                     start={addingAlertProgress}
                     connect={[false, false]}
@@ -661,7 +661,7 @@ export class Settings extends Component {
                   }}
                 />
                 <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
-                  <Nouislider
+                  <Slider
                     range={{ min: 0, max: 1000 }}
                     start={addingAlertProgress}
                     connect={[false, false]}
