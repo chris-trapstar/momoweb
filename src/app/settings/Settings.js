@@ -5,23 +5,15 @@ import './settings.css';
 import Slider from 'nouislider-react';
 import cogoToast from 'cogo-toast';
 
+import AlertInput from './alertInput';
+
 export class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hLow: [],
-      uVol: [
-        { category: "SPY", rate: 25 },
-        { category: "SPY", rate: 25 }
-      ],
-      vWap: [
-        { category: "SPY", rate: 25 },
-        { category: "SPY", rate: 25 }
-      ],
-      alertType: 0,
-      alertRate: 0,
+      alerts: [],
       isSmallDevice: window.matchMedia("(max-width: 768px)").matches,
-      editingAlert: { id: 0, type: -1, index: -1, category: '', rate: '' },
+      currentAlert: { category: '', rate: '' },
       filter: null
     };
   }
@@ -91,13 +83,22 @@ export class Settings extends Component {
   }
 
   getAlertSettings = async () => {
-    const hLow = await API.getAlerts();
-    console.info("Alert Settings:", hLow);
+    const alerts = await API.getAlerts();
+    console.info("Alert Settings:", alerts);
 
     this.setState({
-      hLow: hLow.reverse()
+      alerts
     });
   };
+
+  getAlertsByType = (type) => {
+    const { alerts } = this.state
+    return alerts.filter((alert) => (alert.type === type))
+  }
+
+  onChangeAlert = (value) => {
+
+  }
 
   onEndSliding = async (value, data, type) => {
     console.info('onEndSliding', value, data, type)
@@ -145,26 +146,20 @@ export class Settings extends Component {
     this.resetEditAlert();
   }
 
-  onEditAlertCategory = () => {
+  onEditAlertCategory = (e) => {
     this.setState({
       editingAlert: {
-        id: this.state.editingAlert.id,
-        type: this.state.editingAlert.type,
-        index: this.state.editingAlert.index,
-        category: this.refEditAlertCategory.value,
-        rate: this.state.editingAlert.rate
+        ...this.state.editingAlert,
+        category: e.target.value
       }
     });
   }
 
-  onEditAlertRate = () => {
+  onEditAlertRate = (e) => {
     this.setState({
       editingAlert: {
-        id: this.state.editingAlert.id,
-        type: this.state.editingAlert.type,
-        index: this.state.editingAlert.index,
-        category: this.state.editingAlert.category,
-        rate: this.refEditAlertRate.value,
+        ...this.state.editingAlert,
+        rate: e.target.value
       }
     });
   }
@@ -191,7 +186,6 @@ export class Settings extends Component {
                 className="small company-name edit-alert-input"
                 value={editingAlert.category}
                 onChange={this.onEditAlertCategory}
-                ref={ref => { this.refEditAlertCategory = ref; }}
                 autoFocus
               /> :
               <span className="small company-name">{category}</span>
@@ -209,7 +203,6 @@ export class Settings extends Component {
               editingAlert.type === type && editingAlert.index === index ?
                 <input
                   className="ml-3 progress-input justify-content-center align-items-center text-center white-color small edit-rate-input"
-                  ref={ref => { this.refEditAlertRate = ref; }}
                   onChange={this.onEditAlertRate}
                   value={editingAlert.rate}
                 />
@@ -226,7 +219,7 @@ export class Settings extends Component {
                   className="bg-transparent border-0"
                   type="button"
                   onClick={() => {
-                    if (this.refEditAlertCategory.value === '' || this.refEditAlertRate.value === '' || isNaN(this.refEditAlertRate.value)) {
+                    if (editingAlert.category === '' || editingAlert.rate === '' || isNaN(editingAlert.rate)) {
                       return;
                     }
                     this.endEditAlert();
@@ -419,6 +412,7 @@ export class Settings extends Component {
 
   render() {
     const { hLow, uVol, vWap, alertType, alertRate, filter } = this.state;
+
     return (
       <div className="settings-content">
         {/** General */}
@@ -494,226 +488,16 @@ export class Settings extends Component {
                 Add Alert
               </button>
             </div>
-            {alertType === 1 && (
-              <div className="row mx-0 justify-content-between align-items-center item-content mt-1 pl-2 alert-input">
-                <input
-                  placeholder="Name"
-                  className="bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
-                  ref={ref => {
-                    this.refLowName = ref;
-                  }}
-                  autoFocus
-                />
-                <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
-                  <Slider
-                    range={{ min: 0, max: 1000 }}
-                    start={alertRate}
-                    connect={[false, true]}
-                    className="flex-fill slider-white"
-                    onChange={(render, handle, value, un, percent) => {
-                      this.setState({ alertRate: parseFloat(value).toFixed(2) });
-                    }}
-                  />
-                  <input
-                    placeholder="Sensitivity"
-                    className="ml-3 bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
-                    value={this.state.alertRate}
-                    onChange={val => {
-                      this.setState({
-                        alertRate: e.target.value
-                      });
-                    }}
-                  />
-                </div>
-                <div className="row">
-                  <button
-                    className="bg-transparent border-0"
-                    onClick={this.onAddAlert}
-                  >
-                    <i className="mdi mdi-check text-white popover-icon" />
-                  </button>
-                  <button
-                    className="bg-transparent border-0"
-                    onClick={() => {
-                      this.setState({ alertType: 0, alertRate: 0 });
-                    }}
-                  >
-                    <i className="mdi mdi-close text-white popover-icon" />
-                  </button>
-                </div>
-              </div>
-            )}
-            {this.renderAlertSettings(hLow, 0)}
-          </div>
-
-          {/** Notifications -> Unusual Vol */}
-          <div className="value-item">
-            <label className="small">Unusual Vol</label>
-            <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
-              <label className="small text-symbol">Symbol</label>
-              <label className="small text-symbol">% Deviation</label>
-              <button
-                className="bg-transparent border-0 px-0 small text-alert cursor-pointer"
-                onClick={() => {
-                  this.onClickAddAlert(2);
-                }}
-              >
-                Add Alert
-              </button>
-            </div>
-            {alertType === 2 && (
-              <div className="row mx-0 justify-content-between align-items-center item-content mt-1 pl-2">
-                <input
-                  placeholder="Name"
-                  className="bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
-                  ref={ref => {
-                    this.refVolName = ref;
-                  }}
-                />
-                <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
-                  <Slider
-                    range={{ min: 0, max: 1000 }}
-                    start={alertRate}
-                    connect={[false, false]}
-                    className="flex-fill slider-white"
-                    onChange={(render, handle, value, un, percent) => {
-                      this.setState({ alertRate: parseFloat(value).toFixed(2) });
-                      this.refVolVal.value = parseFloat(value).toFixed(2);
-                    }}
-                  />
-                  <input
-                    placeholder="Deviation"
-                    className="ml-3 bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
-                    ref={ref => {
-                      this.refVolVal = ref;
-                    }}
-                    onChange={val => {
-                      this.setState({
-                        alertRate: parseFloat(this.refVolVal.value)
-                      });
-                    }}
-                  />
-                </div>
-                <div className="row">
-                  <button
-                    className="bg-transparent border-0"
-                    onClick={() => {
-                      if (
-                        this.refVolName.value !== "" &&
-                        this.refVolVal.value !== ""
-                      ) {
-                        let vols = uVol;
-                        vols.push({
-                          category: this.refVolName.value.toString(),
-                          rate: parseFloat(this.refVolVal.value)
-                        });
-                        this.setState({
-                          alertType: 0,
-                          uVol: vols,
-                          alertRate: 0
-                        });
-                      }
-                    }}
-                  >
-                    <i className="mdi mdi-check text-white popover-icon" />
-                  </button>
-                  <button
-                    className="bg-transparent border-0"
-                    onClick={() => {
-                      this.setState({ alertType: 0, alertRate: 0 });
-                    }}
-                  >
-                    <i className="mdi mdi-close text-white popover-icon" />
-                  </button>
-                </div>
-              </div>
-            )}
-            {this.renderAlertSettings(uVol, 1)}
-          </div>
-
-          {/** Notifications -> VWAP */}
-          <div className="value-item">
-            <label className="small">VWAP</label>
-            <div className="row justify-content-between align-items-center mx-0 symbol mt-1">
-              <label className="small text-symbol">Symbol</label>
-              <label className="small text-symbol">% Dist VWAP</label>
-              <button
-                className="bg-transparent border-0 px-0 small text-alert cursor-pointer"
-                onClick={() => {
-                  this.onClickAddAlert(3);
-                }}
-              >
-                Add Alert
-              </button>
-            </div>
-            {alertType === 3 && (
-              <div className="row mx-0 justify-content-between align-items-center item-content mt-1 pl-2">
-                <input
-                  placeholder="Name"
-                  className="bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
-                  ref={ref => {
-                    this.refWapName = ref;
-                  }}
-                />
-                <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
-                  <Slider
-                    range={{ min: 0, max: 1000 }}
-                    start={alertRate}
-                    connect={[false, false]}
-                    className="flex-fill slider-white"
-                    onChange={(render, handle, value, un, percent) => {
-                      this.setState({ alertRate: parseFloat(value).toFixed(2) });
-                      this.refWapVal.value = parseFloat(value).toFixed(2);
-                    }}
-                  />
-                  <input
-                    placeholder="Dist"
-                    className="ml-3 bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
-                    ref={ref => {
-                      this.refWapVal = ref;
-                    }}
-                    onChange={val => {
-                      this.setState({
-                        alertRate: parseFloat(this.refWapVal.value)
-                      });
-                    }}
-                  />
-                </div>
-                <div className="row">
-                  <button
-                    className="bg-transparent border-0"
-                    onClick={() => {
-                      if (
-                        this.refWapName.value !== "" &&
-                        this.refWapVal.value !== ""
-                      ) {
-                        let waps = vWap;
-                        waps.push({
-                          category: this.refWapName.value.toString(),
-                          rate: parseFloat(this.refWapVal.value)
-                        });
-                        this.setState({
-                          alertType: 0,
-                          vWap: waps,
-                          alertRate: 0
-                        });
-                      }
-                    }}
-                  >
-                    <i className="mdi mdi-check text-white popover-icon" />
-                  </button>
-                  <button
-                    className="bg-transparent border-0"
-                    onClick={() => {
-                      this.setState({ alertType: 0, alertRate: 0 });
-                    }}
-                  >
-                    <i className="mdi mdi-close text-white popover-icon" />
-                  </button>
-                </div>
-              </div>
-            )}
-            {this.renderAlertSettings(vWap, 2)}
+            {<AlertInput value={this.state.currentAlert} editing={true} onChange={(value) => {
+              this.setState({
+                currentAlert: value
+              })
+            }} />}
+            {this.getAlertsByType('trade').map((alert) => {
+              return <AlertInput key={alert.id} value={alert} editing={false} onChange={(value) => {
+                this.onChangeAlert(value)
+              }}/>
+            })}
           </div>
         </div>
       </div>

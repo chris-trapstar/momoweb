@@ -109,7 +109,7 @@
     cursor: pointer;
 }
 
-.alert-input {
+.alert-edit {
     border: 1px dashed gray;
 }
 
@@ -279,4 +279,12 @@
 @media only screen and (max-height: 415px) {
 }
 
+.transparent-txt {
+    color: transparent !important;
+}
 
+.action-area {
+    width: 3em;
+    align-items: flex-end;
+    flex-direction: column;
+}
