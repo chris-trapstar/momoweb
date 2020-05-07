@@ -653,6 +653,11 @@ export class Dashboard extends Component {
 
   registerAlert = async (symbol, type, high = 0, low = 0) => {
     console.info("registerAlert:", symbol, type, high, low);
+    const dic = {
+      trade: 'Trade',
+      uv: 'Unusual volume',
+      vwap: 'vWapDist'
+    }
     try {
       const result = await API.addAlert({
         category: symbol,
@@ -662,15 +667,15 @@ export class Dashboard extends Component {
         type
       })
       if (result && result.success) {
-        cogoToast.success(`Alert added for ${symbol}`);
+        cogoToast.success(`${dic[type]} alert added for ${symbol}`);
       } else if (result && result.error) {
         throw result.error
       }
     } catch (e) {
       if (e === 'SequelizeUniqueConstraintError: Validation error') {
-        cogoToast.error(`${symbol} is already registered!`)
+        cogoToast.error(`${dic[type]} alert for ${symbol} is already registered!`)
       } else {
-        cogoToast.error(`Failed to register alert for ${symbol}`);
+        cogoToast.error(`Failed to register ${dic[type]} alert for ${symbol}`);
       }
     }
   }
@@ -889,7 +894,8 @@ export class Dashboard extends Component {
                 <Td>
                   <div className="row text-center">
                     <MenuItem onClick={() => {
-                      this.registerAlert(symbol, 'discovery', vWapDist, vWapDist)
+                      this.registerAlert(symbol, 'vwap', vWapDist, vWapDist)
+                      this.registerAlert(symbol, 'uv', vWapDist, vWapDist)
                     }}>
                       <div className="row justify-content-center align-items-center">
                         <i className="mdi mdi-bell text-white popover-icon" />
