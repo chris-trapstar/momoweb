@@ -18,8 +18,8 @@ export class Settings extends Component {
         { category: "SPY", rate: 25 },
         { category: "SPY", rate: 25 }
       ],
-      addingAlert: 0,
-      addingAlertProgress: 0,
+      alertType: 0,
+      alertRate: 0,
       isSmallDevice: window.matchMedia("(max-width: 768px)").matches,
       editingAlert: { id: 0, type: -1, index: -1, category: '', rate: '' },
       filter: null
@@ -284,16 +284,20 @@ export class Settings extends Component {
     }
   };
 
-  onClickAddAlert = addingAlert => {
-    /** addingAlert 1 -> High/Low, 2 -> Unusual Vol, 3 -> VWAP */
-    this.setState({ addingAlert, addingAlertProgress: 0 });
+  onClickAddAlert = alertType => {
+    /** alertType 1 -> High/Low, 2 -> Unusual Vol, 3 -> VWAP */
+    let initProgress = 20
+    if (alertType === 1) {
+      initProgress = 200
+    }
+    this.setState({ alertType, alertRate: initProgress });
   };
 
   onAddAlert = async () => {
-    if (this.refLowName.value !== "" && this.refLowVal.value !== "") {
+    if (this.refLowName.value !== "" && this.state.alertRate !== "") {
       await API.addAlert({
         category: this.refLowName.value.toString(),
-        rate: parseFloat(this.refLowVal.value),
+        rate: parseFloat(this.state.alertRate),
         high: 0,
         low: 0
       });
@@ -301,12 +305,12 @@ export class Settings extends Component {
       const hLow = [
         {
           category: this.refLowName.value.toString(),
-          rate: parseFloat(this.refLowVal.value)
+          rate: parseFloat(this.state.alertRate)
         },
         ...this.state.hLow
       ];
 
-      this.setState({ addingAlert: 0, hLow, addingAlertProgress: 0 });
+      this.setState({ alertType: 0, hLow, alertRate: 0 });
 
       // Load Alert Settings Again
       this.getAlertSettings();
@@ -414,7 +418,7 @@ export class Settings extends Component {
   }
 
   render() {
-    const { hLow, uVol, vWap, addingAlert, addingAlertProgress, filter } = this.state;
+    const { hLow, uVol, vWap, alertType, alertRate, filter } = this.state;
     return (
       <div className="settings-content">
         {/** General */}
@@ -482,17 +486,15 @@ export class Settings extends Component {
               <label className="small text-symbol">Symbol</label>
               <label className="small text-symbol">Sensitivity</label>
               <button
-                className="btn bg-transparent border-0 px-0"
+                className="btn bg-transparent border-0 px-0 small text-alert cursor-pointer"
                 onClick={() => {
                   this.onClickAddAlert(1);
                 }}
               >
-                <label className="small text-alert cursor-pointer">
-                  Add Alert
-                    </label>
+                Add Alert
               </button>
             </div>
-            {addingAlert === 1 && (
+            {alertType === 1 && (
               <div className="row mx-0 justify-content-between align-items-center item-content mt-1 pl-2 alert-input">
                 <input
                   placeholder="Name"
@@ -505,23 +507,20 @@ export class Settings extends Component {
                 <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
                   <Slider
                     range={{ min: 0, max: 1000 }}
-                    start={addingAlertProgress}
+                    start={alertRate}
                     connect={[false, true]}
                     className="flex-fill slider-white"
                     onChange={(render, handle, value, un, percent) => {
-                      this.setState({ addingAlertProgress: parseFloat(value).toFixed(2) });
-                      this.refLowVal.value = parseFloat(value).toFixed(2);
+                      this.setState({ alertRate: parseFloat(value).toFixed(2) });
                     }}
                   />
                   <input
                     placeholder="Sensitivity"
                     className="ml-3 bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
-                    ref={ref => {
-                      this.refLowVal = ref;
-                    }}
+                    value={this.state.alertRate}
                     onChange={val => {
                       this.setState({
-                        addingAlertProgress: parseFloat(this.refLowVal.value)
+                        alertRate: e.target.value
                       });
                     }}
                   />
@@ -536,7 +535,7 @@ export class Settings extends Component {
                   <button
                     className="bg-transparent border-0"
                     onClick={() => {
-                      this.setState({ addingAlert: 0, addingAlertProgress: 0 });
+                      this.setState({ alertType: 0, alertRate: 0 });
                     }}
                   >
                     <i className="mdi mdi-close text-white popover-icon" />
@@ -554,17 +553,15 @@ export class Settings extends Component {
               <label className="small text-symbol">Symbol</label>
               <label className="small text-symbol">% Deviation</label>
               <button
-                className="bg-transparent border-0 px-0"
+                className="bg-transparent border-0 px-0 small text-alert cursor-pointer"
                 onClick={() => {
                   this.onClickAddAlert(2);
                 }}
               >
-                <label className="small text-alert cursor-pointer">
-                  Add Alert
-                    </label>
+                Add Alert
               </button>
             </div>
-            {addingAlert === 2 && (
+            {alertType === 2 && (
               <div className="row mx-0 justify-content-between align-items-center item-content mt-1 pl-2">
                 <input
                   placeholder="Name"
@@ -576,11 +573,11 @@ export class Settings extends Component {
                 <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
                   <Slider
                     range={{ min: 0, max: 1000 }}
-                    start={addingAlertProgress}
+                    start={alertRate}
                     connect={[false, false]}
                     className="flex-fill slider-white"
                     onChange={(render, handle, value, un, percent) => {
-                      this.setState({ addingAlertProgress: parseFloat(value).toFixed(2) });
+                      this.setState({ alertRate: parseFloat(value).toFixed(2) });
                       this.refVolVal.value = parseFloat(value).toFixed(2);
                     }}
                   />
@@ -592,7 +589,7 @@ export class Settings extends Component {
                     }}
                     onChange={val => {
                       this.setState({
-                        addingAlertProgress: parseFloat(this.refVolVal.value)
+                        alertRate: parseFloat(this.refVolVal.value)
                       });
                     }}
                   />
@@ -611,9 +608,9 @@ export class Settings extends Component {
                           rate: parseFloat(this.refVolVal.value)
                         });
                         this.setState({
-                          addingAlert: 0,
+                          alertType: 0,
                           uVol: vols,
-                          addingAlertProgress: 0
+                          alertRate: 0
                         });
                       }
                     }}
@@ -623,7 +620,7 @@ export class Settings extends Component {
                   <button
                     className="bg-transparent border-0"
                     onClick={() => {
-                      this.setState({ addingAlert: 0, addingAlertProgress: 0 });
+                      this.setState({ alertType: 0, alertRate: 0 });
                     }}
                   >
                     <i className="mdi mdi-close text-white popover-icon" />
@@ -641,17 +638,15 @@ export class Settings extends Component {
               <label className="small text-symbol">Symbol</label>
               <label className="small text-symbol">% Dist VWAP</label>
               <button
-                className="bg-transparent border-0 px-0"
+                className="bg-transparent border-0 px-0 small text-alert cursor-pointer"
                 onClick={() => {
                   this.onClickAddAlert(3);
                 }}
               >
-                <label className="small text-alert cursor-pointer">
-                  Add Alert
-                    </label>
+                Add Alert
               </button>
             </div>
-            {addingAlert === 3 && (
+            {alertType === 3 && (
               <div className="row mx-0 justify-content-between align-items-center item-content mt-1 pl-2">
                 <input
                   placeholder="Name"
@@ -663,11 +658,11 @@ export class Settings extends Component {
                 <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
                   <Slider
                     range={{ min: 0, max: 1000 }}
-                    start={addingAlertProgress}
+                    start={alertRate}
                     connect={[false, false]}
                     className="flex-fill slider-white"
                     onChange={(render, handle, value, un, percent) => {
-                      this.setState({ addingAlertProgress: parseFloat(value).toFixed(2) });
+                      this.setState({ alertRate: parseFloat(value).toFixed(2) });
                       this.refWapVal.value = parseFloat(value).toFixed(2);
                     }}
                   />
@@ -679,7 +674,7 @@ export class Settings extends Component {
                     }}
                     onChange={val => {
                       this.setState({
-                        addingAlertProgress: parseFloat(this.refWapVal.value)
+                        alertRate: parseFloat(this.refWapVal.value)
                       });
                     }}
                   />
@@ -698,9 +693,9 @@ export class Settings extends Component {
                           rate: parseFloat(this.refWapVal.value)
                         });
                         this.setState({
-                          addingAlert: 0,
+                          alertType: 0,
                           vWap: waps,
-                          addingAlertProgress: 0
+                          alertRate: 0
                         });
                       }
                     }}
@@ -710,7 +705,7 @@ export class Settings extends Component {
                   <button
                     className="bg-transparent border-0"
                     onClick={() => {
-                      this.setState({ addingAlert: 0, addingAlertProgress: 0 });
+                      this.setState({ alertType: 0, alertRate: 0 });
                     }}
                   >
                     <i className="mdi mdi-close text-white popover-icon" />
