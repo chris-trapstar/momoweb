@@ -472,8 +472,9 @@ export class Settings extends Component {
         <div className="mt-5">
           <label>Notifications</label>
         </div>
+
+        {/** Notifications -> High/Low */}
         <div>
-          {/** Notifications -> High/Low */}
           <div className="value-item">
             <label className="small">High/Low</label>
             <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
@@ -482,7 +483,7 @@ export class Settings extends Component {
               <button
                 className="btn bg-transparent border-0 px-0 small text-alert cursor-pointer"
                 onClick={() => {
-                  this.onClickAddAlert(1);
+                  this.onClickAddAlert('trade');
                 }}
               >
                 Add Alert
@@ -496,7 +497,65 @@ export class Settings extends Component {
             {this.getAlertsByType('trade').map((alert) => {
               return <AlertInput key={alert.id} value={alert} editing={false} onChange={(value) => {
                 this.onChangeAlert(value)
-              }}/>
+              }} />
+            })}
+          </div>
+        </div>
+
+        {/** Notifications -> VWAP */}
+        <div>
+          <div className="value-item">
+            <label className="small">VWAP</label>
+            <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
+              <label className="small text-symbol">Symbol</label>
+              <label className="small text-symbol">Sensitivity</label>
+              <button
+                className="btn bg-transparent border-0 px-0 small text-alert cursor-pointer"
+                onClick={() => {
+                  this.onClickAddAlert('vwap');
+                }}
+              >
+                Add Alert
+              </button>
+            </div>
+            {<AlertInput value={this.state.currentAlert} editing={true} onChange={(value) => {
+              this.setState({
+                currentAlert: value
+              })
+            }} />}
+            {this.getAlertsByType('vwap').map((alert) => {
+              return <AlertInput key={alert.id} value={alert} editing={false} onChange={(value) => {
+                this.onChangeAlert(value)
+              }} />
+            })}
+          </div>
+        </div>
+
+        {/** Notifications -> VWAP */}
+        <div>
+          <div className="value-item">
+            <label className="small">Unusual Volume</label>
+            <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
+              <label className="small text-symbol">Symbol</label>
+              <label className="small text-symbol">Sensitivity</label>
+              <button
+                className="btn bg-transparent border-0 px-0 small text-alert cursor-pointer"
+                onClick={() => {
+                  this.onClickAddAlert('uv');
+                }}
+              >
+                Add Alert
+              </button>
+            </div>
+            {<AlertInput value={this.state.currentAlert} editing={true} onChange={(value) => {
+              this.setState({
+                currentAlert: value
+              })
+            }} />}
+            {this.getAlertsByType('uv').map((alert) => {
+              return <AlertInput key={alert.id} value={alert} editing={false} onChange={(value) => {
+                this.onChangeAlert(value)
+              }} />
             })}
           </div>
         </div>
