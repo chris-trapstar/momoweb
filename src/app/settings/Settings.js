@@ -279,11 +279,13 @@ export class Settings extends Component {
 
   onClickAddAlert = alertType => {
     /** alertType 1 -> High/Low, 2 -> Unusual Vol, 3 -> VWAP */
-    let initProgress = 20
-    if (alertType === 1) {
-      initProgress = 200
+    const initProgress = 20 // 20 or 
+
+    const currentAlert = {
+      category: '',
+      rate: initProgress
     }
-    this.setState({ alertType, alertRate: initProgress });
+    this.setState({ alertType, currentAlert });
   };
 
   onAddAlert = async () => {
@@ -410,9 +412,66 @@ export class Settings extends Component {
     this.setState({ filter });
   }
 
+  registerAlert = async (type) => {
+    const { currentAlert } = this.state
+    const symbol = currentAlert.symbol
+    const rate = currentAlert.rate
+
+    console.info("registerAlert:", symbol, type, rate);
+    const dic = {
+      trade: 'Trade',
+      uv: 'Unusual volume',
+      vwap: 'vWapDist'
+    }
+    try {
+      const result = await API.addAlert({
+        category: symbol,
+        rate,
+        high: 0,
+        low: 10000,
+        type
+      })
+      if (result && result.success) {
+        cogoToast.success(`${dic[type]} alert added for ${symbol}`);
+      } else if (result && result.error) {
+        throw result.error
+      }
+    } catch (e) {
+      if (e === 'SequelizeUniqueConstraintError: Validation error') {
+        cogoToast.error(`${dic[type]} alert for ${symbol} is already registered!`)
+      } else {
+        cogoToast.error(`Failed to register ${dic[type]} alert for ${symbol}`);
+      }
+    }
+  }
+
+  renderAlertInput = (type) => {
+    return this.state.alertType === type &&
+      <AlertInput value={this.state.currentAlert} editing={true}
+        onChange={(value) => {
+          this.setState({
+            currentAlert: value
+          })
+        }}
+        onDelete={() => {
+          this.setState({
+            alertType: null
+          })
+        }}
+        onSubmit={() => {
+          this.registerAlert(type)
+        }}
+      />
+  }
+
   render() {
     const { hLow, uVol, vWap, alertType, alertRate, filter } = this.state;
-
+    const alerts = ['trade', 'vwap', 'uv']
+    const alertLabels = {
+      trade: 'High/Low',
+      vwap: 'VwapDist',
+      uv: 'Unusual Volume'
+    }
     return (
       <div className="settings-content">
         {/** General */}
@@ -472,93 +531,33 @@ export class Settings extends Component {
         <div className="mt-5">
           <label>Notifications</label>
         </div>
-
-        {/** Notifications -> High/Low */}
-        <div>
-          <div className="value-item">
-            <label className="small">High/Low</label>
-            <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
-              <label className="small text-symbol">Symbol</label>
-              <label className="small text-symbol">Sensitivity</label>
-              <button
-                className="btn bg-transparent border-0 px-0 small text-alert cursor-pointer"
-                onClick={() => {
-                  this.onClickAddAlert('trade');
-                }}
-              >
-                Add Alert
+        {
+          alerts.map((type) => {
+            return <div>
+              <div className="value-item">
+                <label className="small">{alertLabels[type]}</label>
+                <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
+                  <label className="small text-symbol">Symbol</label>
+                  <label className="small text-symbol">Sensitivity</label>
+                  <button
+                    className="btn bg-transparent border-0 px-0 small text-alert cursor-pointer"
+                    onClick={() => {
+                      this.onClickAddAlert(type);
+                    }}
+                  >
+                    Add Alert
               </button>
+                </div>
+                {this.renderAlertInput(type)}
+                {this.getAlertsByType(type).map((alert) => {
+                  return <AlertInput key={alert.id} value={alert} editing={false} type={type} onChange={(value) => {
+                    this.onChangeAlert(value)
+                  }} />
+                })}
+              </div>
             </div>
-            {<AlertInput value={this.state.currentAlert} editing={true} onChange={(value) => {
-              this.setState({
-                currentAlert: value
-              })
-            }} />}
-            {this.getAlertsByType('trade').map((alert) => {
-              return <AlertInput key={alert.id} value={alert} editing={false} onChange={(value) => {
-                this.onChangeAlert(value)
-              }} />
-            })}
-          </div>
-        </div>
-
-        {/** Notifications -> VWAP */}
-        <div>
-          <div className="value-item">
-            <label className="small">VWAP</label>
-            <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
-              <label className="small text-symbol">Symbol</label>
-              <label className="small text-symbol">Sensitivity</label>
-              <button
-                className="btn bg-transparent border-0 px-0 small text-alert cursor-pointer"
-                onClick={() => {
-                  this.onClickAddAlert('vwap');
-                }}
-              >
-                Add Alert
-              </button>
-            </div>
-            {<AlertInput value={this.state.currentAlert} editing={true} onChange={(value) => {
-              this.setState({
-                currentAlert: value
-              })
-            }} />}
-            {this.getAlertsByType('vwap').map((alert) => {
-              return <AlertInput key={alert.id} value={alert} editing={false} onChange={(value) => {
-                this.onChangeAlert(value)
-              }} />
-            })}
-          </div>
-        </div>
-
-        {/** Notifications -> VWAP */}
-        <div>
-          <div className="value-item">
-            <label className="small">Unusual Volume</label>
-            <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
-              <label className="small text-symbol">Symbol</label>
-              <label className="small text-symbol">Sensitivity</label>
-              <button
-                className="btn bg-transparent border-0 px-0 small text-alert cursor-pointer"
-                onClick={() => {
-                  this.onClickAddAlert('uv');
-                }}
-              >
-                Add Alert
-              </button>
-            </div>
-            {<AlertInput value={this.state.currentAlert} editing={true} onChange={(value) => {
-              this.setState({
-                currentAlert: value
-              })
-            }} />}
-            {this.getAlertsByType('uv').map((alert) => {
-              return <AlertInput key={alert.id} value={alert} editing={false} onChange={(value) => {
-                this.onChangeAlert(value)
-              }} />
-            })}
-          </div>
-        </div>
+          })
+        }
       </div>
     );
   }

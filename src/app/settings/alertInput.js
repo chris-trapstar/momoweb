@@ -14,10 +14,17 @@ export default class AlertInput extends Component {
   }
 
   render() {
-    const { value, editing } = this.props
+    const { value, editing, type } = this.props
     const { category, rate } = value
+    const min = 0
+    let max = 1000
+    if (type === 'trade') {
+      max = 1000
+    } else {
+      max = 100 // percent
+    }
 
-    return <div className={"row mx-0 justify-content-between align-items-center item-content mt-1 pl-2 " + (editing ? 'alert-edit' : '')} >
+return <div className={"row mx-0 justify-content-between align-items-center item-content mt-1 pl-2 " + (editing ? 'alert-edit' : '')} >
       <input
         placeholder="Name"
         className="bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
@@ -30,7 +37,7 @@ export default class AlertInput extends Component {
       />
       <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
         <Slider
-          range={{ min: 0, max: 1000 }}
+          range={{ min, max }}
           step={0.1}
           start={rate}
           connect={[false, true]}
