@@ -53,9 +53,9 @@ export default class AlertInput extends Component {
       <button
         className="bg-transparent border-0"
         onClick={this.props.onSubmit}
-        disabled={editing}
+        disabled={!editing || value.category === ''}
       >
-        <i className= {"mdi  popover-icon mdi-check text-light " + (editing ? "transparent-txt" : "")} />
+        <i className= {"mdi  popover-icon mdi-check text-light " + (editing ? "": "transparent-txt")} />
       </button>
       <button
         className="bg-transparent border-0"
