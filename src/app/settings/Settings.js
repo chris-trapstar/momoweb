@@ -14,7 +14,8 @@ export class Settings extends Component {
       alerts: [],
       isSmallDevice: window.matchMedia("(max-width: 768px)").matches,
       currentAlert: { category: '', rate: '' },
-      filter: null
+      filter: null,
+      editingAlertId: null
     };
   }
 
@@ -97,7 +98,14 @@ export class Settings extends Component {
   }
 
   onChangeAlert = (value) => {
-
+    const index = this.state.alerts.findIndex(({id}) => {
+      return id === value.id
+    })
+    const alerts = [...this.state.alerts]
+    alerts[index] = value
+    this.setState({
+      alerts
+    })
   }
 
   onEndSliding = async (value, data, type) => {
@@ -412,9 +420,67 @@ export class Settings extends Component {
     this.setState({ filter });
   }
 
+  cancelEditAlert = ({id}) => {
+    const index = this.state.alerts.findIndex((alert) => (alert.id === id))
+    const { prevAlert } = this.state
+    if (index > -1 && prevAlert && prevAlert.id === id) { // restore prev alert
+      const alerts = [...this.state.alerts]
+      alerts[index] = prevAlert
+      this.setState({
+        prevAlert: null,
+        alerts,
+        editingAlertId: null
+      })
+    }
+  }
+
+  onEditAlert = (alert) => {
+    if (this.state.editingAlertId === alert.id) {
+      
+    } else if (this.state.editingAlertId == null){
+      this.setState({
+        prevAlert: {...alert},
+        editingAlertId: alert.id
+      })
+    } else { // editing alert is ignored
+      // save ?
+      // const prevAlert = this.state.alerts.find(({id}) => (this.state.editingAlertId === id))
+      // if (prevAlert) {
+      //   this.updateAlert(prevAlert)
+      // }
+      this.cancelEditAlert(this.state.prevAlert)
+      this.setState({
+        prevAlert: {...alert},
+        editingAlertId: alert.id
+      })      
+    }
+  }
+
+  updateAlert = async (alert) => {
+    console.info('updateAlert', alert);
+    try {
+      const result = await API.updateAlert(alert.id, {
+        category: alert.category,
+        rate: alert.rate
+      })
+      if (result && result.success) {
+        cogoToast.success('Alert setting updated for ' + alert.category)
+        this.setState({
+          alerts: result.data.list,
+          prevAlert: null,
+          editingAlertId: null
+        })
+      } else {
+        throw result
+      }
+    } catch (e) {
+      cogoToast.error(`Failed to update the alert setting for ${alert.category}`)
+    }
+  }
+
   registerAlert = async (type) => {
     const { currentAlert } = this.state
-    const symbol = currentAlert.symbol
+    const symbol = currentAlert.category
     const rate = currentAlert.rate
 
     console.info("registerAlert:", symbol, type, rate);
@@ -433,6 +499,10 @@ export class Settings extends Component {
       })
       if (result && result.success) {
         cogoToast.success(`${dic[type]} alert added for ${symbol}`);
+        this.setState({
+          alerts: result.data.list,
+          alertType: null
+        })
       } else if (result && result.error) {
         throw result.error
       }
@@ -469,8 +539,8 @@ export class Settings extends Component {
     const alerts = ['trade', 'vwap', 'uv']
     const alertLabels = {
       trade: 'High/Low',
-      vwap: 'VwapDist',
-      uv: 'Unusual Volume'
+      vwap: 'VWAP dist (%)',
+      uv: 'Unusual Volume (%)'
     }
     return (
       <div className="settings-content">
@@ -549,11 +619,26 @@ export class Settings extends Component {
               </button>
                 </div>
                 {this.renderAlertInput(type)}
-                {this.getAlertsByType(type).map((alert) => {
-                  return <AlertInput key={alert.id} value={alert} editing={false} type={type} onChange={(value) => {
-                    this.onChangeAlert(value)
-                  }} />
-                })}
+                {
+                  this.getAlertsByType(type).map((alert) => {
+                    return <AlertInput key={alert.id} value={alert} editing={this.state.editingAlertId === alert.id} type={type}
+                      onChange={(value) => {
+                        this.onChangeAlert(value)
+                      }}
+                      onEdit={() => {
+                        this.onEditAlert(alert)
+                      }}
+                      onDelete={() => {
+                        if (this.state.editingAlertId === alert.id) {
+                          this.cancelEditAlert(alert)
+                        }
+                      }}
+                      onSubmit={() => {
+                        this.updateAlert(alert)
+                      }}
+                    />
+                  })
+                }
               </div>
             </div>
           })

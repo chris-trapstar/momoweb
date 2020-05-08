@@ -14,7 +14,7 @@ export default class AlertInput extends Component {
   }
 
   render() {
-    const { value, editing, type } = this.props
+    const { value, editing, type, onEdit } = this.props
     const { category, rate } = value
     const min = 0
     let max = 1000
@@ -24,7 +24,7 @@ export default class AlertInput extends Component {
       max = 100 // percent
     }
 
-return <div className={"row mx-0 justify-content-between align-items-center item-content mt-1 pl-2 " + (editing ? 'alert-edit' : '')} >
+return <div className={"row mx-0 justify-content-between align-items-center item-content mt-1 pl-2 " + (editing ? 'alert-edit' : '')} onClick={onEdit}>
       <input
         placeholder="Name"
         className="bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
@@ -38,13 +38,17 @@ return <div className={"row mx-0 justify-content-between align-items-center item
       <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
         <Slider
           range={{ min, max }}
-          step={0.1}
+          step={1}
           start={rate}
           connect={[false, true]}
           className="flex-fill slider-white"
           onChange={(render, handle, value, un, percent) => {
-            this.onChange('rate', value)
+            this.onChange('rate', parseFloat(value).toFixed(0))
           }}
+          // Laggy ?
+          // onSlide={(render, handle, value, un, percent) => {
+          //   this.onChange('rate', parseFloat(value).toFixed(0))
+          // }}
           disabled={!editing}
         />
         <input
