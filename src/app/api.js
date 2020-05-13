@@ -420,13 +420,8 @@ class API {
 
     // Calculate VWAP dist
     data.map((stock) => {
-      const { VWAP } = stock
-      if (VWAP > 0) { // VWAP exists
-        stock.VWAP_DIST = (stock.lastTradePrice - VWAP) / VWAP * 100
-      }
-      if (isNaN(stock.VWAP_DIST)) {
-        stock.VWAP_DIST = undefined
-      } else {
+      stock.VWAP_DIST = stock.VWAP_DIST || undefined
+      if (!isNaN(stock.VWAP_DIST)) {
         stock.VWAP_DIST = parseFloat(stock.VWAP_DIST.toFixed(2))
       }
     })
