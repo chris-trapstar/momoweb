@@ -7,6 +7,26 @@ import cogoToast from 'cogo-toast';
 
 import AlertInput from './alertInput';
 
+const alerts = [
+  {
+    type: 'trade',
+    label: 'High/Low',
+    valueLabel: 'Sensitivity',
+  }, {
+    type: 'uv',
+    label: 'Unusual Volume (%)',
+    valueLabel: '% Deviation',
+  }, {
+    type: 'vwap',
+    label: 'VWAP dist (%)',
+    valueLabel: '% Dist VWAP',
+  }, {
+    type: 'price',
+    label: 'Price',
+    valueLabel: '% Change',
+  }
+]
+
 export class Settings extends Component {
   constructor(props) {
     super(props);
@@ -98,7 +118,7 @@ export class Settings extends Component {
   }
 
   onChangeAlert = (value) => {
-    const index = this.state.alerts.findIndex(({id}) => {
+    const index = this.state.alerts.findIndex(({ id }) => {
       return id === value.id
     })
     const alerts = [...this.state.alerts]
@@ -219,7 +239,7 @@ export class Settings extends Component {
     this.setState({ filter });
   }
 
-  cancelEditAlert = ({id}) => {
+  cancelEditAlert = ({ id }) => {
     const index = this.state.alerts.findIndex((alert) => (alert.id === id))
     const { prevAlert } = this.state
     if (index > -1 && prevAlert && prevAlert.id === id) { // restore prev alert
@@ -235,10 +255,10 @@ export class Settings extends Component {
 
   onEditAlert = (alert) => {
     if (this.state.editingAlertId === alert.id) {
-      
-    } else if (this.state.editingAlertId == null){
+
+    } else if (this.state.editingAlertId == null) {
       this.setState({
-        prevAlert: {...alert},
+        prevAlert: { ...alert },
         editingAlertId: alert.id
       })
     } else { // editing alert is ignored
@@ -249,9 +269,9 @@ export class Settings extends Component {
       // }
       this.cancelEditAlert(this.state.prevAlert)
       this.setState({
-        prevAlert: {...alert},
+        prevAlert: { ...alert },
         editingAlertId: alert.id
-      })      
+      })
     }
   }
 
@@ -334,13 +354,8 @@ export class Settings extends Component {
   }
 
   render() {
-    const { hLow, uVol, vWap, alertType, alertRate, filter } = this.state;
-    const alerts = ['trade', 'vwap', 'uv', 'price']
-    const alertLabels = {
-      trade: 'High/Low',
-      vwap: 'VWAP dist (%)',
-      uv: 'Unusual Volume (%)'
-    }
+    const { filter } = this.state;
+
     return (
       <div className="settings-content">
         {/** General */}
@@ -401,13 +416,13 @@ export class Settings extends Component {
           <label>Notifications</label>
         </div>
         {
-          alerts.map((type) => {
+          alerts.map(({ type, valueLabel, label}) => {
             return <div>
               <div className="value-item">
-                <label className="small">{alertLabels[type]}</label>
+                <label className="small">{label}</label>
                 <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
                   <label className="small text-symbol">Symbol</label>
-                  <label className="small text-symbol">Sensitivity</label>
+          <label className="small text-symbol">{valueLabel}</label>
                   <button
                     className="btn bg-transparent border-0 px-0 small text-alert cursor-pointer"
                     onClick={() => {
