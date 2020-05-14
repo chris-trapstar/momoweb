@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { ProgressBar, Alert } from 'react-bootstrap';
 import API from '../api';
 import './settings.css';
 import Slider from 'nouislider-react';
 import cogoToast from 'cogo-toast';
-
+import { withTranslation } from 'react-i18next';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { AuthActions } from '../store';
 import AlertInput from './alertInput';
 
 const alerts = [
@@ -16,14 +18,17 @@ const alerts = [
     type: 'uv',
     label: 'Unusual Volume (%)',
     valueLabel: '% Deviation',
+    pro: true
   }, {
     type: 'vwap',
     label: 'VWAP dist (%)',
     valueLabel: '% Dist VWAP',
+    pro: true
   }, {
     type: 'price',
     label: 'Price',
     valueLabel: '% Change',
+    pro: true
   }
 ]
 
@@ -359,8 +364,9 @@ export class Settings extends Component {
     return (
       <div className="settings-content">
         {/** General */}
-        <div>
-          <label>General</label>
+        <div className="bb-title">
+          <i className="mdi mdi-pulse"></i>
+          <label className="ml-2 settings-label"> High/Low Stream</label>
         </div>
         <div className="value-item">
           <div className="mx-0 justify-content-between align-items-center item-content mt-1 padding-bottom-30">
@@ -412,17 +418,17 @@ export class Settings extends Component {
         </div>
 
         {/** Notifications */}
-        <div className="mt-5">
-          <label>Notifications</label>
+        <div className="mt-5 bb-title">
+          <i className="mdi mdi-bell"></i>
+          <label className="ml-2 settings-label">Notifications</label>
         </div>
-        {
-          alerts.map(({ type, valueLabel, label}) => {
-            return <div>
+        { (this.props.isPro ? alerts : [alerts[0]]).map(({ type, valueLabel, label }) => {
+            return <div key={type}>
               <div className="value-item">
                 <label className="small">{label}</label>
                 <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
                   <label className="small text-symbol">Symbol</label>
-          <label className="small text-symbol">{valueLabel}</label>
+                  <label className="small text-symbol">{valueLabel}</label>
                   <button
                     className="btn bg-transparent border-0 px-0 small text-alert cursor-pointer"
                     onClick={() => {
@@ -462,4 +468,19 @@ export class Settings extends Component {
   }
 }
 
-export default Settings;
+const mapStateToProps = (state, props) => ({
+  authenticated: state.auth.authenticated,
+  loading: state.auth.loading,
+  user: state.auth.user,
+  isPro: state.auth.user.subscription.plan === 'pro_monthly' || state.auth.user.subscription.plan === 'pro_semi_annual'
+});
+
+const mapDispatchToProps = {
+  setAuthenticated: AuthActions.setAuthenticated,
+  setLoading: AuthActions.setLoading,
+  setUser: AuthActions.setUser,
+};
+
+export default withTranslation()(
+  withRouter(connect(mapStateToProps, mapDispatchToProps)(Settings))
+);

@@ -57,9 +57,7 @@
 }
 
 .pricing-separator {
-    height: 3px;
-    background: gray;
-    margin-top: 30px;
+    margin-top: 2em;
 }
 
 .company-name {
@@ -287,4 +285,13 @@
     width: 3em;
     align-items: flex-end;
     flex-direction: column;
+}
+
+.bb-title {
+    border-bottom: 2px solid gray;
+    font-size: 1.2em;
+}
+
+.settings-label {
+    margin-bottom: 0px !important;
 }
