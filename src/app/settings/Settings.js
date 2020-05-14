@@ -436,12 +436,12 @@ export class Settings extends Component {
               }
             
               <div className={disabled ? "value-item-disabled" : "value-item"}>
-                <label className="small">{label}</label>
+                <label className={"small" + (disabled ? " text-muted" : "")}>{label}</label>
                 <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
                   <label className="small text-symbol">Symbol</label>
                   <label className="small text-symbol">{valueLabel}</label>
                   <button
-                    className="btn bg-transparent border-0 px-0 small text-alert cursor-pointer"
+                    className= { "btn bg-transparent border-0 px-0 small text-alert cursor-pointer" + (disabled ? " text-muted" : " text-alert")} 
                     onClick={() => {
                       this.onClickAddAlert(type);
                     }}

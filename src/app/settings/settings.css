@@ -263,7 +263,7 @@
     .value-item {
         padding-left: 0em;
         padding-right: 0em;
-        padding-top: 0em;
+        padding-top: 1em;
     }
 
     .value-item-disabled {
