@@ -8,6 +8,13 @@
     padding-top: 3em;
 }
 
+.value-item-disabled {
+    padding-left: 15em;
+    padding-right: 15em;
+    padding-top: 1em;
+
+}
+
 .pricing-container {
     padding-left: 2em;
 }
@@ -183,6 +190,11 @@
         padding-top: 3em;
     }
 
+    .value-item-disabled {
+        padding-left: 3em;
+        padding-right: 3em;
+    }
+
     .item-content {
         background: #2d2d2d;
         padding-right: 10px;
@@ -216,6 +228,11 @@
         padding-top: 3em;
     }
 
+    .value-item-disabled {
+        padding-left: 3em;
+        padding-right: 3em;
+    }
+
     .item-content {
         background: #2d2d2d;
         padding-right: 10px;
@@ -247,6 +264,11 @@
         padding-left: 0em;
         padding-right: 0em;
         padding-top: 0em;
+    }
+
+    .value-item-disabled {
+        padding-left: 0em;
+        padding-right: 0em;
     }
 
     .item-content {
@@ -294,4 +316,9 @@
 
 .settings-label {
     margin-bottom: 0px !important;
+}
+
+.upgrade_pro {
+    width: 100%;
+    text-align: center;
 }

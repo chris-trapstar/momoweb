@@ -422,9 +422,20 @@ export class Settings extends Component {
           <i className="mdi mdi-bell"></i>
           <label className="ml-2 settings-label">Notifications</label>
         </div>
-        { (this.props.isPro ? alerts : [alerts[0]]).map(({ type, valueLabel, label }) => {
+        {
+          alerts.map(({ type, valueLabel, label }, index) => {
+            const disabled = !this.props.isPro && index > 0
             return <div key={type}>
-              <div className="value-item">
+              {!this.props.isPro && type === 'uv' &&
+                <div className="upgrade_pro mt-4 row">
+                  <div className="col-12">
+                    <label>--- PRO ONLY ---</label>
+                    <a className="btn btn-primary ml-1" href="/plans"> Upgrade Now</a>
+                  </div>
+                </div>
+              }
+            
+              <div className={disabled ? "value-item-disabled" : "value-item"}>
                 <label className="small">{label}</label>
                 <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
                   <label className="small text-symbol">Symbol</label>
@@ -434,31 +445,37 @@ export class Settings extends Component {
                     onClick={() => {
                       this.onClickAddAlert(type);
                     }}
+                    disabled={disabled}
                   >
                     Add Alert
-              </button>
+                  </button>
                 </div>
-                {this.renderAlertInput(type)}
-                {
-                  this.getAlertsByType(type).map((alert) => {
-                    return <AlertInput key={alert.id} value={alert} editing={this.state.editingAlertId === alert.id} type={type}
-                      onChange={(value) => {
-                        this.onChangeAlert(value)
-                      }}
-                      onEdit={() => {
-                        this.onEditAlert(alert)
-                      }}
-                      onDelete={() => {
-                        if (this.state.editingAlertId === alert.id) {
-                          this.cancelEditAlert(alert)
-                        }
-                      }}
-                      onSubmit={() => {
-                        this.updateAlert(alert)
-                      }}
-                    />
-                  })
+                {!disabled &&
+                  <>
+                    {this.renderAlertInput(type)}
+                    {
+                      this.getAlertsByType(type).map((alert) => {
+                        return <AlertInput key={alert.id} value={alert} editing={this.state.editingAlertId === alert.id} type={type}
+                          onChange={(value) => {
+                            this.onChangeAlert(value)
+                          }}
+                          onEdit={() => {
+                            this.onEditAlert(alert)
+                          }}
+                          onDelete={() => {
+                            if (this.state.editingAlertId === alert.id) {
+                              this.cancelEditAlert(alert)
+                            }
+                          }}
+                          onSubmit={() => {
+                            this.updateAlert(alert)
+                          }}
+                        />
+                      })
+                    }
+                  </>
                 }
+
               </div>
             </div>
           })
