@@ -335,7 +335,7 @@ export class Settings extends Component {
 
   render() {
     const { hLow, uVol, vWap, alertType, alertRate, filter } = this.state;
-    const alerts = ['trade', 'vwap', 'uv']
+    const alerts = ['trade', 'vwap', 'uv', 'price']
     const alertLabels = {
       trade: 'High/Low',
       vwap: 'VWAP dist (%)',
