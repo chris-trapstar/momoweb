@@ -965,7 +965,7 @@ export class Dashboard extends Component {
         <div className="card">
           <div className="card-body">
             <div className="row">
-              <div className="col-12 discovery-table">
+              <div className="col-12 ">
                 <div className="d-flex flex-row justify-content-between text-center flex-wrap py-2">
                   <h4 className="card-title mb-1 py-1">Discovery</h4>
                   <div className="d-flex flex-row mT15">
@@ -988,7 +988,9 @@ export class Dashboard extends Component {
                     value={discoveryFilter}
                   />
                 </div>
-                {this.renderDiscoveryTableResponsive()}
+                <div className={ max ? "h-100" : "discovery-table"}>
+                  {this.renderDiscoveryTableResponsive()}
+                </div>
               </div>
             </div>
 
