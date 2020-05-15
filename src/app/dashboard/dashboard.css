@@ -350,6 +350,14 @@ th {
   background: gray;
 }
 
+.btn-max {
+  position: absolute;
+  right: 0.1em;
+  top: 0.1em;
+  z-index: 100;
+}
+
+
 /** Small iPads */
 @media only screen and (max-width: 812px) {
   .socket-table {
@@ -414,6 +422,21 @@ th {
 
 /** Mobile Devices */
 @media only screen and (max-width: 415px) { 
+  .stock-header-text {
+    font-size: 0.8em;
+  }
+
+  .btn-max {
+    position: absolute;
+    right: 0.1em;
+    top: -2.5em;
+    z-index: 100;
+  }
+
+  th.text-white {
+    padding: 0.2em;
+  }
+
   .socket-table {
     width: 100%;
   }
@@ -512,14 +535,11 @@ th {
     background: #000000;
 }
 
-.btn-max {
-  position: absolute;
-  right: 0.1em;
-  top: 0.1em;
-  z-index: 100;
-}
-
 .table-max {
   height: calc(100vh - 15rem) !important;
   overflow: scroll;
+}
+
+.discovery-table {
+  height: 45vh;
 }

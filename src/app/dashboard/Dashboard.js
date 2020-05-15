@@ -266,6 +266,7 @@ export class Dashboard extends Component {
     }
 
     window.addEventListener('compressedUpdate', (event) => {
+      console.info('compressedUpdate - ', event.detail)
       this._handleData(event.detail)
     }, false)
     // this.subscribeChannels(data_filter.category);
@@ -473,22 +474,19 @@ export class Dashboard extends Component {
     return (
       <div className={"col-md-6 tableFixHead " + (max ? 'table-max' : '')}>
         <table className="table table-striped">
-          {
-            !isSmallDevice &&
-            <thead>
-              <tr>
-                <th className="text-white">
-                  <div className="stock-header-text"> SYMBOL </div>
-                </th>
-                <th className="text-white">
-                  <div className="stock-header-text"> COUNT </div>
-                </th>
-                <th className="text-white">
-                  <div className="stock-header-text"> LAST </div>
-                </th>
-              </tr>
-            </thead>
-          }
+          <thead>
+            <tr>
+              <th className="text-white">
+                <div className="stock-header-text"> SYMBOL </div>
+              </th>
+              <th className="text-white">
+                <div className="stock-header-text"> COUNT </div>
+              </th>
+              <th className="text-white">
+                <div className="stock-header-text"> LAST </div>
+              </th>
+            </tr>
+          </thead>
           <tbody>{renderData}</tbody>
         </table>
         {renderMenuItems}
@@ -927,7 +925,7 @@ export class Dashboard extends Component {
               max: max ? null : 'stream'
             })
           }}>
-            <i className={max ? "mdi mdi-window-minimize" : "mdi mdi-window-maximize"} />
+            <i className={max ? "mdi mdi-window-close" : "mdi mdi-window-maximize"} />
           </button>
         </div>
         {
@@ -961,41 +959,36 @@ export class Dashboard extends Component {
               discoveryIndex: 50
             })
           }}>
-            <i className={max ? "mdi mdi-window-minimize" : "mdi mdi-window-maximize"} />
+            <i className={max ? "mdi mdi-window-close" : "mdi mdi-window-maximize"} />
           </button>
         </div>
         <div className="card">
           <div className="card-body">
-
             <div className="row">
-              <div className="col-12">
-                <div className="row">
-                  <div className="col-12">
-                    <div className="d-flex flex-row justify-content-between text-center flex-wrap py-2">
-                      <h4 className="card-title mb-1 py-1">Discovery</h4>
-                      <div className="d-flex flex-row mT15">
-                        <span className="border border-radius-10">
-                          <div className="button btn-dark px-4 py-1 border-radius-10" onClick={this.onIndustry}>
-                            Industry
+              <div className="col-12 discovery-table">
+                <div className="d-flex flex-row justify-content-between text-center flex-wrap py-2">
+                  <h4 className="card-title mb-1 py-1">Discovery</h4>
+                  <div className="d-flex flex-row mT15">
+                    <span className="border border-radius-10">
+                      <div className="button btn-dark px-4 py-1 border-radius-10" onClick={this.onIndustry}>
+                        Industry
                       </div>
-                        </span>
-                        <span className="border border-radius-10 ml-4">
-                          <div className="button btn-dark px-4 py-1 border-radius-10">
-                            Favorites
+                    </span>
+                    <span className="border border-radius-10 ml-4">
+                      <div className="button btn-dark px-4 py-1 border-radius-10">
+                        Favorites
                         </div>
-                        </span>
-                      </div>
-                      <input
-                        className="input p-0 text-center bg-dark white-color input-border"
-                        placeholder="Symbol Search"
-                        onChange={this.onChangeDiscoveryFilter}
-                        ref={ref => { this.refDiscoveryFilter = ref; }}
-                        value={discoveryFilter}
-                      />
-                    </div>
-                    {this.renderDiscoveryTableResponsive()}
+                    </span>
                   </div>
+                  <input
+                    className="input p-0 text-center bg-dark white-color input-border"
+                    placeholder="Symbol Search"
+                    onChange={this.onChangeDiscoveryFilter}
+                    ref={ref => { this.refDiscoveryFilter = ref; }}
+                    value={discoveryFilter}
+                  />
                 </div>
+                {this.renderDiscoveryTableResponsive()}
               </div>
             </div>
 
