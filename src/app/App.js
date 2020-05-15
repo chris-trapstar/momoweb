@@ -17,6 +17,7 @@ import Register from "./user-pages/Register";
 import Spinner from "../app/shared/Spinner";
 import { AuthActions } from "./store";
 import API from './api';
+import * as DataSource from './DataSource'
 
 const messaging = firebase.messaging();
 
@@ -58,7 +59,8 @@ class ProtectedApp extends Component {
   }
 
   componentDidMount() {
-    this.checkEmailVerified()    
+    this.checkEmailVerified()
+    DataSource.connect()
   }
 
   checkEmailVerified = () => {
