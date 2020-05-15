@@ -142,11 +142,11 @@ export class Dashboard extends Component {
 
     const discoveryData = stats.map((stock, index) => ({
       symbol: stock.symbol,
-      last: stock.lastTradePrice || '',
-      volume: stock.avgVolume || '_', // No Volume
+      last: stock.lastTradePrice || 0,
+      volume: stock.avgVolume || 0, // No Volume
       momentum: stock.highCount - stock.lowCount,
-      uVol: parseFloat(stock.UV.toFixed(2)),
-      vWapDist: stock.VWAP_DIST,
+      uVol: parseFloat(stock.UV.toFixed(2)) || 0,
+      vWapDist: stock.VWAP_DIST || 0,
       // short: '25%',
     }))
 
