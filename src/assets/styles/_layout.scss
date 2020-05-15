@@ -106,6 +106,7 @@
     &:not(.sidebar-icon-only) {
       //Apply these styles only when sidebar-mini is not collapsed to icon-only mode
       .sidebar {
+        display: none;
         .nav {
           &:not(.sub-menu) {
             > .nav-item {

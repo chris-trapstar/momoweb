@@ -107,7 +107,6 @@ class ProtectedApp extends Component {
 
     return (
       <div className="container-scroller">
-        {sidebarComponent}
         <div className="container-fluid page-body-wrapper">
           {navbarComponent}
           <div className="main-panel">

@@ -308,13 +308,14 @@
         }
       }
       &.navbar-nav-right {
-        @media (min-width: 992px) {
-          margin-left: auto;
-          .rtl & {
-            margin-left: 0;
-            margin-right: auto;
-          }
-        }
+        margin-left: auto;
+        // @media (min-width: 992px) {
+        //   margin-left: auto;
+        //   .rtl & {
+        //     margin-left: 0;
+        //     margin-right: auto;
+        //   }
+        // }
         .nav-item {
           line-height: 1;
         }
