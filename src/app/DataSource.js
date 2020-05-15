@@ -8,7 +8,7 @@ export const connect = () => {
   });
 
   window.socket.on('compressedUpdate', (data) => {
-    const event = new CustomEvent('compressedUpdate', data);
+    const event = new CustomEvent('compressedUpdate', { detail: data });
     window.dispatchEvent(event)
   });
 }

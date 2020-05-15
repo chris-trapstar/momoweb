@@ -265,12 +265,10 @@ export class Dashboard extends Component {
       data_filter = filter;
     }
 
-    this.socket = io(socketHost, {
-      transports: ["polling"]
-    });
-
-    this.socket.on("compressedUpdate", this._handleData);
-    this.subscribeChannels(data_filter.category);
+    window.addEventListener('compressedUpdate', (event) => {
+      this._handleData(event.detail)
+    }, false)
+    // this.subscribeChannels(data_filter.category);
   };
 
   _handleData = data => {
