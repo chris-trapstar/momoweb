@@ -539,7 +539,3 @@ th {
   height: calc(100vh - 15rem) !important;
   overflow: scroll;
 }
-
-.discovery-table {
-  height: 45vh;
-}
