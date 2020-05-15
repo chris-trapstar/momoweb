@@ -20,6 +20,8 @@ import API from './api';
 
 const messaging = firebase.messaging();
 
+const socketHost = "https://beta-data.mometic.com";
+
 messaging.onMessage((payload) => {
   console.info('Firebase Notification Received:', payload)
   const message = payload.notification.body
@@ -56,7 +58,7 @@ class ProtectedApp extends Component {
   }
 
   componentDidMount() {
-    this.checkEmailVerified()
+    this.checkEmailVerified()    
   }
 
   checkEmailVerified = () => {
