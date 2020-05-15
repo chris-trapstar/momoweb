@@ -7,15 +7,26 @@ export const connect = () => {
     transports: ['polling']
   });
 
-  this.socket.on('compressedUpdate', (data) => {
+  window.socket.on('compressedUpdate', (data) => {
     const event = new CustomEvent('compressedUpdate', data);
     window.dispatchEvent(event)
   });
-  this.subscribeChannels(data_filter.category);
 }
 
 export const disconnect = () => {
   if (window.socket) {
     window.socket.disconnect()
+  }
+}
+
+export const subscribe = (channel) => {
+  if (window.socket) {
+    window.socket.emit('subscribe', channel)
+  }
+}
+
+export const unsubscribe = (channel) => {
+  if (window.socket) {
+    window.socket.emit('unsubscribe', channel)
   }
 }
