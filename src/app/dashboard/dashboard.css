@@ -186,8 +186,8 @@
 
 .discovery-table {
   overflow-y: auto;
-  height: calc(45vh);
-  margin-top: 10px;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 .discovery-table thead th { position: sticky; top: 0; }
@@ -538,4 +538,12 @@ th {
 .table-max {
   height: calc(100vh - 15rem) !important;
   overflow: scroll;
+}
+
+.discovery-normal {
+  height: calc(50vh);
+}
+
+.discovery-max {
+  height: 75vh;
 }

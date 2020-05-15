@@ -87,7 +87,7 @@ export class Dashboard extends Component {
     this.getAlertHistory();
     this.getQuotes();
 
-    window.addEventListener('scroll', this.handleScroll);
+    document.getElementById('discovery-table').addEventListener('scroll', this.handleScroll);
   }
 
 
@@ -96,7 +96,7 @@ export class Dashboard extends Component {
   }
 
   getScrollPercent() {
-    const h = document.documentElement,
+    const h = document.getElementById('discovery-table'),
       b = document.body,
       st = 'scrollTop',
       sh = 'scrollHeight';
@@ -250,7 +250,7 @@ export class Dashboard extends Component {
       alertHistory: [],
       discoveryFilter: '',
       discoveryNoDataText: 'Loading...',
-      discoveryIndex: 5,
+      discoveryIndex: 50,
       discoverySort: {
         field: 'symbol',
         reverse: true
@@ -953,10 +953,12 @@ export class Dashboard extends Component {
       <div className="col-12 px-0">
         <div>
           <button type="button" className="btn btn-icon btn-max" onClick={() => {
-            window.scrollTo(0, 0)
             this.setState({
               max: max ? null : 'discovery',
               discoveryIndex: 50
+            }, () => {
+              window.scrollTo(0, 0)
+              document.getElementById('discovery-table').addEventListener('scroll', this.handleScroll);
             })
           }}>
             <i className={max ? "mdi mdi-window-close" : "mdi mdi-window-maximize"} />
@@ -988,7 +990,7 @@ export class Dashboard extends Component {
                     value={discoveryFilter}
                   />
                 </div>
-                <div className={ max ? "h-100" : "discovery-table"}>
+                <div className={(max ? "discovery-max" : "discovery-normal") + " discovery-table"} id="discovery-table">
                   {this.renderDiscoveryTableResponsive()}
                 </div>
               </div>
