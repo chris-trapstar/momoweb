@@ -2,18 +2,16 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ContextMenu, MenuItem, ContextMenuTrigger } from 'react-contextmenu';
-import io from 'socket.io-client';
-import './dashboard.css';
 import API from '../api';
 import cogoToast from 'cogo-toast';
 import Swiper from 'react-id-swiper';
-import 'swiper/css/swiper.css';
-import ReactTable from 'react-table'
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
-import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 import * as _ from 'lodash'
 import { withTranslation } from 'react-i18next';
+import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
 
+import './dashboard.css';
+import 'swiper/css/swiper.css';
 import { AuthActions } from '../store';
 
 // import * as firebase from 'firebase/app';
