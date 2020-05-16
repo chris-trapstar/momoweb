@@ -14,11 +14,6 @@ import './dashboard.css';
 import 'swiper/css/swiper.css';
 import { AuthActions } from '../store';
 
-// import * as firebase from 'firebase/app';
-
-const socketHost = 'https://beta-data.mometic.com';
-// const socketHost = 'http://localhost:3001';
-
 let filter = {
   category: [
     {
