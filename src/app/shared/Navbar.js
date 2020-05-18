@@ -100,6 +100,22 @@ class Navbar extends Component {
                 </h6>
                 <Dropdown.Divider />
                 <Dropdown.Item
+                  onClick={evt => { this.props.history.push('/dashboard') }}
+                  className="preview-item"
+                >
+                  <div className="preview-thumbnail">
+                    <div className="preview-icon bg-dark rounded-circle">
+                      <i className="mdi mdi-gauge text-success"></i>
+                    </div>
+                  </div>
+                  <div className="preview-item-content">
+                    <p className="preview-subject mb-1">
+                      Dashboard
+                    </p>
+                  </div>
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item
                   onClick={evt => { this.props.history.push('/plans') }}
                   className="preview-item"
                 >
