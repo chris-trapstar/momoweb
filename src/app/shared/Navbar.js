@@ -86,12 +86,12 @@ class Navbar extends Component {
                 </p>
               </Dropdown.Menu>
             </Dropdown>
-            <Dropdown alignRight as="li" className="nav-item">
+            <Dropdown alignRight as="li" className="nav-item" style={{ zIndex: 100}}>
               <Dropdown.Toggle
                 as="a"
                 className="nav-link cursor-pointer no-caret"
               >
-                 <i className="mdi mdi-menu"></i>
+                 <i className="mdi mdi-menu"/>
               </Dropdown.Toggle>
 
               <Dropdown.Menu className="navbar-dropdown preview-list navbar-profile-dropdown-menu">

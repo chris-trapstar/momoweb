@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+const isMobile =  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+
 export default class Meters extends Component {
 
   constructor(props) {
@@ -7,7 +9,7 @@ export default class Meters extends Component {
 
     this.state = {
       bars: [1, 0.6, -1],
-      total: 0
+      total: isMobile ? 5: 10
     }
   }
   getRandomArbitrary = (min, max) => {
@@ -108,7 +110,7 @@ export default class Meters extends Component {
   }
 
   render() {
-    return <div className='d-flex flex-row justify-content-center w-100'>
+    return <div className='d-flex flex-row justify-content-center w-100' style={{position: 'absolute'}}>
       {this.renderMeters('lows')}
       <div className='logo'>
         <h1>MOMO</h1>
