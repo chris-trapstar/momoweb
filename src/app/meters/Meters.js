@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-export class Meters extends Component {
+export default class Meters extends Component {
 
   constructor(props) {
     super(props)
@@ -10,7 +10,50 @@ export class Meters extends Component {
       total: 0
     }
   }
-  
+  getRandomArbitrary = (min, max) => {
+    return Math.random() * (max - min) + min;
+  };
+  _updateStatusBar = bars => {
+    bars = bars
+      ? bars
+      : [
+        this.getRandomArbitrary(-1, 1),
+        this.getRandomArbitrary(-1, 1),
+        this.getRandomArbitrary(-1, 1)
+      ];
+    this.setState({
+      bars: bars
+    });
+  };
+
+  _handleData = data => {
+    // console.info('compressedUpdate:', data)
+    let msg = data[0];
+    let highs = msg[1];
+    let lows = msg[2];
+
+    if ('DISABLED' in window) {
+      return false;
+    }
+
+    try {
+      this._updateStatusBar([
+        msg[0][1], // dow
+        msg[0][0], // nasdaq
+        msg[0][2] // spy
+      ]);
+    } catch (e) {
+      console.error('_updateStatusBar', e);
+    }
+  };
+
+  componentDidMount() {
+    window.addEventListener('compressedUpdate', (event) => {
+      console.info('compressedUpdate - ', event.detail)
+      this._handleData(event.detail)
+    }, false)
+  }
+
   renderMeters = (type) => {
     const { bars, total } = this.state;
     const statClass = 'statsbar ' + type;
@@ -65,7 +108,7 @@ export class Meters extends Component {
   }
 
   render() {
-    return <div className='d-flex flex-row justify-content-center'>
+    return <div className='d-flex flex-row justify-content-center w-100'>
       {this.renderMeters('lows')}
       <div className='logo'>
         <h1>MOMO</h1>

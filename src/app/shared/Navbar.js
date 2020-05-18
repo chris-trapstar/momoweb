@@ -4,6 +4,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Trans } from "react-i18next";
 import { connect } from 'react-redux';
 
+import Meters from '../meters/Meters'
 
 import { AuthActions } from "../store";
 
@@ -21,6 +22,7 @@ class Navbar extends Component {
     return (
       <nav className="navbar p-0 fixed-top d-flex flex-row">
         <div className="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
+          <Meters/>
           <ul className="navbar-nav navbar-nav-right">
             <Dropdown alignRight as="li" className="nav-item d-none d-lg-block">
               <Dropdown.Menu className="navbar-dropdown preview-list create-new-dropdown-menu">

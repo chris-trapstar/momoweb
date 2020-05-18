@@ -66,7 +66,6 @@ export class Dashboard extends Component {
     const handler = e => this.setState({ isSmallDevice: e.matches });
     window.matchMedia('(max-width: 767px)').addListener(handler);
     this.listenTrade();
-    this._updateStatusBar();
     this.buffer = [];
     this.flushBufferIntervalId = setInterval(this.flushBuffer, 2000);
     // this.requestNotificationPermissions().then(r => {});
@@ -275,16 +274,6 @@ export class Dashboard extends Component {
       return false;
     }
 
-    try {
-      this._updateStatusBar([
-        msg[0][1], // dow
-        msg[0][0], // nasdaq
-        msg[0][2] // spy
-      ]);
-    } catch (e) {
-      console.error('_updateStatusBar', e);
-    }
-
     lows = this.applyPriceFilter(lows);
     highs = this.applyPriceFilter(highs);
 
@@ -305,23 +294,6 @@ export class Dashboard extends Component {
       if (c.subscribed === true) this.socket.emit('subscribe', c.value);
       else this.socket.emit('unsubscribe', c.value);
     });
-  };
-
-  _updateStatusBar = bars => {
-    bars = bars
-      ? bars
-      : [
-        this.getRandomArbitrary(-1, 1),
-        this.getRandomArbitrary(-1, 1),
-        this.getRandomArbitrary(-1, 1)
-      ];
-    this.setState({
-      bars: bars
-    });
-  };
-
-  getRandomArbitrary = (min, max) => {
-    return Math.random() * (max - min) + min;
   };
 
   applyPriceFilter = data => {
@@ -1036,17 +1008,7 @@ export class Dashboard extends Component {
         <div className='row dashboard-content' ref={ref => { this.container = ref; }}>
           <div className='col-12 grid-margin stretch-card px-0'>
             <div className='col-12 card-body py-0 px-0'>
-              {/** Meters Bar */}
-              {this.state.showMeters &&
-                <div className='d-flex flex-row justify-content-center'>
-                  {this.renderMeters('lows')}
-                  <div className='logo'>
-                    <h1>MOMO</h1>
-                    <h2>PROFIT FROM MOMENTUM</h2>
-                  </div>
-                  {this.renderMeters('highs')}
-                </div>
-              }
+              
               {/** Static Bar */}
               <div className='d-flex align-content-start flex-wrap static-bar mt-3'>
                 <div className={`d-flex flex-row align-items-center static-row ${this.state.showStream ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showStream')}>
