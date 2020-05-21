@@ -351,6 +351,7 @@ export class Dashboard extends Component {
 
   onAddQuote = () => {
     console.info('Add Quote:', this.state.new_quote)
+    this.registerQuote(this.state.new_quote)
     this.setState({
       showAddQuote: false,
       new_quote: ''
