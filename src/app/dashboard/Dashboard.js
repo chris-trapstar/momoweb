@@ -1093,7 +1093,11 @@ export class Dashboard extends Component {
               {/** Favorite(Quote) Stocks */}
               {this.state.showQuotes && <div className='swiper-container'>
                 <div className="text-center">
-                  <a className="link add-quote" href="#">
+                  <a className="link add-quote" href="#" onClick={() => {
+                    this.setState({
+                      showAddQuote: true
+                    })
+                  }}>
                     <small>Add Quote</small>
                   </a>
                 </div>
