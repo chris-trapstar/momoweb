@@ -9,6 +9,7 @@ import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table'
 import * as _ from 'lodash'
 import { withTranslation } from 'react-i18next';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css'
+import { Form, Button, Modal } from "react-bootstrap";
 
 import './dashboard.css';
 import 'swiper/css/swiper.css';
@@ -345,6 +346,41 @@ export class Dashboard extends Component {
   getLast = (OTC, ticker) => {
     return OTC === 1 ? this.round(ticker, 4) : this.round(ticker, 2);
   };
+
+  renderAddQuote = () => {
+      return <Modal
+        show={this.state.showAddQuote}
+        onHide={() => { this.setState({ showAddQuote: false }) }}
+        aria-labelledby="example-modal-sizes-title-md"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <small className="bg-light text-dark"> Add Quote</small>
+          </Modal.Title>
+        </Modal.Header>
+  
+        <Modal.Body><Form.Group>
+                <label>Name</label>
+                <div className="input-group">
+                  <div className="input-group-prepend">
+                    <span className="input-group-text">@</span>
+                  </div>
+                  <Form.Control type="text" className="form-control text-light" value={this.state.new_quote} onChange={(e) => { this.setState({ new_quote: e.target.value }) }} />
+                </div>
+              </Form.Group>
+        </Modal.Body>
+  
+        <Modal.Footer>
+          <div className="footer-container">
+            <Button variant="success col-12" onClick={this.onAddQuote} className="btn btn-primary">
+              Save
+            </Button>
+          </div>
+          {/*<Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>*/}
+        </Modal.Footer>
+      </Modal>
+    
+  }
 
   renderData = (data, type) => {
     const { isSmallDevice, max } = this.state;
