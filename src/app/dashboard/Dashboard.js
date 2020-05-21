@@ -349,6 +349,14 @@ export class Dashboard extends Component {
     return OTC === 1 ? this.round(ticker, 4) : this.round(ticker, 2);
   };
 
+  onAddQuote = () => {
+    console.info('Add Quote:', this.state.new_quote)
+    this.setState({
+      showAddQuote: false,
+      new_quote: ''
+    })
+  }
+
   renderAddQuoteModal = () => {
     return <Modal
       show={this.state.showAddQuote}
@@ -357,12 +365,12 @@ export class Dashboard extends Component {
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          <small className="bg-light text-dark"> Add Quote</small>
+          <small className="text-light"> Add Quote</small>
         </Modal.Title>
       </Modal.Header>
 
       <Modal.Body><Form.Group>
-        <label>Name</label>
+        <label>Symbol</label>
         <div className="input-group">
           <div className="input-group-prepend">
             <span className="input-group-text">@</span>
@@ -375,7 +383,7 @@ export class Dashboard extends Component {
       <Modal.Footer>
         <div className="footer-container">
           <Button variant="success col-12" onClick={this.onAddQuote} className="btn btn-primary">
-            Save
+            Add
             </Button>
         </div>
         {/*<Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>*/}
@@ -1092,8 +1100,13 @@ export class Dashboard extends Component {
 
               {/** Favorite(Quote) Stocks */}
               {this.state.showQuotes && <div className='swiper-container'>
+
+                <Swiper {...params}>
+                  {this.renderQuoteCards()}
+                </Swiper>
+                {this.renderAddQuoteModal()}
                 <div className="text-center">
-                  <a className="link add-quote" href="#" onClick={() => {
+                  <a className="link add-quote" onClick={() => {
                     this.setState({
                       showAddQuote: true
                     })
@@ -1101,10 +1114,6 @@ export class Dashboard extends Component {
                     <small>Add Quote</small>
                   </a>
                 </div>
-                <Swiper {...params}>
-                  {this.renderQuoteCards()}
-                </Swiper>
-                {this.renderAddQuoteModal()}
               </div>}
 
               {/** Table | (Popular vs Alert History) */}
