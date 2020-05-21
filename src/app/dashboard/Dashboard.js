@@ -247,7 +247,8 @@ export class Dashboard extends Component {
         field: 'symbol',
         reverse: true
       },
-      max: false
+      max: false,
+      new_quote: ''
     };
   };
 
