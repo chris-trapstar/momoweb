@@ -349,7 +349,7 @@ export class Dashboard extends Component {
     return OTC === 1 ? this.round(ticker, 4) : this.round(ticker, 2);
   };
 
-  renderAddQuote = () => {
+  renderAddQuoteModal = () => {
     return <Modal
       show={this.state.showAddQuote}
       onHide={() => { this.setState({ showAddQuote: false }) }}
