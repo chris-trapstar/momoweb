@@ -1100,6 +1100,7 @@ export class Dashboard extends Component {
                 <Swiper {...params}>
                   {this.renderQuoteCards()}
                 </Swiper>
+                {this.renderAddQuoteModal()}
               </div>}
 
               {/** Table | (Popular vs Alert History) */}
