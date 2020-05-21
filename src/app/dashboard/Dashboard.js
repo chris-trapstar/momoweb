@@ -1007,7 +1007,7 @@ export class Dashboard extends Component {
         <div className='row dashboard-content' ref={ref => { this.container = ref; }}>
           <div className='col-12 grid-margin stretch-card px-0'>
             <div className='col-12 card-body py-0 px-0'>
-              
+
               {/** Static Bar */}
               <div className='d-flex align-content-start flex-wrap static-bar mt-3'>
                 <div className={`d-flex flex-row align-items-center static-row ${this.state.showStream ? 'showWidget' : 'hideWidget'}`} onClick={this.onToggleWidget('showStream')}>
@@ -1054,6 +1054,11 @@ export class Dashboard extends Component {
 
               {/** Favorite(Quote) Stocks */}
               {this.state.showQuotes && <div className='swiper-container'>
+                <div className="text-center">
+                  <a className="link add-quote" href="#">
+                    <small>Add Quote</small>
+                  </a>
+                </div>
                 <Swiper {...params}>
                   {this.renderQuoteCards()}
                 </Swiper>
