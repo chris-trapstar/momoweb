@@ -350,38 +350,38 @@ export class Dashboard extends Component {
   };
 
   renderAddQuote = () => {
-      return <Modal
-        show={this.state.showAddQuote}
-        onHide={() => { this.setState({ showAddQuote: false }) }}
-        aria-labelledby="example-modal-sizes-title-md"
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <small className="bg-light text-dark"> Add Quote</small>
-          </Modal.Title>
-        </Modal.Header>
-  
-        <Modal.Body><Form.Group>
-                <label>Name</label>
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">@</span>
-                  </div>
-                  <Form.Control type="text" className="form-control text-light" value={this.state.new_quote} onChange={(e) => { this.setState({ new_quote: e.target.value }) }} />
-                </div>
-              </Form.Group>
-        </Modal.Body>
-  
-        <Modal.Footer>
-          <div className="footer-container">
-            <Button variant="success col-12" onClick={this.onAddQuote} className="btn btn-primary">
-              Save
-            </Button>
+    return <Modal
+      show={this.state.showAddQuote}
+      onHide={() => { this.setState({ showAddQuote: false }) }}
+      aria-labelledby="example-modal-sizes-title-md"
+    >
+      <Modal.Header closeButton>
+        <Modal.Title>
+          <small className="bg-light text-dark"> Add Quote</small>
+        </Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body><Form.Group>
+        <label>Name</label>
+        <div className="input-group">
+          <div className="input-group-prepend">
+            <span className="input-group-text">@</span>
           </div>
-          {/*<Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>*/}
-        </Modal.Footer>
-      </Modal>
-    
+          <Form.Control type="text" className="form-control text-light" value={this.state.new_quote} onChange={(e) => { this.setState({ new_quote: e.target.value }) }} />
+        </div>
+      </Form.Group>
+      </Modal.Body>
+
+      <Modal.Footer>
+        <div className="footer-container">
+          <Button variant="success col-12" onClick={this.onAddQuote} className="btn btn-primary">
+            Save
+            </Button>
+        </div>
+        {/*<Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>*/}
+      </Modal.Footer>
+    </Modal>
+
   }
 
   renderData = (data, type) => {
