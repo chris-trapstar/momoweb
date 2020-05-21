@@ -248,7 +248,8 @@ export class Dashboard extends Component {
         reverse: true
       },
       max: false,
-      new_quote: ''
+      new_quote: '',
+      showAddQuote: false
     };
   };
 
