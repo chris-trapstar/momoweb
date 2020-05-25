@@ -559,3 +559,15 @@ th {
   display: flex;
   flex-direction: 'row';
 }
+
+.quote-tools {
+  display: flex;
+  margin-top: 28px;
+  margin-bottom: 35px;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+.quotes {
+  flex: 1;
+}
