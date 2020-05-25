@@ -1100,11 +1100,17 @@ export class Dashboard extends Component {
               </div>
 
               {/** Favorite(Quote) Stocks */}
-              {this.state.showQuotes && <div className='swiper-container'>
-
+              {this.state.showQuotes && <div className='quotes-area'>
+                <div className='quotes'>
                 <Swiper {...params}>
                   {this.renderQuoteCards()}
                 </Swiper>
+                </div>
+                <div className='quote-tools card'>
+                  <a><i className='mdi mdi-plus cursor-pointer add-quoute-icon'/></a>
+                  <a><i className='mdi mdi-chevron-down cursor-pointer add-quoute-icon'/></a>
+                </div>
+
                 {this.renderAddQuoteModal()}
                 <div className="text-center">
                   <a className="link add-quote" onClick={() => {

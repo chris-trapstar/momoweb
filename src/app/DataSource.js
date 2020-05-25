@@ -1,6 +1,8 @@
 import io from 'socket.io-client';
 
 const socketHost = 'https://beta-data.mometic.com';
+// const socketHost = 'http://localhost:3001';
+
 
 export const connect = () => {
   window.socket = io(socketHost, {
