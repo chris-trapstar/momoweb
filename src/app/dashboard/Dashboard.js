@@ -1107,20 +1107,15 @@ export class Dashboard extends Component {
                 </Swiper>
                 </div>
                 <div className='quote-tools card'>
-                  <a><i className='mdi mdi-plus cursor-pointer add-quoute-icon'/></a>
+                  <a onClick={() => {
+                    this.setState({
+                      showAddQuote: true
+                    })
+                  }}><i className='mdi mdi-plus cursor-pointer add-quoute-icon'/></a>
                   <a><i className='mdi mdi-chevron-down cursor-pointer add-quoute-icon'/></a>
                 </div>
 
                 {this.renderAddQuoteModal()}
-                <div className="text-center">
-                  <a className="link add-quote" onClick={() => {
-                    this.setState({
-                      showAddQuote: true
-                    })
-                  }}>
-                    <small>Add Quote</small>
-                  </a>
-                </div>
               </div>}
 
               {/** Table | (Popular vs Alert History) */}
