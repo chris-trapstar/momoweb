@@ -1102,17 +1102,17 @@ export class Dashboard extends Component {
               {/** Favorite(Quote) Stocks */}
               {this.state.showQuotes && <div className='quotes-area'>
                 <div className='quotes'>
-                <Swiper {...params}>
-                  {this.renderQuoteCards()}
-                </Swiper>
+                  <Swiper {...params}>
+                    {this.renderQuoteCards()}
+                  </Swiper>
                 </div>
                 <div className='quote-tools card'>
                   <a onClick={() => {
                     this.setState({
                       showAddQuote: true
                     })
-                  }}><i className='mdi mdi-plus cursor-pointer add-quoute-icon'/></a>
-                  <a><i className='mdi mdi-chevron-down cursor-pointer add-quoute-icon'/></a>
+                  }}><i className='mdi mdi-plus cursor-pointer add-quoute-icon' /></a>
+                  <a><i className='mdi mdi-chevron-down cursor-pointer add-quoute-icon' /></a>
                 </div>
 
                 {this.renderAddQuoteModal()}
