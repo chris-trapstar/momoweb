@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import Gradient from 'react-gradient'
 
-const isMobile =  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
 export default class Meters extends Component {
 
@@ -9,7 +10,11 @@ export default class Meters extends Component {
 
     this.state = {
       bars: [1, 0.6, -1],
-      total: isMobile ? 5: 10
+      total: isMobile ? 5 : 10,
+      gradients: [
+        ['#bd19d6', '#ea7d10'],
+        ['#ff2121', '#25c668'],
+      ]
     }
   }
   getRandomArbitrary = (min, max) => {
@@ -110,8 +115,14 @@ export default class Meters extends Component {
   }
 
   render() {
-    return <div className='d-flex flex-row justify-content-center w-100' style={{position: 'absolute'}}>
-      {this.renderMeters('lows')}
+    return <div className='d-flex flex-row justify-content-center w-100' style={{ position: 'absolute' }}>
+      {/*this.renderMeters('lows')*/}
+      <Gradient
+        gradients={this.state.gradients} // required
+        property="background"
+        duration={3000}
+        angle="45deg"
+      />
       <div className='logo'>
         <h1>MOMO</h1>
         <h2>PROFIT FROM MOMENTUM</h2>
