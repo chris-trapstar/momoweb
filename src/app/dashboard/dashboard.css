@@ -554,3 +554,8 @@ th {
   left: 1em;
   z-index: 2;
 }
+
+.quotes-area {
+  display: flex;
+  flex-direction: 'row';
+}
