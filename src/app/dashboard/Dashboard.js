@@ -1101,7 +1101,7 @@ export class Dashboard extends Component {
 
               {/** Favorite(Quote) Stocks */}
               {this.state.showQuotes && <div className='quotes-area'>
-                <div className='quotes'>
+                <div className='quotes-swiper'>
                   <Swiper {...params}>
                     {this.renderQuoteCards()}
                   </Swiper>
