@@ -1,0 +1,18 @@
+.statsbar {
+  flex: 1
+}
+
+.statsbar.lows {
+  padding: 12px 0px 0px 0px;
+}
+
+.statsbar.highs {
+  padding: 12px 0px 0px 0px;
+}
+
+.carreContainer {
+  width: 100%;
+  text-align: center;
+  height: 4px;
+  margin-bottom: 2px;
+}
