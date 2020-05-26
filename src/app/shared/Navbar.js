@@ -22,7 +22,12 @@ class Navbar extends Component {
     return (
       <nav className="navbar p-0 fixed-top d-flex flex-row">
         <div className="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-          <Meters/>
+          <div className='d-flex flex-row justify-content-center' style={{ position: 'absolute', flex: 1, width: 'calc(100% - 30px)' }}>
+            <div className='logo'>
+              <h1>MOMO</h1>
+              <h2>PROFIT FROM MOMENTUM</h2>
+            </div>
+          </div>
           <ul className="navbar-nav navbar-nav-right">
             <Dropdown alignRight as="li" className="nav-item d-none d-lg-block">
               <Dropdown.Menu className="navbar-dropdown preview-list create-new-dropdown-menu">
@@ -86,12 +91,12 @@ class Navbar extends Component {
                 </p>
               </Dropdown.Menu>
             </Dropdown>
-            <Dropdown alignRight as="li" className="nav-item" style={{ zIndex: 100}}>
+            <Dropdown alignRight as="li" className="nav-item" style={{ zIndex: 100 }}>
               <Dropdown.Toggle
                 as="a"
                 className="nav-link cursor-pointer no-caret"
               >
-                 <i className="mdi mdi-menu"/>
+                <i className="mdi mdi-menu" />
               </Dropdown.Toggle>
 
               <Dropdown.Menu className="navbar-dropdown preview-list navbar-profile-dropdown-menu">
