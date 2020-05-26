@@ -484,18 +484,18 @@ export class Dashboard extends Component {
       });
     }
     return (
-      <div className={'col-md-6 tableFixHead ' + (max ? 'table-max' : '')}>
+      <div className={'col-md-6 tableFixHead nopadding' + (max ? 'table-max' : '')}>
         <table className='table table-striped'>
           <thead>
             <tr>
               <th className='text-white'>
-                <div className='stock-header-text'> SYMBOL </div>
+                <div className='stock-header-text'> Symbol </div>
               </th>
               <th className='text-white'>
-                <div className='stock-header-text'> COUNT </div>
+                <div className='stock-header-text'> Count </div>
               </th>
               <th className='text-white'>
-                <div className='stock-header-text'> LAST </div>
+                <div className='stock-header-text'> Last </div>
               </th>
             </tr>
           </thead>
