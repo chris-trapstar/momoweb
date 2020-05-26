@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import Gradient from 'react-gradient'
+
+import './meters.css'
 
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
@@ -43,15 +44,15 @@ export default class Meters extends Component {
       return false;
     }
 
-    try {
-      this._updateStatusBar([
-        msg[0][1], // dow
-        msg[0][0], // nasdaq
-        msg[0][2] // spy
-      ]);
-    } catch (e) {
-      console.error('_updateStatusBar', e);
-    }
+    // try {
+    //   this._updateStatusBar([
+    //     msg[0][1], // dow
+    //     msg[0][0], // nasdaq
+    //     msg[0][2] // spy
+    //   ]);
+    // } catch (e) {
+    //   console.error('_updateStatusBar', e);
+    // }
   };
 
   componentDidMount() {
@@ -102,8 +103,17 @@ export default class Meters extends Component {
         carres = carres.reverse();
       }
 
+      const highColor = 'rgba(0,255,0,1)'
+      const lowColor = 'rgba(255,0,0,1)'
+
       divs.push(
-        <div className='d-flex carreContainer' key={i}>{carres}</div>
+        <div className='d-flex carreContainer' key={i} style={{
+          width: `100%`,
+          height: '10px',
+          background: `linear-gradient(90deg, ${highColor} 0%, ${lowColor} 100%)`
+        }}>
+
+        </div>
       );
     }
 
@@ -115,18 +125,10 @@ export default class Meters extends Component {
   }
 
   render() {
-    return <div className='d-flex flex-row justify-content-center w-100' style={{ position: 'absolute' }}>
-      {/*this.renderMeters('lows')*/}
-      <Gradient
-        gradients={this.state.gradients} // required
-        property="background"
-        duration={3000}
-        angle="45deg"
-      />
-      <div className='logo'>
-        <h1>MOMO</h1>
-        <h2>PROFIT FROM MOMENTUM</h2>
-      </div>
+    return <div className='d-flex flex-row justify-content-center' style={{ position: 'absolute', flex: 1, width: 'calc(100% - 30px)' }}>
+      {/**linear-gradient(90deg, rgba(0,255,74,1) 0%, rgba(0,255,40,1) 0%, rgba(255,0,0,1) 100%) */}
+
+      {this.renderMeters('lows')}
       {this.renderMeters('highs')}
     </div>
   }
