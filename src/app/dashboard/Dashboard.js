@@ -14,6 +14,7 @@ import { Form, Button, Modal } from "react-bootstrap";
 import './dashboard.css';
 import 'swiper/css/swiper.css';
 import { AuthActions } from '../store';
+import Meters from '../meters/Meters';
 
 let filter = {
   category: [
@@ -744,59 +745,6 @@ export class Dashboard extends Component {
     })
   }
 
-  renderMeters = (type) => {
-    const { bars, total } = this.state;
-    const statClass = 'statsbar ' + type;
-    let divs = [];
-    for (let i = bars.length - 1; i >= 0; i--) {
-      var carres = [];
-      var value = bars[i] == -1 ? 0 : bars[i];
-
-      if (type == 'lows') {
-        if (value <= 0) {
-          value = Math.abs(value);
-        } else {
-          value = 1 - value;
-        }
-      } else {
-        if (value < 0) {
-          value = value + 1;
-        }
-      }
-
-      for (var o = total; o >= 0; o--) {
-        var mult = type == 'lows' ? Math.ceil(total * value) : Math.floor(total * value)
-        var active = mult >= o && value != 0;
-        let carreClass = 'petitCarre-';
-        if (active) {
-          carreClass = carreClass + 'active'
-          if (type == 'highs') {
-            carreClass = carreClass + '-high'
-          }
-        } else {
-          carreClass = carreClass + 'inactive'
-        }
-        carres.push(
-          <div className={carreClass} key={o}></div>
-        )
-      }
-
-      if (type == 'highs') {
-        carres = carres.reverse();
-      }
-
-      divs.push(
-        <div className='d-flex carreContainer' key={i}>{carres}</div>
-      );
-    }
-
-    return (
-      <div className={statClass}>
-        {divs.reverse()}
-      </div>
-    )
-  }
-
   renderPopularData = (index) => {
     let data = [];
     const { popularData } = this.state;
@@ -930,6 +878,7 @@ export class Dashboard extends Component {
     const { isSmallDevice, lows, highs, max } = this.state
     return <div className={max ? 'w-100' : 'grid-margin stretch-card px-0 flex-fill socket-table'}>
       <div className='card'>
+        <Meters/>
         <div>
           <button type='button' className='btn btn-icon btn-max' onClick={() => {
             this.setState({
