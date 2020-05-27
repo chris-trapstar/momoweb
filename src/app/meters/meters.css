@@ -13,6 +13,6 @@
 .carreContainer {
   width: 100%;
   text-align: center;
-  height: 4px;
+  height: 2px !important;
   margin-bottom: 2px;
 }

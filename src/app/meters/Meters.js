@@ -105,12 +105,13 @@ export default class Meters extends Component {
 
       const highColor = 'rgba(0,255,0,1)'
       const lowColor = 'rgba(255,0,0,1)'
+      const noColor = 'rgba(0,0,0,0)'
 
       divs.push(
         <div className='d-flex carreContainer' key={i} style={{
           width: `100%`,
           height: '10px',
-          background: `linear-gradient(90deg, ${highColor} 0%, ${lowColor} 100%)`
+          background: `linear-gradient(90deg, ${noColor} ${(1 - bars[i]) * 0 }%, ${lowColor} ${(1 - bars[i]) * 50 }%, ${highColor} ${(bars[i] + 1) * 50}%, ${noColor} ${(bars[i] + 1) * 0}% )`
         }}>
 
         </div>
@@ -125,11 +126,8 @@ export default class Meters extends Component {
   }
 
   render() {
-    return <div className='d-flex flex-row justify-content-center' style={{ position: 'absolute', flex: 1, width: 'calc(100% - 30px)' }}>
-      {/**linear-gradient(90deg, rgba(0,255,74,1) 0%, rgba(0,255,40,1) 0%, rgba(255,0,0,1) 100%) */}
-
+    return <div className='d-flex flex-row justify-content-center' style={{ position: 'absolute', flex: 1, width: '100%' }}>
       {this.renderMeters('lows')}
-      {this.renderMeters('highs')}
     </div>
   }
 }
