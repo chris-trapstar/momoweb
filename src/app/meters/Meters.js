@@ -104,7 +104,7 @@ export default class Meters extends Component {
       divs.push(
         <div className='d-flex carreContainer' key={i} style={{
           width: `100%`,
-          background: bars[i] === -1 ? 'gray' : `linear-gradient(90deg, ${lowColor}, ${noColor},${highColor}  )`
+          background: bars[i] === -1 ? 'rgba(0,0,0, 0.3)' : `linear-gradient(90deg, ${lowColor}, ${noColor},${highColor}  )`
         }}>
 
         </div>
