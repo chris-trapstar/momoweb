@@ -567,3 +567,7 @@ th {
 .nopadding {
   padding: 0 !important;
 }
+
+.stream-body {
+  padding-top: 0px !important;
+}

@@ -895,7 +895,7 @@ export class Dashboard extends Component {
               {this.renderData(highs, 'high')}
             </div>
             :
-            <div className='card-body'>
+            <div className='card-body stream-body'>
               <div className='row'>
                 {this.renderData(lows, 'low')}
                 {this.renderData(highs, 'high')}

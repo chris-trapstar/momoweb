@@ -37,22 +37,16 @@ export default class Meters extends Component {
   _handleData = data => {
     // console.info('compressedUpdate:', data)
     let msg = data[0];
-    let highs = msg[1];
-    let lows = msg[2];
 
-    if ('DISABLED' in window) {
-      return false;
+    try {
+      this._updateStatusBar([
+        msg[0][1], // dow
+        msg[0][0], // nasdaq
+        msg[0][2] // spy
+      ]);
+    } catch (e) {
+      console.error('_updateStatusBar', e);
     }
-
-    // try {
-    //   this._updateStatusBar([
-    //     msg[0][1], // dow
-    //     msg[0][0], // nasdaq
-    //     msg[0][2] // spy
-    //   ]);
-    // } catch (e) {
-    //   console.error('_updateStatusBar', e);
-    // }
   };
 
   componentDidMount() {
@@ -103,15 +97,14 @@ export default class Meters extends Component {
         carres = carres.reverse();
       }
 
-      const highColor = 'rgba(0,255,0,1)'
-      const lowColor = 'rgba(255,0,0,1)'
-      const noColor = 'rgba(0,0,0,0)'
+      const highColor = `rgba(0,255,0, ${bars[i] > 0 ? bars[i] : 0})`
+      const lowColor = `rgba(255,0,0, ${bars[i] < 0 ? -bars[i] : 0})`
+      const noColor = 'rgba(0,0,0)'
 
       divs.push(
         <div className='d-flex carreContainer' key={i} style={{
           width: `100%`,
-          height: '10px',
-          background: `linear-gradient(90deg, ${noColor} ${(1 - bars[i]) * 0 }%, ${lowColor} ${(1 - bars[i]) * 50 }%, ${highColor} ${(bars[i] + 1) * 50}%, ${noColor} ${(bars[i] + 1) * 0}% )`
+          background: bars[i] === -1 ? 'gray' : `linear-gradient(90deg, ${lowColor}, ${noColor},${highColor}  )`
         }}>
 
         </div>
@@ -126,7 +119,7 @@ export default class Meters extends Component {
   }
 
   render() {
-    return <div className='d-flex flex-row justify-content-center' style={{ position: 'absolute', flex: 1, width: '100%' }}>
+    return <div className='d-flex flex-row justify-content-center' style={{ flex: 1, }}>
       {this.renderMeters('lows')}
     </div>
   }
