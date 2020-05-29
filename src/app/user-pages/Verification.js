@@ -19,6 +19,12 @@ class Verification extends Component {
     succTxt: ''
   };
 
+  componentDidMount() {
+    if (!this.props.user.email) {
+      console.error('Email missing!')
+    }
+  }
+
   componentWillUpdate() {
     console.info('verification page update');
     if (this.props.user && this.props.user.email_verified) {
