@@ -136,7 +136,7 @@ export class Dashboard extends Component {
     const discoveryData = stats.map((stock, index) => ({
       symbol: stock.symbol,
       last: stock.lastTradePrice || 0,
-      volume: stock.avgVolume || 0, // No Volume
+      volume: stock.AV || 0, // No Volume
       momentum: stock.highCount - stock.lowCount,
       uVol: parseFloat(stock.UV.toFixed(2)) || 0,
       vWapDist: stock.VWAP_DIST || 0,
