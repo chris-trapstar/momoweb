@@ -80,8 +80,10 @@ export class Dashboard extends Component {
     this.getPopularData();
     this.getAlertHistory();
     this.getQuotes();
-
-    document.getElementById('discovery-table').addEventListener('scroll', this.handleScroll);
+    const discoveryTable = document.getElementById('discovery-table')
+    if (discoveryTable) {
+      discoveryTable.addEventListener('scroll', this.handleScroll);
+    }
   }
 
 
@@ -878,7 +880,7 @@ export class Dashboard extends Component {
     const { isSmallDevice, lows, highs, max } = this.state
     return <div className={max ? 'w-100' : 'grid-margin stretch-card px-0 flex-fill socket-table'}>
       <div className='card'>
-        <Meters/>
+        <Meters />
         <div>
           <button type='button' className='btn btn-icon btn-max' onClick={() => {
             this.setState({
