@@ -261,7 +261,7 @@ export class Dashboard extends Component {
     }
 
     window.addEventListener('compressedUpdate', (event) => {
-      console.info('compressedUpdate - ', event.detail)
+      // console.info('compressedUpdate - ', event.detail)
       this._handleData(event.detail)
     }, false)
     // this.subscribeChannels(data_filter.category);
