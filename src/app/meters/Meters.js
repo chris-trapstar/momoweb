@@ -49,11 +49,16 @@ export default class Meters extends Component {
     }
   };
 
+  onCompressedUpdate = (event) => {
+    this._handleData(event.detail)
+  }
+
   componentDidMount() {
-    window.addEventListener('compressedUpdate', (event) => {
-      console.info('compressedUpdate - ', event.detail)
-      this._handleData(event.detail)
-    }, false)
+    window.addEventListener('compressedUpdate', this.onCompressedUpdate, false)
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('compressedUpdate', this.onCompressedUpdate)
   }
 
   renderMeters = (type) => {
