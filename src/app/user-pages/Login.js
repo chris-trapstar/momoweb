@@ -123,7 +123,7 @@ class Login extends Component {
                     <a
                       href="!#"
                       onClick={event => event.preventDefault()}
-                      className="auth-link text-black"
+                      className="auth-link text-success"
                     >
                       Forgot password?
                     </a>
@@ -148,11 +148,6 @@ class Login extends Component {
                         <i className="mdi mdi-google mr-2"></i>Google
                       </button>
                     </div>
-                  </div>
-                  <div className="text-center mt-4 font-weight-light">
-                    <Link to="/forgot" className="text-success">
-                    Forgot password?
-                    </Link>
                   </div>
 
                   <div className="text-center mt-4 font-weight-light">
