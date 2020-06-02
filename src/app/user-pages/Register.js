@@ -143,7 +143,7 @@ export class Register extends Component {
                       <label className="form-check-label text-muted">
                         <input type="checkbox" className="form-check-input" onChange={this.onChangeTerms} ref={ref => { this.refTerms = ref; }} />
                         <i className="input-helper"></i>
-                        I agree to all Terms & Conditions
+                        I agree to all <a href='https://www.mometic.com/terms/'  target='_blank'>Terms & Conditions</a>
                       </label>
                     </div>
                   </div>
