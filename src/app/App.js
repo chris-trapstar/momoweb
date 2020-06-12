@@ -96,6 +96,7 @@ class ProtectedApp extends Component {
     const { user, history } = this.props
     
     console.info('Path:', this.props.history)
+    console.info('User:', user)
   
     if (!user.email_verified) {
       if (history.location.pathname !== '/verify') {
