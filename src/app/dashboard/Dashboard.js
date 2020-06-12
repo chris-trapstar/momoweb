@@ -136,12 +136,14 @@ export class Dashboard extends Component {
     const discoveryData = stats.map((stock, index) => ({
       symbol: stock.symbol,
       last: stock.lastTradePrice || 0,
-      volume: stock.avgVolume || 0, // No Volume
+      volume: stock.AV || 0, // No Volume
       momentum: stock.highCount - stock.lowCount,
-      uVol: parseFloat(stock.UV.toFixed(2)) || 0,
+      uVol: parseFloat((stock.UV || 0).toFixed(2)),
       vWapDist: stock.VWAP_DIST || 0,
       // short: '25%',
-    }))
+    })).filter(({AV}) => {
+      return AV > 0
+    })
 
     this.setState({
       stats,
