@@ -141,8 +141,8 @@ export class Dashboard extends Component {
       uVol: parseFloat((stock.UV || 0).toFixed(2)),
       vWapDist: stock.VWAP_DIST || 0,
       // short: '25%',
-    })).filter(({AV}) => {
-      return AV > 0
+    })).filter(({volume}) => {
+      return volume > 0
     })
 
     this.setState({
