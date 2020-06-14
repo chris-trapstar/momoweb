@@ -80,12 +80,15 @@ export class Dashboard extends Component {
     this.getPopularData();
     this.getAlertHistory();
     this.getQuotes();
-
-    document.getElementById('discovery-table').addEventListener('scroll', this.handleScroll);
+    const discoveryTable = document.getElementById('discovery-table')
+    if (discoveryTable) {
+      discoveryTable.addEventListener('scroll', this.handleScroll);
+    }
   }
 
 
   componentWillUnmount() {
+    window.removeEventListener('compressedUpdate', this.onCompressedUpdate)
     window.removeEventListener('scroll', this.handleScroll);
   }
 
@@ -256,16 +259,17 @@ export class Dashboard extends Component {
     };
   };
 
+  onCompressedUpdate = (event) => {
+    this._handleData(event.detail)
+  }
+
   listenTrade = () => {
     let data_filter = localStorage.getItem('filter');
     if (!data_filter || !data_filter.category) {
       data_filter = filter;
     }
 
-    window.addEventListener('compressedUpdate', (event) => {
-      console.info('compressedUpdate - ', event.detail)
-      this._handleData(event.detail)
-    }, false)
+    window.addEventListener('compressedUpdate', this.onCompressedUpdate, false)
     // this.subscribeChannels(data_filter.category);
   };
 

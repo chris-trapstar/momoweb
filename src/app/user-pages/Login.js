@@ -123,7 +123,7 @@ class Login extends Component {
                     <a
                       href="!#"
                       onClick={event => event.preventDefault()}
-                      className="auth-link text-black"
+                      className="auth-link text-success"
                     >
                       Forgot password?
                     </a>
@@ -149,12 +149,14 @@ class Login extends Component {
                       </button>
                     </div>
                   </div>
+
                   <div className="text-center mt-4 font-weight-light">
                     Don't have an account?{" "}
                     <Link to="/register" className="text-success">
                       Create now
                     </Link>
                   </div>
+
                 </Form>
               </div>
             </div>

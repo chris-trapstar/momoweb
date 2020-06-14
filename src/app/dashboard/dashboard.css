@@ -554,6 +554,7 @@ th {
   padding-right: 0.2em;
   margin-left: 0.5em;
   justify-content: space-around;
+  min-width: 2em;
 }
 
 .quotes-swiper {
