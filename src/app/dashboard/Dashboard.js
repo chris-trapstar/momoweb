@@ -111,21 +111,18 @@ export class Dashboard extends Component {
 
   onFavPress = () => {
     const { discoveryDataFiltered, isFavFilter, discoveryData } = this.state;
-
+    let filterData = [];
     if (isFavFilter) {
-      this.setState({
-        discoveryDataFiltered: discoveryData,
-        isFavFilter: !isFavFilter,
-      });
+      filterData = discoveryData.filter(this.searchFilter);
     } else {
-      const favData = discoveryDataFiltered.filter((item) =>
-        this.isSymbolFav(item.symbol)
-      );
-      this.setState({
-        discoveryDataFiltered: favData,
-        isFavFilter: !isFavFilter,
-      });
+      filterData = discoveryData
+        .filter((item) => this.isSymbolFav(item.symbol))
+        .filter(this.searchFilter);
     }
+    this.setState({
+      discoveryDataFiltered: filterData,
+      isFavFilter: !isFavFilter,
+    });
   };
 
   updateDimensions = () => {
@@ -170,10 +167,14 @@ export class Dashboard extends Component {
         return volume > 0;
       });
 
+    const discoveryDataFiltered = discoveryData
+      .filter(this.favFilter)
+      .filter(this.searchFilter);
+
     this.setState({
       stats,
       discoveryData,
-      discoveryDataFiltered: discoveryData,
+      discoveryDataFiltered: discoveryDataFiltered,
     });
   };
 
@@ -379,6 +380,26 @@ export class Dashboard extends Component {
       showAddQuote: false,
       new_quote: '',
     });
+  };
+
+  getFilteredList = (discoveryData) => {};
+
+  favFilter = (item) => {
+    const { isFavFilter } = this.state;
+    if (isFavFilter) {
+      return this.isSymbolFav(item.symbol);
+    } else {
+      return true;
+    }
+  };
+
+  searchFilter = (item) => {
+    const { discoveryFilter } = this.state;
+    if (discoveryFilter) {
+      return item.symbol.includes(discoveryFilter);
+    } else {
+      return true;
+    }
   };
 
   renderAddQuoteModal = () => {
@@ -728,7 +749,7 @@ export class Dashboard extends Component {
                 this.registerQuote(data[0]);
               }}
             >
-              <div  className='row justify-content-center align-items-center'>
+              <div className='row justify-content-center align-items-center'>
                 <i className='mdi mdi-star text-white popover-icon' />
                 <span className='ml-1'>Favorite</span>
               </div>
@@ -1005,7 +1026,7 @@ export class Dashboard extends Component {
                         id={`low-context-menu_${index}`}
                         holdToDisplay={0}
                       >
-                        <div style={{ cursor:'pointer'}} className='py-1'>
+                        <div style={{ cursor: 'pointer' }} className='py-1'>
                           <b>{symbol}</b>
                         </div>
                       </ContextMenuTrigger>
@@ -1015,8 +1036,8 @@ export class Dashboard extends Component {
                         id={`low-context-menu_${index}`}
                         holdToDisplay={0}
                       >
-                      <div style={{ cursor:'pointer'}}>
-                        {this.round(last,2)}
+                        <div style={{ cursor: 'pointer' }}>
+                          {this.round(last, 2)}
                         </div>
                       </ContextMenuTrigger>
                     </Td>
@@ -1025,10 +1046,9 @@ export class Dashboard extends Component {
                         id={`low-context-menu_${index}`}
                         holdToDisplay={0}
                       >
-                        <div style={{ cursor:'pointer'}}>
-                        {volume.toString()}
+                        <div style={{ cursor: 'pointer' }}>
+                          {volume.toString()}
                         </div>
-                       
                       </ContextMenuTrigger>
                     </Td>
                     <Td>
@@ -1037,7 +1057,7 @@ export class Dashboard extends Component {
                         holdToDisplay={0}
                       >
                         <div
-                        style={{ cursor:'pointer'}}
+                          style={{ cursor: 'pointer' }}
                           className={
                             momentum < 0 ? 'text-danger' : 'text-success'
                           }
@@ -1052,7 +1072,7 @@ export class Dashboard extends Component {
                         holdToDisplay={0}
                       >
                         <div
-                        style={{ cursor:'pointer'}}
+                          style={{ cursor: 'pointer' }}
                           className={`${
                             uVol > 0
                               ? 'text-success'
@@ -1073,7 +1093,7 @@ export class Dashboard extends Component {
                         holdToDisplay={0}
                       >
                         <div
-                        style={{ cursor:'pointer'}}
+                          style={{ cursor: 'pointer' }}
                           className={`${
                             vWapDist > 0
                               ? 'text-success'
@@ -1090,7 +1110,10 @@ export class Dashboard extends Component {
                     </Td>
                     {/*<Td>{short}</Td>*/}
                     <Td>
-                      <div style={{ cursor:'pointer'}} className='row text-center'>
+                      <div
+                        style={{ cursor: 'pointer' }}
+                        className='row text-center'
+                      >
                         <MenuItem
                           onClick={() => {
                             this.registerAlert(
@@ -1231,7 +1254,7 @@ export class Dashboard extends Component {
                       </span>
                       <span className='border border-radius-10 ml-4'>
                         <div
-                        style={{ cursor:'pointer'}}
+                          style={{ cursor: 'pointer' }}
                           className='button btn-dark px-4 py-1 border-radius-10'
                           onClick={this.onFavPress}
                         >
@@ -1280,16 +1303,14 @@ export class Dashboard extends Component {
     let discoveryDataFiltered = [];
     if (discoveryFilter === '') {
       this.setState({ discoveryNoDataText: 'Loading...' });
-      discoveryDataFiltered = discoveryData;
+      discoveryDataFiltered = discoveryData.filter(this.favFilter);
     } else {
       this.setState({ discoveryNoDataText: 'No Data' });
-      discoveryData.map((data) => {
-        if (data.symbol) {
-          if (data.symbol.includes(discoveryFilter)) {
-            discoveryDataFiltered.push(data);
-          }
-        }
-      });
+      discoveryDataFiltered = discoveryData
+        .filter((data) => {
+          return data.symbol?.includes(discoveryFilter);
+        })
+        .filter(this.favFilter);
     }
     this.setState({ discoveryFilter, discoveryDataFiltered });
   };
@@ -1331,11 +1352,12 @@ export class Dashboard extends Component {
           <div className='col-12 grid-margin stretch-card px-0'>
             <div className='col-12 card-body py-0 px-0'>
               {/** Static Bar */}
-              <div className='d-flex align-content-start flex-wrap static-bar mt-3'>
+              <div className='d-flex justify-content-center flex-wrap static-bar'>
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showStream ? 'showWidget' : 'hideWidget'
                   }`}
+                  style={{ cursor: 'pointer' }}
                   onClick={this.onToggleWidget('showStream')}
                 >
                   <span className='bar-icon'>
@@ -1347,6 +1369,7 @@ export class Dashboard extends Component {
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showAlertHistory ? 'showWidget' : 'hideWidget'
                   }`}
+                  style={{ cursor: 'pointer' }}
                   onClick={this.onToggleWidget('showAlertHistory')}
                 >
                   <span className='bar-icon'>
@@ -1360,6 +1383,7 @@ export class Dashboard extends Component {
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showMeters ? 'showWidget' : 'hideWidget'
                   }`}
+                  style={{ cursor: 'pointer' }}
                   onClick={this.onToggleWidget('showMeters')}
                 >
                   <span className='bar-icon'>
@@ -1371,6 +1395,7 @@ export class Dashboard extends Component {
                   className={`d-flex flex-row align-items-center static-row  ${
                     this.state.showPopular ? 'showWidget' : 'hideWidget'
                   }`}
+                  style={{ cursor: 'pointer' }}
                   onClick={this.onToggleWidget('showPopular')}
                 >
                   <span className='bar-icon'>
@@ -1382,6 +1407,7 @@ export class Dashboard extends Component {
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showQuotes ? 'showWidget' : 'hideWidget'
                   }`}
+                  style={{ cursor: 'pointer' }}
                   onClick={this.onToggleWidget('showQuotes')}
                 >
                   <span className='bar-icon'>
@@ -1391,6 +1417,7 @@ export class Dashboard extends Component {
                 </div>
                 {this.props.isPro && (
                   <div
+                    style={{ cursor: 'pointer' }}
                     className={`d-flex flex-row align-items-center static-row ${
                       this.state.showDiscovery ? 'showWidget' : 'hideWidget'
                     }`}
