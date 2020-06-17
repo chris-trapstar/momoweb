@@ -9,7 +9,7 @@ import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import * as _ from 'lodash';
 import { withTranslation } from 'react-i18next';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import { Form, Button, Modal } from 'react-bootstrap';
+import { Form, Button, Modal, Spinner, Overlay } from 'react-bootstrap';
 
 import './dashboard.css';
 import 'swiper/css/swiper.css';
@@ -48,11 +48,11 @@ let filter = {
 };
 
 const params = {
+  grabCursor: true,
   slidesPerView: 'auto',
   spaceBetween: 20,
   pagination: {
     el: '.swiper-pagination',
-    clickable: true,
   },
 };
 
@@ -100,7 +100,6 @@ export class Dashboard extends Component {
   }
 
   handleScroll = (e) => {
-    // console.info('Scroll Precent:', this.getScrollPercent())
     if (this.getScrollPercent() === 100) {
       const { discoveryIndex } = this.state;
       this.setState({
@@ -144,7 +143,6 @@ export class Dashboard extends Component {
 
   componentWillUnmount() {
     if (this.flushBufferIntervalId) {
-      console.log('clearInterval for flushBufferIntervalId');
       clearInterval(this.flushBufferIntervalId);
     }
     clearInterval(this.statsTimer);
@@ -271,6 +269,7 @@ export class Dashboard extends Component {
       },
       max: false,
       new_quote: '',
+      showSpinner: false,
       showAddQuote: false,
       isFavFilter: false,
     };
@@ -498,7 +497,7 @@ export class Dashboard extends Component {
                   id={`low-context-menu_${index}`}
                   holdToDisplay={0}
                 >
-                  {this.getLast(low[6], low[1])}
+                  {`${this.round(this.getLast(low[6], low[1]), 2)}%`}
                 </ContextMenuTrigger>
               </label>
             </td>
@@ -552,7 +551,7 @@ export class Dashboard extends Component {
                   id={`high-context-menu_${index}`}
                   holdToDisplay={0}
                 >
-                  {this.getLast(high[6], high[1])}
+                  {`${this.round(this.getLast(high[6], high[1]), 2)}%`}
                 </ContextMenuTrigger>
               </label>
             </td>
@@ -560,6 +559,7 @@ export class Dashboard extends Component {
         );
 
         /** Add Popover For this item */
+
         renderMenuItems.push(
           this.getMenuItems(`high-context-menu_${index}`, high, 'high')
         );
@@ -658,6 +658,7 @@ export class Dashboard extends Component {
         </div>
       );
     });
+
     return renderCards;
   };
 
@@ -761,7 +762,25 @@ export class Dashboard extends Component {
   };
 
   onPopover = async (e, data) => {
-    window.open(API.getStockPageLink(data.domain, data.data[0]), '_blank');
+    let url = '';
+    switch (data.domain) {
+      case 'cnbc.com':
+        url = `https://${data.domain}/quotes/?symbol=${data.data[0]}`;
+        break;
+      case 'marketwatch.com':
+        url = `https://${data.domain}/investing/stock/${data.data[0]}`;
+        break;
+      case 'seekingalpha.com':
+        url = `https://${data.domain}/symbol/${data.data[0]}`;
+        break;
+      case 'nasdaq.com':
+        url = `https://${data.domain}/market-activity/stocks/${data.data[0]}`;
+        break;
+      case 'stocktwits.com':
+        url = `https://${data.domain}/symbol/${data.data[0]}`;
+        break;
+    }
+    window.open(url, '_blank');
   };
 
   onRemoveQuote = async ({ symbol }) => {
@@ -779,8 +798,8 @@ export class Dashboard extends Component {
   };
 
   registerQuote = async (symbol) => {
-    console.info('registerQuote', symbol);
     try {
+      this.setState({ showSpinner: true });
       const result = await API.registerQuote(symbol);
       if (result && result.success && result.data) {
         cogoToast.success(`Quote added for ${symbol}`);
@@ -790,12 +809,14 @@ export class Dashboard extends Component {
       } else if (result && result.error) {
         throw result.error;
       }
+      this.setState({ showSpinner: false });
     } catch (e) {
       if (e === 'SequelizeUniqueConstraintError: Validation error') {
         cogoToast.error(`${symbol} is already registered!`);
       } else {
         cogoToast.error(`Failed to mark ${symbol} as favorite!`);
       }
+      this.setState({ showSpinner: false });
     }
   };
 
@@ -898,21 +919,64 @@ export class Dashboard extends Component {
       popularData[index].map((item, i) => {
         data.push(
           index === 0 ? (
-            <h3 key={`popular-data-${index}-${i}`} className='pr-2'>
-              {item}
-            </h3>
+            <div>
+              <ContextMenuTrigger
+                id={`popular-data-${index}`}
+                holdToDisplay={0}
+              >
+                <h3 className='pr-2'>{item}</h3>
+              </ContextMenuTrigger>
+              {this.getMenuItems(
+                `popular-data-${index}`,
+                [item, '', '', '', '', ''],
+                'high'
+              )}
+            </div>
           ) : index === 1 ? (
-            <h4 key={`popular-data-${index}-${i}`} className='pr-2'>
-              {item}
-            </h4>
+            <div>
+              <ContextMenuTrigger
+                id={`popular-data-${index}`}
+              >
+                <h4 key={`popular-data-${index}-${i}`} className='pr-2'>
+                  {item}
+                </h4>
+              </ContextMenuTrigger>
+              {this.getMenuItems(
+                `popular-data-${index}`,
+                [item, '', '', '', '', ''],
+                'high'
+              )}
+            </div>
           ) : index === 2 ? (
-            <h5 key={`popular-data-${index}-${i}`} className='pr-2'>
-              {item}
-            </h5>
+            <div>
+              <ContextMenuTrigger
+                id={`popular-data-${index}`}
+              >
+                <h5 key={`popular-data-${index}-${i}`} className='pr-2'>
+                  {item}
+                </h5>
+              </ContextMenuTrigger>
+              {this.getMenuItems(
+                `popular-data-${index}`,
+                [item, '', '', '', '', ''],
+                'high'
+              )}
+            </div>
           ) : (
-            <h6 key={`popular-data-${index}-${i}`} className='pr-2'>
-              {item}
-            </h6>
+            <div>
+              <ContextMenuTrigger
+                id={`popular-data-${index}`}
+              >
+                <h6 key={`popular-data-${index}-${i}`} className='pr-2'>
+                  {item}
+                </h6>
+              </ContextMenuTrigger>
+              {this.getMenuItems(
+                `popular-data-${index}`,
+                [item, '', '', '', '', ''],
+                'high'
+              )}
+            </div>
           )
         );
       });
@@ -1023,7 +1087,7 @@ export class Dashboard extends Component {
                   <Tr key={index}>
                     <Td>
                       <ContextMenuTrigger
-                        id={`low-context-menu_${index}`}
+                        id={`discovery-context-menu_${index}`}
                         holdToDisplay={0}
                       >
                         <div style={{ cursor: 'pointer' }} className='py-1'>
@@ -1033,17 +1097,17 @@ export class Dashboard extends Component {
                     </Td>
                     <Td>
                       <ContextMenuTrigger
-                        id={`low-context-menu_${index}`}
+                        id={`discovery-context-menu_${index}`}
                         holdToDisplay={0}
                       >
                         <div style={{ cursor: 'pointer' }}>
-                          {this.round(last, 2)}
+                          {`${this.round(last, 2)}%`}
                         </div>
                       </ContextMenuTrigger>
                     </Td>
                     <Td>
                       <ContextMenuTrigger
-                        id={`low-context-menu_${index}`}
+                        id={`discovery-context-menu_${index}`}
                         holdToDisplay={0}
                       >
                         <div style={{ cursor: 'pointer' }}>
@@ -1053,7 +1117,7 @@ export class Dashboard extends Component {
                     </Td>
                     <Td>
                       <ContextMenuTrigger
-                        id={`low-context-menu_${index}`}
+                        id={`discovery-context-menu_${index}`}
                         holdToDisplay={0}
                       >
                         <div
@@ -1068,7 +1132,7 @@ export class Dashboard extends Component {
                     </Td>
                     <Td>
                       <ContextMenuTrigger
-                        id={`low-context-menu_${index}`}
+                        id={`discovery-context-menu_${index}`}
                         holdToDisplay={0}
                       >
                         <div
@@ -1089,7 +1153,7 @@ export class Dashboard extends Component {
                     </Td>
                     <Td>
                       <ContextMenuTrigger
-                        id={`low-context-menu_${index}`}
+                        id={`discovery-context-menu_${index}`}
                         holdToDisplay={0}
                       >
                         <div
@@ -1151,6 +1215,11 @@ export class Dashboard extends Component {
                         </MenuItem>
                       </div>
                     </Td>
+                    {this.getMenuItems(
+                      `discovery-context-menu_${index}`,
+                      [symbol, '', '', '', '', ''],
+                      ''
+                    )}
                   </Tr>
                 );
               }
@@ -1343,6 +1412,15 @@ export class Dashboard extends Component {
     }
     return (
       <div>
+        {this.state.showSpinner && (
+          <div className='overlay'>
+            <Spinner
+              className={'overlay-content'}
+              animation='border'
+              variant='success'
+            />
+          </div>
+        )}
         <div
           className='row dashboard-content'
           ref={(ref) => {
@@ -1436,9 +1514,6 @@ export class Dashboard extends Component {
               {/** Favorite(Quote) Stocks */}
               {this.state.showQuotes && (
                 <div className='quotes-area'>
-                  <Swiper {...params} className='quotes-swiper'>
-                    {this.renderQuoteCards()}
-                  </Swiper>
                   <div className='quote-tools card'>
                     <a
                       onClick={() => {
@@ -1453,8 +1528,10 @@ export class Dashboard extends Component {
                       <i className='mdi mdi-chevron-down cursor-pointer add-quoute-icon' />
                     </a>
                   </div>
-
                   {this.renderAddQuoteModal()}
+                  <Swiper {...params} className={'quotes-swiper'}>
+                    {this.renderQuoteCards()}
+                  </Swiper>
                 </div>
               )}
 
