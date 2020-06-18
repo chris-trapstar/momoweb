@@ -592,20 +592,45 @@ export class Dashboard extends Component {
       renderCards.push(
         <div key={'render-cards' + index} className='quote-card'>
           <div className='card p-1'>
-            <div
-              className='d-flex flex-row-reverse'
-              onClick={() => {
-                this.onRemoveQuote(item);
-              }}
-            >
-              <i className='mdi mdi-star quote-star'></i>
+            <div className='horizontal-quote-container card-padding container-padding'>
+              <label className='mb-0 font-weight-bold font-20'>
+                {item.symbol}
+              </label>
+              <div
+                className='d-flex flex-row-reverse'
+                onClick={() => {
+                  this.onRemoveQuote(item);
+                }}
+              >
+                <i className='mdi mdi-star quote-star' />
+              </div>
             </div>
-            <div className='d-flex flex-row justify-content-between mt-2 pl-3 pr-3'>
-              <div className='d-flex align-items-center align-self-start'>
-                <label className='mb-0 font-weight-bold font-20'>
-                  ${item.price}
-                </label>
-                <label
+            <div className='horizontal-quote-container card-padding'>
+              <label
+                color='#33b941'
+                style={{
+                  fontWeight: '600',
+                  fontSize: '20px',
+                  color: item.high > item.low ? '#73b101' : '#ff0100',
+                }}
+              >
+                ${item.price}
+              </label>
+              <div className='vertical-quote-container'>
+                <div>
+                  <label className='quote-status-label'>H:</label>
+                  <label className='font-16 dash-font-color ml-1'>
+                    {item.high}
+                  </label>
+                </div>
+                <div>
+                  <label className='quote-status-label'>L:</label>
+                  <label className='font-16 dash-font-color ml-1'>
+                    {item.low}
+                  </label>
+                </div>
+              </div>
+              {/* <label
                   className={`${
                     item.percent > 0
                       ? 'text-success'
@@ -615,38 +640,7 @@ export class Dashboard extends Component {
                   } ml-2 mb-0 font-10`}
                 >
                   {item.percent}%
-                </label>
-              </div>
-              <div
-                className={`icon ${
-                  item.percent > 0 ? 'icon-box-success' : 'icon-box-danger'
-                } img-30 ml-5`}
-              >
-                {item.percent != 0 && (
-                  <span
-                    className={`mdi ${
-                      item.percent > 0
-                        ? 'mdi-arrow-top-right'
-                        : 'mdi-arrow-bottom-right'
-                    } icon-item font-15`}
-                  />
-                )}
-              </div>
-            </div>
-            <div className='d-flex flex-row justify-content-between pl-3 pr-3 mt-1'>
-              <label className='font-15 dash-font-color'>{item.symbol}</label>
-              <div className='d-flex flex-row mt-1'>
-                <label className='font-13 white-color'>H:</label>
-                <label className='font-13 dash-font-color ml-1'>
-                  {item.high}
-                </label>
-              </div>
-              <div className='d-flex flex-row mt-1'>
-                <label className='font-13 white-color'>L:</label>
-                <label className='font-13 dash-font-color ml-1'>
-                  {item.low}
-                </label>
-              </div>
+                </label> */}
             </div>
           </div>
           <div className='bullets-section' />
@@ -759,7 +753,7 @@ export class Dashboard extends Component {
       case 'marketwatch':
         url = `https://www.${data.domain}.com/investing/stock/${data.data[0]}`;
         break;
-      case 'seekingalpha.com':
+      case 'seekingalpha':
         url = `https://www.${data.domain}.com/symbol/${data.data[0]}`;
         break;
       case 'nasdaq':
@@ -905,63 +899,57 @@ export class Dashboard extends Component {
       popularData[index].map((item, i) => {
         data.push(
           index === 0 ? (
-            <div key={`popular-data-${index}`}>
+            <div key={`popular-data-h3-${index + i}`}>
               <ContextMenuTrigger
-                id={`popular-data-${index}`}
+                id={`popular-data-h3-${index + i}`}
                 holdToDisplay={0}
               >
                 <h3 className='pr-2'>{item}</h3>
               </ContextMenuTrigger>
               {this.getMenuItems(
-                `popular-data-${index}`,
+                `popular-data-h3-${index + i}`,
                 [item, '', '', '', '', ''],
                 ''
               )}
             </div>
           ) : index === 1 ? (
-            <div key={`popular-data-${index}`}>
+            <div key={`popular-data-h4-${index + i}`}>
               <ContextMenuTrigger
-                id={`popular-data-${index}`}
+                id={`popular-data-h4-${index + i}`}
                 holdToDisplay={0}
               >
-                <h4 key={`popular-data-${index}-${i}`} className='pr-2'>
-                  {item}
-                </h4>
+                <h4 className='pr-2'>{item}</h4>
               </ContextMenuTrigger>
               {this.getMenuItems(
-                `popular-data-${index}`,
+                `popular-data-h4-${index + i}`,
                 [item, '', '', '', '', ''],
                 ''
               )}
             </div>
           ) : index === 2 ? (
-            <div key={`popular-data-${index}`}>
+            <div key={`popular-data-h5-${index + i}`}>
               <ContextMenuTrigger
-                id={`popular-data-${index}`}
+                id={`popular-data-h5${index + i}`}
                 holdToDisplay={0}
               >
-                <h5 key={`popular-data-${index}-${i}`} className='pr-2'>
-                  {item}
-                </h5>
+                <h5 className='pr-2'>{item}</h5>
               </ContextMenuTrigger>
               {this.getMenuItems(
-                `popular-data-${index}`,
+                `popular-data-h5-${index + i}`,
                 [item, '', '', '', '', ''],
                 ''
               )}
             </div>
           ) : (
-            <div key={`popular-data-${index}`}>
+            <div key={`popular-data-h6-${index + i}`}>
               <ContextMenuTrigger
-                id={`popular-data-${index}`}
+                id={`popular-data-h6-${index + i}`}
                 holdToDisplay={0}
               >
-                <h6 key={`popular-data-${index}-${i}`} className='pr-2'>
-                  {item}
-                </h6>
+                <h6 className='pr-2'>{item}</h6>
               </ContextMenuTrigger>
               {this.getMenuItems(
-                `popular-data-${index}`,
+                `popular-data-h6-${index + i}`,
                 [item, '', '', '', '', ''],
                 ''
               )}
