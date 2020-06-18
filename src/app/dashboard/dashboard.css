@@ -178,7 +178,10 @@
   height: calc(45vh);
 }
 
-.tableFixHead thead th { position: sticky; top: 0; }
+.tableFixHead thead th {
+  position: sticky;
+  top: 0;
+}
 
 .table td {
   /* padding: 1rem 0.5rem; */
@@ -190,12 +193,18 @@
   padding-right: 1em;
 }
 
-.discovery-table thead th { position: sticky; top: 0; }
+.discovery-table thead th {
+  position: sticky;
+  top: 0;
+}
 
-table  { border-collapse: collapse; width: 100%; }
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
 
 th {
-  background:#191c24;
+  background: #191c24;
 }
 
 .bar-icon {
@@ -229,6 +238,7 @@ th {
   font-size: 18px;
   text-align: center;
   margin-bottom: 0;
+  cursor: pointer;
 }
 
 .stock-header-text {
@@ -253,7 +263,7 @@ th {
 .petitCarre-active-high {
   width: 7px;
   height: 7px;
-  background: #73B101;
+  background: #73b101;
   margin: 2px;
 }
 
@@ -263,7 +273,7 @@ th {
 }
 
 .logo h1 {
-  font-family: 'Lato';
+  font-family: "Lato";
   font-weight: lighter;
   letter-spacing: 2px;
   margin: 0;
@@ -284,7 +294,10 @@ th {
 }
 
 .swiper-container {
+  width: 100%;
   margin-top: 20px;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
 }
 
 .swiper-pagination-bullet {
@@ -343,13 +356,12 @@ th {
   z-index: 100;
 }
 
-
 /** Small iPads */
 @media only screen and (max-width: 812px) {
   .socket-table {
     width: 100%;
   }
-  
+
   .popular-table {
     width: 100%;
     padding-left: 0px;
@@ -366,6 +378,7 @@ th {
     font-size: 18px;
     text-align: center;
     margin-bottom: 0;
+    cursor: "pointer";
   }
 
   .rt-resizable-header-content {
@@ -380,7 +393,7 @@ th {
   .socket-table {
     width: 100%;
   }
-  
+
   .popular-table {
     width: 100%;
     padding-left: 0px;
@@ -407,7 +420,7 @@ th {
 }
 
 /** Mobile Devices */
-@media only screen and (max-width: 415px) { 
+@media only screen and (max-width: 415px) {
   .stock-header-text {
     font-size: 0.8em;
   }
@@ -426,7 +439,7 @@ th {
   .socket-table {
     width: 100%;
   }
-  
+
   .popular-table {
     width: 100%;
     padding-left: 0px;
@@ -500,8 +513,18 @@ th {
   color: gray;
 }
 
+.hideWidget:hover{
+  color: yellow;
+
+}
+
 .showWidget {
   color: white;
+}
+
+.showWidget:hover{
+  color: yellow;
+
 }
 .data-separator {
   height: 1em;
@@ -517,8 +540,8 @@ th {
 
 .table-header {
   box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0);
-    border-bottom: 1px solid #2c2e33;
-    background: #000000;
+  border-bottom: 1px solid #2c2e33;
+  background: #000000;
 }
 
 .table-max {
@@ -543,7 +566,7 @@ th {
 
 .quotes-area {
   display: flex;
-  flex-direction: 'row';
+  flex-direction: row;
 }
 
 .quote-tools {
@@ -552,13 +575,14 @@ th {
   margin-bottom: 40px;
   padding-left: 0.2em;
   padding-right: 0.2em;
-  margin-left: 0.5em;
+  margin-right: 0.5rem;
   justify-content: space-around;
   min-width: 2em;
 }
 
 .quotes-swiper {
   flex: 1;
+  float: left;
 }
 
 .add-quoute-icon {
@@ -571,4 +595,27 @@ th {
 
 .stream-body {
   padding-top: 0px !important;
+}
+
+.pr-2 {
+  cursor: pointer;
+}
+
+.overlay {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.9);
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+
+.overlay-content {
+  position: relative;
+  top: 50%;
+  left: 50%;
 }
