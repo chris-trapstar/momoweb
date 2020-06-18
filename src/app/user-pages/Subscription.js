@@ -231,7 +231,7 @@ class Subscription extends Component {
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          <span className="h1">MOMO</span> <small className="bg-light text-dark"> PRO</small>
+          <span className="h1">MOMO</span>
         </Modal.Title>
       </Modal.Header>
 

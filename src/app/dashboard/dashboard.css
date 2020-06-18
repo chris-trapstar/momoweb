@@ -1,5 +1,7 @@
 .data-section {
   margin-top: 1em;
+  margin-right: 1rem;
+  margin-left: 1rem;
 }
 
 .data-section-large {
@@ -8,6 +10,8 @@
 
 .data-section-small {
   margin-top: 0.5em;
+  margin-right: 1rem;
+  margin-left: 1rem;
 }
 
 .popular {
@@ -513,18 +517,16 @@ th {
   color: gray;
 }
 
-.hideWidget:hover{
+.hideWidget:hover {
   color: yellow;
-
 }
 
 .showWidget {
   color: white;
 }
 
-.showWidget:hover{
+.showWidget:hover {
   color: yellow;
-
 }
 .data-separator {
   height: 1em;
@@ -572,6 +574,7 @@ th {
 .quote-tools {
   display: flex;
   margin-top: 28px;
+  margin-left: 1rem;
   margin-bottom: 40px;
   padding-left: 0.2em;
   padding-right: 0.2em;
@@ -618,4 +621,8 @@ th {
   position: relative;
   top: 50%;
   left: 50%;
+}
+
+.fa {
+  cursor: pointer;
 }

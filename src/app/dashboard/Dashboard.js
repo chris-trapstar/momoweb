@@ -221,7 +221,6 @@ export class Dashboard extends Component {
           let cached_item = cached_filter.category.find(
             (a) => a.value === item.value
           );
-          console.log('CACHED', cached_item);
           if (cached_item && item.subscribed !== cached_item.subscribed) {
             arr[i].subscribed = cached_item.subscribed;
           }
@@ -290,7 +289,6 @@ export class Dashboard extends Component {
   };
 
   _handleData = (data) => {
-    // console.info('compressedUpdate:', data)
     let msg = data[0];
     let highs = msg[1];
     let lows = msg[2];
@@ -334,7 +332,6 @@ export class Dashboard extends Component {
       })
       .filter((item, i) => {
         let volume = item[5];
-        // console.log('AVG VOLUME', volume, item[0]);
         let volumeFilter = self.state.filter.volume;
         volumeFilter.min = volumeFilter.min || 0;
         volumeFilter.max = volumeFilter.max || 200000000;
@@ -350,7 +347,6 @@ export class Dashboard extends Component {
     if (!this.buffer.length) {
       return false;
     }
-    console.log('flush buffer');
     let highs = this.state.highs.slice();
     let lows = this.state.lows.slice();
     this.buffer.forEach(function(item, i, arr) {
@@ -373,7 +369,6 @@ export class Dashboard extends Component {
   };
 
   onAddQuote = () => {
-    console.info('Add Quote:', this.state.new_quote);
     this.registerQuote(this.state.new_quote);
     this.setState({
       showAddQuote: false,
@@ -669,60 +664,54 @@ export class Dashboard extends Component {
           <div className='mt-2' />
           <span>LINKS</span>
           <MenuItem
-            data={{ data, type, domain: 'cnbc.com' }}
+            data={{ data, type, domain: 'cnbc' }}
             onClick={this.onPopover}
           >
             <div className='row align-items-center mt-1'>
               <img src={require('../../assets/images/dashboard/cnbc.png')} />
-              <span className='medium white-no-wrap bar-txt'>cnbc.com</span>
+              <span className='medium white-no-wrap bar-txt'>cnbc</span>
             </div>
           </MenuItem>
           <MenuItem
-            data={{ data, type, domain: 'marketwatch.com' }}
+            data={{ data, type, domain: 'marketwatch' }}
             onClick={this.onPopover}
           >
             <div className='row align-items-center mt-1'>
               <img
                 src={require('../../assets/images/dashboard/marketwatch.png')}
               />
-              <span className='medium white-no-wrap bar-txt'>
-                marketwatch.com
-              </span>
+              <span className='medium white-no-wrap bar-txt'>marketwatch</span>
             </div>
           </MenuItem>
           <MenuItem
-            data={{ data, type, domain: 'seekingalpha.com' }}
+            data={{ data, type, domain: 'seekingalpha' }}
             onClick={this.onPopover}
           >
             <div className='row align-items-center mt-1'>
               <img
                 src={require('../../assets/images/dashboard/seekingalpha.png')}
               />
-              <span className='medium white-no-wrap bar-txt'>
-                seekingalpha.com
-              </span>
+              <span className='medium white-no-wrap bar-txt'>seekingalpha</span>
             </div>
           </MenuItem>
           <MenuItem
-            data={{ data, type, domain: 'nasdaq.com' }}
+            data={{ data, type, domain: 'nasdaq' }}
             onClick={this.onPopover}
           >
             <div className='row align-items-center mt-1'>
               <i className='mdi mdi-chart-line-variant text-white popover-icon' />
-              <span className='medium white-no-wrap bar-txt'>nasdaq.com</span>
+              <span className='medium white-no-wrap bar-txt'>nasdaq</span>
             </div>
           </MenuItem>
           <MenuItem
-            data={{ data, type, domain: 'stocktwits.com' }}
+            data={{ data, type, domain: 'stocktwits' }}
             onClick={this.onPopover}
           >
             <div className='row align-items-center mt-1'>
               <img
                 src={require('../../assets/images/dashboard/stocktwits.png')}
               />
-              <span className='medium white-no-wrap bar-txt'>
-                stocktwits.com
-              </span>
+              <span className='medium white-no-wrap bar-txt'>stocktwits</span>
             </div>
           </MenuItem>
           <div className='mt-3' />
@@ -764,27 +753,26 @@ export class Dashboard extends Component {
   onPopover = async (e, data) => {
     let url = '';
     switch (data.domain) {
-      case 'cnbc.com':
-        url = `https://${data.domain}/quotes/?symbol=${data.data[0]}`;
+      case 'cnbc':
+        url = `https://www.${data.domain}.com/quotes/?symbol=${data.data[0]}`;
         break;
-      case 'marketwatch.com':
-        url = `https://${data.domain}/investing/stock/${data.data[0]}`;
+      case 'marketwatch':
+        url = `https://www.${data.domain}.com/investing/stock/${data.data[0]}`;
         break;
       case 'seekingalpha.com':
-        url = `https://${data.domain}/symbol/${data.data[0]}`;
+        url = `https://www.${data.domain}.com/symbol/${data.data[0]}`;
         break;
-      case 'nasdaq.com':
-        url = `https://${data.domain}/market-activity/stocks/${data.data[0]}`;
+      case 'nasdaq':
+        url = `https://www.${data.domain}.com/market-activity/stocks/${data.data[0]}`;
         break;
-      case 'stocktwits.com':
-        url = `https://${data.domain}/symbol/${data.data[0]}`;
+      case 'stocktwits':
+        url = `https://www.${data.domain}.com/symbol/${data.data[0]}`;
         break;
     }
     window.open(url, '_blank');
   };
 
   onRemoveQuote = async ({ symbol }) => {
-    console.info('onRemoveQuote');
     try {
       const result = await API.deleteQuote(symbol);
       if (result && result.success) {
@@ -821,7 +809,6 @@ export class Dashboard extends Component {
   };
 
   registerAlert = async (symbol, type, high = 0, low = 0) => {
-    console.info('registerAlert:', symbol, type, high, low);
     const dic = {
       trade: 'Trade',
       uv: 'Unusual volume',
@@ -877,7 +864,6 @@ export class Dashboard extends Component {
   //       }
   //     });
   //     const data = await res.json();
-  //     console.info('Push Token Registered:', data);
   //   } catch (e) {
   //     console.error('Failed to register the push token', e);
   //   }
@@ -919,7 +905,7 @@ export class Dashboard extends Component {
       popularData[index].map((item, i) => {
         data.push(
           index === 0 ? (
-            <div>
+            <div key={`popular-data-${index}`}>
               <ContextMenuTrigger
                 id={`popular-data-${index}`}
                 holdToDisplay={0}
@@ -929,13 +915,14 @@ export class Dashboard extends Component {
               {this.getMenuItems(
                 `popular-data-${index}`,
                 [item, '', '', '', '', ''],
-                'high'
+                ''
               )}
             </div>
           ) : index === 1 ? (
-            <div>
+            <div key={`popular-data-${index}`}>
               <ContextMenuTrigger
                 id={`popular-data-${index}`}
+                holdToDisplay={0}
               >
                 <h4 key={`popular-data-${index}-${i}`} className='pr-2'>
                   {item}
@@ -944,13 +931,14 @@ export class Dashboard extends Component {
               {this.getMenuItems(
                 `popular-data-${index}`,
                 [item, '', '', '', '', ''],
-                'high'
+                ''
               )}
             </div>
           ) : index === 2 ? (
-            <div>
+            <div key={`popular-data-${index}`}>
               <ContextMenuTrigger
                 id={`popular-data-${index}`}
+                holdToDisplay={0}
               >
                 <h5 key={`popular-data-${index}-${i}`} className='pr-2'>
                   {item}
@@ -959,13 +947,14 @@ export class Dashboard extends Component {
               {this.getMenuItems(
                 `popular-data-${index}`,
                 [item, '', '', '', '', ''],
-                'high'
+                ''
               )}
             </div>
           ) : (
-            <div>
+            <div key={`popular-data-${index}`}>
               <ContextMenuTrigger
                 id={`popular-data-${index}`}
+                holdToDisplay={0}
               >
                 <h6 key={`popular-data-${index}-${i}`} className='pr-2'>
                   {item}
@@ -974,7 +963,7 @@ export class Dashboard extends Component {
               {this.getMenuItems(
                 `popular-data-${index}`,
                 [item, '', '', '', '', ''],
-                'high'
+                ''
               )}
             </div>
           )
@@ -1069,7 +1058,12 @@ export class Dashboard extends Component {
               <span>Short %</span>
               <i className='fa fa-unsorted ml-2' />
     </Th>*/}
-            <Th>
+            <Th
+              className='py-2'
+              onClick={() => {
+                this.onFavPress();
+              }}
+            >
               <span>Actions</span>
               <i className='fa fa-unsorted ml-2' />
             </Th>
@@ -1529,9 +1523,8 @@ export class Dashboard extends Component {
                     </a>
                   </div>
                   {this.renderAddQuoteModal()}
-                  <Swiper {...params} className={'quotes-swiper'}>
-                    {this.renderQuoteCards()}
-                  </Swiper>
+
+                  <Swiper {...params}>{this.renderQuoteCards()}</Swiper>
                 </div>
               )}
 
