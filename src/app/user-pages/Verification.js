@@ -68,7 +68,7 @@ class Verification extends Component {
             <div className="col-lg-6 mx-auto">
               <div className="card text-left py-5 px-4 px-sm-5">
                 <div className="brand-logo">
-                  <span className="h2 pr-2">MOMO</span><span className="bg-light text-dark ">PRO</span>
+                  <span className="h2 pr-2">MOMO</span>
                 </div>
                 <h4>Verify Email</h4>
                 <div>An email was sent to your registered email account.</div>

@@ -1,5 +1,7 @@
 .data-section {
   margin-top: 1em;
+  margin-right: 1rem;
+  margin-left: 1rem;
 }
 
 .data-section-large {
@@ -8,6 +10,8 @@
 
 .data-section-small {
   margin-top: 0.5em;
+  margin-right: 1rem;
+  margin-left: 1rem;
 }
 
 .popular {
@@ -273,7 +277,7 @@ th {
 }
 
 .logo h1 {
-  font-family: "Lato";
+  font-family: 'Lato';
   font-weight: lighter;
   letter-spacing: 2px;
   margin: 0;
@@ -282,7 +286,7 @@ th {
 
 .logo h2 {
   letter-spacing: 0px;
-  font-family: "gotham narrow";
+  font-family: 'gotham narrow';
   font-weight: 200;
   font-size: 11px;
   margin: 0;
@@ -378,7 +382,7 @@ th {
     font-size: 18px;
     text-align: center;
     margin-bottom: 0;
-    cursor: "pointer";
+    cursor: 'pointer';
   }
 
   .rt-resizable-header-content {
@@ -513,18 +517,16 @@ th {
   color: gray;
 }
 
-.hideWidget:hover{
+.hideWidget:hover {
   color: yellow;
-
 }
 
 .showWidget {
   color: white;
 }
 
-.showWidget:hover{
+.showWidget:hover {
   color: yellow;
-
 }
 .data-separator {
   height: 1em;
@@ -572,6 +574,7 @@ th {
 .quote-tools {
   display: flex;
   margin-top: 28px;
+  margin-left: 1rem;
   margin-bottom: 40px;
   padding-left: 0.2em;
   padding-right: 0.2em;
@@ -618,4 +621,34 @@ th {
   position: relative;
   top: 50%;
   left: 50%;
+}
+
+.fa {
+  cursor: pointer;
+}
+
+.card-padding {
+  padding-left: 12px;
+  padding-right: 12px;
+}
+
+.container-padding {
+  margin-bottom: 8px;
+}
+
+.horizontal-quote-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.vertical-quote-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.quote-status-label {
+  font-size: 16px;
+  color: #ffff;
+  font-weight: 500;
 }
