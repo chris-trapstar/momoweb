@@ -302,6 +302,10 @@ export class Settings extends Component {
     }
   }
 
+  deleteAlert = async (alert) => {
+    
+  }
+
   registerAlert = async (type) => {
     const { currentAlert } = this.state
     const symbol = currentAlert.category
