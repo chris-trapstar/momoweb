@@ -4,6 +4,9 @@ import './meters.css'
 
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
+const tiles = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+const indexes = ['DOW', 'NAZ', 'SPY']
+
 export default class Meters extends Component {
 
   constructor(props) {
@@ -66,7 +69,13 @@ export default class Meters extends Component {
     return <div className='d-flex  card m-2 p-2' style={{ flex: 1, }}>
       <h4>MOMO Meters</h4>
       <div className='flex-row justify-content-center meters-body w-100'>
-        <div className='meters-area'></div>
+        <div className='meters-area'>
+          {
+            tiles.map((m, index) => {
+              return <div className='meters-tile'></div>
+            })
+          }
+        </div>
         <div className='meters-type'>
           <div>DOW</div>
         </div>
