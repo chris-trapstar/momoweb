@@ -322,3 +322,7 @@
     width: 100%;
     text-align: center;
 }
+
+.delete-alert {
+    z-index: 2;
+}
