@@ -24,10 +24,10 @@ export default class AlertInput extends Component {
       max = 100 // percent
     }
 
-    return <div className={"row mx-0 justify-content-between align-items-center item-content mt-1 pl-2 " + (editing ? 'alert-edit' : '')} onClick={onEdit}>
+    return <div className={'row mx-0 justify-content-between align-items-center item-content mt-1 pl-2 ' + (editing ? 'alert-edit' : '')} onClick={onEdit}>
       <input
-        placeholder="Name"
-        className="bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
+        placeholder='Name'
+        className='bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small'
         value={category}
         onChange={(e) => {
           this.onChange('category', e.target.value)
@@ -35,13 +35,13 @@ export default class AlertInput extends Component {
         autoFocus
         disabled={!editing}
       />
-      <div className="d-flex flex-row flex-fill justify-content-center align-items-center progress-section">
+      <div className='d-flex flex-row flex-fill justify-content-center align-items-center progress-section'>
         <Slider
           range={{ min, max }}
           step={1}
           start={rate}
           connect={[false, true]}
-          className="flex-fill slider-white"
+          className='flex-fill slider-white'
           onChange={(render, handle, value, un, percent) => {
             this.onChange('rate', parseFloat(value).toFixed(0))
           }}
@@ -52,8 +52,8 @@ export default class AlertInput extends Component {
           disabled={!editing}
         />
         <input
-          placeholder="Sensitivity"
-          className="ml-3 bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
+          placeholder='Sensitivity'
+          className='ml-3 bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small'
           value={rate}
           onChange={e => {
             this.onChange('rate', e.target.value)
@@ -62,17 +62,17 @@ export default class AlertInput extends Component {
         />
       </div>
       <button
-        className="bg-transparent border-0"
+        className='bg-transparent border-0'
         onClick={this.props.onSubmit}
         disabled={!editing || value.category === ''}
       >
-        <i className={"mdi  popover-icon mdi-check text-light " + (editing ? "" : "transparent-txt")} />
+        <i className={'mdi  popover-icon mdi-check text-light ' + (editing ? '' : 'transparent-txt')} />
       </button>
       <button
-        className="bg-transparent border-0"
+        className='bg-transparent border-0'
         onClick={this.props.onDelete}
       >
-        <i className="mdi mdi-close text-white popover-icon" />
+        <i className='mdi mdi-close text-white popover-icon' />
       </button>
     </div>
   }
