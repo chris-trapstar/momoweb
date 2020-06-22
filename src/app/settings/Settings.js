@@ -310,6 +310,8 @@ export class Settings extends Component {
         this.setState({
           alerts: result.data
         })
+      } else {
+        throw result
       }
     } catch (e) {
       cogoToast.error(`Failed to delete the alert setting for ${alert.category}`)
