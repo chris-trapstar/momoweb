@@ -24,7 +24,7 @@ export default class AlertInput extends Component {
       max = 100 // percent
     }
 
-return <div className={"row mx-0 justify-content-between align-items-center item-content mt-1 pl-2 " + (editing ? 'alert-edit' : '')} onClick={onEdit}>
+    return <div className={"row mx-0 justify-content-between align-items-center item-content mt-1 pl-2 " + (editing ? 'alert-edit' : '')} onClick={onEdit}>
       <input
         placeholder="Name"
         className="bg-dark progress-input justify-content-center align-items-center text-center border-0 white-color small"
@@ -66,7 +66,7 @@ return <div className={"row mx-0 justify-content-between align-items-center item
         onClick={this.props.onSubmit}
         disabled={!editing || value.category === ''}
       >
-        <i className= {"mdi  popover-icon mdi-check text-light " + (editing ? "": "transparent-txt")} />
+        <i className={"mdi  popover-icon mdi-check text-light " + (editing ? "" : "transparent-txt")} />
       </button>
       <button
         className="bg-transparent border-0"
