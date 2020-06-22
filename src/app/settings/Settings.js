@@ -303,7 +303,7 @@ export class Settings extends Component {
   }
 
   deleteAlert = async (alert) => {
-    
+    console.info('deleteAlert - ', alert)
   }
 
   registerAlert = async (type) => {
