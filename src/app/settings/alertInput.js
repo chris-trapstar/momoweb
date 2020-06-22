@@ -69,7 +69,7 @@ export default class AlertInput extends Component {
         <i className={'mdi  popover-icon mdi-check text-light ' + (editing ? '' : 'transparent-txt')} />
       </button>
       <button
-        className='bg-transparent border-0'
+        className='bg-transparent border-0 delete-alert'
         onClick={this.props.onDelete}
       >
         <i className='mdi mdi-close text-white popover-icon' />
