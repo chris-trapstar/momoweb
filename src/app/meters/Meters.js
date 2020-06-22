@@ -29,6 +29,7 @@ export default class Meters extends Component {
         this.getRandomArbitrary(-1, 1),
         this.getRandomArbitrary(-1, 1)
       ];
+    console.info('Status Bars:', bars)
     this.setState({
       bars: bars
     });
