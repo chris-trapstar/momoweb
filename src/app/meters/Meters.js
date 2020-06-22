@@ -78,9 +78,12 @@ export default class Meters extends Component {
         highs[index] = 1 - lows[index]
       }
     })
+    return { lows, higs }
   }
 
   render() {
+
+
     return <div className='d-flex  card m-2 p-2' style={{ flex: 1, }}>
       <h4>MOMO Meters</h4>
       {
