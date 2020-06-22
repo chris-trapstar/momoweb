@@ -6,7 +6,7 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
 
 const tiles = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 const indexes = ['DOW', 'NAZ', 'SPY']
-const empty = 'rgba(0, 0, 0, 0.1)'
+const empty = 'rgba(0, 0, 0, 0.2)'
 
 export default class Meters extends Component {
 
@@ -14,7 +14,7 @@ export default class Meters extends Component {
     super(props)
 
     this.state = {
-      bars: [1, 0.6, -1],
+      bars: [0.3, 0.4, 0.7],
       total: isMobile ? 5 : 10,
       gradients: [
         ['#bd19d6', '#ea7d10'],
@@ -55,7 +55,7 @@ export default class Meters extends Component {
   };
 
   onCompressedUpdate = (event) => {
-    this._handleData(event.detail)
+    // this._handleData(event.detail)
   }
 
   componentDidMount() {
@@ -111,8 +111,8 @@ export default class Meters extends Component {
               {
                 tiles.map((m, index) => {
                   const isEmpty = (tiles.length - index) > lows[i]
-                  const opacityL = (tiles.length - index) / tiles.length * 0.8 + 0.2
-                  const opacityR = (tiles.length - index - 1) / tiles.length * 0.8 + 0.2
+                  const opacityL = (tiles.length - index) / tiles.length * 0.9 + 0.1
+                  const opacityR = (tiles.length - index - 1) / tiles.length * 0.9 + 0.1
 
                   return <div className='meters-tile'
                     style={{
@@ -131,8 +131,8 @@ export default class Meters extends Component {
                 tiles.map((m, index) => {
                   const isEmpty = index >= highs[i]
 
-                  const opacityL = (index + 1) / tiles.length * 0.8 + 0.2
-                  const opacityR = index / tiles.length * 0.8 + 0.2
+                  const opacityL = (index + 1) / tiles.length * 0.9 + 0.1
+                  const opacityR = index / tiles.length * 0.9 + 0.1
 
                   return <div className='meters-tile'
                     style={{

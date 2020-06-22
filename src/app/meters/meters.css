@@ -35,7 +35,8 @@
 
 .meters-tile {
   flex: 1;
-  margin: 0.5%;
+  margin-left: 0.1em;
+  margin-right: 0.1em;
   height: 1em;
   border-radius: 3px;
 }
