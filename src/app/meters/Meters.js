@@ -55,7 +55,7 @@ export default class Meters extends Component {
   };
 
   onCompressedUpdate = (event) => {
-    //this._handleData(event.detail)
+    this._handleData(event.detail)
   }
 
   componentDidMount() {
@@ -71,7 +71,10 @@ export default class Meters extends Component {
     const lows = []
     const highs = []
     bars.forEach((value, index) => {
-      if (value >= 0) {
+      if (value === -1) {
+        highs[index] = 0
+        lows[index] = 0
+      } else if (value >= 0) {
         highs[index] = value
         lows[index] = 1 - value
       } else {
@@ -101,15 +104,13 @@ export default class Meters extends Component {
               onClick={this.props.onClose}
             >
               <i
-                className={
-                  max ? 'mdi mdi-window-close' : 'mdi mdi-window-maximize'
-                }
+                className='mdi mdi-window-close'
               />
             </button>
             <div className='meters-area'>
               {
                 tiles.map((m, index) => {
-                  const isEmpty = (tiles.length - index) >= lows[i]
+                  const isEmpty = (tiles.length - index) > lows[i]
                   const opacityL = (tiles.length - index) / tiles.length * 0.8 + 0.2
                   const opacityR = (tiles.length - index - 1) / tiles.length * 0.8 + 0.2
 
@@ -128,7 +129,7 @@ export default class Meters extends Component {
             <div className='meters-area'>
               {
                 tiles.map((m, index) => {
-                  const isEmpty = index > highs[i]
+                  const isEmpty = index >= highs[i]
 
                   const opacityL = (index + 1) / tiles.length * 0.8 + 0.2
                   const opacityR = index / tiles.length * 0.8 + 0.2

@@ -37,6 +37,7 @@
   flex: 1;
   margin: 0.5%;
   height: 1em;
+  border-radius: 3px;
 }
 
 .low {

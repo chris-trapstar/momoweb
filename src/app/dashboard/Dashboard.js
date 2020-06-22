@@ -1492,7 +1492,11 @@ export class Dashboard extends Component {
                   </div>
                 )}
               </div>
-              {this.state.showMeters && <Meters />}
+              {this.state.showMeters && <Meters onClose={() => {
+                this.setState({
+                  showMeters: false
+                })
+              }}/>}
               {/** Favorite(Quote) Stocks */}
               {this.state.showQuotes && (
                 <div className='quotes-area'>
