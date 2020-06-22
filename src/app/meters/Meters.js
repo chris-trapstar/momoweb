@@ -62,71 +62,12 @@ export default class Meters extends Component {
     window.removeEventListener('compressedUpdate', this.onCompressedUpdate)
   }
 
-  renderMeters = (type) => {
-    const { bars, total } = this.state;
-    const statClass = 'statsbar ' + type;
-    let divs = [];
-    for (let i = bars.length - 1; i >= 0; i--) {
-      var carres = [];
-      var value = bars[i] == -1 ? 0 : bars[i];
-
-      if (type == 'lows') {
-        if (value <= 0) {
-          value = Math.abs(value);
-        } else {
-          value = 1 - value;
-        }
-      } else {
-        if (value < 0) {
-          value = value + 1;
-        }
-      }
-
-      for (var o = total; o >= 0; o--) {
-        var mult = type == 'lows' ? Math.ceil(total * value) : Math.floor(total * value)
-        var active = mult >= o && value != 0;
-        let carreClass = 'petitCarre-';
-        if (active) {
-          carreClass = carreClass + 'active'
-          if (type == 'highs') {
-            carreClass = carreClass + '-high'
-          }
-        } else {
-          carreClass = carreClass + 'inactive'
-        }
-        carres.push(
-          <div className={carreClass} key={o}></div>
-        )
-      }
-
-      if (type == 'highs') {
-        carres = carres.reverse();
-      }
-
-      const highColor = `rgba(0,255,0, ${bars[i] > 0 ? bars[i] : 0})`
-      const lowColor = `rgba(255,0,0, ${bars[i] < 0 ? -bars[i] : 0})`
-      const noColor = 'rgba(0,0,0)'
-
-      divs.push(
-        <div className='d-flex carreContainer' key={i} style={{
-          width: `100%`,
-          background: bars[i] === -1 ? 'rgba(0,0,0, 0.3)' : `linear-gradient(90deg, ${lowColor}, ${noColor},${highColor}  )`
-        }}>
-
-        </div>
-      );
-    }
-
-    return (
-      <div className={statClass}>
-        {divs.reverse()}
-      </div>
-    )
-  }
-
   render() {
-    return <div className='d-flex flex-row justify-content-center' style={{ flex: 1, }}>
-      {this.renderMeters('lows')}
+    return <div className='d-flex flex-row justify-content-center card m-2' style={{ flex: 1, }}>
+      <h4>MOMO Meters</h4>
+      <div className='meters-body'>
+
+      </div>
     </div>
   }
 }
