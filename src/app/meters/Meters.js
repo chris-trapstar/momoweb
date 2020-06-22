@@ -63,10 +63,12 @@ export default class Meters extends Component {
   }
 
   render() {
-    return <div className='d-flex flex-row justify-content-center card m-2' style={{ flex: 1, }}>
+    return <div className='d-flex  card m-2 p-2' style={{ flex: 1, }}>
       <h4>MOMO Meters</h4>
-      <div className='meters-body'>
-
+      <div className='flex-row justify-content-center meters-body'>
+        <div className='meters-area'></div>
+        <div className='meters-type'></div>
+        <div className='meters-area'></div>
       </div>
     </div>
   }
