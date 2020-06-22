@@ -16,3 +16,24 @@
   height: 4px !important;
   margin-bottom: 2px;
 }
+
+.meters-body {
+  display: flex;
+}
+
+.meters-area {
+  flex: 1;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}
+
+.meters-type {
+  width: 5em;
+  text-align: center;
+}
+
+.meters-tile {
+  flex: 1;
+  padding: 0.2em;
+}
