@@ -36,4 +36,6 @@
 .meters-tile {
   flex: 1;
   padding: 0.2em;
+  background-color: green;
+  height: 1em;
 }
