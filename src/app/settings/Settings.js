@@ -308,7 +308,7 @@ export class Settings extends Component {
       const result = await API.deleteAlert(alert.id)
       if (result && result.success) {
         this.setState({
-          alerts: result.data
+          alerts: result.data // result.data is the remaining alert settings
         })
       } else {
         throw result
