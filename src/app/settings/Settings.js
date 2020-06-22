@@ -306,13 +306,11 @@ export class Settings extends Component {
     console.info('deleteAlert - ', alert)
     try {
       const result = await API.deleteAlert(alert.id)
-      console.info('deleteAlert - result:', result)
-      const alerts = this.state.alerts.filter(({id}) => {
-        return id !== alert.id
-      })
-      this.setState({
-        alerts
-      })
+      if (result && result.success) {
+        this.setState({
+          alerts: result.data
+        })
+      }
     } catch (e) {
       cogoToast.error(`Failed to delete the alert setting for ${alert.category}`)
     }
@@ -450,14 +448,14 @@ export class Settings extends Component {
                   </div>
                 </div>
               }
-            
+
               <div className={disabled ? "value-item-disabled" : "value-item"}>
                 <label className={"small" + (disabled ? " text-muted" : "")}>{label}</label>
                 <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
                   <label className="small text-symbol">Symbol</label>
                   <label className="small text-symbol">{valueLabel}</label>
                   <button
-                    className= { "btn bg-transparent border-0 px-0 small text-alert cursor-pointer" + (disabled ? " text-muted" : " text-alert")} 
+                    className={"btn bg-transparent border-0 px-0 small text-alert cursor-pointer" + (disabled ? " text-muted" : " text-alert")}
                     onClick={() => {
                       this.onClickAddAlert(type);
                     }}
