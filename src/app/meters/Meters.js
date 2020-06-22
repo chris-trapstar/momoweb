@@ -6,6 +6,7 @@ const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/
 
 const tiles = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 const indexes = ['DOW', 'NAZ', 'SPY']
+const empty = 'rgba(0, 0, 0, 0.1)'
 
 export default class Meters extends Component {
 
@@ -54,7 +55,7 @@ export default class Meters extends Component {
   };
 
   onCompressedUpdate = (event) => {
-    this._handleData(event.detail)
+    //this._handleData(event.detail)
   }
 
   componentDidMount() {
@@ -97,17 +98,35 @@ export default class Meters extends Component {
             <div className='meters-area'>
               {
                 tiles.map((m, index) => {
-                  return <div className={'meters-tile ' + ((tiles.length - index) >= lows[i] ? 'empty' : 'low')}/>
+                  const isEmpty = (tiles.length - index) >= lows[i]
+                  const opacityL = (tiles.length - index) / tiles.length * 0.8 + 0.2
+                  const opacityR = (tiles.length - index - 1) / tiles.length * 0.8 + 0.2
+
+                  return <div className='meters-tile'
+                    style={{
+                      background: isEmpty ? empty : `linear-gradient(90deg, rgba(255, 0, 0, ${opacityL}) 0%, rgba(255, 0, 0, ${opacityR}) 100%)`
+                    }}
+                  >
+                  </div>
                 })
               }
             </div>
             <div className='meters-type'>
-            <div>{lows[i]} {name} {highs[i]}</div>
+            <div>{name}</div>
             </div>
             <div className='meters-area'>
               {
                 tiles.map((m, index) => {
-                  return <div className={'meters-tile ' + (index <= highs[i] ? 'high' : 'empty')}/>
+                  const isEmpty = index > highs[i]
+
+                  const opacityL = (index + 1) / tiles.length * 0.8 + 0.2
+                  const opacityR = index / tiles.length * 0.8 + 0.2
+
+                  return <div className='meters-tile'
+                    style={{
+                      background: isEmpty ? empty : `linear-gradient(90deg, rgba(0, 255, 0, ${opacityL}) 100%, rgba(0, 255, 0, ${opacityR}) 0%)`
+                    }}
+                  />
                 })
               }
             </div>
