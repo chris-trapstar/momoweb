@@ -465,6 +465,8 @@ export class Settings extends Component {
                           onDelete={() => {
                             if (this.state.editingAlertId === alert.id) {
                               this.cancelEditAlert(alert)
+                            } else {
+                              this.deleteAlert(alert)
                             }
                           }}
                           onSubmit={() => {
