@@ -4,7 +4,7 @@ import './meters.css'
 
 const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 
-const tiles = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+const tiles = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 const indexes = ['DOW', 'NAZ', 'SPY']
 
 export default class Meters extends Component {
@@ -78,31 +78,36 @@ export default class Meters extends Component {
         highs[index] = 1 - lows[index]
       }
     })
-    return { lows, higs }
+
+
+    return {
+      lows: lows.map((low) => (Math.ceil(low * tiles.length))),
+      highs: highs.map((high) => (Math.floor(high * tiles.length)))
+    }
   }
 
   render() {
-
+    const { lows, highs } = this.getValues()
 
     return <div className='d-flex  card m-2 p-2' style={{ flex: 1, }}>
       <h4>MOMO Meters</h4>
       {
-        indexes.map((name) => {
+        indexes.map((name, i) => {
           return <div className='flex-row justify-content-center meters-body w-100'>
             <div className='meters-area'>
               {
                 tiles.map((m, index) => {
-                  return <div className='meters-tile'></div>
+                  return <div className={'meters-tile ' + ((tiles.length - index) >= lows[i] ? 'empty' : 'low')}/>
                 })
               }
             </div>
             <div className='meters-type'>
-              <div>{name}</div>
+            <div>{lows[i]} {name} {highs[i]}</div>
             </div>
             <div className='meters-area'>
               {
                 tiles.map((m, index) => {
-                  return <div className='meters-tile'></div>
+                  return <div className={'meters-tile ' + (index <= highs[i] ? 'high' : 'empty')}/>
                 })
               }
             </div>
