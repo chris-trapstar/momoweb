@@ -68,33 +68,29 @@ export default class Meters extends Component {
   render() {
     return <div className='d-flex  card m-2 p-2' style={{ flex: 1, }}>
       <h4>MOMO Meters</h4>
-      <div className='flex-row justify-content-center meters-body w-100'>
-        <div className='meters-area'>
-          {
-            tiles.map((m, index) => {
-              return <div className='meters-tile'></div>
-            })
-          }
-        </div>
-        <div className='meters-type'>
-          <div>DOW</div>
-        </div>
-        <div className='meters-area'></div>
-      </div>
-      <div className='flex-row justify-content-center meters-body w-100'>
-        <div className='meters-area'></div>
-        <div className='meters-type'>
-          <div>NAZ</div>
-        </div>
-        <div className='meters-area'></div>
-      </div>
-      <div className='flex-row justify-content-center meters-body w-100'>
-        <div className='meters-area'></div>
-        <div className='meters-type'>
-          <div>SPY</div>
-        </div>
-        <div className='meters-area'></div>
-      </div>
+      {
+        indexes.map((name) => {
+          return <div className='flex-row justify-content-center meters-body w-100'>
+            <div className='meters-area'>
+              {
+                tiles.map((m, index) => {
+                  return <div className='meters-tile'></div>
+                })
+              }
+            </div>
+            <div className='meters-type'>
+              <div>{name}</div>
+            </div>
+            <div className='meters-area'>
+              {
+                tiles.map((m, index) => {
+                  return <div className='meters-tile'></div>
+                })
+              }
+            </div>
+          </div>
+        })
+      }
     </div>
   }
 }
