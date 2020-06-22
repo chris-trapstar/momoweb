@@ -304,6 +304,18 @@ export class Settings extends Component {
 
   deleteAlert = async (alert) => {
     console.info('deleteAlert - ', alert)
+    try {
+      const result = await API.deleteAlert(alert.id)
+      console.info('deleteAlert - result:', result)
+      const alerts = this.state.alerts.filter(({id}) => {
+        return id !== alert.id
+      })
+      this.setState({
+        alerts
+      })
+    } catch (e) {
+      cogoToast.error(`Failed to delete the alert setting for ${alert.category}`)
+    }
   }
 
   registerAlert = async (type) => {
