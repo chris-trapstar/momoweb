@@ -95,6 +95,17 @@ export default class Meters extends Component {
       {
         indexes.map((name, i) => {
           return <div className='flex-row justify-content-center meters-body w-100'>
+            <button
+              type='button'
+              className='btn btn-icon btn-max'
+              onClick={this.props.onClose}
+            >
+              <i
+                className={
+                  max ? 'mdi mdi-window-close' : 'mdi mdi-window-maximize'
+                }
+              />
+            </button>
             <div className='meters-area'>
               {
                 tiles.map((m, index) => {
@@ -112,7 +123,7 @@ export default class Meters extends Component {
               }
             </div>
             <div className='meters-type'>
-            <div>{name}</div>
+              <div>{name}</div>
             </div>
             <div className='meters-area'>
               {
