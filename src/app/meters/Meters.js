@@ -65,6 +65,10 @@ export default class Meters extends Component {
     window.removeEventListener('compressedUpdate', this.onCompressedUpdate)
   }
 
+  getValues = () => {
+    const { bars } = this.state
+  }
+
   render() {
     return <div className='d-flex  card m-2 p-2' style={{ flex: 1, }}>
       <h4>MOMO Meters</h4>
