@@ -1492,8 +1492,7 @@ export class Dashboard extends Component {
                   </div>
                 )}
               </div>
-              <Meters />
-
+              {this.state.showMeters && <Meters />}
               {/** Favorite(Quote) Stocks */}
               {this.state.showQuotes && (
                 <div className='quotes-area'>
