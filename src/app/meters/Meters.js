@@ -67,6 +67,17 @@ export default class Meters extends Component {
 
   getValues = () => {
     const { bars } = this.state
+    const lows = []
+    const highs = []
+    bars.forEach((value, index) => {
+      if (value >= 0) {
+        highs[index] = value
+        lows[index] = 1 - value
+      } else {
+        lows[index] = -value
+        highs[index] = 1 - lows[index]
+      }
+    })
   }
 
   render() {
