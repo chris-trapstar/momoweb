@@ -460,7 +460,7 @@ export class Dashboard extends Component {
   };
 
   sectorFilter = (item) => {
-
+    const { discoverySector } = this.state
   }
 
   renderAddQuoteModal = () => {
