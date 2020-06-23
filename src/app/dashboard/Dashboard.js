@@ -47,6 +47,51 @@ let filter = {
   volume: { min: 0, max: 200000000 },
 };
 
+const sectorsFilter = {
+  'Process Industries': {
+    'Conglomerates': true,
+    'Industrials': true,
+    'Basic Industries': true,
+    'Basic Materials': true
+  },
+  'Capital Goods': {
+    'Capital Goods': true
+  },
+  'Consumer Non Durables': {
+    'Consumer Non-Durables': true,
+    'Consumer Defensive': true,
+    'Consumer Cyclical': true,
+    'Consumer Durables': true
+  },
+  'Consumer': {
+    'Services': true,
+    'Commercial Services': true,
+    'Communications Services': true
+  },
+  'Energy': {
+    'Energy': true
+  },
+  'Finance': {
+    'Financial Services': true
+  },
+  'Health Care': {
+    'Health Technology': true,
+    'Heathcare': true
+  },
+  'Public Utilities': {
+    'Utilities': true
+  },
+  'Communications': {
+    'Technology': true
+  },
+  'Transportion': {
+    'Transportion': true
+  },
+  'Miscellaneous': {
+    'n/a': true, 'Real Estate': true
+  }
+}
+
 const params = {
   grabCursor: true,
   slidesPerView: 'auto',
@@ -413,6 +458,10 @@ export class Dashboard extends Component {
       return true;
     }
   };
+
+  sectorFilter = (item) => {
+
+  }
 
   renderAddQuoteModal = () => {
     return (
