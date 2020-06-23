@@ -16,7 +16,7 @@ import 'swiper/css/swiper.css';
 import { AuthActions } from '../store';
 import Meters from '../meters/Meters';
 
-let filter = {
+const filter = {
   category: [
     {
       name: 'Basic industries',
