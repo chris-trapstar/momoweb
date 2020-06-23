@@ -367,7 +367,7 @@ export class Dashboard extends Component {
     }
     let highs = this.state.highs.slice();
     let lows = this.state.lows.slice();
-    this.buffer.forEach(function(item, i, arr) {
+    this.buffer.forEach(function (item, i, arr) {
       highs = item.highs.concat(highs).slice(0, 100);
       lows = item.lows.concat(lows).slice(0, 100);
     });
@@ -394,7 +394,7 @@ export class Dashboard extends Component {
     });
   };
 
-  getFilteredList = (discoveryData) => {};
+  getFilteredList = (discoveryData) => { };
 
   favFilter = (item) => {
     const { isFavFilter } = this.state;
@@ -478,7 +478,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   low[3] === 1 ? 'stock-active-text stock-active-low' : ''
-                }`}
+                  }`}
               >
                 <ContextMenuTrigger
                   id={`low-context-menu_${index}`}
@@ -532,7 +532,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   high[3] === 1 ? 'stock-active-text stock-active-high' : ''
-                }`}
+                  }`}
               >
                 <ContextMenuTrigger
                   id={`high-context-menu_${index}`}
@@ -850,37 +850,6 @@ export class Dashboard extends Component {
     }
   };
 
-  // requestNotificationPermissions = async () => {
-  //   const registration_id = await firebase.messaging().getToken();
-  //   if (registration_id) {
-  //     this.registerPushToken(registration_id);
-  //   } else {
-  //     alert(
-  //       'Please allow push notification permissions in the browser settings!'
-  //     );
-  //   }
-  // };
-  //
-  // registerPushToken = async registration_id => {
-  //   try {
-  //     const res = await fetch(`${baseUrl}/api/alert/device/fcm`, {
-  //       method: 'POST',
-  //       body: JSON.stringify({
-  //         registration_id
-  //       }),
-  //       headers: {
-  //         Authorization: `Bearer ${window.localStorage.getItem(
-  //           'jwt_access_token'
-  //         )}`,
-  //         'Content-Type': 'application/json'
-  //       }
-  //     });
-  //     const data = await res.json();
-  //   } catch (e) {
-  //     console.error('Failed to register the push token', e);
-  //   }
-  // };
-
   onChangeSector = () => {
 
   }
@@ -961,20 +930,20 @@ export class Dashboard extends Component {
               )}
             </div>
           ) : (
-            <div key={`popular-data-h6-${index + i}`}>
-              <ContextMenuTrigger
-                id={`popular-data-h6-${index + i}`}
-                holdToDisplay={0}
-              >
-                <h6 className='pr-2'>{item}</h6>
-              </ContextMenuTrigger>
-              {this.getMenuItems(
-                `popular-data-h6-${index + i}`,
-                [item, '', '', '', '', ''],
-                ''
-              )}
-            </div>
-          )
+                  <div key={`popular-data-h6-${index + i}`}>
+                    <ContextMenuTrigger
+                      id={`popular-data-h6-${index + i}`}
+                      holdToDisplay={0}
+                    >
+                      <h6 className='pr-2'>{item}</h6>
+                    </ContextMenuTrigger>
+                    {this.getMenuItems(
+                      `popular-data-h6-${index + i}`,
+                      [item, '', '', '', '', ''],
+                      ''
+                    )}
+                  </div>
+                )
         );
       });
     }
@@ -1143,9 +1112,9 @@ export class Dashboard extends Component {
                             uVol > 0
                               ? 'text-success'
                               : uVol < 0
-                              ? 'text-danger'
-                              : 'text-secondary'
-                          }`}
+                                ? 'text-danger'
+                                : 'text-secondary'
+                            }`}
                         >
                           {isNaN(uVol)
                             ? '_'
@@ -1164,9 +1133,9 @@ export class Dashboard extends Component {
                             vWapDist > 0
                               ? 'text-success'
                               : vWapDist < 0
-                              ? 'text-danger'
-                              : 'text-secondary'
-                          }`}
+                                ? 'text-danger'
+                                : 'text-secondary'
+                            }`}
                         >
                           {isNaN(vWapDist)
                             ? '_'
@@ -1211,7 +1180,7 @@ export class Dashboard extends Component {
                                 this.isSymbolFav(symbol)
                                   ? 'mdi mdi-star quote-star popover-icon'
                                   : 'mdi mdi-star text-white popover-icon'
-                              }`}
+                                }`}
                             />
                           </div>
                         </MenuItem>
@@ -1239,8 +1208,8 @@ export class Dashboard extends Component {
           max
             ? 'w-100'
             : !this.state.showPopular && !this.state.showAlertHistory
-            ? 'w-100'
-            : 'grid-margin stretch-card px-0 flex-fill socket-table'
+              ? 'w-100'
+              : 'grid-margin stretch-card px-0 flex-fill socket-table'
         }
       >
         <div className='card'>
@@ -1267,13 +1236,13 @@ export class Dashboard extends Component {
               {this.renderData(highs, 'high')}
             </div>
           ) : (
-            <div className='card-body stream-body'>
-              <div className='row'>
-                {this.renderData(lows, 'low')}
-                {this.renderData(highs, 'high')}
+              <div className='card-body stream-body'>
+                <div className='row'>
+                  {this.renderData(lows, 'low')}
+                  {this.renderData(highs, 'high')}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     );
@@ -1338,7 +1307,7 @@ export class Dashboard extends Component {
                               this.state.isFavFilter
                                 ? 'mdi mdi-star quote-star popover-icon'
                                 : 'mdi mdi-star text-white popover-icon'
-                            }`}
+                              }`}
                           />
                           <span className='ml-1'>Favorite</span>
                         </div>
@@ -1439,7 +1408,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showStream ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showStream');
@@ -1453,7 +1422,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showAlertHistory ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showAlertHistory');
@@ -1469,7 +1438,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showMeters ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showMeters');
@@ -1483,7 +1452,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row  ${
                     this.state.showPopular ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showPopular');
@@ -1497,7 +1466,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showQuotes ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showQuotes');
@@ -1517,7 +1486,7 @@ export class Dashboard extends Component {
                         ? 'showWidget'
                         : 'hideWidget'
                       : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     if (this.props.isPro) this.onToggleWidget('showDiscovery');
@@ -1530,23 +1499,14 @@ export class Dashboard extends Component {
                   <span className='small white-no-wrap bar-txt'>DISCOVERY</span>
                 </div>
               </div>
-<<<<<<< HEAD
-              {this.state.showMeters && <Meters onClose={() => {
-                this.setState({
-                  showMeters: false
-                })
-              }} />}
-=======
-              {this.state.showMeters && (
-                <Meters
-                  onClose={() => {
-                    this.setState({
-                      showMeters: false,
-                    });
-                  }}
-                />
-              )}
->>>>>>> 518648a41a06d7c8f06f8c027671c42da3362e98
+              {
+                this.state.showMeters &&
+                <Meters onClose={() => {
+                  this.setState({
+                    showMeters: false
+                  })
+                }} />
+              }
               {/** Favorite(Quote) Stocks */}
               {this.state.showQuotes && (
                 <div className='quotes-area'>
