@@ -911,6 +911,8 @@ export class Dashboard extends Component {
     console.info('onChnageSector - ', e.target.value)
     this.setState({
       discoverySector: e.target.value
+    }, () => {
+      this.onChangeDiscoveryFilter()
     })
   }
 
