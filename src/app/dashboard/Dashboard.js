@@ -850,8 +850,8 @@ export class Dashboard extends Component {
     }
   };
 
-  onChangeSector = () => {
-
+  onChangeSector = (e) => {
+    console.info('onChnageSector - ', e.target.value)
   }
 
   isSymbolFav = (symbol) => {
