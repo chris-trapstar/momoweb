@@ -288,7 +288,7 @@ export class Dashboard extends Component {
       showSpinner: false,
       showAddQuote: false,
       isFavFilter: false,
-      industries: []
+      sectors: []
     };
   };
 
@@ -881,7 +881,9 @@ export class Dashboard extends Component {
   //   }
   // };
 
-  onIndustry = () => { };
+  onChangeSector = () => {
+
+  }
 
   isSymbolFav = (symbol) => {
     const { quotes } = this.state;
