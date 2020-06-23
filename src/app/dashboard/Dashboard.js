@@ -469,7 +469,6 @@ export class Dashboard extends Component {
     if (!filters) {
       return false
     }
-    debugger
     return filters[item.sector]
   }
 
