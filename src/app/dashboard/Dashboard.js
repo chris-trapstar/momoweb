@@ -158,7 +158,8 @@ export class Dashboard extends Component {
       }
     })
 
-    const arrIndustries = Object.keys(industries)
+    let arrIndustries = Object.keys(industries)
+    arrIndustries = arrIndustries.sort()
     console.info('Industries extracted:', arrIndustries)
     this.setState({
       industries: arrIndustries
