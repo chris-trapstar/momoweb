@@ -151,16 +151,23 @@ export class Dashboard extends Component {
   getStats = async () => {
     const stats = await API.getStats();
 
+    const industries = {}
+
     const discoveryData = stats
-      .map((stock, index) => ({
-        symbol: stock.symbol,
-        last: stock.lastTradePrice || 0,
-        volume: stock.AV || 0, // No Volume
-        momentum: stock.highCount - stock.lowCount,
-        uVol: parseFloat((stock.UV || 0).toFixed(2)),
-        vWapDist: stock.VWAP_DIST || 0,
-        // short: '25%',
-      }))
+      .map((stock, index) => {
+        if (stock.industry) {
+          industries[stock.industry] = true
+        }
+        return {
+          symbol: stock.symbol,
+          last: stock.lastTradePrice || 0,
+          volume: stock.AV || 0, // No Volume
+          momentum: stock.highCount - stock.lowCount,
+          uVol: parseFloat((stock.UV || 0).toFixed(2)),
+          vWapDist: stock.VWAP_DIST || 0,
+          // short: '25%',
+        }
+      })
       .filter(({ volume }) => {
         return volume > 0;
       });
@@ -1496,7 +1503,7 @@ export class Dashboard extends Component {
                 this.setState({
                   showMeters: false
                 })
-              }}/>}
+              }} />}
               {/** Favorite(Quote) Stocks */}
               {this.state.showQuotes && (
                 <div className='quotes-area'>
