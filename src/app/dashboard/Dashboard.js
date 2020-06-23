@@ -157,6 +157,13 @@ export class Dashboard extends Component {
         industries[stock.industry] = true
       }
     })
+
+    const arrIndustries = Object.keys(industries)
+    console.info('Industries extracted:', arrIndustries)
+    this.setState({
+      industries: arrIndustries
+    })
+
     const discoveryData = stats
       .map((stock, index) => {
         return {
