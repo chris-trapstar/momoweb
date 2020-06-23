@@ -151,18 +151,18 @@ export class Dashboard extends Component {
   getStats = async () => {
     const stats = await API.getStats();
 
-    const industries = {}
+    const sectors = {}
     stats.forEach((stock) => {
       if (stock && stock.industry) {
-        industries[stock.industry] = true
+        sectors[stock.industry] = true
       }
     })
 
-    let arrIndustries = Object.keys(industries)
-    arrIndustries = arrIndustries.sort()
-    console.info('Industries extracted:', arrIndustries)
+    let arrSectors = Object.keys(sectors)
+    arrSectors = arrSectors.sort()
+    console.info('Sectors extracted:', arrSectors)
     this.setState({
-      industries: arrIndustries
+      sectors: arrSectors
     })
 
     const discoveryData = stats
