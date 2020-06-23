@@ -151,20 +151,6 @@ export class Dashboard extends Component {
   getStats = async () => {
     const stats = await API.getStats();
 
-    const sectors = {}
-    stats.forEach((stock) => {
-      if (stock && stock.sector) {
-        sectors[stock.sector] = true
-      }
-    })
-
-    let arrSectors = Object.keys(sectors)
-    arrSectors = arrSectors.sort()
-    console.info('Sectors extracted:', arrSectors)
-    this.setState({
-      sectors: arrSectors
-    })
-
     const discoveryData = stats
       .map((stock, index) => {
         return {
@@ -288,7 +274,19 @@ export class Dashboard extends Component {
       showSpinner: false,
       showAddQuote: false,
       isFavFilter: false,
-      sectors: []
+      sectors: [
+        'Process Industries',
+        'Capital Goods',
+        'Consumer Non Durables',
+        'Consumer Services',
+        'Energy',
+        'Finance',
+        'Health Care',
+        'Public Utilities',
+        'Communications',
+        'Transportation',
+        'Miscellaneous'
+      ]
     };
   };
 
@@ -1287,8 +1285,8 @@ export class Dashboard extends Component {
                   <div className='d-flex flex-row justify-content-between text-center flex-wrap py-2'>
                     <h4 className='card-title mb-1 py-1'>Discovery</h4>
                     <div className='d-flex flex-row mT15'>
-                      <span className='border border-radius-10'>
-                        <select className='form-control button btn-dark px-4 py-1 border-radius-10' onChange={this.onChangeSector}>
+                      <span className='button btn-dark px-4 py-1 border-radius-10'>
+                        <select className='form-control' onChange={this.onChangeSector}>
                           {
                             this.state.sectors.map((sector) => {
                               return <option value={sector} key={sector}>{sector}</option>
