@@ -466,7 +466,7 @@ export class Dashboard extends Component {
     }
     const filters = sectorsFilter[discoverySector]
     if (!filters) {
-      return false 
+      return false
     }
     return filters[item.sector]
   }
@@ -1414,7 +1414,8 @@ export class Dashboard extends Component {
         .filter((data) => {
           return data.symbol?.includes(discoveryFilter);
         })
-        .filter(this.favFilter);
+        .filter(this.favFilter)
+        .filter(this.sectorFilter);
     }
     this.setState({ discoveryFilter, discoveryDataFiltered });
   };
