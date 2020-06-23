@@ -84,8 +84,8 @@ const sectorsFilter = {
   'Communications': {
     'Technology': true
   },
-  'Transportion': {
-    'Transportion': true
+  'Transportation': {
+    'Transportation': true
   },
   'Miscellaneous': {
     'n/a': true, 'Real Estate': true
