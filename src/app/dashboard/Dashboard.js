@@ -1409,7 +1409,9 @@ export class Dashboard extends Component {
     let discoveryDataFiltered = [];
     if (discoveryFilter === '') {
       this.setState({ discoveryNoDataText: 'Loading...' });
-      discoveryDataFiltered = discoveryData.filter(this.favFilter);
+      discoveryDataFiltered = discoveryData
+        .filter(this.favFilter)
+        .filter(this.sectorFilter);;
     } else {
       this.setState({ discoveryNoDataText: 'No Data' });
       discoveryDataFiltered = discoveryData
