@@ -461,6 +461,14 @@ export class Dashboard extends Component {
 
   sectorFilter = (item) => {
     const { discoverySector } = this.state
+    if (discoverySector === 'All') {
+      return true
+    }
+    const filters = sectorsFilter[discoverySector]
+    if (!filters) {
+      return false 
+    }
+    return filters[item.sector]
   }
 
   renderAddQuoteModal = () => {
