@@ -852,6 +852,9 @@ export class Dashboard extends Component {
 
   onChangeSector = (e) => {
     console.info('onChnageSector - ', e.target.value)
+    this.setState({
+      discoverySector: e.target.value
+    })
   }
 
   isSymbolFav = (symbol) => {
