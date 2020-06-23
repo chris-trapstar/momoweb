@@ -153,8 +153,8 @@ export class Dashboard extends Component {
 
     const sectors = {}
     stats.forEach((stock) => {
-      if (stock && stock.industry) {
-        sectors[stock.industry] = true
+      if (stock && stock.sector) {
+        sectors[stock.sector] = true
       }
     })
 
