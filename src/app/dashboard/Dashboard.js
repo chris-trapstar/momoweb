@@ -349,7 +349,7 @@ export class Dashboard extends Component {
     }
     let highs = this.state.highs.slice();
     let lows = this.state.lows.slice();
-    this.buffer.forEach(function (item, i, arr) {
+    this.buffer.forEach(function(item, i, arr) {
       highs = item.highs.concat(highs).slice(0, 100);
       lows = item.lows.concat(lows).slice(0, 100);
     });
@@ -376,7 +376,7 @@ export class Dashboard extends Component {
     });
   };
 
-  getFilteredList = (discoveryData) => { };
+  getFilteredList = (discoveryData) => {};
 
   favFilter = (item) => {
     const { isFavFilter } = this.state;
@@ -460,7 +460,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   low[3] === 1 ? 'stock-active-text stock-active-low' : ''
-                  }`}
+                }`}
               >
                 <ContextMenuTrigger
                   id={`low-context-menu_${index}`}
@@ -514,7 +514,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   high[3] === 1 ? 'stock-active-text stock-active-high' : ''
-                  }`}
+                }`}
               >
                 <ContextMenuTrigger
                   id={`high-context-menu_${index}`}
@@ -863,7 +863,7 @@ export class Dashboard extends Component {
   //   }
   // };
 
-  onIndustry = () => { };
+  onIndustry = () => {};
 
   isSymbolFav = (symbol) => {
     const { quotes } = this.state;
@@ -941,20 +941,20 @@ export class Dashboard extends Component {
               )}
             </div>
           ) : (
-                  <div key={`popular-data-h6-${index + i}`}>
-                    <ContextMenuTrigger
-                      id={`popular-data-h6-${index + i}`}
-                      holdToDisplay={0}
-                    >
-                      <h6 className='pr-2'>{item}</h6>
-                    </ContextMenuTrigger>
-                    {this.getMenuItems(
-                      `popular-data-h6-${index + i}`,
-                      [item, '', '', '', '', ''],
-                      ''
-                    )}
-                  </div>
-                )
+            <div key={`popular-data-h6-${index + i}`}>
+              <ContextMenuTrigger
+                id={`popular-data-h6-${index + i}`}
+                holdToDisplay={0}
+              >
+                <h6 className='pr-2'>{item}</h6>
+              </ContextMenuTrigger>
+              {this.getMenuItems(
+                `popular-data-h6-${index + i}`,
+                [item, '', '', '', '', ''],
+                ''
+              )}
+            </div>
+          )
         );
       });
     }
@@ -1123,9 +1123,9 @@ export class Dashboard extends Component {
                             uVol > 0
                               ? 'text-success'
                               : uVol < 0
-                                ? 'text-danger'
-                                : 'text-secondary'
-                            }`}
+                              ? 'text-danger'
+                              : 'text-secondary'
+                          }`}
                         >
                           {isNaN(uVol)
                             ? '_'
@@ -1144,9 +1144,9 @@ export class Dashboard extends Component {
                             vWapDist > 0
                               ? 'text-success'
                               : vWapDist < 0
-                                ? 'text-danger'
-                                : 'text-secondary'
-                            }`}
+                              ? 'text-danger'
+                              : 'text-secondary'
+                          }`}
                         >
                           {isNaN(vWapDist)
                             ? '_'
@@ -1191,7 +1191,7 @@ export class Dashboard extends Component {
                                 this.isSymbolFav(symbol)
                                   ? 'mdi mdi-star quote-star popover-icon'
                                   : 'mdi mdi-star text-white popover-icon'
-                                }`}
+                              }`}
                             />
                           </div>
                         </MenuItem>
@@ -1216,7 +1216,11 @@ export class Dashboard extends Component {
     return (
       <div
         className={
-          max ? 'w-100' : 'grid-margin stretch-card px-0 flex-fill socket-table'
+          max
+            ? 'w-100'
+            : !this.state.showPopular && !this.state.showAlertHistory
+            ? 'w-100'
+            : 'grid-margin stretch-card px-0 flex-fill socket-table'
         }
       >
         <div className='card'>
@@ -1243,13 +1247,13 @@ export class Dashboard extends Component {
               {this.renderData(highs, 'high')}
             </div>
           ) : (
-              <div className='card-body stream-body'>
-                <div className='row'>
-                  {this.renderData(lows, 'low')}
-                  {this.renderData(highs, 'high')}
-                </div>
+            <div className='card-body stream-body'>
+              <div className='row'>
+                {this.renderData(lows, 'low')}
+                {this.renderData(highs, 'high')}
               </div>
-            )}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -1313,7 +1317,7 @@ export class Dashboard extends Component {
                               this.state.isFavFilter
                                 ? 'mdi mdi-star quote-star popover-icon'
                                 : 'mdi mdi-star text-white popover-icon'
-                              }`}
+                            }`}
                           />
                           <span className='ml-1'>Favorite</span>
                         </div>
@@ -1366,11 +1370,9 @@ export class Dashboard extends Component {
   };
 
   onToggleWidget = (name) => {
-    return () => {
-      this.setState({
-        [name]: !this.state[name],
-      });
-    };
+    this.setState({
+      [name]: !this.state[name],
+    });
   };
 
   render() {
@@ -1412,13 +1414,15 @@ export class Dashboard extends Component {
             <div className='col-12 card-body py-0 px-0'>
               {/** Static Bar */}
 
-              <div className='d-flex justify-content-center flex-wrap static-bar'>
+              <div className='d-flex justify-content-start flex-wrap static-bar'>
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showStream ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
-                  onClick={this.onToggleWidget('showStream')}
+                  onClick={() => {
+                    this.onToggleWidget('showStream');
+                  }}
                 >
                   <span className='bar-icon'>
                     <i className='mdi mdi-speedometer text-primary' />
@@ -1428,9 +1432,11 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showAlertHistory ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
-                  onClick={this.onToggleWidget('showAlertHistory')}
+                  onClick={() => {
+                    this.onToggleWidget('showAlertHistory');
+                  }}
                 >
                   <span className='bar-icon'>
                     <i className='mdi mdi-file-restore text-success' />
@@ -1442,9 +1448,11 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showMeters ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
-                  onClick={this.onToggleWidget('showMeters')}
+                  onClick={() => {
+                    this.onToggleWidget('showMeters');
+                  }}
                 >
                   <span className='bar-icon'>
                     <i className='mdi mdi-crosshairs-gps text-warning' />
@@ -1454,9 +1462,11 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row  ${
                     this.state.showPopular ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
-                  onClick={this.onToggleWidget('showPopular')}
+                  onClick={() => {
+                    this.onToggleWidget('showPopular');
+                  }}
                 >
                   <span className='bar-icon'>
                     <i className='mdi mdi-clipboard-text text-danger' />
@@ -1466,37 +1476,48 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showQuotes ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
-                  onClick={this.onToggleWidget('showQuotes')}
+                  onClick={() => {
+                    this.onToggleWidget('showQuotes');
+                  }}
                 >
                   <span className='bar-icon'>
                     <i className='mdi mdi-chart-bar text-primary' />
                   </span>
                   <span className='small white-no-wrap bar-txt'>QUOTE</span>
                 </div>
-                {this.props.isPro && (
-                  <div
-                    style={{ cursor: 'pointer' }}
-                    className={`d-flex flex-row align-items-center static-row ${
-                      this.state.showDiscovery ? 'showWidget' : 'hideWidget'
-                      }`}
-                    onClick={this.onToggleWidget('showDiscovery')}
-                  >
-                    <span className='bar-icon'>
-                      <i className='mdi mdi-content-copy text-success' />
-                    </span>
-                    <span className='small white-no-wrap bar-txt'>
-                      DISCOVERY
-                    </span>
-                  </div>
-                )}
+
+                <div
+                  style={{ cursor: 'pointer' }}
+                  className={`d-flex flex-row align-items-center static-row ${
+                    this.props.isPro
+                      ? this.state.showDiscovery
+                        ? 'showWidget'
+                        : 'hideWidget'
+                      : 'hideWidget'
+                  }`}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    if (this.props.isPro) this.onToggleWidget('showDiscovery');
+                    else this.props.history.push('/plans');
+                  }}
+                >
+                  <span className='bar-icon'>
+                    <i className='mdi mdi-content-copy text-success' />
+                  </span>
+                  <span className='small white-no-wrap bar-txt'>DISCOVERY</span>
+                </div>
               </div>
-              {this.state.showMeters && <Meters onClose={() => {
-                this.setState({
-                  showMeters: false
-                })
-              }}/>}
+              {this.state.showMeters && (
+                <Meters
+                  onClose={() => {
+                    this.setState({
+                      showMeters: false,
+                    });
+                  }}
+                />
+              )}
               {/** Favorite(Quote) Stocks */}
               {this.state.showQuotes && (
                 <div className='quotes-area'>
@@ -1572,6 +1593,7 @@ export class Dashboard extends Component {
               </div>
 
               {/** Discovery */}
+
               {this.props.isPro &&
                 this.state.showDiscovery &&
                 this.renderDiscovery()}
