@@ -269,12 +269,14 @@ export class Dashboard extends Component {
         field: 'symbol',
         reverse: true,
       },
+      discoverySector: 'All',
       max: false,
       new_quote: '',
       showSpinner: false,
       showAddQuote: false,
       isFavFilter: false,
       sectors: [
+        'All',
         'Process Industries',
         'Capital Goods',
         'Consumer Non Durables',
@@ -1285,8 +1287,8 @@ export class Dashboard extends Component {
                   <div className='d-flex flex-row justify-content-between text-center flex-wrap py-2'>
                     <h4 className='card-title mb-1 py-1'>Discovery</h4>
                     <div className='d-flex flex-row mT15'>
-                      <span className='button btn-dark px-4 py-1 border-radius-10'>
-                        <select className='form-control' onChange={this.onChangeSector}>
+                      <span className='button btn-dark px-1 border-radius-10'>
+                        <select className='form-control sector-select' onChange={this.onChangeSector}>
                           {
                             this.state.sectors.map((sector) => {
                               return <option value={sector} key={sector}>{sector}</option>
