@@ -205,6 +205,7 @@ export class Dashboard extends Component {
           momentum: stock.highCount - stock.lowCount,
           uVol: parseFloat((stock.UV || 0).toFixed(2)),
           vWapDist: stock.VWAP_DIST || 0,
+          sector: stock.sector,
           // short: '25%',
         }
       })
@@ -468,6 +469,7 @@ export class Dashboard extends Component {
     if (!filters) {
       return false
     }
+    debugger
     return filters[item.sector]
   }
 
