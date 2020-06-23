@@ -1313,10 +1313,10 @@ export class Dashboard extends Component {
                     <h4 className='card-title mb-1 py-1'>Discovery</h4>
                     <div className='d-flex flex-row mT15'>
                       <span className='border border-radius-10'>
-                        <select className='form-control button btn-dark px-4 py-1 border-radius-10' onChange={this.onIndustry}>
+                        <select className='form-control button btn-dark px-4 py-1 border-radius-10' onChange={this.onChangeSector}>
                           {
-                            this.state.industries.map((industry) => {
-                              return <option value={industry} key={industry}>{industry}</option>
+                            this.state.sectors.map((sector) => {
+                              return <option value={sector} key={sector}>{sector}</option>
                             })
                           }
                         </select>
