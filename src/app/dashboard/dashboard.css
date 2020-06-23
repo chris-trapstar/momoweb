@@ -652,3 +652,10 @@ th {
   color: #ffff;
   font-weight: 500;
 }
+
+.sector-select {
+  background-color: transparent !important;
+  outline: none !important;
+  color: white !important;
+  border: none !important;
+}
