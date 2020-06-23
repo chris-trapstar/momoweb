@@ -181,7 +181,7 @@ export class Dashboard extends Component {
         return volume > 0;
       });
 
-    console.info  
+    console.info
     const discoveryDataFiltered = discoveryData
       .filter(this.favFilter)
       .filter(this.searchFilter);
@@ -288,6 +288,7 @@ export class Dashboard extends Component {
       showSpinner: false,
       showAddQuote: false,
       isFavFilter: false,
+      industries: []
     };
   };
 
@@ -1312,12 +1313,13 @@ export class Dashboard extends Component {
                     <h4 className='card-title mb-1 py-1'>Discovery</h4>
                     <div className='d-flex flex-row mT15'>
                       <span className='border border-radius-10'>
-                        <div
-                          className='button btn-dark px-4 py-1 border-radius-10'
-                          onClick={this.onIndustry}
-                        >
-                          Industry
-                        </div>
+                        <select className='form-control button btn-dark px-4 py-1 border-radius-10' onChange={this.onIndustry}>
+                          {
+                            this.state.industries.map((industry) => {
+                              return <option value={industry} key={industry}>{industry}</option>
+                            })
+                          }
+                        </select>
                       </span>
                       <span className='border border-radius-10 ml-4'>
                         <div
