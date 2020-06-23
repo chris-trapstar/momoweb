@@ -152,12 +152,13 @@ export class Dashboard extends Component {
     const stats = await API.getStats();
 
     const industries = {}
-
+    stats.forEach((stock) => {
+      if (stock && stock.industry) {
+        industries[stock.industry] = true
+      }
+    })
     const discoveryData = stats
       .map((stock, index) => {
-        if (stock.industry) {
-          industries[stock.industry] = true
-        }
         return {
           symbol: stock.symbol,
           last: stock.lastTradePrice || 0,
@@ -172,6 +173,7 @@ export class Dashboard extends Component {
         return volume > 0;
       });
 
+    console.info  
     const discoveryDataFiltered = discoveryData
       .filter(this.favFilter)
       .filter(this.searchFilter);
