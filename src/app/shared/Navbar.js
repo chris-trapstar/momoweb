@@ -21,7 +21,7 @@ class Navbar extends Component {
       <nav className='navbar p-0 fixed-top d-flex flex-row'>
         <div className='navbar-menu-wrapper flex-grow d-flex align-items-stretch'>
           <div
-            className='d-flex flex-row justify-content-center'
+            className='d-flex flex-row'
             style={{
               position: 'absolute',
               flex: 1,
