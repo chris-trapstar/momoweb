@@ -55,7 +55,7 @@ export default class Meters extends Component {
   };
 
   onCompressedUpdate = (event) => {
-    // this._handleData(event.detail)
+    this._handleData(event.detail)
   }
 
   componentDidMount() {
