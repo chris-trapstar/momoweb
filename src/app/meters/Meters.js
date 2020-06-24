@@ -97,7 +97,7 @@ export default class Meters extends Component {
       <h4>MOMO Meters</h4>
       {
         indexes.map((name, i) => {
-          return <div className='flex-row justify-content-center meters-body w-100'>
+          return <div className='flex-row justify-content-center meters-body w-100' key={name}>
             <button
               type='button'
               className='btn btn-icon btn-max'
@@ -118,6 +118,7 @@ export default class Meters extends Component {
                     style={{
                       background: isEmpty ? empty : `linear-gradient(90deg, rgba(255, 0, 0, ${opacityL}) 0%, rgba(255, 0, 0, ${opacityR}) 100%)`
                     }}
+                    key={`${name}_low:${index}`}
                   >
                   </div>
                 })
@@ -135,6 +136,7 @@ export default class Meters extends Component {
                   const opacityR = index / tiles.length * 0.9 + 0.1
 
                   return <div className='meters-tile'
+                    key={`${name}_high:${index}`}
                     style={{
                       background: isEmpty ? empty : `linear-gradient(90deg, rgba(0, 255, 0, ${opacityL}) 100%, rgba(0, 255, 0, ${opacityR}) 0%)`
                     }}
