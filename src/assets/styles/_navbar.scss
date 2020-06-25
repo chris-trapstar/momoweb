@@ -15,9 +15,10 @@
   }
 
   .logo {
-    width: 160px;
+    display: flex;
+    flex-direction: row;
     font-family: $type2 !important;
-    text-align: center;
+    
   }
 
   .logo h1 {

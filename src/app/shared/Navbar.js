@@ -23,17 +23,37 @@ class Navbar extends Component {
           <div
             className='d-flex flex-row'
             style={{
-              position: 'absolute',
               flex: 1,
+              position: 'absolute',
               width: 'calc(100% - 30px)',
             }}
           >
             <div className='logo'>
-              <span className='h1 pr-2'>MOMO</span>
+              <span
+                style={{
+                  color: '#ffff',
+                  fontSize: '36px',
+                  fontWeight: '600',
+                  marginRight: 4,
+                }}
+              >
+                MOMO
+              </span>
               {this.props.isPro && (
-                <span className='bg-light text-dark '>PRO</span>
+                <div style={{ marginTop: 6 }}>
+                  <span
+                    style={{
+                      padding: 2,
+                      fontSize: '13px',
+                      color: '#000000',
+                      fontWeight: '600',
+                      background: '#ffff',
+                    }}
+                  >
+                    PRO
+                  </span>
+                </div>
               )}
-              <h2>PROFIT FROM MOMENTUM</h2>
             </div>
           </div>
           <ul className='navbar-nav navbar-nav-right'>

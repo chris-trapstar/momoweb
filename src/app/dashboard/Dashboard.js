@@ -1057,16 +1057,17 @@ export class Dashboard extends Component {
             </Th>
           </Tr>
         </Thead>
-        <Tbody>
-          {discoveryDataFiltered
-            .slice(0, discoveryIndex)
-            .map(
-              (
-                { symbol, last, volume, momentum, uVol, vWapDist, short },
-                index
-              ) => {
-                return (
-                  <Tr key={index}>
+
+        {discoveryDataFiltered
+          .slice(0, discoveryIndex)
+          .map(
+            (
+              { symbol, last, volume, momentum, uVol, vWapDist, short },
+              index
+            ) => {
+              return (
+                <Tbody key={index}>
+                  <Tr>
                     <Td className='text-white flex-fill text-center'>
                       <ContextMenuTrigger
                         id={`discovery-context-menu_${index}`}
@@ -1076,6 +1077,11 @@ export class Dashboard extends Component {
                           <b>{symbol}</b>
                         </div>
                       </ContextMenuTrigger>
+                      {this.getMenuItems(
+                        `discovery-context-menu_${index}`,
+                        [symbol, '', '', '', '', ''],
+                        ''
+                      )}
                     </Td>
                     <Td className='text-white flex-fill text-center'>
                       <ContextMenuTrigger
@@ -1086,6 +1092,11 @@ export class Dashboard extends Component {
                           {`${this.round(last, 2)}%`}
                         </div>
                       </ContextMenuTrigger>
+                      {this.getMenuItems(
+                        `discovery-context-menu_${index}`,
+                        [symbol, '', '', '', '', ''],
+                        ''
+                      )}
                     </Td>
                     <Td className='text-white flex-fill text-center'>
                       <ContextMenuTrigger
@@ -1096,6 +1107,11 @@ export class Dashboard extends Component {
                           {volume.toString()}
                         </div>
                       </ContextMenuTrigger>
+                      {this.getMenuItems(
+                        `discovery-context-menu_${index}`,
+                        [symbol, '', '', '', '', ''],
+                        ''
+                      )}
                     </Td>
                     <Td className='flex-fill text-center'>
                       <ContextMenuTrigger
@@ -1111,6 +1127,11 @@ export class Dashboard extends Component {
                           {momentum}
                         </div>
                       </ContextMenuTrigger>
+                      {this.getMenuItems(
+                        `discovery-context-menu_${index}`,
+                        [symbol, '', '', '', '', ''],
+                        ''
+                      )}
                     </Td>
                     <Td className='flex-fill text-center'>
                       <ContextMenuTrigger
@@ -1132,6 +1153,11 @@ export class Dashboard extends Component {
                             : (uVol > 0 ? '+' : '') + `${uVol}%`}
                         </div>
                       </ContextMenuTrigger>
+                      {this.getMenuItems(
+                        `discovery-context-menu_${index}`,
+                        [symbol, '', '', '', '', ''],
+                        ''
+                      )}
                     </Td>
                     <Td className='text-white flex-fill text-center'>
                       <ContextMenuTrigger
@@ -1153,8 +1179,12 @@ export class Dashboard extends Component {
                             : (vWapDist > 0 ? '+' : '') + `${vWapDist}%`}
                         </div>
                       </ContextMenuTrigger>
+                      {this.getMenuItems(
+                        `discovery-context-menu_${index}`,
+                        [symbol, '', '', '', '', ''],
+                        ''
+                      )}
                     </Td>
-                    {/*<Td>{short}</Td>*/}
                     <Td className='text-white'>
                       <div
                         style={{ cursor: 'pointer' }}
@@ -1197,16 +1227,11 @@ export class Dashboard extends Component {
                         </MenuItem>
                       </div>
                     </Td>
-                    {this.getMenuItems(
-                      `discovery-context-menu_${index}`,
-                      [symbol, '', '', '', '', ''],
-                      ''
-                    )}
                   </Tr>
-                );
-              }
-            )}
-        </Tbody>
+                </Tbody>
+              );
+            }
+          )}
       </Table>
     );
   };
