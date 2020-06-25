@@ -687,7 +687,7 @@ export class Dashboard extends Component {
                 style={{
                   fontWeight: '600',
                   fontSize: '20px',
-                  color: item.high > item.low ? '#73b101' : '#ff0100',
+                  color: item.high > item.low ? '#00d25b' : '#fc424a',
                 }}
               >
                 ${item.price}
@@ -1037,11 +1037,11 @@ export class Dashboard extends Component {
     } = this.state;
 
     return (
-      <Table>
+      <Table className='table-striped'>
         <Thead className='my-2 table-header'>
           <Tr>
             <Th
-              className='py-2'
+              className='text-white py-2 flex-fill text-center'
               onClick={() => {
                 this.onSort('symbol');
               }}
@@ -1050,7 +1050,7 @@ export class Dashboard extends Component {
               <i className='fa fa-unsorted ml-2' />
             </Th>
             <Th
-              className='py-2'
+              className='text-white py-2 flex-fill text-center'
               onClick={() => {
                 this.onSort('last');
               }}
@@ -1059,7 +1059,7 @@ export class Dashboard extends Component {
               <i className='fa fa-unsorted ml-2' />
             </Th>
             <Th
-              className='py-2'
+              className='text-white py-2 flex-fill text-center'
               onClick={() => {
                 this.onSort('volume');
               }}
@@ -1068,7 +1068,7 @@ export class Dashboard extends Component {
               <i className='fa fa-unsorted ml-2' />
             </Th>
             <Th
-              className='py-2'
+              className='text-white py-2 flex-fill text-center'
               onClick={() => {
                 this.onSort('momentum');
               }}
@@ -1077,7 +1077,7 @@ export class Dashboard extends Component {
               <i className='fa fa-unsorted ml-2' />
             </Th>
             <Th
-              className='py-2'
+              className='text-white py-2 flex-fill text-center'
               onClick={() => {
                 this.onSort('uVol');
               }}
@@ -1086,7 +1086,7 @@ export class Dashboard extends Component {
               <i className='fa fa-unsorted ml-2' />
             </Th>
             <Th
-              className='py-2'
+              className='text-white py-2 flex-fill text-center'
               onClick={() => {
                 this.onSort('vWapDist');
               }}
@@ -1099,7 +1099,7 @@ export class Dashboard extends Component {
               <i className='fa fa-unsorted ml-2' />
     </Th>*/}
             <Th
-              className='py-2'
+              className='text-white py-2'
               onClick={() => {
                 this.onFavPress();
               }}
@@ -1109,17 +1109,18 @@ export class Dashboard extends Component {
             </Th>
           </Tr>
         </Thead>
-        <Tbody>
-          {discoveryDataFiltered
-            .slice(0, discoveryIndex)
-            .map(
-              (
-                { symbol, last, volume, momentum, uVol, vWapDist, short },
-                index
-              ) => {
-                return (
-                  <Tr key={index}>
-                    <Td>
+
+        {discoveryDataFiltered
+          .slice(0, discoveryIndex)
+          .map(
+            (
+              { symbol, last, volume, momentum, uVol, vWapDist, short },
+              index
+            ) => {
+              return (
+                <Tbody key={index}>
+                  <Tr>
+                    <Td className='text-white flex-fill text-center'>
                       <ContextMenuTrigger
                         id={`discovery-context-menu_${index}`}
                         holdToDisplay={0}
@@ -1128,8 +1129,13 @@ export class Dashboard extends Component {
                           <b>{symbol}</b>
                         </div>
                       </ContextMenuTrigger>
+                      {this.getMenuItems(
+                        `discovery-context-menu_${index}`,
+                        [symbol, '', '', '', '', ''],
+                        ''
+                      )}
                     </Td>
-                    <Td>
+                    <Td className='text-white flex-fill text-center'>
                       <ContextMenuTrigger
                         id={`discovery-context-menu_${index}`}
                         holdToDisplay={0}
@@ -1138,8 +1144,13 @@ export class Dashboard extends Component {
                           {`${this.round(last, 2)}%`}
                         </div>
                       </ContextMenuTrigger>
+                      {this.getMenuItems(
+                        `discovery-context-menu_${index}`,
+                        [symbol, '', '', '', '', ''],
+                        ''
+                      )}
                     </Td>
-                    <Td>
+                    <Td className='text-white flex-fill text-center'>
                       <ContextMenuTrigger
                         id={`discovery-context-menu_${index}`}
                         holdToDisplay={0}
@@ -1148,8 +1159,13 @@ export class Dashboard extends Component {
                           {volume.toString()}
                         </div>
                       </ContextMenuTrigger>
+                      {this.getMenuItems(
+                        `discovery-context-menu_${index}`,
+                        [symbol, '', '', '', '', ''],
+                        ''
+                      )}
                     </Td>
-                    <Td>
+                    <Td className='flex-fill text-center'>
                       <ContextMenuTrigger
                         id={`discovery-context-menu_${index}`}
                         holdToDisplay={0}
@@ -1163,8 +1179,13 @@ export class Dashboard extends Component {
                           {momentum}
                         </div>
                       </ContextMenuTrigger>
+                      {this.getMenuItems(
+                        `discovery-context-menu_${index}`,
+                        [symbol, '', '', '', '', ''],
+                        ''
+                      )}
                     </Td>
-                    <Td>
+                    <Td className='flex-fill text-center'>
                       <ContextMenuTrigger
                         id={`discovery-context-menu_${index}`}
                         holdToDisplay={0}
@@ -1175,17 +1196,22 @@ export class Dashboard extends Component {
                             uVol > 0
                               ? 'text-success'
                               : uVol < 0
-                                ? 'text-danger'
-                                : 'text-secondary'
-                            }`}
+                              ? 'text-danger'
+                              : 'text-white'
+                          }`}
                         >
                           {isNaN(uVol)
                             ? '_'
                             : (uVol > 0 ? '+' : '') + `${uVol}%`}
                         </div>
                       </ContextMenuTrigger>
+                      {this.getMenuItems(
+                        `discovery-context-menu_${index}`,
+                        [symbol, '', '', '', '', ''],
+                        ''
+                      )}
                     </Td>
-                    <Td>
+                    <Td className='text-white flex-fill text-center'>
                       <ContextMenuTrigger
                         id={`discovery-context-menu_${index}`}
                         holdToDisplay={0}
@@ -1196,21 +1222,25 @@ export class Dashboard extends Component {
                             vWapDist > 0
                               ? 'text-success'
                               : vWapDist < 0
-                                ? 'text-danger'
-                                : 'text-secondary'
-                            }`}
+                              ? 'text-danger'
+                              : 'text-white'
+                          }`}
                         >
                           {isNaN(vWapDist)
                             ? '_'
                             : (vWapDist > 0 ? '+' : '') + `${vWapDist}%`}
                         </div>
                       </ContextMenuTrigger>
+                      {this.getMenuItems(
+                        `discovery-context-menu_${index}`,
+                        [symbol, '', '', '', '', ''],
+                        ''
+                      )}
                     </Td>
-                    {/*<Td>{short}</Td>*/}
-                    <Td>
+                    <Td className='text-white'>
                       <div
                         style={{ cursor: 'pointer' }}
-                        className='row text-center'
+                        className='row d-flex allign-items-center'
                       >
                         <MenuItem
                           onClick={() => {
@@ -1237,7 +1267,7 @@ export class Dashboard extends Component {
                             this.registerQuote(symbol);
                           }}
                         >
-                          <div className='row justify-content-center align-items-center'>
+                          <div className='row'>
                             <i
                               className={`${
                                 this.isSymbolFav(symbol)
@@ -1249,16 +1279,11 @@ export class Dashboard extends Component {
                         </MenuItem>
                       </div>
                     </Td>
-                    {this.getMenuItems(
-                      `discovery-context-menu_${index}`,
-                      [symbol, '', '', '', '', ''],
-                      ''
-                    )}
                   </Tr>
-                );
-              }
-            )}
-        </Tbody>
+                </Tbody>
+              );
+            }
+          )}
       </Table>
     );
   };
@@ -1470,7 +1495,7 @@ export class Dashboard extends Component {
             <div className='col-12 card-body py-0 px-0'>
               {/** Static Bar */}
 
-              <div className='d-flex justify-content-start flex-wrap static-bar'>
+              <div className='d-flex justify-content-start flex-wrap static-bar pl-3'>
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showStream ? 'showWidget' : 'hideWidget'
