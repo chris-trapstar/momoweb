@@ -821,25 +821,7 @@ export class Dashboard extends Component {
   };
 
   onPopover = async (e, data) => {
-    let url = '';
-    switch (data.domain) {
-      case 'cnbc':
-        url = `https://www.${data.domain}.com/quotes/?symbol=${data.data[0]}`;
-        break;
-      case 'marketwatch':
-        url = `https://www.${data.domain}.com/investing/stock/${data.data[0]}`;
-        break;
-      case 'seekingalpha':
-        url = `https://www.${data.domain}.com/symbol/${data.data[0]}`;
-        break;
-      case 'nasdaq':
-        url = `https://www.${data.domain}.com/market-activity/stocks/${data.data[0]}`;
-        break;
-      case 'stocktwits':
-        url = `https://www.${data.domain}.com/symbol/${data.data[0]}`;
-        break;
-    }
-    window.open(url, '_blank');
+    window.open(API.getStockPageLink(`${data.domain}.com`, data.data[0]), '_blank');
   };
 
   onRemoveQuote = async ({ symbol }) => {
