@@ -8,6 +8,7 @@ import Verification from './user-pages/Verification';
 import Subscription from './user-pages/Subscription';
 
 import API from './api'
+import cogoToast from 'cogo-toast';
 
 class AppRoutes extends Component {
   componentDidMount() {
@@ -23,11 +24,15 @@ class AppRoutes extends Component {
   }
 
   requestNotificationPermissions = async () => {
-    const registration_id = await firebase.messaging().getToken()
-    if (registration_id) {
-      this.registerPushToken(registration_id)
-    } else {
-      alert('Please allow push notification permissions in the browser settings!')
+    try {
+      const registration_id = await firebase.messaging().getToken()
+      if (registration_id) {
+        this.registerPushToken(registration_id)
+      } else {
+        alert('Please allow push notification permissions in the browser settings!')
+      }
+    } catch (e) {
+      cogoToast.error('Please allow the push notification permissions in the browser settings!')
     }
   }
   render() {

@@ -55,7 +55,7 @@ export default class Meters extends Component {
   };
 
   onCompressedUpdate = (event) => {
-    // this._handleData(event.detail)
+    this._handleData(event.detail)
   }
 
   componentDidMount() {
@@ -118,6 +118,7 @@ export default class Meters extends Component {
                     style={{
                       background: isEmpty ? empty : `linear-gradient(90deg, rgba(255, 0, 0, ${opacityL}) 0%, rgba(255, 0, 0, ${opacityR}) 100%)`
                     }}
+                    key={`${name}_low:${index}`}
                   >
                   </div>
                 })
