@@ -141,15 +141,15 @@
 }
 
 .stock-active-low {
-  background: #e55456;
+  background: #fc424a;
 }
 
 .stock-active-high {
-  background: #33b941;
+  background: #00d25b;
 }
 
 .text-low {
-  color: #ff0100;
+  color: #fc424a !important;
   text-align: center;
 }
 
@@ -158,7 +158,7 @@
 }
 
 .text-high {
-  color: #73b101;
+  color: #00d25b !important;
   text-align: center;
 }
 
@@ -278,7 +278,7 @@ th {
 
 .logo h1 {
   font-family: 'Lato';
-  font-weight: bold;
+  font-weight: 500;
   letter-spacing: 2px;
   margin: 0;
   font-size: 40px;
