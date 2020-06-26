@@ -193,6 +193,24 @@ class Navbar extends Component {
                 </Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item
+                  onClick={() => {
+                    window.open('https://www.mometic.com/momowebpro-help/', '_blank')
+                  }}
+                  className='preview-item'
+                >
+                  <div className='preview-thumbnail'>
+                    <div className='preview-icon bg-dark rounded-circle'>
+                      <i className='mdi mdi-help text-success'></i>
+                    </div>
+                  </div>
+                  <div className='preview-item-content'>
+                    <p className='preview-subject mb-1'>
+                      <Trans>Help</Trans>
+                    </p>
+                  </div>
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item
                   href='!#'
                   onClick={(evt) => {
                     evt.preventDefault();

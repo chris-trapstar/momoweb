@@ -659,3 +659,32 @@ th {
   color: white !important;
   border: none !important;
 }
+
+.th-item-style {
+  color: white;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.th-action-item-style {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.context-menu-style {
+  background-color: rgba(0, 0, 0, 0.9);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 24px;
+  padding-right: 24px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.context-menu-item-icon-style {
+  width: 24px;
+  color: #ffff;
+}
