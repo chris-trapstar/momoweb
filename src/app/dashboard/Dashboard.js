@@ -938,7 +938,7 @@ export class Dashboard extends Component {
                 id={`popular-data-h3-${index + i}`}
                 holdToDisplay={0}
               >
-                <h3 className='pr-2'>{item}</h3>
+                <h4 className='pr-2'>{item}</h4>
               </ContextMenuTrigger>
               {this.getMenuItems(
                 `popular-data-h3-${index + i}`,
@@ -952,7 +952,7 @@ export class Dashboard extends Component {
                 id={`popular-data-h4-${index + i}`}
                 holdToDisplay={0}
               >
-                <h4 className='pr-2'>{item}</h4>
+                <h5 className='pr-2'>{item}</h5>
               </ContextMenuTrigger>
               {this.getMenuItems(
                 `popular-data-h4-${index + i}`,
@@ -966,7 +966,7 @@ export class Dashboard extends Component {
                 id={`popular-data-h5${index + i}`}
                 holdToDisplay={0}
               >
-                <h5 className='pr-2'>{item}</h5>
+                <h6 className='pr-2'>{item}</h6>
               </ContextMenuTrigger>
               {this.getMenuItems(
                 `popular-data-h5-${index + i}`,
