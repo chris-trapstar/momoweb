@@ -687,10 +687,10 @@ export class Dashboard extends Component {
                 style={{
                   fontWeight: '600',
                   fontSize: '20px',
-                  color: item.high > item.low ? '#00d25b' : '#fc424a',
+                  color: item.percent > 0 ? '#00d25b' : '#fc424a',
                 }}
               >
-                ${item.price}
+                ${item.price} <small>{item.percent}%</small>
               </label>
               <div className='vertical-quote-container'>
                 <div>
