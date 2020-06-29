@@ -48,7 +48,7 @@ export default class Meters extends Component {
     super(props)
 
     this.state = {
-      bars: [0.3, 0.4, 0.7],
+      bars: [0.9, -0.9, 0.5],
       total: isMobile ? 5 : 10,
       gradients: [
         ['#bd19d6', '#ea7d10'],
@@ -89,7 +89,7 @@ export default class Meters extends Component {
   };
 
   onCompressedUpdate = (event) => {
-    this._handleData(event.detail)
+    // this._handleData(event.detail)
   }
 
   componentDidMount() {
