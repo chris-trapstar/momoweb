@@ -688,3 +688,8 @@ th {
   width: 24px;
   color: #ffff;
 }
+
+.stock-percent {
+  font-size: 70%;
+  margin-left: 0.5em;
+}
