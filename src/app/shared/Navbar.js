@@ -241,7 +241,7 @@ class Navbar extends Component {
 
 export default withRouter(
   connect((state) => {
-    console.info('NavBar user - ', state.auth.user);
+    // console.info('NavBar user - ', state.auth.user);
     return {
       user: state.auth.user,
       isPro:
