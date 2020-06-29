@@ -664,7 +664,6 @@ export class Dashboard extends Component {
     quotes.map((item, index) => {
       renderCards.push(
         <div key={'render-cards' + index} className='quote-card'>
-          {console.log(item)}
           <div className='card p-1'>
             <div className='horizontal-quote-container card-padding container-padding'>
               <label className='mb-0 font-weight-bold font-20'>
