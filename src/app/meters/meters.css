@@ -31,7 +31,7 @@
 .meters-type {
   width: 3em;
   text-align: center;
-  transform: scale(1, 0.8);
+  transform: scale(1, 0.75);
   font-weight: bold;
 }
 
