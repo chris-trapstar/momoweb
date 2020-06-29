@@ -8,6 +8,40 @@ const tiles = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 const indexes = ['DOW', 'NAZ', 'SPY']
 const empty = 'rgba(0, 0, 0, 0.2)'
 
+const lowColors = [ 
+  '#e13129', 
+  '#dd3729', 
+  '#d83b29', 
+  '#d5412a', 
+  '#d4422a', 
+  '#c84d28', 
+  '#c5552b', 
+  '#bf5c2c', 
+  '#ba642c', 
+  '#b46b2c', 
+  '#b46b2c', 
+  '#a6772b', 
+  '#a1822e',
+  '#9c872d'
+]
+
+const highColors = [
+  '78742a',
+  '575c26',
+  '6f802b',
+  '647f23',
+  '658b2c',
+  '61912d',
+  '61912d',
+  '61912d',
+  '61912d',
+  '569f2d',
+  '4d9d25',
+  '4fa82e',
+  '4fa82e',
+  '4fa82e'
+]
+
 export default class Meters extends Component {
 
   constructor(props) {
