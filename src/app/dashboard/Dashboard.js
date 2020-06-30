@@ -48,46 +48,54 @@ const filter = {
 };
 
 const sectorsFilter = {
-  'Process Industries': {
+  'BASIC INDUSTRIES': {
+    'Process Industries': true,
     'Conglomerates': true,
     'Industrials': true,
     'Basic Industries': true,
     'Basic Materials': true,
   },
-  'Capital Goods': {
+  'CAPITAL GOODS': {
     'Capital Goods': true,
   },
-  'Consumer Non Durables': {
+  'CONSUMER GOODS': {
+    'Consumer Non Durables': true,
     'Consumer Non-Durables': true,
     'Consumer Defensive': true,
     'Consumer Cyclical': true,
     'Consumer Durables': true,
   },
-  'Consumer': {
+  'SERVICES': {
+    'Consumer': true,
     'Services': true,
     'Commercial Services': true,
     'Communications Services': true,
   },
-  'Energy': {
-    Energy: true,
+  'ENERGY': {
+    'Energy': true,
   },
-  'Finance': {
+  'FINANCE': {
+    'Finance': true,
     'Financial Services': true,
   },
-  'Health Care': {
+  'HEALTH CARE': {
+    'Health Care': true,
     'Health Technology': true,
     'Heathcare': true,
   },
-  'Public Utilities': {
-    Utilities: true,
+  'PUBLIC UTILITIES': {
+    'Public Utilities': true,
+    'Utilities': true,
   },
-  'Communications': {
-    Technology: true,
+  'COMMUNICATIONS': {
+    'Coummunications': true,
+    'Technology': true
   },
-  'Transportation': {
-    Transportation: true,
+  'TRANSPORTION': {
+    'Transportation': true,
   },
-  'Miscellaneous': {
+  'MISCELLANEOUS': {
+    'Miscellaneous': true,
     'n/a': true,
     'Real Estate': true,
   },
@@ -689,7 +697,7 @@ export class Dashboard extends Component {
                 }}
               >
                 <span>${item.price}</span>
-              <div className='stock-percent'>{item.percent > 0 ? ' +' : ' '}{item.percent}%</div>
+                <div className='stock-percent'>{item.percent > 0 ? ' +' : ' '}{item.percent}%</div>
               </div>
               <div className='vertical-quote-container'>
                 <div>
