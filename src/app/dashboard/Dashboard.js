@@ -1310,22 +1310,20 @@ export class Dashboard extends Component {
         }
       >
         <div className='card'>
-          <div>
-            <button
-              type='button'
-              className='btn btn-icon btn-max'
-              onClick={() => {
-                this.setState({
-                  max: max ? null : 'stream',
-                });
-              }}
-            >
-              <i
-                className={
-                  max ? 'mdi mdi-window-close' : 'mdi mdi-window-maximize'
-                }
-              />
-            </button>
+          <div
+            className='btn btn-icon btn-max'
+            style={{ marginRight: 28, cursor: 'pointer' }}
+            onClick={() => {
+              this.setState({
+                max: max ? null : 'stream',
+              });
+            }}
+          >
+            <i
+              className={
+                max ? 'mdi mdi-window-close' : 'mdi mdi-window-maximize'
+              }
+            />
           </div>
           {isSmallDevice ? (
             <div className='d-flex flex-row'>
@@ -1351,42 +1349,17 @@ export class Dashboard extends Component {
     return (
       <div className={max ? 'w-100' : 'd-flex flex-row data-section'}>
         <div className='col-12 px-0'>
-          <div>
-            <button
-              type='button'
-              className='btn btn-icon btn-max'
-              onClick={() => {
-                this.setState(
-                  {
-                    max: max ? null : 'discovery',
-                    discoveryIndex: 50,
-                  },
-                  () => {
-                    window.scrollTo(0, 0);
-                    document
-                      .getElementById('discovery-table')
-                      .addEventListener('scroll', this.handleScroll);
-                  }
-                );
-              }}
-            >
-              <i
-                className={
-                  max ? 'mdi mdi-window-close' : 'mdi mdi-window-maximize'
-                }
-              />
-            </button>
-          </div>
           <div className='card'>
-            <div className='card-body'>
+            <div style={{ flex: '1 1 auto', padding: '1rem' }}>
               <div className='row'>
                 <div className='col-12 '>
-                  <div className='d-flex flex-row justify-content-between text-center flex-wrap py-2'>
+                  <div className='d-flex flex-row justify-content-between text-center flex-wrap mb-3'>
                     <h4 className='card-title mb-1 py-1'>Discovery</h4>
                     <div className='d-flex flex-row mT15'>
-                      <span className='button btn-dark px-1 border-radius-10'>
+                      <div className='search-bar-wrapper search-bar-wrapper-hover'>
                         <select
                           className='form-control sector-select'
+                          style={{ alignSelf: 'center' }}
                           onChange={this.onChangeSector}
                           value={this.state.discoverySector}
                         >
@@ -1398,33 +1371,77 @@ export class Dashboard extends Component {
                             );
                           })}
                         </select>
-                      </span>
-                      <span className='border border-radius-10 ml-4'>
-                        <div
-                          style={{ cursor: 'pointer' }}
-                          className='button btn-dark px-4 py-1 border-radius-10'
-                          onClick={this.onFavPress}
-                        >
-                          <i
-                            className={`${
-                              this.state.isFavFilter
-                                ? 'mdi mdi-star quote-star popover-icon'
-                                : 'mdi mdi-star text-white popover-icon'
-                            }`}
-                          />
-                          <span className='ml-1'>Favorite</span>
-                        </div>
-                      </span>
+                      </div>
+
+                      <div
+                        className='search-bar-wrapper search-bar-wrapper-hover'
+                        style={{
+                          cursor: 'pointer',
+                          padding: 16,
+                          marginLeft: 8,
+                        }}
+                        onClick={this.onFavPress}
+                      >
+                        <i
+                          className={`${
+                            this.state.isFavFilter
+                              ? 'mdi mdi-star quote-star popover-icon'
+                              : 'mdi mdi-star text-white popover-icon'
+                          }`}
+                          style={{ alignSelf: 'center' }}
+                        />
+                        <span style={{ alignSelf: 'center', marginLeft: 4 }}>
+                          Favorite
+                        </span>
+                      </div>
                     </div>
-                    <input
-                      className='input p-0 text-center bg-dark white-color input-border'
-                      placeholder='Symbol Search'
-                      onChange={this.onChangeDiscoveryFilter}
-                      ref={(ref) => {
-                        this.refDiscoveryFilter = ref;
-                      }}
-                      value={discoveryFilter}
-                    />
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                      <div
+                        className='search-bar-wrapper search-bar-wrapper-hover'
+                        style={{ marginRight: 40 }}
+                      >
+                        <input
+                          className='search-bar'
+                          placeholder='Symbol Search'
+                          onChange={this.onChangeDiscoveryFilter}
+                          ref={(ref) => {
+                            this.refDiscoveryFilter = ref;
+                          }}
+                        />
+                        <div className='search-icon-wrapper'>
+                          <i
+                            className='fa fa-search text-white'
+                            style={{ cursor: 'default' }}
+                          />
+                        </div>
+                      </div>
+                      <div
+                        className='btn btn-icon btn-max'
+                        style={{ marginRight: 32, cursor: 'pointer' }}
+                        onClick={() => {
+                          this.setState(
+                            {
+                              max: max ? null : 'discovery',
+                              discoveryIndex: 50,
+                            },
+                            () => {
+                              window.scrollTo(0, 0);
+                              document
+                                .getElementById('discovery-table')
+                                .addEventListener('scroll', this.handleScroll);
+                            }
+                          );
+                        }}
+                      >
+                        <i
+                          className={
+                            max
+                              ? 'mdi mdi-window-close'
+                              : 'mdi mdi-window-maximize'
+                          }
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div
                     className={
@@ -1644,12 +1661,13 @@ export class Dashboard extends Component {
                 <div className='d-flex grid-margin stretch-card flex-column pr-0 popular-table'>
                   {this.state.showPopular && (
                     <div className='card'>
-                      <div className='card-body'>
+                      <div style={{ flex: '1 1 auto', padding: '1rem' }}>
                         <div className='d-flex flex-row justify-content-between'>
-                          <h4 className='card-title mb-1'>Popular</h4>
-                          <p className='text-muted mb-1' />
+                          <h4 style={{ marginBottom: '0px' }}>Popular</h4>
                         </div>
-                        <div className='column mt-3'>
+                        <div
+                          style={{ marginLeft: '2rem', marginTop: '0.4rem' }}
+                        >
                           <div className='d-flex flex-row flex-fill flex-wrap'>
                             {this.renderPopularData(0)}
                           </div>
@@ -1671,10 +1689,9 @@ export class Dashboard extends Component {
                   )}
                   {this.state.showAlertHistory && (
                     <div className='card flex-fill'>
-                      <div className='card-body'>
+                      <div style={{ flex: '1 1 auto', padding: '1rem' }}>
                         <div className='d-flex flex-row justify-content-between'>
-                          <h4 className='card-title mb-1'>Alert History</h4>
-                          <p className='text-muted mb-1' />
+                          <h4 style={{ marginBottom: '0px' }}>Alert History</h4>
                         </div>
                         <div className='data-section'>
                           <div className='d-flex flex-row flex-fill alert-history-separator' />

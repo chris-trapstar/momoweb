@@ -60,13 +60,11 @@ class Subscription extends Component {
         const payload = await this.stripe.createToken(this.elements.getElement(CardElement), {
           name: this.state.name
         });
-        console.info('Payment Method:', payload)
         if (payload && payload.error) {
           cogoToast.error(payload.error.message)
           throw payload.error
         }
         const res = await Api.createCustomer(payload.token.id)
-        console.info('Customer Response:', res)
 
         if (res && res.error) {
           cogoToast.error('Payment method verification failed!')
@@ -97,7 +95,6 @@ class Subscription extends Component {
       let subscription = this.props.user.subscription
       if (subscription) {
         const res = await Api.cancelSubscription(subscription.id)
-        console.info('Cancel Sub Result:', res)
         if (res && res.error) {
           cogoToast.error('Failed to upgrade the subscription, please try again!')
           throw res.error
@@ -140,7 +137,6 @@ class Subscription extends Component {
     try {
       cogoToast.loading('Please wait for a moment!');
       const res = await Api.cancelSubscription(subscription.id)
-      console.info('Cancel Sub Result:', res)
       if (res && res.error) {
         cogoToast.error('Failed to cancel the subscription, please try again!')
         return
