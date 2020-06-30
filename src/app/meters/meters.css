@@ -29,14 +29,16 @@
 }
 
 .meters-type {
-  width: 5em;
+  width: 3em;
   text-align: center;
+  transform: scale(1, 0.75);
+  font-weight: bold;
 }
 
 .meters-tile {
   flex: 1;
-  margin-left: 0.1em;
-  margin-right: 0.1em;
+  margin-left: 2px;
+  margin-right: 2px;
   height: 1em;
   border-radius: 3px;
 }

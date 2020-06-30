@@ -895,7 +895,6 @@ export class Dashboard extends Component {
   };
 
   onChangeSector = (e) => {
-    console.info('onChnageSector - ', e.target.value);
     this.setState(
       {
         discoverySector: e.target.value,
@@ -1286,13 +1285,14 @@ export class Dashboard extends Component {
               }
             )}
         </Table>
-
-        <Spinner
-          className={'overlay-content'}
-          style={{ margin: 8 }}
-          animation='border'
-          variant='success'
-        />
+        {this.state.discoveryDataFiltered.length >= 50 && (
+          <Spinner
+            className={'overlay-content'}
+            style={{ margin: 8 }}
+            animation='border'
+            variant='success'
+          />
+        )}
       </div>
     );
   };

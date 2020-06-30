@@ -8,13 +8,47 @@ const tiles = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 const indexes = ['DOW', 'NAZ', 'SPY']
 const empty = 'rgba(0, 0, 0, 0.2)'
 
+const lowColors = [
+  '#e13129',
+  '#dd3729',
+  '#d83b29',
+  '#d5412a',
+  '#d4422a',
+  '#c84d28',
+  '#c5552b',
+  '#bf5c2c',
+  '#ba642c',
+  '#b46b2c',
+  '#b46b2c',
+  '#a6772b',
+  '#a1822e',
+  '#9c872d'
+]
+
+const highColors = [
+  '#78752a',
+  '#74792a',
+  '#6f802b',
+  '#647f23',
+  '#658b2c',
+  '#61912d',
+  '#61912d',
+  '#61912d',
+  '#61912d',
+  '#569f2d',
+  '#4d9d25',
+  '#4fa82e',
+  '#4fa82e',
+  '#4fa82e'
+]
+
 export default class Meters extends Component {
 
   constructor(props) {
     super(props)
 
     this.state = {
-      bars: [0.3, 0.4, 0.7],
+      bars: [0.9, -0.9, 0.5],
       total: isMobile ? 5 : 10,
       gradients: [
         ['#bd19d6', '#ea7d10'],
@@ -116,7 +150,7 @@ export default class Meters extends Component {
 
                   return <div key={index} className='meters-tile'
                     style={{
-                      background: isEmpty ? empty : `linear-gradient(90deg, rgba(255, 0, 0, ${opacityL}) 0%, rgba(255, 0, 0, ${opacityR}) 100%)`
+                      background: isEmpty ? empty : `linear-gradient(90deg, ${lowColors[index]} 0%, ${lowColors[index + 1]} 100%)`
                     }}
                     key={`${name}_low:${index}`}
                   >
@@ -137,7 +171,7 @@ export default class Meters extends Component {
 
                   return <div key={index} className='meters-tile'
                     style={{
-                      background: isEmpty ? empty : `linear-gradient(90deg, rgba(0, 255, 0, ${opacityL}) 100%, rgba(0, 255, 0, ${opacityR}) 0%)`
+                      background: isEmpty ? empty : `linear-gradient(90deg, ${highColors[index]} 0%, ${highColors[index + 1]} 0%)`
                     }}
                   />
                 })
