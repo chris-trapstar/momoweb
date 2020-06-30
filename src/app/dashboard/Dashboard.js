@@ -15,6 +15,7 @@ import './dashboard.css';
 import 'swiper/css/swiper.css';
 import { AuthActions } from '../store';
 import Meters from '../meters/Meters';
+import { ArrowDown, ArrowUp } from './../icons';
 
 const filter = {
   category: [
@@ -149,13 +150,14 @@ export class Dashboard extends Component {
     if (this.getScrollPercent() === 100) {
       const { discoveryIndex } = this.state;
       this.setState({
-        discoveryIndex: discoveryIndex + 5,
+        // pagination
+        discoveryIndex: discoveryIndex + 25,
       });
     }
   };
 
   onFavPress = () => {
-    const { discoveryDataFiltered, isFavFilter, discoveryData } = this.state;
+    const { isFavFilter, discoveryData } = this.state;
     let filterData = [];
     if (isFavFilter) {
       filterData = discoveryData.filter(this.searchFilter);
@@ -312,7 +314,7 @@ export class Dashboard extends Component {
       discoveryIndex: 50,
       discoverySort: {
         field: 'symbol',
-        reverse: true,
+        type: 'none',
       },
       discoverySector: 'All',
       max: false,
@@ -412,7 +414,7 @@ export class Dashboard extends Component {
     }
     let highs = this.state.highs.slice();
     let lows = this.state.lows.slice();
-    this.buffer.forEach(function (item, i, arr) {
+    this.buffer.forEach(function(item, i, arr) {
       highs = item.highs.concat(highs).slice(0, 100);
       lows = item.lows.concat(lows).slice(0, 100);
     });
@@ -533,7 +535,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   low[3] === 1 ? 'stock-active-text stock-active-low' : ''
-                  }`}
+                }`}
               >
                 <ContextMenuTrigger
                   id={`low-context-menu_${index}`}
@@ -587,7 +589,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   high[3] === 1 ? 'stock-active-text stock-active-high' : ''
-                  }`}
+                }`}
               >
                 <ContextMenuTrigger
                   id={`high-context-menu_${index}`}
@@ -678,44 +680,36 @@ export class Dashboard extends Component {
                 <i className='mdi mdi-star quote-star' />
               </div>
             </div>
-            <div className='horizontal-quote-container card-padding'>
-              <div
+            <div className='horizontal-quote-container'>
+              <label
                 style={{
                   fontWeight: '600',
                   fontSize: '20px',
                   color: item.percent > 0 ? '#00d25b' : '#fc424a',
-                  flexDirection: 'row',
-                  display: 'flex'
+                  paddingLeft: 8,
                 }}
               >
-                <span>${item.price}</span>
-              <div className='stock-percent'>{item.percent > 0 ? ' +' : ' '}{item.percent}%</div>
-              </div>
+                {`${this.round(item.price, 2)}`}
+                <sup style={{ fontSize: 14, marginLeft: 4 }}>
+                  {item.percent > 0
+                    ? `+${this.round(item.percent, 1)}%`
+                    : `${this.round(item.percent, 1)}%`}
+                </sup>
+              </label>
               <div className='vertical-quote-container'>
                 <div>
-                  <span className='quote-status-label'>H:</span>
-                  <span className='font-16 dash-font-color ml-1'>
-                    {item.high}
-                  </span>
+                  <label className='quote-status-label'>H:</label>
+                  <label className='font-14 dash-font-color ml-1'>
+                    {`${this.round(item.high, 2)}$`}
+                  </label>
                 </div>
                 <div>
-                  <span className='quote-status-label'>L:</span>
-                  <span className='font-16 dash-font-color ml-1'>
-                    {item.low}
-                  </span>
+                  <label className='quote-status-label'>L:</label>
+                  <label className='font-14 dash-font-color ml-1'>
+                    {`${this.round(item.low, 2)}$`}
+                  </label>
                 </div>
               </div>
-              {/* <label
-                  className={`${
-                    item.percent > 0
-                      ? 'text-success'
-                      : item.percent == 0
-                      ? 'text'
-                      : 'text-danger'
-                  } ml-2 mb-0 font-10`}
-                >
-                  {item.percent}%
-                </label> */}
             </div>
           </div>
           <div className='bullets-section' />
@@ -901,7 +895,6 @@ export class Dashboard extends Component {
   };
 
   onChangeSector = (e) => {
-    console.info('onChnageSector - ', e.target.value);
     this.setState(
       {
         discoverySector: e.target.value,
@@ -918,24 +911,24 @@ export class Dashboard extends Component {
     return qouteItem ? true : false;
   };
 
-  onSort = (field) => {
-    const { discoverySort, discoveryDataFiltered } = this.state;
+  onSort = (field, sortType = 'up') => {
+    const { discoveryDataFiltered, discoveryData } = this.state;
     const sortOption = {
       field,
-      reverse: false,
+      type: sortType,
     };
-    if (discoverySort.field === field) {
-      sortOption.reverse = !discoverySort.reverse;
-    } else {
-      sortOption.reverse = false;
-    }
 
     const sorted = _.sortBy(discoveryDataFiltered, field);
 
     this.setState({
       discoverySort: sortOption,
       discoveryIndex: 50,
-      discoveryDataFiltered: sortOption.reverse ? sorted.reverse() : sorted,
+      discoveryDataFiltered:
+        sortOption.type === 'none'
+          ? discoveryData
+          : sortOption.type === 'up'
+          ? sorted.reverse()
+          : sorted,
     });
   };
 
@@ -988,20 +981,20 @@ export class Dashboard extends Component {
               )}
             </div>
           ) : (
-                  <div key={`popular-data-h6-${index + i}`}>
-                    <ContextMenuTrigger
-                      id={`popular-data-h6-${index + i}`}
-                      holdToDisplay={0}
-                    >
-                      <h6 className='pr-2'>{item}</h6>
-                    </ContextMenuTrigger>
-                    {this.getMenuItems(
-                      `popular-data-h6-${index + i}`,
-                      [item, '', '', '', '', ''],
-                      ''
-                    )}
-                  </div>
-                )
+            <div key={`popular-data-h6-${index + i}`}>
+              <ContextMenuTrigger
+                id={`popular-data-h6-${index + i}`}
+                holdToDisplay={0}
+              >
+                <h6 className='pr-2'>{item}</h6>
+              </ContextMenuTrigger>
+              {this.getMenuItems(
+                `popular-data-h6-${index + i}`,
+                [item, '', '', '', '', ''],
+                ''
+              )}
+            </div>
+          )
         );
       });
     }
@@ -1024,6 +1017,39 @@ export class Dashboard extends Component {
     return data;
   };
 
+  isSorted = (field, type) =>
+    this.state.discoverySort.field === field &&
+    this.state.discoverySort.type === type;
+
+  sortUI = (field) => (
+    <div key={`discovery-sort-${field}`} className={'filter-icon-wrapper'}>
+      <div
+        style={{ display: 'inline-flex' }}
+        onClick={() => {
+          this.onSort(field, this.isSorted(field, 'up') ? 'none' : 'up');
+        }}
+      >
+        <ArrowUp
+          width={'10px'}
+          height={'10px'}
+          fill={this.isSorted(field, 'up') ? '#00d25b' : '#ffff'}
+        />
+      </div>
+      <div
+        style={{ display: 'inline-flex' }}
+        onClick={() => {
+          this.onSort(field, this.isSorted(field, 'down') ? 'none' : 'down');
+        }}
+      >
+        <ArrowDown
+          width={'10px'}
+          height={'10px'}
+          fill={this.isSorted(field, 'down') ? '#00d25b' : '#ffff'}
+        />
+      </div>
+    </div>
+  );
+
   renderDiscoveryTableResponsive = () => {
     const {
       discoveryDataFiltered,
@@ -1032,254 +1058,242 @@ export class Dashboard extends Component {
     } = this.state;
 
     return (
-      <Table className='table-striped'>
-        <Thead className='my-2 table-header'>
-          <Tr>
-            <Th
-              className='th-item-style'
-              onClick={() => {
-                this.onSort('symbol');
-              }}
-            >
-              <span>Symbol</span>
-              <i className='fa fa-unsorted ml-2' />
-            </Th>
-            <Th
-              className='th-item-style'
-              onClick={() => {
-                this.onSort('last');
-              }}
-            >
-              <span>Last</span>
-              <i className='fa fa-unsorted ml-2' />
-            </Th>
-            <Th
-              className='th-item-style'
-              onClick={() => {
-                this.onSort('volume');
-              }}
-            >
-              <span>Volume</span>
-              <i className='fa fa-unsorted ml-2' />
-            </Th>
-            <Th
-              className='th-item-style'
-              onClick={() => {
-                this.onSort('momentum');
-              }}
-            >
-              <span>Momentum</span>
-              <i className='fa fa-unsorted ml-2' />
-            </Th>
-            <Th
-              className='th-item-style'
-              onClick={() => {
-                this.onSort('uVol');
-              }}
-            >
-              <span>Unusual Vol</span>
-              <i className='fa fa-unsorted ml-2' />
-            </Th>
-            <Th
-              className='th-item-style'
-              onClick={() => {
-                this.onSort('vWapDist');
-              }}
-            >
-              <span>vWapDist</span>
-              <i className='fa fa-unsorted ml-2' />
-            </Th>
-            {/*<Th className='py-2' onClick={() => { this.onSort('short') }}>
-              <span>Short %</span>
-              <i className='fa fa-unsorted ml-2' />
-    </Th>*/}
-            <Th
-              className='th-item-style'
-              onClick={() => {
-                this.onFavPress();
-              }}
-            >
-              <span>Actions</span>
-              <i className='fa fa-unsorted ml-2' />
-            </Th>
-          </Tr>
-        </Thead>
+      <div>
+        <Table className='table-striped'>
+          <Thead className='my-2 table-header'>
+            <Tr>
+              <Th className='th-item-style'>
+                <div className={'th-item-wrapper '}>
+                  <span style={{ marginRight: 8 }}>Symbol</span>
+                  {this.sortUI('symbol')}
+                </div>
+              </Th>
+              <Th className='th-item-style'>
+                <div className={'th-item-wrapper '}>
+                  <span style={{ marginRight: 8 }}>Last</span>
+                  {this.sortUI('last')}
+                </div>
+              </Th>
+              <Th className='th-item-style'>
+                <div className={'th-item-wrapper '}>
+                  <span style={{ marginRight: 8 }}>Volume</span>
+                  {this.sortUI('volume')}
+                </div>
+              </Th>
+              <Th className='th-item-style'>
+                <div className={'th-item-wrapper '}>
+                  <span style={{ marginRight: 8 }}>Momentum</span>
+                  {this.sortUI('momentum')}
+                </div>
+              </Th>
+              <Th className='th-item-style'>
+                <div className={'th-item-wrapper '}>
+                  <span style={{ marginRight: 8 }}>Unusual Vol</span>
+                  {this.sortUI('uVol')}
+                </div>
+              </Th>
+              <Th className='th-item-style'>
+                <div className={'th-item-wrapper '}>
+                  <span style={{ marginRight: 8 }}>vWapDist</span>
+                  {this.sortUI('vWapDist')}
+                </div>
+              </Th>
+              <Th
+                className='th-item-style'
+                // onClick={() => {
+                //   this.onFavPress();
+                // }}
+              >
+                <span>Actions</span>
+                {/* <i className='fa fa-unsorted ml-2' /> */}
+              </Th>
+            </Tr>
+          </Thead>
 
-        {discoveryDataFiltered
-          .slice(0, discoveryIndex)
-          .map(
-            (
-              { symbol, last, volume, momentum, uVol, vWapDist, short },
-              index
-            ) => {
-              return (
-                <Tbody key={index}>
-                  <Tr>
-                    <Td className='text-white flex-fill text-center'>
-                      <ContextMenuTrigger
-                        id={`discovery-context-menu_${index}`}
-                        holdToDisplay={0}
-                      >
-                        <div
-                          style={{ cursor: 'pointer', fontSize: 18 }}
-                          className='py-1'
+          {discoveryDataFiltered
+            .slice(0, discoveryIndex)
+            .map(
+              (
+                { symbol, last, volume, momentum, uVol, vWapDist, short },
+                index
+              ) => {
+                return (
+                  <Tbody key={index}>
+                    <Tr>
+                      <Td className='text-white flex-fill text-center'>
+                        <ContextMenuTrigger
+                          id={`discovery-context-menu_${index}`}
+                          holdToDisplay={0}
                         >
-                          <b>{symbol}</b>
-                        </div>
-                      </ContextMenuTrigger>
-                      {this.getMenuItems(
-                        `discovery-context-menu_${index}`,
-                        [symbol, '', '', '', '', ''],
-                        ''
-                      )}
-                    </Td>
-                    <Td className='text-white flex-fill text-center'>
-                      <ContextMenuTrigger
-                        id={`discovery-context-menu_${index}`}
-                        holdToDisplay={0}
-                      >
-                        <div style={{ cursor: 'pointer', fontSize: 18 }}>
-                          {`${this.round(last, 2)}$`}
-                        </div>
-                      </ContextMenuTrigger>
-                      {this.getMenuItems(
-                        `discovery-context-menu_${index}`,
-                        [symbol, '', '', '', '', ''],
-                        ''
-                      )}
-                    </Td>
-                    <Td className='text-white flex-fill text-center'>
-                      <ContextMenuTrigger
-                        id={`discovery-context-menu_${index}`}
-                        holdToDisplay={0}
-                      >
-                        <div style={{ cursor: 'pointer', fontSize: 18 }}>
-                          {volume.toString()}
-                        </div>
-                      </ContextMenuTrigger>
-                      {this.getMenuItems(
-                        `discovery-context-menu_${index}`,
-                        [symbol, '', '', '', '', ''],
-                        ''
-                      )}
-                    </Td>
-                    <Td className='flex-fill text-center'>
-                      <ContextMenuTrigger
-                        id={`discovery-context-menu_${index}`}
-                        holdToDisplay={0}
-                      >
-                        <div
-                          style={{ cursor: 'pointer', fontSize: 18 }}
-                          className={
-                            momentum < 0 ? 'text-danger' : 'text-success'
-                          }
-                        >
-                          {momentum}
-                        </div>
-                      </ContextMenuTrigger>
-                      {this.getMenuItems(
-                        `discovery-context-menu_${index}`,
-                        [symbol, '', '', '', '', ''],
-                        ''
-                      )}
-                    </Td>
-                    <Td className='flex-fill text-center'>
-                      <ContextMenuTrigger
-                        id={`discovery-context-menu_${index}`}
-                        holdToDisplay={0}
-                      >
-                        <div
-                          style={{ cursor: 'pointer', fontSize: 18 }}
-                          className={`${
-                            uVol > 0
-                              ? 'text-success'
-                              : uVol < 0
-                                ? 'text-danger'
-                                : 'text-white'
-                            }`}
-                        >
-                          {isNaN(uVol)
-                            ? '_'
-                            : (uVol > 0 ? '+' : '') + `${uVol}%`}
-                        </div>
-                      </ContextMenuTrigger>
-                      {this.getMenuItems(
-                        `discovery-context-menu_${index}`,
-                        [symbol, '', '', '', '', ''],
-                        ''
-                      )}
-                    </Td>
-                    <Td className='text-white flex-fill text-center'>
-                      <ContextMenuTrigger
-                        id={`discovery-context-menu_${index}`}
-                        holdToDisplay={0}
-                      >
-                        <div
-                          style={{ cursor: 'pointer', fontSize: 18 }}
-                          className={`${
-                            vWapDist > 0
-                              ? 'text-success'
-                              : vWapDist < 0
-                                ? 'text-danger'
-                                : 'text-white'
-                            }`}
-                        >
-                          {isNaN(vWapDist)
-                            ? '_'
-                            : (vWapDist > 0 ? '+' : '') + `${vWapDist}%`}
-                        </div>
-                      </ContextMenuTrigger>
-                      {this.getMenuItems(
-                        `discovery-context-menu_${index}`,
-                        [symbol, '', '', '', '', ''],
-                        ''
-                      )}
-                    </Td>
-                    <Td className='text-white'>
-                      <div className='th-action-item-style'>
-                        <MenuItem
-                          onClick={() => {
-                            this.registerAlert(
-                              symbol,
-                              'vwap',
-                              vWapDist,
-                              vWapDist
-                            );
-                            this.registerAlert(
-                              symbol,
-                              'uv',
-                              vWapDist,
-                              vWapDist
-                            );
-                          }}
-                        >
-                          <div className='row justify-content-center align-items-center'>
-                            <i className='mdi mdi-bell text-white popover-icon' />
+                          <div
+                            style={{ cursor: 'pointer', fontSize: 18 }}
+                            className='py-1'
+                          >
+                            <b>{symbol}</b>
                           </div>
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => {
-                            this.registerQuote(symbol);
-                          }}
+                        </ContextMenuTrigger>
+                        {this.getMenuItems(
+                          `discovery-context-menu_${index}`,
+                          [symbol, '', '', '', '', ''],
+                          ''
+                        )}
+                      </Td>
+                      <Td className='text-white flex-fill text-center'>
+                        <ContextMenuTrigger
+                          id={`discovery-context-menu_${index}`}
+                          holdToDisplay={0}
                         >
-                          <div className='row'>
-                            <i
-                              className={`${
-                                this.isSymbolFav(symbol)
-                                  ? 'mdi mdi-star quote-star popover-icon'
-                                  : 'mdi mdi-star text-white popover-icon'
+                          <div style={{ cursor: 'pointer', fontSize: 18 }}>
+                            {`${this.round(last, 2)}$`}
+                          </div>
+                        </ContextMenuTrigger>
+                        {this.getMenuItems(
+                          `discovery-context-menu_${index}`,
+                          [symbol, '', '', '', '', ''],
+                          ''
+                        )}
+                      </Td>
+                      <Td className='text-white flex-fill text-center'>
+                        <ContextMenuTrigger
+                          id={`discovery-context-menu_${index}`}
+                          holdToDisplay={0}
+                        >
+                          <div style={{ cursor: 'pointer', fontSize: 18 }}>
+                            {volume.toString()}
+                          </div>
+                        </ContextMenuTrigger>
+                        {this.getMenuItems(
+                          `discovery-context-menu_${index}`,
+                          [symbol, '', '', '', '', ''],
+                          ''
+                        )}
+                      </Td>
+                      <Td className='flex-fill text-center'>
+                        <ContextMenuTrigger
+                          id={`discovery-context-menu_${index}`}
+                          holdToDisplay={0}
+                        >
+                          <div
+                            style={{ cursor: 'pointer', fontSize: 18 }}
+                            className={
+                              momentum < 0 ? 'text-danger' : 'text-success'
+                            }
+                          >
+                            {momentum}
+                          </div>
+                        </ContextMenuTrigger>
+                        {this.getMenuItems(
+                          `discovery-context-menu_${index}`,
+                          [symbol, '', '', '', '', ''],
+                          ''
+                        )}
+                      </Td>
+                      <Td className='flex-fill text-center'>
+                        <ContextMenuTrigger
+                          id={`discovery-context-menu_${index}`}
+                          holdToDisplay={0}
+                        >
+                          <div
+                            style={{ cursor: 'pointer', fontSize: 18 }}
+                            className={`${
+                              uVol > 0
+                                ? 'text-success'
+                                : uVol < 0
+                                ? 'text-danger'
+                                : 'text-white'
+                            }`}
+                          >
+                            {isNaN(uVol)
+                              ? '_'
+                              : (uVol > 0 ? '+' : '') + `${uVol}%`}
+                          </div>
+                        </ContextMenuTrigger>
+                        {this.getMenuItems(
+                          `discovery-context-menu_${index}`,
+                          [symbol, '', '', '', '', ''],
+                          ''
+                        )}
+                      </Td>
+                      <Td className='text-white flex-fill text-center'>
+                        <ContextMenuTrigger
+                          id={`discovery-context-menu_${index}`}
+                          holdToDisplay={0}
+                        >
+                          <div
+                            style={{ cursor: 'pointer', fontSize: 18 }}
+                            className={`${
+                              vWapDist > 0
+                                ? 'text-success'
+                                : vWapDist < 0
+                                ? 'text-danger'
+                                : 'text-white'
+                            }`}
+                          >
+                            {isNaN(vWapDist)
+                              ? '_'
+                              : (vWapDist > 0 ? '+' : '') + `${vWapDist}%`}
+                          </div>
+                        </ContextMenuTrigger>
+                        {this.getMenuItems(
+                          `discovery-context-menu_${index}`,
+                          [symbol, '', '', '', '', ''],
+                          ''
+                        )}
+                      </Td>
+                      <Td className='text-white'>
+                        <div className='th-action-item-style'>
+                          <MenuItem
+                            onClick={() => {
+                              this.registerAlert(
+                                symbol,
+                                'vwap',
+                                vWapDist,
+                                vWapDist
+                              );
+                              this.registerAlert(
+                                symbol,
+                                'uv',
+                                vWapDist,
+                                vWapDist
+                              );
+                            }}
+                          >
+                            <div className='row justify-content-center align-items-center'>
+                              <i className='mdi mdi-bell text-white popover-icon' />
+                            </div>
+                          </MenuItem>
+                          <MenuItem
+                            onClick={() => {
+                              this.registerQuote(symbol);
+                            }}
+                          >
+                            <div className='row'>
+                              <i
+                                className={`${
+                                  this.isSymbolFav(symbol)
+                                    ? 'mdi mdi-star quote-star popover-icon'
+                                    : 'mdi mdi-star text-white popover-icon'
                                 }`}
-                            />
-                          </div>
-                        </MenuItem>
-                      </div>
-                    </Td>
-                  </Tr>
-                </Tbody>
-              );
-            }
-          )}
-      </Table>
+                              />
+                            </div>
+                          </MenuItem>
+                        </div>
+                      </Td>
+                    </Tr>
+                  </Tbody>
+                );
+              }
+            )}
+        </Table>
+        {this.state.discoveryDataFiltered.length >= 50 && (
+          <Spinner
+            className={'overlay-content'}
+            style={{ margin: 8 }}
+            animation='border'
+            variant='success'
+          />
+        )}
+      </div>
     );
   };
 
@@ -1291,8 +1305,8 @@ export class Dashboard extends Component {
           max
             ? 'w-100'
             : !this.state.showPopular && !this.state.showAlertHistory
-              ? 'w-100'
-              : 'grid-margin stretch-card px-0 flex-fill socket-table'
+            ? 'w-100'
+            : 'grid-margin stretch-card px-0 flex-fill socket-table'
         }
       >
         <div className='card'>
@@ -1319,13 +1333,13 @@ export class Dashboard extends Component {
               {this.renderData(highs, 'high')}
             </div>
           ) : (
-              <div className='card-body stream-body'>
-                <div className='row'>
-                  {this.renderData(lows, 'low')}
-                  {this.renderData(highs, 'high')}
-                </div>
+            <div className='card-body stream-body'>
+              <div className='row'>
+                {this.renderData(lows, 'low')}
+                {this.renderData(highs, 'high')}
               </div>
-            )}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -1396,7 +1410,7 @@ export class Dashboard extends Component {
                               this.state.isFavFilter
                                 ? 'mdi mdi-star quote-star popover-icon'
                                 : 'mdi mdi-star text-white popover-icon'
-                              }`}
+                            }`}
                           />
                           <span className='ml-1'>Favorite</span>
                         </div>
@@ -1500,7 +1514,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showStream ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showStream');
@@ -1514,7 +1528,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showAlertHistory ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showAlertHistory');
@@ -1530,7 +1544,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showMeters ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showMeters');
@@ -1544,7 +1558,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row  ${
                     this.state.showPopular ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showPopular');
@@ -1558,7 +1572,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showQuotes ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showQuotes');
@@ -1578,7 +1592,7 @@ export class Dashboard extends Component {
                         ? 'showWidget'
                         : 'hideWidget'
                       : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     if (this.props.isPro) this.onToggleWidget('showDiscovery');
