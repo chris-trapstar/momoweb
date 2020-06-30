@@ -9,7 +9,7 @@ import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import * as _ from 'lodash';
 import { withTranslation } from 'react-i18next';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import { Form, Button, Modal, Spinner, Overlay } from 'react-bootstrap';
+import { Form, Button, Modal, Spinner, Overlay, Dropdown } from 'react-bootstrap';
 
 import './dashboard.css';
 import 'swiper/css/swiper.css';
@@ -1379,19 +1379,24 @@ export class Dashboard extends Component {
                     <h4 className='card-title mb-1 py-1'>Discovery</h4>
                     <div className='d-flex flex-row mT15'>
                       <span className='button btn-dark px-1 border-radius-10'>
-                        <select
-                          className='form-control sector-select'
+
+                        <Dropdown
                           onChange={this.onChangeSector}
                           value={this.state.discoverySector}
                         >
-                          {this.state.sectors.map((sector) => {
-                            return (
-                              <option value={sector} key={sector}>
-                                {sector}
-                              </option>
-                            );
-                          })}
-                        </select>
+                          <Dropdown.Toggle varaint='btn btn-outline-secondary'>
+                            Industry
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu>
+                            {
+                              this.state.sectors.map((sector) => {
+                                return <Dropdown.Item>
+                                  {sector}
+                                </Dropdown.Item>
+                              })
+                            }
+                          </Dropdown.Menu>
+                        </Dropdown>
                       </span>
                       <span className='border border-radius-10 ml-4'>
                         <div
