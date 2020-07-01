@@ -693,3 +693,14 @@ th {
   font-size: 70%;
   margin-left: 0.5em;
 }
+
+.industry_input {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+}
+
+.industry_span {
+  display: flex;
+  align-items: center;
+}

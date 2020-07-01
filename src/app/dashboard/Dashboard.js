@@ -908,11 +908,11 @@ export class Dashboard extends Component {
     }
   };
 
-  onChangeSector = (e) => {
-    console.info('onChnageSector - ', e.target.value);
+  onChangeSector = discoverySector => {
+    console.info('onChnageSector - ', discoverySector);
     this.setState(
       {
-        discoverySector: e.target.value,
+        discoverySector
       },
       () => {
         this.onChangeDiscoveryFilter();
@@ -1378,19 +1378,17 @@ export class Dashboard extends Component {
                   <div className='d-flex flex-row justify-content-between text-center flex-wrap py-2'>
                     <h4 className='card-title mb-1 py-1'>Discovery</h4>
                     <div className='d-flex flex-row mT15'>
-                      <span className='button btn-dark px-1 border-radius-10'>
-
-                        <Dropdown
-                          onChange={this.onChangeSector}
-                          value={this.state.discoverySector}
-                        >
-                          <Dropdown.Toggle varaint='btn btn-outline-secondary'>
-                            Industry
+                      <span className='button btn-dark px-1 border-radius-10 industry_span'>
+                        <Dropdown varaint='btn btn-outline-secondary'>
+                          <Dropdown.Toggle className='industry_input'>
+                            {this.state.discoverySector}
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
                             {
                               this.state.sectors.map((sector) => {
-                                return <Dropdown.Item>
+                                return <Dropdown.Item onClick={() => {
+                                  this.onChangeSector(sector)
+                                }} tabIndex='1'>
                                   {sector}
                                 </Dropdown.Item>
                               })
