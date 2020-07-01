@@ -1,5 +1,4 @@
 .data-section {
-  margin-top: 1em;
   margin-right: 1rem;
   margin-left: 1rem;
 }
@@ -705,4 +704,36 @@ th {
 .stock-percent {
   font-size: 70%;
   margin-left: 0.5em;
+}
+
+.search-bar-wrapper {
+  display: flex;
+  height: 34px;
+  padding: 4px;
+  border-radius: 10px;
+  justify-content: center;
+  border: 1px solid rgb(128, 128, 128);
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.search-bar-wrapper-hover:hover {
+  border: 1px solid rgb(128, 128, 128, 0.5);
+}
+
+.search-bar {
+  height: 26px;
+  color: white;
+  font-size: 14px;
+  border-radius: 10px;
+  border-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.search-icon-wrapper {
+  border: 0px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: default;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
 }
