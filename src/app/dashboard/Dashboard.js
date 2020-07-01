@@ -324,26 +324,13 @@ export class Dashboard extends Component {
         field: 'symbol',
         type: 'none',
       },
-      discoverySector: 'All',
+      discoverySector: 'ALL',
       max: false,
       new_quote: '',
       showSpinner: false,
       showAddQuote: false,
       isFavFilter: false,
-      sectors: [
-        'All',
-        'Process Industries',
-        'Capital Goods',
-        'Consumer Non Durables',
-        'Consumer Services',
-        'Energy',
-        'Finance',
-        'Health Care',
-        'Public Utilities',
-        'Communications',
-        'Transportation',
-        'Miscellaneous',
-      ],
+      sectors: ['ALL', ...Object.keys(sectorsFilter)],
     };
   };
 
@@ -469,7 +456,7 @@ export class Dashboard extends Component {
 
   sectorFilter = (item) => {
     const { discoverySector } = this.state;
-    if (discoverySector === 'All') {
+    if (discoverySector === 'ALL') {
       return true;
     }
     const filters = sectorsFilter[discoverySector];
