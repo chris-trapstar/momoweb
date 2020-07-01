@@ -409,7 +409,7 @@ export class Dashboard extends Component {
     }
     let highs = this.state.highs.slice();
     let lows = this.state.lows.slice();
-    this.buffer.forEach(function(item, i, arr) {
+    this.buffer.forEach(function (item, i, arr) {
       highs = item.highs.concat(highs).slice(0, 100);
       lows = item.lows.concat(lows).slice(0, 100);
     });
@@ -530,7 +530,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   low[3] === 1 ? 'stock-active-text stock-active-low' : ''
-                }`}
+                  }`}
               >
                 <ContextMenuTrigger
                   id={`low-context-menu_${index}`}
@@ -584,7 +584,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   high[3] === 1 ? 'stock-active-text stock-active-high' : ''
-                }`}
+                  }`}
               >
                 <ContextMenuTrigger
                   id={`high-context-menu_${index}`}
@@ -923,8 +923,8 @@ export class Dashboard extends Component {
         sortOption.type === 'none'
           ? discoveryData
           : sortOption.type === 'up'
-          ? sorted.reverse()
-          : sorted,
+            ? sorted.reverse()
+            : sorted,
     });
   };
 
@@ -977,20 +977,20 @@ export class Dashboard extends Component {
               )}
             </div>
           ) : (
-            <div key={`popular-data-h6-${index + i}`}>
-              <ContextMenuTrigger
-                id={`popular-data-h6-${index + i}`}
-                holdToDisplay={0}
-              >
-                <h6 className='pr-2'>{item}</h6>
-              </ContextMenuTrigger>
-              {this.getMenuItems(
-                `popular-data-h6-${index + i}`,
-                [item, '', '', '', '', ''],
-                ''
-              )}
-            </div>
-          )
+                  <div key={`popular-data-h6-${index + i}`}>
+                    <ContextMenuTrigger
+                      id={`popular-data-h6-${index + i}`}
+                      holdToDisplay={0}
+                    >
+                      <h6 className='pr-2'>{item}</h6>
+                    </ContextMenuTrigger>
+                    {this.getMenuItems(
+                      `popular-data-h6-${index + i}`,
+                      [item, '', '', '', '', ''],
+                      ''
+                    )}
+                  </div>
+                )
         );
       });
     }
@@ -1096,9 +1096,9 @@ export class Dashboard extends Component {
               </Th>
               <Th
                 className='th-item-style'
-                // onClick={() => {
-                //   this.onFavPress();
-                // }}
+              // onClick={() => {
+              //   this.onFavPress();
+              // }}
               >
                 <span>Actions</span>
                 {/* <i className='fa fa-unsorted ml-2' /> */}
@@ -1195,9 +1195,9 @@ export class Dashboard extends Component {
                               uVol > 0
                                 ? 'text-success'
                                 : uVol < 0
-                                ? 'text-danger'
-                                : 'text-white'
-                            }`}
+                                  ? 'text-danger'
+                                  : 'text-white'
+                              }`}
                           >
                             {isNaN(uVol)
                               ? '_'
@@ -1221,9 +1221,9 @@ export class Dashboard extends Component {
                               vWapDist > 0
                                 ? 'text-success'
                                 : vWapDist < 0
-                                ? 'text-danger'
-                                : 'text-white'
-                            }`}
+                                  ? 'text-danger'
+                                  : 'text-white'
+                              }`}
                           >
                             {isNaN(vWapDist)
                               ? '_'
@@ -1269,7 +1269,7 @@ export class Dashboard extends Component {
                                   this.isSymbolFav(symbol)
                                     ? 'mdi mdi-star quote-star popover-icon'
                                     : 'mdi mdi-star text-white popover-icon'
-                                }`}
+                                  }`}
                               />
                             </div>
                           </MenuItem>
@@ -1301,8 +1301,8 @@ export class Dashboard extends Component {
           max
             ? 'w-100'
             : !this.state.showPopular && !this.state.showAlertHistory
-            ? 'w-100'
-            : 'grid-margin stretch-card px-0 flex-fill socket-table'
+              ? 'w-100'
+              : 'grid-margin stretch-card px-0 flex-fill socket-table'
         }
       >
         <div className='card'>
@@ -1327,13 +1327,13 @@ export class Dashboard extends Component {
               {this.renderData(highs, 'high')}
             </div>
           ) : (
-            <div className='card-body stream-body'>
-              <div className='row'>
-                {this.renderData(lows, 'low')}
-                {this.renderData(highs, 'high')}
+              <div className='card-body stream-body'>
+                <div className='row'>
+                  {this.renderData(lows, 'low')}
+                  {this.renderData(highs, 'high')}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     );
@@ -1354,21 +1354,21 @@ export class Dashboard extends Component {
                     <div className='d-flex flex-row mT15'>
                       <div className='search-bar-wrapper search-bar-wrapper-hover'>
                         <Dropdown varaint='btn btn-outline-secondary'>
-                            <Dropdown.Toggle className='industry_input'>
-                              {this.state.discoverySector}
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                              {
-                                this.state.sectors.map((sector) => {
-                                  return <Dropdown.Item onClick={() => {
-                                    this.onChangeSector(sector)
-                                  }} tabIndex='1'>
-                                    {sector}
-                                  </Dropdown.Item>
-                                })
-                              }
-                            </Dropdown.Menu>
-                          </Dropdown>
+                          <Dropdown.Toggle className='industry_input'>
+                            {this.state.discoverySector}
+                          </Dropdown.Toggle>
+                          <Dropdown.Menu>
+                            {
+                              this.state.sectors.map((sector) => {
+                                return <Dropdown.Item onClick={() => {
+                                  this.onChangeSector(sector)
+                                }} tabIndex='1'>
+                                  {sector}
+                                </Dropdown.Item>
+                              })
+                            }
+                          </Dropdown.Menu>
+                        </Dropdown>
                       </div>
 
                       <div
@@ -1385,7 +1385,7 @@ export class Dashboard extends Component {
                             this.state.isFavFilter
                               ? 'mdi mdi-star quote-star popover-icon'
                               : 'mdi mdi-star text-white popover-icon'
-                          }`}
+                            }`}
                           style={{ alignSelf: 'center' }}
                         />
                         <span style={{ alignSelf: 'center', marginLeft: 4 }}>
@@ -1529,7 +1529,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showStream ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showStream');
@@ -1543,7 +1543,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showAlertHistory ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showAlertHistory');
@@ -1559,7 +1559,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showMeters ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showMeters');
@@ -1573,7 +1573,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row  ${
                     this.state.showPopular ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showPopular');
@@ -1587,7 +1587,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showQuotes ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showQuotes');
@@ -1607,7 +1607,7 @@ export class Dashboard extends Component {
                         ? 'showWidget'
                         : 'hideWidget'
                       : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     if (this.props.isPro) this.onToggleWidget('showDiscovery');
