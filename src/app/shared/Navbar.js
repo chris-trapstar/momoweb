@@ -16,6 +16,17 @@ class Navbar extends Component {
   onLogout = () => {
     this.props.onLogout();
   };
+  getPlanType = (type) => {
+    switch (type) {
+      case 'standard_monthly':
+        return 'Standers';
+      case 'pro_monthly':
+        return 'Monthly';
+      case 'pro_semi_annual':
+        return 'Annual';
+    }
+    return 'None';
+  };
   render() {
     return (
       <nav className='navbar p-0 fixed-top d-flex flex-row'>
@@ -28,7 +39,11 @@ class Navbar extends Component {
               width: 'calc(100% - 30px)',
             }}
           >
-            <div className='logo'>
+            <div
+              className='logo'
+              style={{ cursor: 'pointer' }}
+              onClick={() => this.props.history.push('/dashboard')}
+            >
               <span
                 style={{
                   color: '#ffff',
@@ -167,9 +182,11 @@ class Navbar extends Component {
                   <div className='preview-item-content'>
                     <p className='preview-subject mb-1'>
                       Plan:{' '}
-                      {this.props.user.subscription
-                        ? this.props.user.subscription.plan
-                        : ''}
+                      <b>
+                        {this.props.user.subscription
+                          ? this.getPlanType(this.props.user.subscription.plan)
+                          : ''}
+                      </b>
                     </p>
                   </div>
                 </Dropdown.Item>
@@ -194,7 +211,10 @@ class Navbar extends Component {
                 <Dropdown.Divider />
                 <Dropdown.Item
                   onClick={() => {
-                    window.open('https://www.mometic.com/momowebpro-help/', '_blank')
+                    window.open(
+                      'https://www.mometic.com/momowebpro-help/',
+                      '_blank'
+                    );
                   }}
                   className='preview-item'
                 >

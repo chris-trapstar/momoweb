@@ -1,5 +1,4 @@
 .data-section {
-  margin-top: 1em;
   margin-right: 1rem;
   margin-left: 1rem;
 }
@@ -534,6 +533,7 @@ th {
 
 .quote-card {
   padding: 0.5em;
+  overflow: hidden;
 }
 
 .quote-star {
@@ -662,9 +662,22 @@ th {
 
 .th-item-style {
   color: white;
-  text-align: center;
   font-size: 18px;
   font-weight: 800;
+  text-align: center;
+}
+
+.th-item-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.filter-icon-wrapper {
+  display: flex;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .th-action-item-style {
@@ -698,9 +711,50 @@ th {
   background: transparent !important;
   border: none !important;
   outline: none !important;
+  box-shadow: none !important;
 }
 
 .industry_span {
   display: flex;
   align-items: center;
+}
+
+.search-bar-wrapper {
+  display: flex;
+  height: 34px;
+  padding: 4px;
+  border-radius: 10px;
+  justify-content: center;
+  border: 1px solid rgb(128, 128, 128);
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.search-bar-wrapper-hover:hover {
+  border: 1px solid rgb(128, 128, 128, 0.5);
+}
+
+.search-bar {
+  height: 26px;
+  color: white;
+  font-size: 14px;
+  border-radius: 10px;
+  border-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.search-icon-wrapper {
+  border: 0px;
+  padding-left: 6px;
+  padding-right: 6px;
+  cursor: default;
+  background-color: rgba(0, 0, 0, 0.9);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+.dropdown-item {
+  color: #fff !important;
 }
