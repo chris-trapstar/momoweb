@@ -205,30 +205,12 @@ export class Dashboard extends Component {
   }
 
   getStats = async () => {
-    const stats = await API.getStats();
-
-    const discoveryData = stats
-      .map((stock, index) => {
-        return {
-          symbol: stock.symbol,
-          last: stock.lastTradePrice || 0,
-          volume: stock.AV || 0, // No Volume
-          momentum: stock.highCount - stock.lowCount,
-          uVol: parseFloat((stock.UV || 0).toFixed(2)),
-          vWapDist: stock.VWAP_DIST || 0,
-          sector: stock.sector,
-          // short: '25%',
-        };
-      })
-      .filter(({ volume }) => {
-        return volume > 0;
-      });
+    const discoveryData = await API.getStats();
     const discoveryDataFiltered = discoveryData
       .filter(this.favFilter)
       .filter(this.searchFilter);
 
     this.setState({
-      stats,
       discoveryData,
       discoveryDataFiltered: discoveryDataFiltered,
     });
