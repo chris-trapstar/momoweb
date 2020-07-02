@@ -417,15 +417,6 @@ class API {
   getStats = async () => {
     const res = await fetch(STATS_API)
     const data = await res.json()
-
-    // Calculate VWAP dist
-    data.map((stock) => {
-      stock.VWAP_DIST = stock.VWAP_DIST || undefined
-      if (!isNaN(stock.VWAP_DIST)) {
-        stock.VWAP_DIST = parseFloat(stock.VWAP_DIST.toFixed(2))
-      }
-    })
-
     return data
   }
 
