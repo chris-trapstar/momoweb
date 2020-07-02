@@ -9,7 +9,7 @@ import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import * as _ from 'lodash';
 import { withTranslation } from 'react-i18next';
 import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
-import { Form, Button, Modal, Spinner, Overlay, Dropdown } from 'react-bootstrap';
+import { Form, Button, Modal, Spinner, Dropdown } from 'react-bootstrap';
 
 import './dashboard.css';
 import 'swiper/css/swiper.css';
@@ -73,7 +73,7 @@ const sectorsFilter = {
     'Communications Services': true,
   },
   'ENERGY': {
-    'Energy': true,
+    Energy: true,
   },
   'FINANCE': {
     'Finance': true,
@@ -89,11 +89,11 @@ const sectorsFilter = {
     'Utilities': true,
   },
   'COMMUNICATIONS': {
-    'Coummunications': true,
-    'Technology': true
+    Coummunications: true,
+    Technology: true,
   },
   'TRANSPORTION': {
-    'Transportation': true,
+    Transportation: true,
   },
   'MISCELLANEOUS': {
     'Miscellaneous': true,
@@ -409,7 +409,7 @@ export class Dashboard extends Component {
     }
     let highs = this.state.highs.slice();
     let lows = this.state.lows.slice();
-    this.buffer.forEach(function (item, i, arr) {
+    this.buffer.forEach(function(item, i, arr) {
       highs = item.highs.concat(highs).slice(0, 100);
       lows = item.lows.concat(lows).slice(0, 100);
     });
@@ -530,7 +530,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   low[3] === 1 ? 'stock-active-text stock-active-low' : ''
-                  }`}
+                }`}
               >
                 <ContextMenuTrigger
                   id={`low-context-menu_${index}`}
@@ -562,7 +562,7 @@ export class Dashboard extends Component {
                   id={`low-context-menu_${index}`}
                   holdToDisplay={0}
                 >
-                  {`${this.round(this.getLast(low[6], low[1]), 2)}$`}
+                  {`$${this.round(this.getLast(low[6], low[1]), 2)}`}
                 </ContextMenuTrigger>
               </label>
             </td>
@@ -584,7 +584,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   high[3] === 1 ? 'stock-active-text stock-active-high' : ''
-                  }`}
+                }`}
               >
                 <ContextMenuTrigger
                   id={`high-context-menu_${index}`}
@@ -616,7 +616,7 @@ export class Dashboard extends Component {
                   id={`high-context-menu_${index}`}
                   holdToDisplay={0}
                 >
-                  {`${this.round(this.getLast(high[6], high[1]), 2)}$`}
+                  {`$${this.round(this.getLast(high[6], high[1]), 2)}`}
                 </ContextMenuTrigger>
               </label>
             </td>
@@ -638,13 +638,13 @@ export class Dashboard extends Component {
           <thead>
             <tr>
               <th className='text-white'>
-                <div className='th-item-style'> Symbol </div>
+                <div className={'th-item-wrapper'}> Symbol </div>
               </th>
               <th className='text-white'>
-                <div className='th-item-style'> Count </div>
+                <div className={'th-item-wrapper'}> Count </div>
               </th>
               <th className='text-white'>
-                <div className='th-item-style'> Last </div>
+                <div className={'th-item-wrapper'}> Last </div>
               </th>
             </tr>
           </thead>
@@ -839,7 +839,7 @@ export class Dashboard extends Component {
   registerQuote = async (symbol) => {
     try {
       this.setState({ showSpinner: true });
-      const result = await API.registerQuote(symbol);
+      const result = await API.registerQuote(symbol.toUpperCase());
       if (result && result.success && result.data) {
         cogoToast.success(`Quote added for ${symbol}`);
         this.setState({
@@ -889,11 +889,11 @@ export class Dashboard extends Component {
     }
   };
 
-  onChangeSector = discoverySector => {
+  onChangeSector = (discoverySector) => {
     console.info('onChnageSector - ', discoverySector);
     this.setState(
       {
-        discoverySector
+        discoverySector,
       },
       () => {
         this.onChangeDiscoveryFilter();
@@ -923,8 +923,8 @@ export class Dashboard extends Component {
         sortOption.type === 'none'
           ? discoveryData
           : sortOption.type === 'up'
-            ? sorted.reverse()
-            : sorted,
+          ? sorted.reverse()
+          : sorted,
     });
   };
 
@@ -977,20 +977,20 @@ export class Dashboard extends Component {
               )}
             </div>
           ) : (
-                  <div key={`popular-data-h6-${index + i}`}>
-                    <ContextMenuTrigger
-                      id={`popular-data-h6-${index + i}`}
-                      holdToDisplay={0}
-                    >
-                      <h6 className='pr-2'>{item}</h6>
-                    </ContextMenuTrigger>
-                    {this.getMenuItems(
-                      `popular-data-h6-${index + i}`,
-                      [item, '', '', '', '', ''],
-                      ''
-                    )}
-                  </div>
-                )
+            <div key={`popular-data-h6-${index + i}`}>
+              <ContextMenuTrigger
+                id={`popular-data-h6-${index + i}`}
+                holdToDisplay={0}
+              >
+                <h6 className='pr-2'>{item}</h6>
+              </ContextMenuTrigger>
+              {this.getMenuItems(
+                `popular-data-h6-${index + i}`,
+                [item, '', '', '', '', ''],
+                ''
+              )}
+            </div>
+          )
         );
       });
     }
@@ -1055,52 +1055,64 @@ export class Dashboard extends Component {
 
     return (
       <div>
-        <Table className='table-striped'>
+        <Table className='table table-striped'>
           <Thead className='my-2 table-header'>
             <Tr>
               <Th className='th-item-style'>
-                <div className={'th-item-wrapper '}>
-                  <span style={{ marginRight: 8 }}>Symbol</span>
+                <div className={'th-item-wrapper'}>
+                  <span style={{ marginRight: 8, alignSelf: 'center' }}>
+                    Symbol
+                  </span>
                   {this.sortUI('symbol')}
                 </div>
               </Th>
               <Th className='th-item-style'>
-                <div className={'th-item-wrapper '}>
-                  <span style={{ marginRight: 8 }}>Last</span>
+                <div className={'th-item-wrapper'}>
+                  <span style={{ marginRight: 8, alignSelf: 'center' }}>
+                    Last
+                  </span>
                   {this.sortUI('last')}
                 </div>
               </Th>
               <Th className='th-item-style'>
-                <div className={'th-item-wrapper '}>
-                  <span style={{ marginRight: 8 }}>Volume</span>
+                <div className={'th-item-wrapper'}>
+                  <span style={{ marginRight: 8, alignSelf: 'center' }}>
+                    Volume
+                  </span>
                   {this.sortUI('volume')}
                 </div>
               </Th>
               <Th className='th-item-style'>
-                <div className={'th-item-wrapper '}>
-                  <span style={{ marginRight: 8 }}>Momentum</span>
+                <div className={'th-item-wrapper'}>
+                  <span style={{ marginRight: 8, alignSelf: 'center' }}>
+                    Momentum
+                  </span>
                   {this.sortUI('momentum')}
                 </div>
               </Th>
               <Th className='th-item-style'>
-                <div className={'th-item-wrapper '}>
-                  <span style={{ marginRight: 8 }}>Unusual Vol</span>
+                <div className={'th-item-wrapper'}>
+                  <span style={{ marginRight: 8, alignSelf: 'center' }}>
+                    Unusual Vol
+                  </span>
                   {this.sortUI('uVol')}
                 </div>
               </Th>
               <Th className='th-item-style'>
-                <div className={'th-item-wrapper '}>
-                  <span style={{ marginRight: 8 }}>vWapDist</span>
+                <div className={'th-item-wrapper'}>
+                  <span style={{ marginRight: 8, alignSelf: 'center' }}>
+                    vWapDist
+                  </span>
                   {this.sortUI('vWapDist')}
                 </div>
               </Th>
               <Th
                 className='th-item-style'
-              // onClick={() => {
-              //   this.onFavPress();
-              // }}
+                // onClick={() => {
+                //   this.onFavPress();
+                // }}
               >
-                <span>Actions</span>
+                <span className={'th-item-wrapper'}>Actions</span>
                 {/* <i className='fa fa-unsorted ml-2' /> */}
               </Th>
             </Tr>
@@ -1115,7 +1127,11 @@ export class Dashboard extends Component {
               ) => {
                 return (
                   <Tbody key={index}>
-                    <Tr>
+                    <Tr
+                      style={{
+                        background: index % 2 === 0 ? '#00000' : '#191C24',
+                      }}
+                    >
                       <Td className='text-white flex-fill text-center'>
                         <ContextMenuTrigger
                           id={`discovery-context-menu_${index}`}
@@ -1140,7 +1156,7 @@ export class Dashboard extends Component {
                           holdToDisplay={0}
                         >
                           <div style={{ cursor: 'pointer', fontSize: 18 }}>
-                            {`${this.round(last, 2)}$`}
+                            {`$${this.round(last, 2)}`}
                           </div>
                         </ContextMenuTrigger>
                         {this.getMenuItems(
@@ -1195,9 +1211,9 @@ export class Dashboard extends Component {
                               uVol > 0
                                 ? 'text-success'
                                 : uVol < 0
-                                  ? 'text-danger'
-                                  : 'text-white'
-                              }`}
+                                ? 'text-danger'
+                                : 'text-white'
+                            }`}
                           >
                             {isNaN(uVol)
                               ? '_'
@@ -1221,9 +1237,9 @@ export class Dashboard extends Component {
                               vWapDist > 0
                                 ? 'text-success'
                                 : vWapDist < 0
-                                  ? 'text-danger'
-                                  : 'text-white'
-                              }`}
+                                ? 'text-danger'
+                                : 'text-white'
+                            }`}
                           >
                             {isNaN(vWapDist)
                               ? '_'
@@ -1269,7 +1285,7 @@ export class Dashboard extends Component {
                                   this.isSymbolFav(symbol)
                                     ? 'mdi mdi-star quote-star popover-icon'
                                     : 'mdi mdi-star text-white popover-icon'
-                                  }`}
+                                }`}
                               />
                             </div>
                           </MenuItem>
@@ -1281,7 +1297,8 @@ export class Dashboard extends Component {
               }
             )}
         </Table>
-        {this.state.discoveryDataFiltered.length >= 50 && (
+        {(this.state.discoveryIndex < this.state.discoveryDataFiltered.length ||
+          this.state.discoveryDataFiltered.length === 0) && (
           <Spinner
             className={'overlay-content'}
             style={{ margin: 8 }}
@@ -1301,8 +1318,8 @@ export class Dashboard extends Component {
           max
             ? 'w-100'
             : !this.state.showPopular && !this.state.showAlertHistory
-              ? 'w-100'
-              : 'grid-margin stretch-card px-0 flex-fill socket-table'
+            ? 'w-100'
+            : 'grid-margin stretch-card px-0 flex-fill socket-table'
         }
       >
         <div className='card'>
@@ -1327,13 +1344,13 @@ export class Dashboard extends Component {
               {this.renderData(highs, 'high')}
             </div>
           ) : (
-              <div className='card-body stream-body'>
-                <div className='row'>
-                  {this.renderData(lows, 'low')}
-                  {this.renderData(highs, 'high')}
-                </div>
+            <div className='card-body stream-body'>
+              <div className='row'>
+                {this.renderData(lows, 'low')}
+                {this.renderData(highs, 'high')}
               </div>
-            )}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -1349,7 +1366,7 @@ export class Dashboard extends Component {
             <div style={{ flex: '1 1 auto', padding: '1rem' }}>
               <div className='row'>
                 <div className='col-12 '>
-                  <div className='d-flex flex-row justify-content-between text-center flex-wrap mb-3'>
+                  <div className='d-flex flex-row justify-content-between text-center flex-wrap mb-2'>
                     <h4 className='card-title mb-1 py-1'>Discovery</h4>
                     <div className='d-flex flex-row mT15'>
                       <div className='search-bar-wrapper search-bar-wrapper-hover'>
@@ -1358,15 +1375,19 @@ export class Dashboard extends Component {
                             {this.state.discoverySector}
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
-                            {
-                              this.state.sectors.map((sector) => {
-                                return <Dropdown.Item onClick={() => {
-                                  this.onChangeSector(sector)
-                                }} tabIndex='1'>
+                            {this.state.sectors.map((sector) => {
+                              return (
+                                <Dropdown.Item
+                                  key={sector}
+                                  onClick={() => {
+                                    this.onChangeSector(sector);
+                                  }}
+                                  tabIndex='1'
+                                >
                                   {sector}
                                 </Dropdown.Item>
-                              })
-                            }
+                              );
+                            })}
                           </Dropdown.Menu>
                         </Dropdown>
                       </div>
@@ -1385,7 +1406,7 @@ export class Dashboard extends Component {
                             this.state.isFavFilter
                               ? 'mdi mdi-star quote-star popover-icon'
                               : 'mdi mdi-star text-white popover-icon'
-                            }`}
+                          }`}
                           style={{ alignSelf: 'center' }}
                         />
                         <span style={{ alignSelf: 'center', marginLeft: 4 }}>
@@ -1529,7 +1550,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showStream ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showStream');
@@ -1543,7 +1564,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showAlertHistory ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showAlertHistory');
@@ -1559,7 +1580,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showMeters ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showMeters');
@@ -1573,7 +1594,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row  ${
                     this.state.showPopular ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showPopular');
@@ -1587,7 +1608,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showQuotes ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showQuotes');
@@ -1607,7 +1628,7 @@ export class Dashboard extends Component {
                         ? 'showWidget'
                         : 'hideWidget'
                       : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     if (this.props.isPro) this.onToggleWidget('showDiscovery');
