@@ -206,6 +206,7 @@ export class Dashboard extends Component {
 
   getStats = async () => {
     const discoveryData = await API.getStats();
+
     const discoveryDataFiltered = discoveryData
       .filter(this.favFilter)
       .filter(this.searchFilter);
@@ -1209,7 +1210,7 @@ export class Dashboard extends Component {
                           >
                             {isNaN(vWapDist)
                               ? '_'
-                              : (vWapDist > 0 ? '+' : '') + `${vWapDist}%`}
+                              : (vWapDist > 0 ? '+' : '') + `${vWapDist.toFixed(2)}%`}
                           </div>
                         </ContextMenuTrigger>
                         {this.getMenuItems(
