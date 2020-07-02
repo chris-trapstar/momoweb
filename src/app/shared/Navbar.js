@@ -58,7 +58,8 @@ class Navbar extends Component {
                 <div style={{ marginTop: 6 }}>
                   <span
                     style={{
-                      padding: 2,
+                      paddingLeft: 2,
+                      paddingRight: 2,
                       fontSize: '13px',
                       color: '#000000',
                       fontWeight: '600',

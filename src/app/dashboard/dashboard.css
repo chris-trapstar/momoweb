@@ -669,6 +669,7 @@ th {
 
 .th-item-wrapper {
   display: flex;
+  font-weight: 600;
   flex-direction: row;
   justify-content: center;
 }

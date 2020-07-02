@@ -320,14 +320,15 @@ export class Settings extends Component {
 
   registerAlert = async (type) => {
     const { currentAlert } = this.state
-    const symbol = currentAlert.category
+    const symbol = currentAlert.category.toUpperCase()
     const rate = currentAlert.rate
 
     console.info("registerAlert:", symbol, type, rate);
     const dic = {
       trade: 'Trade',
       uv: 'Unusual volume',
-      vwap: 'vWapDist'
+      vwap: 'vWapDist',
+      price: 'Price'
     }
     try {
       const result = await API.addAlert({
