@@ -545,7 +545,7 @@ export class Dashboard extends Component {
                   id={`low-context-menu_${index}`}
                   holdToDisplay={0}
                 >
-                  {`$${this.round(this.getLast(low[6], low[1]), 2)}`}
+                  {`${this.round(this.getLast(low[6], low[1]), 2)}`}
                 </ContextMenuTrigger>
               </label>
             </td>
@@ -599,7 +599,7 @@ export class Dashboard extends Component {
                   id={`high-context-menu_${index}`}
                   holdToDisplay={0}
                 >
-                  {`$${this.round(this.getLast(high[6], high[1]), 2)}`}
+                  {`${this.round(this.getLast(high[6], high[1]), 2)}`}
                 </ContextMenuTrigger>
               </label>
             </td>
