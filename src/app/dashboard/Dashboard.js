@@ -951,7 +951,7 @@ export class Dashboard extends Component {
                 id={`popular-data-h5${index + i}`}
                 holdToDisplay={0}
               >
-                <h6 className='pr-2'>{item}</h6>
+                <h6 className='pr-2 '>{item}</h6>
               </ContextMenuTrigger>
               {this.getMenuItems(
                 `popular-data-h5-${index + i}`,
@@ -1668,7 +1668,7 @@ export class Dashboard extends Component {
                           <h4 style={{ marginBottom: '0px' }}>Popular</h4>
                         </div>
                         <div
-                          style={{ marginLeft: '2rem', marginTop: '0.4rem' }}
+                          style={{ marginLeft: '2rem', marginTop: '0.4rem', textTransform: 'uppercase' }}
                         >
                           <div className='d-flex flex-row flex-fill flex-wrap'>
                             {this.renderPopularData(0)}
