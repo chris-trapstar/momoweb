@@ -1646,9 +1646,9 @@ export class Dashboard extends Component {
                     >
                       <i className='mdi mdi-plus cursor-pointer add-quoute-icon' />
                     </a>
-                    <a>
+                    {/* <a>
                       <i className='mdi mdi-chevron-down cursor-pointer add-quoute-icon' />
-                    </a>
+                    </a> */}
                   </div>
                   {this.renderAddQuoteModal()}
 
