@@ -581,6 +581,8 @@ th {
   margin-right: 0.5rem;
   justify-content: space-around;
   min-width: 2em;
+  /* Remove after implemented + */
+  display: hidden; 
 }
 
 .quotes-swiper {
