@@ -18,8 +18,6 @@ import Meters from '../meters/Meters';
 import { ArrowDown, ArrowUp } from './../icons';
 import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX, SECTORS_FILTER, DEFAULT_FILTER } from '../constants'
 
-let filter = { ...DEFAULT_FILTER }
-
 const params = {
   grabCursor: true,
   slidesPerView: 'auto',
@@ -171,6 +169,8 @@ export class Dashboard extends Component {
   };
 
   getInitialState = () => {
+    let filter = { ...DEFAULT_FILTER }
+
     let data_filter = localStorage.getItem('filter');
     if (data_filter) {
       try {
