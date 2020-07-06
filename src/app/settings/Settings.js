@@ -49,7 +49,7 @@ export class Settings extends Component {
     const handler = e => this.setState({ isSmallDevice: e.matches });
     window.matchMedia("(max-width: 767px)").addListener(handler);
     this.getAlertSettings();
-  
+
     let filter = { ...DEFAULT_FILTER }
     let data_filter = localStorage.getItem("filter");
     if (data_filter) {
@@ -181,7 +181,7 @@ export class Settings extends Component {
   }
 
   updateFilterPrice = value => {
-    let { filter } = this.state;
+    let filter = { ...this.state.filter };
     filter.price = { min: value[0], max: value[1] };
     console.info(filter);
     localStorage.setItem('filter', JSON.stringify(filter));
@@ -189,7 +189,7 @@ export class Settings extends Component {
   }
 
   updateFilterVol = value => {
-    let { filter } = this.state;
+    let filter = { ...this.state.filter };
     filter.volume = { min: parseInt(value[0]) * 1000, max: parseInt(value[1]) * 1000 };
     console.info(filter);
     localStorage.setItem('filter', JSON.stringify(filter));
