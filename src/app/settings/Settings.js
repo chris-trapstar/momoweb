@@ -176,14 +176,14 @@ export class Settings extends Component {
     filter.industries[item] = !filter.industries[item]
 
     localStorage.setItem('filter', JSON.stringify(filter));
-    console.info('filter updated:', filter)
+    console.info('Filter updated:', filter)
     this.setState({ filter });
   }
 
   updateFilterPrice = value => {
     let filter = { ...this.state.filter };
     filter.price = { min: value[0], max: value[1] };
-    console.info(filter);
+    console.info('Filter Updated:', filter);
     localStorage.setItem('filter', JSON.stringify(filter));
     this.setState({ filter });
   }
@@ -191,7 +191,7 @@ export class Settings extends Component {
   updateFilterVol = value => {
     let filter = { ...this.state.filter };
     filter.volume = { min: parseInt(value[0]) * 1000, max: parseInt(value[1]) * 1000 };
-    console.info(filter);
+    console.info('Filter updated:', filter);
     localStorage.setItem('filter', JSON.stringify(filter));
     this.setState({ filter });
   }
