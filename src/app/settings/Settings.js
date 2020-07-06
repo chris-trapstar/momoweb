@@ -175,6 +175,7 @@ export class Settings extends Component {
     filter.industries[item] = !filter.industries[item]
 
     localStorage.setItem('filter', JSON.stringify(filter));
+    console.info('filter updated:', filter)
     this.setState({ filter });
   }
 
