@@ -58,3 +58,21 @@ export const SECTORS_FILTER = {
         'Real Estate': true,
     },
 };
+
+export const DEFAULT_FILTER = {
+    industries: {
+        'BASIC INDUSTRIES': true,
+        'CAPITAL GOODS': true,
+        'CONSUMER GOODS': true,
+        'SERVICES': true,
+        'ENERGY': true,
+        'FINANCE': true,
+        'HEALTH CARE': true,
+        'PUBLIC UTILITIES': true,
+        'COMMUNICATIONS': true,
+        'TRANSPORTION': true,
+        'MISCELLANEOUS': true
+    },
+    price: { min: PRICE_MIN, max: PRICE_MAX },
+    volume: { min: AVG_VOL_MIN, max: AVG_VOL_MAX }
+}
