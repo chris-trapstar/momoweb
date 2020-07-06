@@ -240,7 +240,7 @@ export class Dashboard extends Component {
     if (!data_filter.industries) {
       data_filter.industries = DEFAULT_FILTER.industries
     }
-
+    localStorage.setItem('filter', JSON.stringify(data_filter));
     window.addEventListener('compressedUpdate', this.onCompressedUpdate, false);
     // this.subscribeChannels(data_filter.category);
   };
