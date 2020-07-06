@@ -57,8 +57,10 @@ export class Settings extends Component {
       try {
         let cached_filter = JSON.parse(data_filter);
 
-        filter["price"] = cached_filter.price;
-        filter["volume"] = cached_filter.volume || filter.volume;
+        filter.industries = cached_filter.industries || filter.industries
+        filter.price = cached_filter.price || filter.price;
+        filter.volume = cached_filter.volume || filter.volume;
+
         localStorage.setItem("filter", JSON.stringify(filter));
       } catch (e) {
         console.error(e);
