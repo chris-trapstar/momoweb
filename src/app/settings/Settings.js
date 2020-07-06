@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { AuthActions } from '../store';
 import AlertInput from './alertInput';
+import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX } from '../constants'
 
 const alerts = [
   {
@@ -76,8 +77,8 @@ export class Settings extends Component {
         { name: "Miscellaneous", value: "miscellaneous", subscribed: true },
         { name: "OTC", value: "otc", subscribed: false }
       ],
-      price: { min: 0, max: 2000 },
-      volume: { min: 0, max: 200000000 }
+      price: { min: PRICE_MIN, max: PRICE_MAX },
+      volume: { min: AVG_VOL_MIN, max: AVG_VOL_MAX }
     }
 
     let data_filter = localStorage.getItem("filter");
@@ -166,21 +167,21 @@ export class Settings extends Component {
 
   volRangeFormatFrom = value => {
     if (value === 'MIN') {
-      return 0;
+      return AVG_VOL_MIN;
     } else if (value === 'MAX') {
-      return 200;
+      return AVG_VOL_MAX;
     } else {
-      return value.replace('M', '');
+      return value.replace('K', '');
     }
   }
 
   volRangeFormatTo = value => {
-    if (value === 0) {
+    if (value === AVG_VOL_MIN) {
       return 'MIN'
-    } else if (value === 200) {
+    } else if (value === AVG_VOL_MAX) {
       return 'MAX';
     } else {
-      return value + 'M';
+      return value + 'K';
     }
   }
 
@@ -238,7 +239,7 @@ export class Settings extends Component {
 
   updateFilterVol = value => {
     let { filter } = this.state;
-    filter.volume = { min: parseInt(value[0]) * 1000000, max: parseInt(value[1]) * 1000000 };
+    filter.volume = { min: parseInt(value[0]) * 1000, max: parseInt(value[1]) * 1000 };
     console.info(filter);
     localStorage.setItem('filter', JSON.stringify(filter));
     this.setState({ filter });
@@ -391,8 +392,8 @@ export class Settings extends Component {
               <span className="small company-name">PRICE</span>
               <div className="d-flex flex-row flex-fill price-section">
                 <Slider
-                  range={{ min: 0, max: 500 }}
-                  start={filter ? [filter.price.min, filter.price.max] : [0, 500]}
+                  range={{ min: PRICE_MIN, max: PRICE_MAX }}
+                  start={filter ? [filter.price.min, filter.price.max] : [PRICE_MIN, PRICE_MAX]}
                   connect
                   tooltips={true}
                   step={1}
@@ -408,8 +409,8 @@ export class Settings extends Component {
               <div className="small company-name-margin">AVG VOL</div>
               <div className="d-flex flex-row flex-fill price-section">
                 <Slider
-                  range={{ min: 0, max: 200 }}
-                  start={filter ? [parseInt(filter.volume.min / 1000000), parseInt(filter.volume.max / 1000000)] : [0, 200]}
+                  range={{ min: AVG_VOL_MIN, max: AVG_VOL_MAX }}
+                  start={filter ? [parseInt(filter.volume.min / 1000), parseInt(filter.volume.max / 1000)] : [AVG_VOL_MIN, AVG_VOL_MAX]}
                   connect
                   tooltips={true}
                   step={1}
