@@ -233,14 +233,18 @@ export class Dashboard extends Component {
   };
 
   listenTrade = () => {
-    let data_filter = localStorage.getItem('filter');
+    let data_filter
+    try {
+      data_filter = JSON.parse(localStorage.getItem('filter'))
+    } catch (e) { }
     if (!data_filter) {
-      data_filter = {...DEFAULT_FILTER};
+      data_filter = { ...DEFAULT_FILTER };
     }
     if (!data_filter.industries) {
       data_filter.industries = DEFAULT_FILTER.industries
     }
     localStorage.setItem('filter', JSON.stringify(data_filter));
+    console.info('Category Loaded:', data_filter)
     window.addEventListener('compressedUpdate', this.onCompressedUpdate, false);
     // this.subscribeChannels(data_filter.category);
   };
