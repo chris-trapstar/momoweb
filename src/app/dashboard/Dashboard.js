@@ -304,8 +304,8 @@ export class Dashboard extends Component {
         const max = volumeFilter.max >= (AVG_VOL_MAX * 1000) ? Infinity : volumeFilter.max
         return volume >= min && volume <= max;
       }).filter(item => {
-        if (item.sector) {
-          return dicSectors[item.sector]
+        if (item[6]) {
+          return dicSectors[item[6]]
         } else { //unknown sector
           return true
         }
