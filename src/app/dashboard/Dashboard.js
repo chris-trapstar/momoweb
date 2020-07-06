@@ -341,8 +341,8 @@ export class Dashboard extends Component {
       return false;
     }
 
-    lows = this.applyPriceFilter(lows);
-    highs = this.applyPriceFilter(highs);
+    lows = this.applyPriceVolumeFilter(lows);
+    highs = this.applyPriceVolumeFilter(highs);
 
     if (lows.length + highs.length > 0) {
       if (this.buffer.length > 200) {
@@ -363,7 +363,7 @@ export class Dashboard extends Component {
     });
   };
 
-  applyPriceFilter = (data) => {
+  applyPriceVolumeFilter = (data) => {
     let self = this;
     return data
       .filter((item, i) => {
