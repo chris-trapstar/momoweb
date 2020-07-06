@@ -306,8 +306,6 @@ export class Dashboard extends Component {
       }).filter(item => {
         if (item[6]) {
           return dicSectors[item[6]]
-        } else { //unknown sector
-          return true
         }
       });
   };
