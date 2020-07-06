@@ -285,8 +285,9 @@ export class Dashboard extends Component {
 
     let dicSectors = {}
     const industries = this.state.filter.industries || DEFAULT_FILTER.industries
+    debugger
     for (let key in industries) {
-      dicSectors = { ...dicSectors, ...industries[key] }
+      dicSectors = { ...dicSectors, ...SECTORS_FILTER[key] }
     }
 
     return data
