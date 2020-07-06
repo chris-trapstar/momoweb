@@ -16,6 +16,7 @@ import 'swiper/css/swiper.css';
 import { AuthActions } from '../store';
 import Meters from '../meters/Meters';
 import { ArrowDown, ArrowUp } from './../icons';
+import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX } from '../constants'
 
 const filter = {
   category: [
@@ -368,16 +369,16 @@ export class Dashboard extends Component {
       .filter((item, i) => {
         let price = item[1];
         let priceFilter = self.state.filter.price;
-        priceFilter.min = priceFilter.min || 0;
-        priceFilter.max = priceFilter.max || 2000;
-        return price >= priceFilter.min && price <= priceFilter.max;
+        const min = priceFilter.min || 0;
+        const max = priceFilter.max >= PRICE_MAX ? Infinity : priceFilter.max
+        return price >= min && price <= max
       })
       .filter((item, i) => {
         let volume = item[5];
         let volumeFilter = self.state.filter.volume;
-        volumeFilter.min = volumeFilter.min || 0;
-        volumeFilter.max = volumeFilter.max || 200000000;
-        return volume >= volumeFilter.min && volume <= volumeFilter.max;
+        const min = volumeFilter.min || 0;
+        const max = volumeFilter.max >= (AVG_VOL_MAX * 1000) ? Infinity : volumeFilter.max
+        return volume >= min && volume <= max;
       });
   };
 
