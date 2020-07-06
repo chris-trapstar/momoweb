@@ -33,8 +33,6 @@ const alerts = [
   }
 ]
 
-let filter = { ...DEFAULT_FILTER }
-
 export class Settings extends Component {
   constructor(props) {
     super(props);
@@ -51,7 +49,8 @@ export class Settings extends Component {
     const handler = e => this.setState({ isSmallDevice: e.matches });
     window.matchMedia("(max-width: 767px)").addListener(handler);
     this.getAlertSettings();
-
+  
+    let filter = { ...DEFAULT_FILTER }
     let data_filter = localStorage.getItem("filter");
     if (data_filter) {
       try {
