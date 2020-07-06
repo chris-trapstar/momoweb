@@ -1224,7 +1224,7 @@ export class Dashboard extends Component {
                                 : 'text-white'
                             }`}
                           >
-                            {isNaN(vWapDist)
+                            {(isNaN(vWapDist) || vWapDist == null)
                               ? '_'
                               : (vWapDist > 0 ? '+' : '') + `${vWapDist.toFixed(2)}%`}
                           </div>
