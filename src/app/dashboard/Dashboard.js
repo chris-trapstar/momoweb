@@ -234,8 +234,11 @@ export class Dashboard extends Component {
 
   listenTrade = () => {
     let data_filter = localStorage.getItem('filter');
-    if (!data_filter || !data_filter.category) {
-      data_filter = filter;
+    if (!data_filter) {
+      data_filter = {...DEFAULT_FILTER};
+    }
+    if (!data_filter.industries) {
+      data_filter.industries = DEFAULT_FILTER.industries
     }
 
     window.addEventListener('compressedUpdate', this.onCompressedUpdate, false);
