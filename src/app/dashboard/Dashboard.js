@@ -282,6 +282,13 @@ export class Dashboard extends Component {
 
   applyFilter = (data) => {
     let self = this;
+
+    let dicSectors = {}
+    const industries = this.state.filter.industries || DEFAULT_FILTER.industries
+    for (let key in industries) {
+      dicSectors = { ...dicSectors, ...industries[key] }
+    }
+
     return data
       .filter((item, i) => {
         let price = item[1];
@@ -296,6 +303,12 @@ export class Dashboard extends Component {
         const min = volumeFilter.min || 0;
         const max = volumeFilter.max >= (AVG_VOL_MAX * 1000) ? Infinity : volumeFilter.max
         return volume >= min && volume <= max;
+      }).filter(item => {
+        if (item.sector) {
+          return dicSectors[item.sector]
+        } else { //unknown sector
+          return true
+        }
       });
   };
 
