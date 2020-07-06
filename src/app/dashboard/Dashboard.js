@@ -364,7 +364,6 @@ export class Dashboard extends Component {
 
   applyPriceFilter = (data) => {
     let self = this;
-
     return data
       .filter((item, i) => {
         let price = item[1];
