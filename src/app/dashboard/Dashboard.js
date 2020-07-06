@@ -16,7 +16,7 @@ import 'swiper/css/swiper.css';
 import { AuthActions } from '../store';
 import Meters from '../meters/Meters';
 import { ArrowDown, ArrowUp } from './../icons';
-import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX } from '../constants'
+import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX, SECTORS_FILTER } from '../constants'
 
 const filter = {
   category: [
@@ -47,60 +47,6 @@ const filter = {
   ],
   price: { min: 0, max: 2000 },
   volume: { min: 0, max: 200000000 },
-};
-
-const sectorsFilter = {
-  'BASIC INDUSTRIES': {
-    'Process Industries': true,
-    'Conglomerates': true,
-    'Industrials': true,
-    'Basic Industries': true,
-    'Basic Materials': true,
-  },
-  'CAPITAL GOODS': {
-    'Capital Goods': true,
-  },
-  'CONSUMER GOODS': {
-    'Consumer Non Durables': true,
-    'Consumer Non-Durables': true,
-    'Consumer Defensive': true,
-    'Consumer Cyclical': true,
-    'Consumer Durables': true,
-  },
-  'SERVICES': {
-    'Consumer': true,
-    'Services': true,
-    'Commercial Services': true,
-    'Communications Services': true,
-  },
-  'ENERGY': {
-    Energy: true,
-  },
-  'FINANCE': {
-    'Finance': true,
-    'Financial Services': true,
-  },
-  'HEALTH CARE': {
-    'Health Care': true,
-    'Health Technology': true,
-    'Heathcare': true,
-  },
-  'PUBLIC UTILITIES': {
-    'Public Utilities': true,
-    'Utilities': true,
-  },
-  'COMMUNICATIONS': {
-    Coummunications: true,
-    Technology: true,
-  },
-  'TRANSPORTION': {
-    Transportation: true,
-  },
-  'MISCELLANEOUS': {
-    'Miscellaneous': true,
-    'n/a': true,
-    'Real Estate': true,
-  },
 };
 
 const params = {
@@ -277,6 +223,7 @@ export class Dashboard extends Component {
     } else {
       localStorage.setItem('filter', JSON.stringify(filter));
     }
+    console.info('Filter Loaded:', filter)
 
     return {
       /* Widget Status */
@@ -314,7 +261,7 @@ export class Dashboard extends Component {
       showSpinner: false,
       showAddQuote: false,
       isFavFilter: false,
-      sectors: ['ALL', ...Object.keys(sectorsFilter)],
+      sectors: ['ALL', ...Object.keys(SECTORS_FILTER)],
     };
   };
 
@@ -442,7 +389,7 @@ export class Dashboard extends Component {
     if (discoverySector === 'ALL') {
       return true;
     }
-    const filters = sectorsFilter[discoverySector];
+    const filters = SECTORS_FILTER[discoverySector];
     if (!filters) {
       return false;
     }
