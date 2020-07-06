@@ -106,6 +106,7 @@ export class Settings extends Component {
       localStorage.setItem("filter", JSON.stringify(filter));
     }
 
+    console.info('Filter Loaded:', filter)
     this.setState({ filter });
   }
 
