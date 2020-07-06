@@ -207,23 +207,12 @@ export class Settings extends Component {
   }
 
   updateFilterIndustry = item => {
-    let { filter } = this.state;
-    if (item.value === 'otc') {
-      filter.category.map((f, index) => {
-        if (f.value === 'otc') {
-          f.subscribed = !item.subscribed;
-        } else {
-          f.subscribed = item.subscribed;
-        }
-      });
-    } else {
-      filter.category.map((f, index) => {
-        if (f.value === item.value) {
-          f.subscribed = !item.subscribed;
-        }
-      })
+    let { filter } = {...this.state.filter}
+    if (!filter.industries) {
+      filter.industries = {}
     }
-    console.info(filter);
+    filter.industries[item] = !filter.industries[item]
+
     localStorage.setItem('filter', JSON.stringify(filter));
     this.setState({ filter });
   }
