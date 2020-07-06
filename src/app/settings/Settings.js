@@ -57,16 +57,6 @@ export class Settings extends Component {
       try {
         let cached_filter = JSON.parse(data_filter);
 
-        filter.category.forEach((item, i, arr) => {
-          let cached_item = cached_filter.category.find(
-            a => a.value === item.value
-          );
-          console.log("CACHED", cached_item);
-          if (cached_item && item.subscribed !== cached_item.subscribed) {
-            arr[i].subscribed = cached_item.subscribed;
-          }
-        });
-
         filter["price"] = cached_filter.price;
         filter["volume"] = cached_filter.volume || filter.volume;
         localStorage.setItem("filter", JSON.stringify(filter));
