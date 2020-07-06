@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { AuthActions } from '../store';
 import AlertInput from './alertInput';
-import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX, SECTORS_FILTER } from '../constants'
+import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX, SECTORS_FILTER, DEFAULT_FILTER } from '../constants'
 
 const alerts = [
   {
@@ -33,6 +33,8 @@ const alerts = [
   }
 ]
 
+let filter = { ...DEFAULT_FILTER }
+
 export class Settings extends Component {
   constructor(props) {
     super(props);
@@ -49,37 +51,6 @@ export class Settings extends Component {
     const handler = e => this.setState({ isSmallDevice: e.matches });
     window.matchMedia("(max-width: 767px)").addListener(handler);
     this.getAlertSettings();
-
-    let filter = {
-      category: [
-        {
-          name: "Basic industries",
-          value: "basic-industries",
-          subscribed: true
-        },
-        { name: "Capital goods", value: "capital-goods", subscribed: true },
-        { name: "Consumer goods", value: "consumer-goods", subscribed: true },
-        {
-          name: "Consumer services",
-          value: "consumer-services",
-          subscribed: true
-        },
-        { name: "Energy", value: "energy", subscribed: true },
-        { name: "Finance", value: "finance", subscribed: true },
-        { name: "Health Care", value: "health-care", subscribed: true },
-        {
-          name: "Public utilities",
-          value: "public-utilities",
-          subscribed: true
-        },
-        { name: "Technology", value: "technology", subscribed: true },
-        { name: "Transportation", value: "transportation", subscribed: true },
-        { name: "Miscellaneous", value: "miscellaneous", subscribed: true },
-        { name: "OTC", value: "otc", subscribed: false }
-      ],
-      price: { min: PRICE_MIN, max: PRICE_MAX },
-      volume: { min: AVG_VOL_MIN, max: AVG_VOL_MAX }
-    }
 
     let data_filter = localStorage.getItem("filter");
     if (data_filter) {
@@ -207,7 +178,7 @@ export class Settings extends Component {
   }
 
   updateFilterIndustry = item => {
-    const filter = {...this.state.filter}
+    const filter = { ...this.state.filter }
     if (!filter.industries) {
       filter.industries = {}
     }
