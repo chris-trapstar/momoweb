@@ -149,7 +149,7 @@ export class Settings extends Component {
     if (value === 'MIN') {
       return 0;
     } else if (value === 'MAX') {
-      return 500;
+      return PRICE_MAX;
     } else {
       return value;
     }
@@ -158,7 +158,7 @@ export class Settings extends Component {
   priceRangeFormatTo = value => {
     if (value === 0) {
       return 'MIN'
-    } else if (value === 500) {
+    } else if (value === PRICE_MAX) {
       return 'MAX';
     } else {
       return parseInt(value);
