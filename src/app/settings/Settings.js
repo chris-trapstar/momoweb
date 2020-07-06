@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { AuthActions } from '../store';
 import AlertInput from './alertInput';
-import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX } from '../constants'
+import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX, SECTORS_FILTER } from '../constants'
 
 const alerts = [
   {
@@ -188,24 +188,22 @@ export class Settings extends Component {
 
   renderFilterIndustries = () => {
     const { filter } = this.state;
-    let renderBtns = [];
-    if (filter) {
-      filter.category.map((item, index) => {
-        renderBtns.push(
-          <div
-            key={`industry-${index}`}
-            className="d-flex flex-row align-items-center industry-row"
-            onClick={() => { this.updateFilterIndustry(item); }}
-          >
-            {
-              item.subscribed ? <div className="industry-checked" /> : <div className="industry-unchecked" />
-            }
-            <span className="small white-no-wrap industry-txt">{item.name.toUpperCase()}</span>
-          </div>
-        )
-      });
-    }
-    return renderBtns;
+    const industries = Object.keys(SECTORS_FILTER)
+
+    return industries.map((item, index) => {
+      return (
+        <div
+          key={`industry-${index}`}
+          className="d-flex flex-row align-items-center industry-row"
+          onClick={() => { this.updateFilterIndustry(item); }}
+        >
+          {
+            (filter && filter.industries && filter.industries[item]) ? <div className="industry-checked" /> : <div className="industry-unchecked" />
+          }
+          <span className="small white-no-wrap industry-txt">{item}</span>
+        </div>
+      )
+    })
   }
 
   updateFilterIndustry = item => {
