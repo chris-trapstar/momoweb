@@ -410,7 +410,7 @@ export class Settings extends Component {
               <div className="d-flex flex-row flex-fill price-section">
                 <Slider
                   range={{ min: AVG_VOL_MIN, max: AVG_VOL_MAX }}
-                  start={filter ? [Math.ceil(filter.volume.min / 1000), Math.ceil(filter.volume.max / 1000)] : [AVG_VOL_MIN, AVG_VOL_MAX]}
+                  start={filter ? [Math.floor(filter.volume.min / 1000), Math.ceil(filter.volume.max / 1000)] : [AVG_VOL_MIN, AVG_VOL_MAX]}
                   connect
                   tooltips={true}
                   step={1}
