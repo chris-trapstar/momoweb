@@ -207,7 +207,7 @@ export class Settings extends Component {
   }
 
   updateFilterIndustry = item => {
-    let { filter } = {...this.state.filter}
+    const filter = {...this.state.filter}
     if (!filter.industries) {
       filter.industries = {}
     }
