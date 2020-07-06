@@ -16,38 +16,9 @@ import 'swiper/css/swiper.css';
 import { AuthActions } from '../store';
 import Meters from '../meters/Meters';
 import { ArrowDown, ArrowUp } from './../icons';
-import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX, SECTORS_FILTER } from '../constants'
+import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX, SECTORS_FILTER, DEFAULT_FILTER } from '../constants'
 
-const filter = {
-  category: [
-    {
-      name: 'Basic industries',
-      value: 'basic-industries',
-      subscribed: true,
-    },
-    { name: 'Capital goods', value: 'capital-goods', subscribed: true },
-    { name: 'Consumer goods', value: 'consumer-goods', subscribed: true },
-    {
-      name: 'Consumer services',
-      value: 'consumer-services',
-      subscribed: true,
-    },
-    { name: 'Energy', value: 'energy', subscribed: true },
-    { name: 'Finance', value: 'finance', subscribed: true },
-    { name: 'Health Care', value: 'health-care', subscribed: true },
-    {
-      name: 'Public utilities',
-      value: 'public-utilities',
-      subscribed: true,
-    },
-    { name: 'Technology', value: 'technology', subscribed: true },
-    { name: 'Transportation', value: 'transportation', subscribed: true },
-    { name: 'Miscellaneous', value: 'miscellaneous', subscribed: true },
-    { name: 'OTC', value: 'otc', subscribed: false },
-  ],
-  price: { min: 0, max: 2000 },
-  volume: { min: 0, max: 200000000 },
-};
+let filter = {...DEFAULT_FILTER}
 
 const params = {
   grabCursor: true,
@@ -205,14 +176,9 @@ export class Dashboard extends Component {
       try {
         let cached_filter = JSON.parse(data_filter);
 
-        filter.category.forEach((item, i, arr) => {
-          let cached_item = cached_filter.category.find(
-            (a) => a.value === item.value
-          );
-          if (cached_item && item.subscribed !== cached_item.subscribed) {
-            arr[i].subscribed = cached_item.subscribed;
-          }
-        });
+        if (!cached_filter.industries) {
+          cached_filter.industries = DEFAULT_FILTER.industries
+        }
 
         filter['price'] = cached_filter.price;
         filter['volume'] = cached_filter.volume || filter.volume;
@@ -221,7 +187,7 @@ export class Dashboard extends Component {
         console.error(e);
       }
     } else {
-      localStorage.setItem('filter', JSON.stringify(filter));
+      localStorage.setItem('filter', JSON.stringify(DEFAULT_FILTER));
     }
     console.info('Filter Loaded:', filter)
 
