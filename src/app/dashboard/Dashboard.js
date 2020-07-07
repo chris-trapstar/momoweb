@@ -711,6 +711,7 @@ export class Dashboard extends Component {
             <div className='row align-items-center mt-1'>
               <img
                 className={'context-menu-item-icon-style'}
+                style={{ height: 16, width: 16 }}
                 src={require('../../assets/images/dashboard/cnbc.png')}
               />
               <span className='medium white-no-wrap bar-txt'>CNBC</span>
@@ -723,6 +724,7 @@ export class Dashboard extends Component {
             <div className='row align-items-center mt-1'>
               <img
                 className={'context-menu-item-icon-style'}
+                style={{ height: 16, width: 16 }}
                 src={require('../../assets/images/dashboard/marketwatch.png')}
               />
               <span className='medium white-no-wrap bar-txt'>MarketWatch</span>
@@ -735,6 +737,7 @@ export class Dashboard extends Component {
             <div className='row align-items-center mt-1'>
               <img
                 className={'context-menu-item-icon-style'}
+                style={{ height: 16, width: 16 }}
                 src={require('../../assets/images/dashboard/seekingalpha.png')}
               />
               <span className='medium white-no-wrap bar-txt'>
@@ -747,7 +750,10 @@ export class Dashboard extends Component {
             onClick={this.onPopover}
           >
             <div className='row align-items-center mt-1'>
-              <i className='mdi mdi-chart-line-variant popover-icon context-menu-item-icon-style' />
+              <i
+                className='mdi mdi-chart-line-variant popover-icon context-menu-item-icon-style'
+                style={{ height: 16, width: 16, marginTop: -10 }}
+              />
               <span className='medium white-no-wrap bar-txt'>Nasdaq</span>
             </div>
           </MenuItem>
@@ -758,6 +764,7 @@ export class Dashboard extends Component {
             <div className='row align-items-center mt-1'>
               <img
                 className={'context-menu-item-icon-style'}
+                style={{ height: 16, width: 16 }}
                 src={require('../../assets/images/dashboard/stocktwits.png')}
               />
               <span className='medium white-no-wrap bar-txt'>Stocktwits</span>
