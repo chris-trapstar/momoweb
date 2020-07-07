@@ -36,7 +36,7 @@ export const SECTORS_FILTER = {
         'Finance': true,
         'Financial Services': true,
     },
-    'HEALTH CARE': {
+    'HEALTHCARE': {
         'Health Care': true,
         'Health Technology': true,
         'Heathcare': true,
