@@ -8,7 +8,7 @@ import Swiper from 'react-id-swiper';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import * as _ from 'lodash';
 import { withTranslation } from 'react-i18next';
-import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+// import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { Form, Button, Modal, Spinner, Dropdown } from 'react-bootstrap';
 
 import './dashboard.css';
@@ -51,8 +51,8 @@ const filter = {
 const sectorsFilter = {
   'BASIC INDUSTRIES': {
     'Process Industries': true,
-    'Conglomerates': true,
-    'Industrials': true,
+    Conglomerates: true,
+    Industrials: true,
     'Basic Industries': true,
     'Basic Materials': true,
   },
@@ -66,37 +66,37 @@ const sectorsFilter = {
     'Consumer Cyclical': true,
     'Consumer Durables': true,
   },
-  'SERVICES': {
-    'Consumer': true,
-    'Services': true,
+  SERVICES: {
+    Consumer: true,
+    Services: true,
     'Commercial Services': true,
     'Communications Services': true,
   },
-  'ENERGY': {
+  ENERGY: {
     Energy: true,
   },
-  'FINANCE': {
-    'Finance': true,
+  FINANCE: {
+    Finance: true,
     'Financial Services': true,
   },
   'HEALTH CARE': {
     'Health Care': true,
     'Health Technology': true,
-    'Heathcare': true,
+    Heathcare: true,
   },
   'PUBLIC UTILITIES': {
     'Public Utilities': true,
-    'Utilities': true,
+    Utilities: true,
   },
-  'COMMUNICATIONS': {
+  COMMUNICATIONS: {
     Coummunications: true,
     Technology: true,
   },
-  'TRANSPORTION': {
+  TRANSPORTION: {
     Transportation: true,
   },
-  'MISCELLANEOUS': {
-    'Miscellaneous': true,
+  MISCELLANEOUS: {
+    Miscellaneous: true,
     'n/a': true,
     'Real Estate': true,
   },
@@ -1038,68 +1038,67 @@ export class Dashboard extends Component {
 
     return (
       <div>
-        <Table className='table table-striped'>
-          <Thead className='my-2 table-header'>
-            <Tr>
-              <Th className='th-item-style'>
+        <table className='table table-striped'>
+          <thead className='my-2 table-header'>
+            <tr>
+              <th className='th-item-style'>
                 <div className={'th-item-wrapper'}>
                   <span style={{ marginRight: 8, alignSelf: 'center' }}>
                     Symbol
                   </span>
                   {this.sortUI('symbol')}
                 </div>
-              </Th>
-              <Th className='th-item-style'>
+              </th>
+              <th className='th-item-style'>
                 <div className={'th-item-wrapper'}>
                   <span style={{ marginRight: 8, alignSelf: 'center' }}>
                     Last
                   </span>
                   {this.sortUI('last')}
                 </div>
-              </Th>
-              <Th className='th-item-style'>
+              </th>
+              <th className='th-item-style'>
                 <div className={'th-item-wrapper'}>
                   <span style={{ marginRight: 8, alignSelf: 'center' }}>
                     Volume
                   </span>
                   {this.sortUI('volume')}
                 </div>
-              </Th>
-              <Th className='th-item-style'>
+              </th>
+              <th className='th-item-style'>
                 <div className={'th-item-wrapper'}>
                   <span style={{ marginRight: 8, alignSelf: 'center' }}>
                     Momentum
                   </span>
                   {this.sortUI('momentum')}
                 </div>
-              </Th>
-              <Th className='th-item-style'>
+              </th>
+              <th className='th-item-style'>
                 <div className={'th-item-wrapper'}>
                   <span style={{ marginRight: 8, alignSelf: 'center' }}>
                     Unusual Vol
                   </span>
                   {this.sortUI('uVol')}
                 </div>
-              </Th>
-              <Th className='th-item-style'>
+              </th>
+              <th className='th-item-style'>
                 <div className={'th-item-wrapper'}>
                   <span style={{ marginRight: 8, alignSelf: 'center' }}>
                     vWapDist
                   </span>
                   {this.sortUI('vWapDist')}
                 </div>
-              </Th>
-              <Th
+              </th>
+              <th
                 className='th-item-style'
                 // onClick={() => {
                 //   this.onFavPress();
                 // }}
               >
                 <span className={'th-item-wrapper'}>Actions</span>
-                {/* <i className='fa fa-unsorted ml-2' /> */}
-              </Th>
-            </Tr>
-          </Thead>
+              </th>
+            </tr>
+          </thead>
 
           {discoveryDataFiltered
             .slice(0, discoveryIndex)
@@ -1109,13 +1108,13 @@ export class Dashboard extends Component {
                 index
               ) => {
                 return (
-                  <Tbody key={index}>
-                    <Tr
+                  <tbody key={index}>
+                    <tr
                       style={{
                         background: index % 2 === 0 ? '#00000' : '#191C24',
                       }}
                     >
-                      <Td className='text-white flex-fill text-center'>
+                      <td className='text-white flex-fill text-center'>
                         <ContextMenuTrigger
                           id={`discovery-context-menu_${index}`}
                           holdToDisplay={0}
@@ -1132,8 +1131,8 @@ export class Dashboard extends Component {
                           [symbol, '', '', '', '', ''],
                           ''
                         )}
-                      </Td>
-                      <Td className='text-white flex-fill text-center'>
+                      </td>
+                      <td className='text-white flex-fill text-center'>
                         <ContextMenuTrigger
                           id={`discovery-context-menu_${index}`}
                           holdToDisplay={0}
@@ -1147,8 +1146,8 @@ export class Dashboard extends Component {
                           [symbol, '', '', '', '', ''],
                           ''
                         )}
-                      </Td>
-                      <Td className='text-white flex-fill text-center'>
+                      </td>
+                      <td className='text-white flex-fill text-center'>
                         <ContextMenuTrigger
                           id={`discovery-context-menu_${index}`}
                           holdToDisplay={0}
@@ -1162,8 +1161,8 @@ export class Dashboard extends Component {
                           [symbol, '', '', '', '', ''],
                           ''
                         )}
-                      </Td>
-                      <Td className='flex-fill text-center'>
+                      </td>
+                      <td className='flex-fill text-center'>
                         <ContextMenuTrigger
                           id={`discovery-context-menu_${index}`}
                           holdToDisplay={0}
@@ -1182,8 +1181,8 @@ export class Dashboard extends Component {
                           [symbol, '', '', '', '', ''],
                           ''
                         )}
-                      </Td>
-                      <Td className='flex-fill text-center'>
+                      </td>
+                      <td className='flex-fill text-center'>
                         <ContextMenuTrigger
                           id={`discovery-context-menu_${index}`}
                           holdToDisplay={0}
@@ -1208,8 +1207,8 @@ export class Dashboard extends Component {
                           [symbol, '', '', '', '', ''],
                           ''
                         )}
-                      </Td>
-                      <Td className='text-white flex-fill text-center'>
+                      </td>
+                      <td className='text-white flex-fill text-center'>
                         <ContextMenuTrigger
                           id={`discovery-context-menu_${index}`}
                           holdToDisplay={0}
@@ -1226,7 +1225,8 @@ export class Dashboard extends Component {
                           >
                             {isNaN(vWapDist)
                               ? '_'
-                              : (vWapDist > 0 ? '+' : '') + `${vWapDist.toFixed(2)}%`}
+                              : (vWapDist > 0 ? '+' : '') +
+                                `${vWapDist?.toFixed(2)}%`}
                           </div>
                         </ContextMenuTrigger>
                         {this.getMenuItems(
@@ -1234,8 +1234,8 @@ export class Dashboard extends Component {
                           [symbol, '', '', '', '', ''],
                           ''
                         )}
-                      </Td>
-                      <Td className='text-white'>
+                      </td>
+                      <td className='text-white'>
                         <div className='th-action-item-style'>
                           <MenuItem
                             onClick={() => {
@@ -1273,13 +1273,13 @@ export class Dashboard extends Component {
                             </div>
                           </MenuItem>
                         </div>
-                      </Td>
-                    </Tr>
-                  </Tbody>
+                      </td>
+                    </tr>
+                  </tbody>
                 );
               }
             )}
-        </Table>
+        </table>
         {(this.state.discoveryIndex < this.state.discoveryDataFiltered.length ||
           this.state.discoveryDataFiltered.length === 0) && (
           <Spinner
@@ -1668,7 +1668,11 @@ export class Dashboard extends Component {
                           <h4 style={{ marginBottom: '0px' }}>Popular</h4>
                         </div>
                         <div
-                          style={{ marginLeft: '2rem', marginTop: '0.4rem', textTransform: 'uppercase' }}
+                          style={{
+                            marginLeft: '2rem',
+                            marginTop: '0.4rem',
+                            textTransform: 'uppercase',
+                          }}
                         >
                           <div className='d-flex flex-row flex-fill flex-wrap'>
                             {this.renderPopularData(0)}
