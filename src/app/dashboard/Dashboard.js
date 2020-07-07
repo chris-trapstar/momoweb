@@ -117,6 +117,8 @@ export class Dashboard extends Component {
     this.state = this.getInitialState();
   }
 
+  
+
   componentDidMount() {
     window.addEventListener('resize', this.updateDimensions);
     this.updateDimensions();
@@ -1114,6 +1116,7 @@ export class Dashboard extends Component {
                 { symbol, last, volume, momentum, uVol, vWapDist, short },
                 index
               ) => {
+                let allow=false;
                 return (
                   <tbody key={index}>
                     <tr
@@ -1244,24 +1247,17 @@ export class Dashboard extends Component {
                       </td>
                       <td className='text-white'>
                         <div className='th-action-item-style'>
-                          <MenuItem
-                            onClick={() => {
-                              this.registerAlert(
+                          <MenuItem>
+                            <div className='row justify-content-center align-items-center'>
+                              <ContextMenuTrigger id={`alert_menu_${index}`} holdToDisplay={1}>
+                                <i className='mdi mdi-bell text-white popover-icon' />
+                              </ContextMenuTrigger>
+
+                              {this.renderAlertMenu(`alert_menu_${index}`,   
                                 symbol,
                                 'vwap',
-                                vWapDist,
-                                vWapDist
-                              );
-                              this.registerAlert(
-                                symbol,
-                                'uv',
-                                vWapDist,
-                                vWapDist
-                              );
-                            }}
-                          >
-                            <div className='row justify-content-center align-items-center'>
-                              <i className='mdi mdi-bell text-white popover-icon' />
+                                vWapDist)
+                                }
                             </div>
                           </MenuItem>
                           <MenuItem
@@ -1346,6 +1342,61 @@ export class Dashboard extends Component {
     );
   };
 
+
+  onAlertMenuClick(symbol, type, vWapDist){
+    this.registerAlert(
+      symbol,
+      'vwap',
+      vWapDist,
+      vWapDist
+    );
+    this.registerAlert(
+      symbol,
+      'uv',
+      vWapDist,
+      vWapDist
+    );
+  }
+  renderAlertMenu=(key,symbol,type, vWapDist)=>{
+   return ( 
+   <ContextMenu id={key} className='p-0' key={`menu-item-${key}`}>
+        <div className='context-menu-alert-style'>
+            <MenuItem
+              onClick = {() => {
+                  onAlertMenuClick(symbol, type, vWapDist)}}
+            >
+              <div className='row align-items-center mt-1'>
+                <span className='medium white-no-wrap bar-txt'>Price</span>
+              </div>
+            </MenuItem>
+            <MenuItem
+              onClick = {() => {
+                  onAlertMenuClick(symbol, type, vWapDist)}}
+            >
+              <div className='row align-items-center mt-1'>
+                <span className='medium white-no-wrap bar-txt'>VWAP</span>
+              </div>
+            </MenuItem>
+            <MenuItem
+              onClick = {() => {
+                  onAlertMenuClick(symbol, type, vWapDist)}}
+            >
+              <div className='row align-items-center mt-1'>
+                <span className='medium white-no-wrap bar-txt'>UnVol</span>
+              </div>
+            </MenuItem>
+            <MenuItem
+              onClick = {() => {
+                  onAlertMenuClick(symbol, type, vWapDist)}}
+            >
+              <div className='row align-items-center mt-1'>
+                <span className='medium white-no-wrap bar-txt'>Hi/Lo</span>
+              </div>
+            </MenuItem>
+          </div>
+    </ContextMenu>)
+  }
+
   renderDiscovery = () => {
     const { discoveryFilter, max } = this.state;
 
@@ -1360,6 +1411,7 @@ export class Dashboard extends Component {
                     <h4 className='card-title mb-1 py-1'>Discovery</h4>
                     <div className='d-flex flex-row mT15'>
                       <div className='search-bar-wrapper search-bar-wrapper-hover'>
+                        
                         <Dropdown varaint='btn btn-outline-secondary'>
                           <Dropdown.Toggle className='industry_input'>
                             {this.state.discoverySector}
@@ -1459,6 +1511,7 @@ export class Dashboard extends Component {
                     }
                     id='discovery-table'
                   >
+                    
                     {this.renderDiscoveryTableResponsive()}
                   </div>
                 </div>
@@ -1496,7 +1549,6 @@ export class Dashboard extends Component {
       [name]: !this.state[name],
     });
   };
-
   render() {
     const {
       lows,
@@ -1719,7 +1771,7 @@ export class Dashboard extends Component {
               </div>
 
               {/** Discovery */}
-
+              
               {this.props.isPro &&
                 this.state.showDiscovery &&
                 this.renderDiscovery()}

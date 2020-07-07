@@ -716,6 +716,13 @@ th {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.context-menu-alert-style {
+  background-color: rgba(0, 0, 0, 0.9);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 .context-menu-item-icon-style {
   width: 16px;
   color: #ffff;
