@@ -200,16 +200,16 @@
 
 @media only screen and (max-width: 1024px) {
   .value-item {
-    padding-left: 3em;
-    padding-right: 3em;
+    padding-left: 0em;
+    padding-right: 0em;
   }
 }
 
 /** Small iPads */
 @media only screen and (max-width: 812px) {
   .value-item {
-    padding-left: 3em;
-    padding-right: 3em;
+    padding-left: 0em;
+    padding-right: 0em;
     padding-top: 3em;
   }
 
