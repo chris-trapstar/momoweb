@@ -17,6 +17,7 @@ import { AuthActions } from '../store';
 import Meters from '../meters/Meters';
 import { ArrowDown, ArrowUp } from './../icons';
 
+
 const filter = {
   category: [
     {
@@ -116,9 +117,6 @@ export class Dashboard extends Component {
     super(props);
     this.state = this.getInitialState();
   }
-
-  
-
   componentDidMount() {
     window.addEventListener('resize', this.updateDimensions);
     this.updateDimensions();
@@ -234,6 +232,7 @@ export class Dashboard extends Component {
   getAlertHistory = () => {
     API.getAlertHistory()
       .then((alertHistory) => {
+        console.log('Alrt history: ',alertHistory)
         this.setState({ alertHistory });
       })
       .catch((error) => {
@@ -694,10 +693,11 @@ export class Dashboard extends Component {
           </div>
           <div className='bullets-section' />
         </div>
+       
       );
     });
 
-    return renderCards;
+    return renderCards
   };
 
   getMenuItems = (key, data, type) => {
@@ -856,6 +856,8 @@ export class Dashboard extends Component {
       trade: 'Trade',
       uv: 'Unusual volume',
       vwap: 'vWapDist',
+      price:"Price",
+      "hi/lo":'Hi/low'
     };
     try {
       const result = await API.addAlert({
@@ -1346,13 +1348,7 @@ export class Dashboard extends Component {
   onAlertMenuClick(symbol, type, vWapDist){
     this.registerAlert(
       symbol,
-      'vwap',
-      vWapDist,
-      vWapDist
-    );
-    this.registerAlert(
-      symbol,
-      'uv',
+      type,
       vWapDist,
       vWapDist
     );
@@ -1363,32 +1359,31 @@ export class Dashboard extends Component {
         <div className='context-menu-alert-style'>
             <MenuItem
               onClick = {() => {
-                  onAlertMenuClick(symbol, type, vWapDist)}}
-            >
+                  this.onAlertMenuClick(symbol, 'price', vWapDist)}}>
               <div className='row align-items-center mt-1'>
                 <span className='medium white-no-wrap bar-txt'>Price</span>
               </div>
             </MenuItem>
             <MenuItem
               onClick = {() => {
-                  onAlertMenuClick(symbol, type, vWapDist)}}
-            >
+                  this.onAlertMenuClick(symbol, 'vwap', vWapDist)
+                  }} >
               <div className='row align-items-center mt-1'>
                 <span className='medium white-no-wrap bar-txt'>VWAP</span>
               </div>
             </MenuItem>
             <MenuItem
               onClick = {() => {
-                  onAlertMenuClick(symbol, type, vWapDist)}}
-            >
+                  this.onAlertMenuClick(symbol, 'uv', vWapDist)
+                  }} >
               <div className='row align-items-center mt-1'>
                 <span className='medium white-no-wrap bar-txt'>UnVol</span>
               </div>
             </MenuItem>
             <MenuItem
               onClick = {() => {
-                  onAlertMenuClick(symbol, type, vWapDist)}}
-            >
+                  this.onAlertMenuClick(symbol, 'hi/lo', vWapDist)
+                  }} >
               <div className='row align-items-center mt-1'>
                 <span className='medium white-no-wrap bar-txt'>Hi/Lo</span>
               </div>
@@ -1710,8 +1705,12 @@ export class Dashboard extends Component {
                     </a> */}
                   </div>
                   {this.renderAddQuoteModal()}
-
-                  <Swiper {...params}>{this.renderQuoteCards()}</Swiper>
+                  {this.state.quotes.length>0 && 
+                  <Swiper {...params}> 
+                    {
+                      this.renderQuoteCards()
+                    } 
+                    </Swiper> }
                 </div>
               )}
 
