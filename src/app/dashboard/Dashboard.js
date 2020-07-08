@@ -16,92 +16,7 @@ import 'swiper/css/swiper.css';
 import { AuthActions } from '../store';
 import Meters from '../meters/Meters';
 import { ArrowDown, ArrowUp } from './../icons';
-
-
-const filter = {
-  category: [
-    {
-      name: 'Basic industries',
-      value: 'basic-industries',
-      subscribed: true,
-    },
-    { name: 'Capital goods', value: 'capital-goods', subscribed: true },
-    { name: 'Consumer goods', value: 'consumer-goods', subscribed: true },
-    {
-      name: 'Consumer services',
-      value: 'consumer-services',
-      subscribed: true,
-    },
-    { name: 'Energy', value: 'energy', subscribed: true },
-    { name: 'Finance', value: 'finance', subscribed: true },
-    { name: 'Health Care', value: 'health-care', subscribed: true },
-    {
-      name: 'Public utilities',
-      value: 'public-utilities',
-      subscribed: true,
-    },
-    { name: 'Technology', value: 'technology', subscribed: true },
-    { name: 'Transportation', value: 'transportation', subscribed: true },
-    { name: 'Miscellaneous', value: 'miscellaneous', subscribed: true },
-    { name: 'OTC', value: 'otc', subscribed: false },
-  ],
-  price: { min: 0, max: 2000 },
-  volume: { min: 0, max: 200000000 },
-};
-
-const sectorsFilter = {
-  'BASIC INDUSTRIES': {
-    'Process Industries': true,
-    Conglomerates: true,
-    Industrials: true,
-    'Basic Industries': true,
-    'Basic Materials': true,
-  },
-  'CAPITAL GOODS': {
-    'Capital Goods': true,
-  },
-  'CONSUMER GOODS': {
-    'Consumer Non Durables': true,
-    'Consumer Non-Durables': true,
-    'Consumer Defensive': true,
-    'Consumer Cyclical': true,
-    'Consumer Durables': true,
-  },
-  SERVICES: {
-    Consumer: true,
-    Services: true,
-    'Commercial Services': true,
-    'Communications Services': true,
-  },
-  ENERGY: {
-    Energy: true,
-  },
-  FINANCE: {
-    Finance: true,
-    'Financial Services': true,
-  },
-  'HEALTH CARE': {
-    'Health Care': true,
-    'Health Technology': true,
-    Heathcare: true,
-  },
-  'PUBLIC UTILITIES': {
-    'Public Utilities': true,
-    Utilities: true,
-  },
-  COMMUNICATIONS: {
-    Coummunications: true,
-    Technology: true,
-  },
-  TRANSPORTION: {
-    Transportation: true,
-  },
-  MISCELLANEOUS: {
-    Miscellaneous: true,
-    'n/a': true,
-    'Real Estate': true,
-  },
-};
+import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX, SECTORS_FILTER, DEFAULT_FILTER } from '../constants'
 
 const params = {
   grabCursor: true,
@@ -129,6 +44,7 @@ export class Dashboard extends Component {
 
     this.getStats();
     this.statsTimer = setInterval(() => {
+      this.getQuotes();
       this.getStats();
     }, 3 * 60 * 1000); // Update Every 3 minutes
 
@@ -254,29 +170,24 @@ export class Dashboard extends Component {
   };
 
   getInitialState = () => {
+    let filter = { ...DEFAULT_FILTER }
+
     let data_filter = localStorage.getItem('filter');
     if (data_filter) {
       try {
         let cached_filter = JSON.parse(data_filter);
 
-        filter.category.forEach((item, i, arr) => {
-          let cached_item = cached_filter.category.find(
-            (a) => a.value === item.value
-          );
-          if (cached_item && item.subscribed !== cached_item.subscribed) {
-            arr[i].subscribed = cached_item.subscribed;
-          }
-        });
-
-        filter['price'] = cached_filter.price;
-        filter['volume'] = cached_filter.volume || filter.volume;
+        filter.industries = cached_filter.industries || filter.industries
+        filter.price = cached_filter.price || filter.price;
+        filter.volume = cached_filter.volume || filter.volume;
         localStorage.setItem('filter', JSON.stringify(filter));
       } catch (e) {
         console.error(e);
       }
     } else {
-      localStorage.setItem('filter', JSON.stringify(filter));
+      localStorage.setItem('filter', JSON.stringify(DEFAULT_FILTER));
     }
+    console.info('Filter Loaded:', filter)
 
     return {
       /* Widget Status */
@@ -314,7 +225,7 @@ export class Dashboard extends Component {
       showSpinner: false,
       showAddQuote: false,
       isFavFilter: false,
-      sectors: ['ALL', ...Object.keys(sectorsFilter)],
+      sectors: ['ALL', ...Object.keys(SECTORS_FILTER)],
     };
   };
 
@@ -323,11 +234,18 @@ export class Dashboard extends Component {
   };
 
   listenTrade = () => {
-    let data_filter = localStorage.getItem('filter');
-    if (!data_filter || !data_filter.category) {
-      data_filter = filter;
+    let data_filter
+    try {
+      data_filter = JSON.parse(localStorage.getItem('filter'))
+    } catch (e) { }
+    if (!data_filter) {
+      data_filter = { ...DEFAULT_FILTER };
     }
-
+    if (!data_filter.industries) {
+      data_filter.industries = DEFAULT_FILTER.industries
+    }
+    localStorage.setItem('filter', JSON.stringify(data_filter));
+    console.info('Category Loaded:', data_filter)
     window.addEventListener('compressedUpdate', this.onCompressedUpdate, false);
     // this.subscribeChannels(data_filter.category);
   };
@@ -341,8 +259,8 @@ export class Dashboard extends Component {
       return false;
     }
 
-    lows = this.applyPriceFilter(lows);
-    highs = this.applyPriceFilter(highs);
+    lows = this.applyFilter(lows);
+    highs = this.applyFilter(highs);
 
     if (lows.length + highs.length > 0) {
       if (this.buffer.length > 200) {
@@ -363,23 +281,33 @@ export class Dashboard extends Component {
     });
   };
 
-  applyPriceFilter = (data) => {
+  applyFilter = (data) => {
     let self = this;
+
+    let dicSectors = {}
+    const industries = this.state.filter.industries || DEFAULT_FILTER.industries
+    for (let key in industries) {
+      dicSectors = { ...dicSectors, ...SECTORS_FILTER[key] }
+    }
 
     return data
       .filter((item, i) => {
         let price = item[1];
         let priceFilter = self.state.filter.price;
-        priceFilter.min = priceFilter.min || 0;
-        priceFilter.max = priceFilter.max || 2000;
-        return price >= priceFilter.min && price <= priceFilter.max;
+        const min = priceFilter.min || 0;
+        const max = priceFilter.max >= PRICE_MAX ? Infinity : priceFilter.max
+        return price >= min && price <= max
       })
       .filter((item, i) => {
         let volume = item[5];
         let volumeFilter = self.state.filter.volume;
-        volumeFilter.min = volumeFilter.min || 0;
-        volumeFilter.max = volumeFilter.max || 200000000;
-        return volume >= volumeFilter.min && volume <= volumeFilter.max;
+        const min = volumeFilter.min || 0;
+        const max = volumeFilter.max >= (AVG_VOL_MAX * 1000) ? Infinity : volumeFilter.max
+        return volume >= min && volume <= max;
+      }).filter(item => {
+        if (item[6]) {
+          return dicSectors[item[6]]
+        }
       });
   };
 
@@ -393,7 +321,7 @@ export class Dashboard extends Component {
     }
     let highs = this.state.highs.slice();
     let lows = this.state.lows.slice();
-    this.buffer.forEach(function(item, i, arr) {
+    this.buffer.forEach(function (item, i, arr) {
       highs = item.highs.concat(highs).slice(0, 100);
       lows = item.lows.concat(lows).slice(0, 100);
     });
@@ -443,7 +371,7 @@ export class Dashboard extends Component {
     if (discoverySector === 'ALL') {
       return true;
     }
-    const filters = sectorsFilter[discoverySector];
+    const filters = SECTORS_FILTER[discoverySector];
     if (!filters) {
       return false;
     }
@@ -514,7 +442,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   low[3] === 1 ? 'stock-active-text stock-active-low' : ''
-                }`}
+                  }`}
               >
                 <ContextMenuTrigger
                   id={`low-context-menu_${index}`}
@@ -568,7 +496,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   high[3] === 1 ? 'stock-active-text stock-active-high' : ''
-                }`}
+                  }`}
               >
                 <ContextMenuTrigger
                   id={`high-context-menu_${index}`}
@@ -917,8 +845,8 @@ export class Dashboard extends Component {
         sortOption.type === 'none'
           ? discoveryData
           : sortOption.type === 'up'
-          ? sorted.reverse()
-          : sorted,
+            ? sorted.reverse()
+            : sorted,
     });
   };
 
@@ -971,20 +899,20 @@ export class Dashboard extends Component {
               )}
             </div>
           ) : (
-            <div key={`popular-data-h6-${index + i}`}>
-              <ContextMenuTrigger
-                id={`popular-data-h6-${index + i}`}
-                holdToDisplay={0}
-              >
-                <h6 className='pr-2'>{item}</h6>
-              </ContextMenuTrigger>
-              {this.getMenuItems(
-                `popular-data-h6-${index + i}`,
-                [item, '', '', '', '', ''],
-                ''
-              )}
-            </div>
-          )
+                  <div key={`popular-data-h6-${index + i}`}>
+                    <ContextMenuTrigger
+                      id={`popular-data-h6-${index + i}`}
+                      holdToDisplay={0}
+                    >
+                      <h6 className='pr-2'>{item}</h6>
+                    </ContextMenuTrigger>
+                    {this.getMenuItems(
+                      `popular-data-h6-${index + i}`,
+                      [item, '', '', '', '', ''],
+                      ''
+                    )}
+                  </div>
+                )
         );
       });
     }
@@ -1102,9 +1030,9 @@ export class Dashboard extends Component {
               </th>
               <th
                 className='th-item-style'
-                // onClick={() => {
-                //   this.onFavPress();
-                // }}
+              // onClick={() => {
+              //   this.onFavPress();
+              // }}
               >
                 <span className={'th-item-wrapper'}>Actions</span>
               </th>
@@ -1205,9 +1133,9 @@ export class Dashboard extends Component {
                               uVol > 0
                                 ? 'text-success'
                                 : uVol < 0
-                                ? 'text-danger'
-                                : 'text-white'
-                            }`}
+                                  ? 'text-danger'
+                                  : 'text-white'
+                              }`}
                           >
                             {isNaN(uVol)
                               ? '_'
@@ -1231,11 +1159,11 @@ export class Dashboard extends Component {
                               vWapDist > 0
                                 ? 'text-success'
                                 : vWapDist < 0
-                                ? 'text-danger'
-                                : 'text-white'
-                            }`}
+                                  ? 'text-danger'
+                                  : 'text-white'
+                              }`}
                           >
-                            {isNaN(vWapDist)
+                            {(isNaN(vWapDist) || vWapDist == null)
                               ? '_'
                               : (vWapDist > 0 ? '+' : '') +
                                 `${vWapDist?.toFixed(2)}%`}
@@ -1273,7 +1201,7 @@ export class Dashboard extends Component {
                                   this.isSymbolFav(symbol)
                                     ? 'mdi mdi-star quote-star popover-icon'
                                     : 'mdi mdi-star text-white popover-icon'
-                                }`}
+                                  }`}
                               />
                             </div>
                           </MenuItem>
@@ -1287,13 +1215,13 @@ export class Dashboard extends Component {
         </table>
         {(this.state.discoveryIndex < this.state.discoveryDataFiltered.length ||
           this.state.discoveryDataFiltered.length === 0) && (
-          <Spinner
-            className={'overlay-content'}
-            style={{ margin: 8 }}
-            animation='border'
-            variant='success'
-          />
-        )}
+            <Spinner
+              className={'overlay-content'}
+              style={{ margin: 8 }}
+              animation='border'
+              variant='success'
+            />
+          )}
       </div>
     );
   };
@@ -1306,8 +1234,8 @@ export class Dashboard extends Component {
           max
             ? 'w-100'
             : !this.state.showPopular && !this.state.showAlertHistory
-            ? 'w-100'
-            : 'grid-margin stretch-card px-0 flex-fill socket-table'
+              ? 'w-100'
+              : 'grid-margin stretch-card px-0 flex-fill socket-table'
         }
       >
         <div className='card'>
@@ -1332,13 +1260,13 @@ export class Dashboard extends Component {
               {this.renderData(highs, 'high')}
             </div>
           ) : (
-            <div className='card-body stream-body'>
-              <div className='row'>
-                {this.renderData(lows, 'low')}
-                {this.renderData(highs, 'high')}
+              <div className='card-body stream-body'>
+                <div className='row'>
+                  {this.renderData(lows, 'low')}
+                  {this.renderData(highs, 'high')}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     );
@@ -1443,7 +1371,7 @@ export class Dashboard extends Component {
                             this.state.isFavFilter
                               ? 'mdi mdi-star quote-star popover-icon'
                               : 'mdi mdi-star text-white popover-icon'
-                          }`}
+                            }`}
                           style={{ alignSelf: 'center' }}
                         />
                         <span style={{ alignSelf: 'center', marginLeft: 4 }}>
@@ -1587,7 +1515,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showStream ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showStream');
@@ -1601,7 +1529,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showAlertHistory ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showAlertHistory');
@@ -1617,7 +1545,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showMeters ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showMeters');
@@ -1631,7 +1559,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row  ${
                     this.state.showPopular ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showPopular');
@@ -1645,7 +1573,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showQuotes ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showQuotes');
@@ -1665,7 +1593,7 @@ export class Dashboard extends Component {
                         ? 'showWidget'
                         : 'hideWidget'
                       : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     if (this.props.isPro) this.onToggleWidget('showDiscovery');

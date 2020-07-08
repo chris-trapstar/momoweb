@@ -16,11 +16,7 @@ class AppRoutes extends Component {
   }
   registerPushToken = async (registration_id) => {
     const result = await API.registerPushToken(registration_id)
-    if (result) {
-
-    } else { // Show Alert for push registration failed
-
-    }
+    console.info('Push Token Register Result:', result)
   }
 
   requestNotificationPermissions = async () => {

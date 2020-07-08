@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { AuthActions } from '../store';
 import AlertInput from './alertInput';
+import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX, SECTORS_FILTER, DEFAULT_FILTER } from '../constants'
 
 const alerts = [
   {
@@ -49,54 +50,16 @@ export class Settings extends Component {
     window.matchMedia("(max-width: 767px)").addListener(handler);
     this.getAlertSettings();
 
-    let filter = {
-      category: [
-        {
-          name: "Basic industries",
-          value: "basic-industries",
-          subscribed: true
-        },
-        { name: "Capital goods", value: "capital-goods", subscribed: true },
-        { name: "Consumer goods", value: "consumer-goods", subscribed: true },
-        {
-          name: "Consumer services",
-          value: "consumer-services",
-          subscribed: true
-        },
-        { name: "Energy", value: "energy", subscribed: true },
-        { name: "Finance", value: "finance", subscribed: true },
-        { name: "Health Care", value: "health-care", subscribed: true },
-        {
-          name: "Public utilities",
-          value: "public-utilities",
-          subscribed: true
-        },
-        { name: "Technology", value: "technology", subscribed: true },
-        { name: "Transportation", value: "transportation", subscribed: true },
-        { name: "Miscellaneous", value: "miscellaneous", subscribed: true },
-        { name: "OTC", value: "otc", subscribed: false }
-      ],
-      price: { min: 0, max: 2000 },
-      volume: { min: 0, max: 200000000 }
-    }
-
+    let filter = { ...DEFAULT_FILTER }
     let data_filter = localStorage.getItem("filter");
     if (data_filter) {
       try {
         let cached_filter = JSON.parse(data_filter);
 
-        filter.category.forEach((item, i, arr) => {
-          let cached_item = cached_filter.category.find(
-            a => a.value === item.value
-          );
-          console.log("CACHED", cached_item);
-          if (cached_item && item.subscribed !== cached_item.subscribed) {
-            arr[i].subscribed = cached_item.subscribed;
-          }
-        });
+        filter.industries = cached_filter.industries || filter.industries
+        filter.price = cached_filter.price || filter.price;
+        filter.volume = cached_filter.volume || filter.volume;
 
-        filter["price"] = cached_filter.price;
-        filter["volume"] = cached_filter.volume || filter.volume;
         localStorage.setItem("filter", JSON.stringify(filter));
       } catch (e) {
         console.error(e);
@@ -105,6 +68,7 @@ export class Settings extends Component {
       localStorage.setItem("filter", JSON.stringify(filter));
     }
 
+    console.info('Filter Loaded:', filter)
     this.setState({ filter });
   }
 
@@ -148,7 +112,7 @@ export class Settings extends Component {
     if (value === 'MIN') {
       return 0;
     } else if (value === 'MAX') {
-      return 500;
+      return PRICE_MAX;
     } else {
       return value;
     }
@@ -157,7 +121,7 @@ export class Settings extends Component {
   priceRangeFormatTo = value => {
     if (value === 0) {
       return 'MIN'
-    } else if (value === 500) {
+    } else if (value === PRICE_MAX) {
       return 'MAX';
     } else {
       return parseInt(value);
@@ -166,80 +130,68 @@ export class Settings extends Component {
 
   volRangeFormatFrom = value => {
     if (value === 'MIN') {
-      return 0;
+      return AVG_VOL_MIN;
     } else if (value === 'MAX') {
-      return 200;
+      return AVG_VOL_MAX;
     } else {
-      return value.replace('M', '');
+      return value.replace('K', '');
     }
   }
 
   volRangeFormatTo = value => {
-    if (value === 0) {
+    if (value === AVG_VOL_MIN) {
       return 'MIN'
-    } else if (value === 200) {
+    } else if (value === AVG_VOL_MAX) {
       return 'MAX';
     } else {
-      return value + 'M';
+      return parseInt(value) + 'K';
     }
   }
 
   renderFilterIndustries = () => {
     const { filter } = this.state;
-    let renderBtns = [];
-    if (filter) {
-      filter.category.map((item, index) => {
-        renderBtns.push(
-          <div
-            key={`industry-${index}`}
-            className="d-flex flex-row align-items-center industry-row"
-            onClick={() => { this.updateFilterIndustry(item); }}
-          >
-            {
-              item.subscribed ? <div className="industry-checked" /> : <div className="industry-unchecked" />
-            }
-            <span className="small white-no-wrap industry-txt">{item.name.toUpperCase()}</span>
-          </div>
-        )
-      });
-    }
-    return renderBtns;
+    const industries = Object.keys(SECTORS_FILTER)
+
+    return industries.map((item, index) => {
+      return (
+        <div
+          key={`industry-${index}`}
+          className="d-flex flex-row align-items-center industry-row"
+          onClick={() => { this.updateFilterIndustry(item); }}
+        >
+          {
+            (filter && filter.industries && filter.industries[item]) ? <div className="industry-checked" /> : <div className="industry-unchecked" />
+          }
+          <span className="small white-no-wrap industry-txt">{item}</span>
+        </div>
+      )
+    })
   }
 
   updateFilterIndustry = item => {
-    let { filter } = this.state;
-    if (item.value === 'otc') {
-      filter.category.map((f, index) => {
-        if (f.value === 'otc') {
-          f.subscribed = !item.subscribed;
-        } else {
-          f.subscribed = item.subscribed;
-        }
-      });
-    } else {
-      filter.category.map((f, index) => {
-        if (f.value === item.value) {
-          f.subscribed = !item.subscribed;
-        }
-      })
+    const filter = { ...this.state.filter }
+    if (!filter.industries) {
+      filter.industries = {}
     }
-    console.info(filter);
+    filter.industries[item] = !filter.industries[item]
+
     localStorage.setItem('filter', JSON.stringify(filter));
+    console.info('Filter updated:', filter)
     this.setState({ filter });
   }
 
   updateFilterPrice = value => {
-    let { filter } = this.state;
+    let filter = { ...this.state.filter };
     filter.price = { min: value[0], max: value[1] };
-    console.info(filter);
+    console.info('Filter Updated:', filter);
     localStorage.setItem('filter', JSON.stringify(filter));
     this.setState({ filter });
   }
 
   updateFilterVol = value => {
-    let { filter } = this.state;
-    filter.volume = { min: parseInt(value[0]) * 1000000, max: parseInt(value[1]) * 1000000 };
-    console.info(filter);
+    let filter = { ...this.state.filter };
+    filter.volume = { min: parseInt(value[0]) * 1000, max: parseInt(value[1]) * 1000 };
+    console.info('Filter updated:', filter);
     localStorage.setItem('filter', JSON.stringify(filter));
     this.setState({ filter });
   }
@@ -391,8 +343,8 @@ export class Settings extends Component {
               <span className="small company-name">PRICE</span>
               <div className="d-flex flex-row flex-fill price-section">
                 <Slider
-                  range={{ min: 0, max: 500 }}
-                  start={filter ? [filter.price.min, filter.price.max] : [0, 500]}
+                  range={{ min: PRICE_MIN, max: PRICE_MAX }}
+                  start={filter ? [filter.price.min, filter.price.max] : [PRICE_MIN, PRICE_MAX]}
                   connect
                   tooltips={true}
                   step={1}
@@ -408,8 +360,8 @@ export class Settings extends Component {
               <div className="small company-name-margin">AVG VOL</div>
               <div className="d-flex flex-row flex-fill price-section">
                 <Slider
-                  range={{ min: 0, max: 200 }}
-                  start={filter ? [parseInt(filter.volume.min / 1000000), parseInt(filter.volume.max / 1000000)] : [0, 200]}
+                  range={{ min: AVG_VOL_MIN, max: AVG_VOL_MAX }}
+                  start={filter ? [Math.floor(filter.volume.min / 1000), Math.ceil(filter.volume.max / 1000)] : [AVG_VOL_MIN, AVG_VOL_MAX]}
                   connect
                   tooltips={true}
                   step={1}
