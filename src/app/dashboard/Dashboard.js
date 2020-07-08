@@ -45,6 +45,7 @@ export class Dashboard extends Component {
 
     this.getStats();
     this.statsTimer = setInterval(() => {
+      this.getQuotes();
       this.getStats();
     }, 3 * 60 * 1000); // Update Every 3 minutes
 
@@ -254,9 +255,6 @@ export class Dashboard extends Component {
     let highs = msg[1];
     let lows = msg[2];
 
-    if (msg[3] && msg[3].length > 0) {
-      console.info('VWAP Detected - ', msg[3])
-    }
     if ('DISABLED' in window) {
       return false;
     }
