@@ -1,328 +1,351 @@
 .text-pink {
-    color: pink;
+  color: pink;
 }
 
 .value-item {
-    padding-left: 15em;
-    padding-right: 15em;
-    padding-top: 3em;
+  padding-left: 15em;
+  padding-right: 15em;
+  padding-top: 3em;
 }
 
 .value-item-disabled {
-    padding-left: 15em;
-    padding-right: 15em;
-    padding-top: 1em;
-
+  padding-left: 15em;
+  padding-right: 15em;
+  padding-top: 1em;
 }
 
 .pricing-container {
-    padding-left: 2em;
+  padding-left: 2em;
 }
 
 .item-content {
-    background: #2d2d2d;
-    padding-right: 10px;
+  background: #2d2d2d;
+  padding-right: 10px;
 }
 
 .margin-top-10 {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 .symbol {
-    padding-left: 2em;
+  padding-left: 2em;
 }
 
 .text-symbol {
-    color: #828282;
+  color: #828282;
 }
 
 .text-alert {
-    color: #fac138;
+  color: #fac138;
 }
 
 .progress-section {
-    padding-left: 3em;
-    padding-right: 3em;
+  padding-left: 3em;
+  padding-right: 3em;
 }
 
 .price-section {
-    padding-left: 10em;
-    padding-right: 2em;
-    margin-top: 1em;
+  padding-left: 10em;
+  padding-right: 2em;
+  margin-top: 1em;
 }
 
 .progress-value {
-    padding-top: 1px;
-    padding-bottom: 1px;
-    width: 50px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  width: 50px;
 }
 
 .progress-input {
-    padding-top: 3px;
-    padding-bottom: 3px;
-    width: 50px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  width: 50px;
 }
 
 .pricing-separator {
-    margin-top: 2em;
+  margin-top: 2em;
 }
 
 .company-name {
-    width: 50px;
-    text-align: center;
+  width: 50px;
+  text-align: center;
 }
 
 .industry-row {
-    margin-top: 10px;
-    padding-left: 2em;
-    cursor: pointer;
+  margin-top: 10px;
+  padding-left: 2em;
+  cursor: pointer;
+  width: 20%;
+}
+
+@media only screen and (max-width: 1024px) {
+  .industry-row {
+    width: 40%;
+  }
+}
+@media only screen and (max-width: 812px) {
+  .industry-row {
+    width: 100%;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .industry-row {
+    width: 100%;
+  }
 }
 
 .industry-txt {
-    margin-left: 0.5rem;
-    font-size: 12px;
+  margin-left: 0.5rem;
+  font-size: 12px;
 }
 
 .padding-bottom-30 {
-    padding-bottom: 30px;
+  padding-bottom: 30px;
 }
 
 .company-name-margin {
-    width: 100px;
-    text-align: left;
-    margin-top: 5px;
+  width: 100px;
+  text-align: left;
+  margin-top: 5px;
 }
 
 .industry-checked {
-    width: 15px;
-    height: 15px;
-    background: yellow;
+  width: 15px;
+  height: 15px;
+  background: yellow;
 }
 
 .industry-container {
-    margin-top: 0;
-    background: #2d2d2d
+  margin-top: 0;
+  background: #2d2d2d;
 }
 
 .industry-unchecked {
-    width: 15px;
-    height: 15px;
-    background: gray;
+  width: 15px;
+  height: 15px;
+  background: gray;
 }
 
 .cursor-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .alert-edit {
-    border: 1px dashed gray;
+  border: 1px dashed gray;
 }
 
 .noUi-target .noUi-handle {
-    background: transparent;
-    border: none;
-    width: 18px;
-    height: 18px;
+  background: transparent;
+  border: none;
+  width: 18px;
+  height: 18px;
 }
 
 .noUi-horizontal .noUi-handle {
-    right: -10px;
+  right: -10px;
 }
 
 .noUi-target.noUi-horizontal .noUi-handle {
-    top: -7px;
+  top: -7px;
 }
 
 .noUi-connects {
-    background: yellow;
+  background: yellow;
 }
 
 .noUi-target .noUi-base .noUi-connect {
-    background: white;
+  background: white;
 }
 
 .noUi-tooltip {
-    background: transparent;
-    color: white;
-    padding: 0;
-    border: none;
-    font-size: 12px;
+  background: transparent;
+  color: white;
+  padding: 0;
+  border: none;
+  font-size: 12px;
 }
 
 .slider-range .noUi-connects {
-    background: white;
+  background: white;
 }
 
 .slider-range .noUi-connect {
-    background: yellow !important;
+  background: yellow !important;
 }
 
 .edit-alert-input {
-    background: transparent;
-    color: white;
-    border: solid 1px white;
+  background: transparent;
+  color: white;
+  border: solid 1px white;
 }
 
 .edit-alert-input:focus {
-    border: dotted 1px white;
+  border: dotted 1px white;
 }
 
 .edit-rate-input {
-    background: transparent;
-    color: white;
-    border: solid 1px white;
+  background: transparent;
+  color: white;
+  border: solid 1px white;
 }
 
 .edit-rate-input:focus {
-    border: dotted 1px white;
+  border: dotted 1px white;
 }
 
 .settings-content {
-    padding-left: 1.75rem;
-    padding-right: 1.75rem;
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+}
+
+@media only screen and (max-width: 1024px) {
+  .value-item {
+    padding-left: 0em;
+    padding-right: 0em;
+  }
 }
 
 /** Small iPads */
 @media only screen and (max-width: 812px) {
-    .value-item {
-        padding-left: 3em;
-        padding-right: 3em;
-        padding-top: 3em;
-    }
+  .value-item {
+    padding-left: 0em;
+    padding-right: 0em;
+    padding-top: 3em;
+  }
 
-    .value-item-disabled {
-        padding-left: 3em;
-        padding-right: 3em;
-    }
+  .value-item-disabled {
+    padding-left: 3em;
+    padding-right: 3em;
+  }
 
-    .item-content {
-        background: #2d2d2d;
-        padding-right: 10px;
-    }
+  .item-content {
+    background: #2d2d2d;
+    padding-right: 10px;
+  }
 
-    .progress-section {
-        padding-left: 3em;
-        padding-right: 3em;
-    }
+  .progress-section {
+    padding-left: 3em;
+    padding-right: 3em;
+  }
 
-    .symbol {
-        padding-left: 2em;
-    }
+  .symbol {
+    padding-left: 2em;
+  }
 
-    .price-section {
-        padding-left: 1em;
-        padding-right: 1em;
-        margin-top: 2em;
-    }
+  .price-section {
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-top: 2em;
+  }
 
-    .pricing-container {
-        padding-left: 10px;
-    }
+  .pricing-container {
+    padding-left: 10px;
+  }
 }
-  
+
 /** Large Mobiles */
 @media only screen and (max-width: 767px) {
-    .value-item {
-        padding-left: 3em;
-        padding-right: 3em;
-        padding-top: 3em;
-    }
+  .value-item {
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-top: 3em;
+  }
 
-    .value-item-disabled {
-        padding-left: 3em;
-        padding-right: 3em;
-    }
+  .value-item-disabled {
+    padding-left: 3em;
+    padding-right: 3em;
+  }
 
-    .item-content {
-        background: #2d2d2d;
-        padding-right: 10px;
-    }
+  .item-content {
+    background: #2d2d2d;
+    padding-right: 10px;
+  }
 
-    .progress-section {
-        padding-left: 3em;
-        padding-right: 3em;
-    }
+  .progress-section {
+    padding-left: 3em;
+    padding-right: 3em;
+  }
 
-    .symbol {
-        padding-left: 2em;
-    }
+  .symbol {
+    padding-left: 2em;
+  }
 
-    .price-section {
-        padding-left: 1em;
-        padding-right: 1em;
-        margin-top: 2em;
-    }
+  .price-section {
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-top: 2em;
+  }
 
-    .pricing-container {
-        padding-left: 10px;
-    }
+  .pricing-container {
+    padding-left: 10px;
+  }
 }
 
 /** Mobile Devices */
-@media only screen and (max-width: 415px) { 
-    .value-item {
-        padding-left: 0em;
-        padding-right: 0em;
-        padding-top: 1em;
-    }
+@media only screen and (max-width: 415px) {
+  .value-item {
+    padding-left: 0em;
+    padding-right: 0em;
+    padding-top: 1em;
+  }
 
-    .value-item-disabled {
-        padding-left: 0em;
-        padding-right: 0em;
-    }
+  .value-item-disabled {
+    padding-left: 0em;
+    padding-right: 0em;
+  }
 
-    .item-content {
-        background: #2d2d2d;
-        padding-right: 10px;
-    }
+  .item-content {
+    background: #2d2d2d;
+    padding-right: 10px;
+  }
 
-    .progress-section {
-        padding-left: 0.5em;
-        padding-right: 1em;
-    }
+  .progress-section {
+    padding-left: 0.5em;
+    padding-right: 1em;
+  }
 
-    .symbol {
-        padding-left: 0.5em;
-    }
+  .symbol {
+    padding-left: 0.5em;
+  }
 
-    .price-section {
-        padding-left: 1em;
-        padding-right: 1em;
-        margin-top: 2em;
-    }
+  .price-section {
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-top: 2em;
+  }
 
-    .pricing-container {
-        padding-left: 10px;
-    }    
+  .pricing-container {
+    padding-left: 10px;
+  }
 }
 
 @media only screen and (max-height: 415px) {
 }
 
 .transparent-txt {
-    color: transparent !important;
+  color: transparent !important;
 }
 
 .action-area {
-    width: 3em;
-    align-items: flex-end;
-    flex-direction: column;
+  width: 3em;
+  align-items: flex-end;
+  flex-direction: column;
 }
 
 .bb-title {
-    border-bottom: 2px solid gray;
-    font-size: 1.2em;
+  border-bottom: 2px solid gray;
+  font-size: 1.2em;
 }
 
 .settings-label {
-    margin-bottom: 0px !important;
+  margin-bottom: 0px !important;
 }
 
 .upgrade_pro {
-    width: 100%;
-    text-align: center;
+  width: 100%;
+  text-align: center;
 }
 
 .delete-alert {
-    z-index: 2;
+  z-index: 2;
 }

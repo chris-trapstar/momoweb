@@ -24,6 +24,11 @@
 .static-bar {
   background: #1a1c23;
 }
+@media only screen and (max-width: 812px) {
+  .static-bar {
+    margin-right: 5px;
+  }
+}
 
 .static-row {
   padding-top: 10px;
@@ -199,6 +204,12 @@
 .discovery-table thead th {
   position: sticky;
   top: 0;
+}
+@media only screen and (max-width: 812px) {
+  .discovery-table {
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+  }
 }
 
 table {
@@ -485,6 +496,12 @@ th {
   .mT15 {
     margin-top: 15px;
   }
+  @media only screen and (max-width: 768px) {
+    .mT15 {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+  }
 
   .rt-resizable-header-content {
     font-size: 10px;
@@ -699,8 +716,15 @@ th {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
+.context-menu-alert-style {
+  background-color: rgba(0, 0, 0, 0.9);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
 .context-menu-item-icon-style {
-  width: 24px;
+  width: 16px;
   color: #ffff;
 }
 

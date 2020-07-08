@@ -8,7 +8,7 @@ import Swiper from 'react-id-swiper';
 import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
 import * as _ from 'lodash';
 import { withTranslation } from 'react-i18next';
-import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+// import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { Form, Button, Modal, Spinner, Dropdown } from 'react-bootstrap';
 
 import './dashboard.css';
@@ -32,7 +32,6 @@ export class Dashboard extends Component {
     super(props);
     this.state = this.getInitialState();
   }
-
   componentDidMount() {
     window.addEventListener('resize', this.updateDimensions);
     this.updateDimensions();
@@ -149,6 +148,7 @@ export class Dashboard extends Component {
   getAlertHistory = () => {
     API.getAlertHistory()
       .then((alertHistory) => {
+        console.log('Alrt history: ',alertHistory)
         this.setState({ alertHistory });
       })
       .catch((error) => {
@@ -621,10 +621,11 @@ export class Dashboard extends Component {
           </div>
           <div className='bullets-section' />
         </div>
+       
       );
     });
 
-    return renderCards;
+    return renderCards
   };
 
   getMenuItems = (key, data, type) => {
@@ -640,6 +641,7 @@ export class Dashboard extends Component {
             <div className='row align-items-center mt-1'>
               <img
                 className={'context-menu-item-icon-style'}
+                style={{ height: 16, width: 16 }}
                 src={require('../../assets/images/dashboard/cnbc.png')}
               />
               <span className='medium white-no-wrap bar-txt'>CNBC</span>
@@ -652,6 +654,7 @@ export class Dashboard extends Component {
             <div className='row align-items-center mt-1'>
               <img
                 className={'context-menu-item-icon-style'}
+                style={{ height: 16, width: 16 }}
                 src={require('../../assets/images/dashboard/marketwatch.png')}
               />
               <span className='medium white-no-wrap bar-txt'>MarketWatch</span>
@@ -664,6 +667,7 @@ export class Dashboard extends Component {
             <div className='row align-items-center mt-1'>
               <img
                 className={'context-menu-item-icon-style'}
+                style={{ height: 16, width: 16 }}
                 src={require('../../assets/images/dashboard/seekingalpha.png')}
               />
               <span className='medium white-no-wrap bar-txt'>
@@ -676,7 +680,10 @@ export class Dashboard extends Component {
             onClick={this.onPopover}
           >
             <div className='row align-items-center mt-1'>
-              <i className='mdi mdi-chart-line-variant popover-icon context-menu-item-icon-style' />
+              <i
+                className='mdi mdi-chart-line-variant popover-icon context-menu-item-icon-style'
+                style={{ height: 16, width: 16, marginTop: -10 }}
+              />
               <span className='medium white-no-wrap bar-txt'>Nasdaq</span>
             </div>
           </MenuItem>
@@ -687,6 +694,7 @@ export class Dashboard extends Component {
             <div className='row align-items-center mt-1'>
               <img
                 className={'context-menu-item-icon-style'}
+                style={{ height: 16, width: 16 }}
                 src={require('../../assets/images/dashboard/stocktwits.png')}
               />
               <span className='medium white-no-wrap bar-txt'>Stocktwits</span>
@@ -776,6 +784,8 @@ export class Dashboard extends Component {
       trade: 'Trade',
       uv: 'Unusual volume',
       vwap: 'vWapDist',
+      price:"Price",
+      "hi/lo":'Hi/low'
     };
     try {
       const result = await API.addAlert({
@@ -967,68 +977,67 @@ export class Dashboard extends Component {
 
     return (
       <div>
-        <Table className='table table-striped'>
-          <Thead className='my-2 table-header'>
-            <Tr>
-              <Th className='th-item-style'>
+        <table className='table table-striped'>
+          <thead className='my-2 table-header'>
+            <tr>
+              <th className='th-item-style'>
                 <div className={'th-item-wrapper'}>
                   <span style={{ marginRight: 8, alignSelf: 'center' }}>
                     Symbol
                   </span>
                   {this.sortUI('symbol')}
                 </div>
-              </Th>
-              <Th className='th-item-style'>
+              </th>
+              <th className='th-item-style'>
                 <div className={'th-item-wrapper'}>
                   <span style={{ marginRight: 8, alignSelf: 'center' }}>
                     Last
                   </span>
                   {this.sortUI('last')}
                 </div>
-              </Th>
-              <Th className='th-item-style'>
+              </th>
+              <th className='th-item-style'>
                 <div className={'th-item-wrapper'}>
                   <span style={{ marginRight: 8, alignSelf: 'center' }}>
                     Volume
                   </span>
                   {this.sortUI('volume')}
                 </div>
-              </Th>
-              <Th className='th-item-style'>
+              </th>
+              <th className='th-item-style'>
                 <div className={'th-item-wrapper'}>
                   <span style={{ marginRight: 8, alignSelf: 'center' }}>
                     Momentum
                   </span>
                   {this.sortUI('momentum')}
                 </div>
-              </Th>
-              <Th className='th-item-style'>
+              </th>
+              <th className='th-item-style'>
                 <div className={'th-item-wrapper'}>
                   <span style={{ marginRight: 8, alignSelf: 'center' }}>
                     Unusual Vol
                   </span>
                   {this.sortUI('uVol')}
                 </div>
-              </Th>
-              <Th className='th-item-style'>
+              </th>
+              <th className='th-item-style'>
                 <div className={'th-item-wrapper'}>
                   <span style={{ marginRight: 8, alignSelf: 'center' }}>
                     vWapDist
                   </span>
                   {this.sortUI('vWapDist')}
                 </div>
-              </Th>
-              <Th
+              </th>
+              <th
                 className='th-item-style'
               // onClick={() => {
               //   this.onFavPress();
               // }}
               >
                 <span className={'th-item-wrapper'}>Actions</span>
-                {/* <i className='fa fa-unsorted ml-2' /> */}
-              </Th>
-            </Tr>
-          </Thead>
+              </th>
+            </tr>
+          </thead>
 
           {discoveryDataFiltered
             .slice(0, discoveryIndex)
@@ -1037,14 +1046,15 @@ export class Dashboard extends Component {
                 { symbol, last, volume, momentum, uVol, vWapDist, short },
                 index
               ) => {
+                let allow=false;
                 return (
-                  <Tbody key={index}>
-                    <Tr
+                  <tbody key={index}>
+                    <tr
                       style={{
                         background: index % 2 === 0 ? '#00000' : '#191C24',
                       }}
                     >
-                      <Td className='text-white flex-fill text-center'>
+                      <td className='text-white flex-fill text-center'>
                         <ContextMenuTrigger
                           id={`discovery-context-menu_${index}`}
                           holdToDisplay={0}
@@ -1061,8 +1071,8 @@ export class Dashboard extends Component {
                           [symbol, '', '', '', '', ''],
                           ''
                         )}
-                      </Td>
-                      <Td className='text-white flex-fill text-center'>
+                      </td>
+                      <td className='text-white flex-fill text-center'>
                         <ContextMenuTrigger
                           id={`discovery-context-menu_${index}`}
                           holdToDisplay={0}
@@ -1076,8 +1086,8 @@ export class Dashboard extends Component {
                           [symbol, '', '', '', '', ''],
                           ''
                         )}
-                      </Td>
-                      <Td className='text-white flex-fill text-center'>
+                      </td>
+                      <td className='text-white flex-fill text-center'>
                         <ContextMenuTrigger
                           id={`discovery-context-menu_${index}`}
                           holdToDisplay={0}
@@ -1091,8 +1101,8 @@ export class Dashboard extends Component {
                           [symbol, '', '', '', '', ''],
                           ''
                         )}
-                      </Td>
-                      <Td className='flex-fill text-center'>
+                      </td>
+                      <td className='flex-fill text-center'>
                         <ContextMenuTrigger
                           id={`discovery-context-menu_${index}`}
                           holdToDisplay={0}
@@ -1111,8 +1121,8 @@ export class Dashboard extends Component {
                           [symbol, '', '', '', '', ''],
                           ''
                         )}
-                      </Td>
-                      <Td className='flex-fill text-center'>
+                      </td>
+                      <td className='flex-fill text-center'>
                         <ContextMenuTrigger
                           id={`discovery-context-menu_${index}`}
                           holdToDisplay={0}
@@ -1137,8 +1147,8 @@ export class Dashboard extends Component {
                           [symbol, '', '', '', '', ''],
                           ''
                         )}
-                      </Td>
-                      <Td className='text-white flex-fill text-center'>
+                      </td>
+                      <td className='text-white flex-fill text-center'>
                         <ContextMenuTrigger
                           id={`discovery-context-menu_${index}`}
                           holdToDisplay={0}
@@ -1155,7 +1165,8 @@ export class Dashboard extends Component {
                           >
                             {(isNaN(vWapDist) || vWapDist == null)
                               ? '_'
-                              : (vWapDist > 0 ? '+' : '') + `${vWapDist.toFixed(2)}%`}
+                              : (vWapDist > 0 ? '+' : '') +
+                                `${vWapDist?.toFixed(2)}%`}
                           </div>
                         </ContextMenuTrigger>
                         {this.getMenuItems(
@@ -1163,27 +1174,20 @@ export class Dashboard extends Component {
                           [symbol, '', '', '', '', ''],
                           ''
                         )}
-                      </Td>
-                      <Td className='text-white'>
+                      </td>
+                      <td className='text-white'>
                         <div className='th-action-item-style'>
-                          <MenuItem
-                            onClick={() => {
-                              this.registerAlert(
+                          <MenuItem>
+                            <div className='row justify-content-center align-items-center'>
+                              <ContextMenuTrigger id={`alert_menu_${index}`} holdToDisplay={1}>
+                                <i className='mdi mdi-bell text-white popover-icon' />
+                              </ContextMenuTrigger>
+
+                              {this.renderAlertMenu(`alert_menu_${index}`,   
                                 symbol,
                                 'vwap',
-                                vWapDist,
-                                vWapDist
-                              );
-                              this.registerAlert(
-                                symbol,
-                                'uv',
-                                vWapDist,
-                                vWapDist
-                              );
-                            }}
-                          >
-                            <div className='row justify-content-center align-items-center'>
-                              <i className='mdi mdi-bell text-white popover-icon' />
+                                vWapDist)
+                                }
                             </div>
                           </MenuItem>
                           <MenuItem
@@ -1202,13 +1206,13 @@ export class Dashboard extends Component {
                             </div>
                           </MenuItem>
                         </div>
-                      </Td>
-                    </Tr>
-                  </Tbody>
+                      </td>
+                    </tr>
+                  </tbody>
                 );
               }
             )}
-        </Table>
+        </table>
         {(this.state.discoveryIndex < this.state.discoveryDataFiltered.length ||
           this.state.discoveryDataFiltered.length === 0) && (
             <Spinner
@@ -1268,6 +1272,54 @@ export class Dashboard extends Component {
     );
   };
 
+
+  onAlertMenuClick(symbol, type, vWapDist){
+    this.registerAlert(
+      symbol,
+      type,
+      vWapDist,
+      vWapDist
+    );
+  }
+  renderAlertMenu=(key,symbol,type, vWapDist)=>{
+   return ( 
+   <ContextMenu id={key} className='p-0' key={`menu-item-${key}`}>
+        <div className='context-menu-alert-style'>
+            <MenuItem
+              onClick = {() => {
+                  this.onAlertMenuClick(symbol, 'price', vWapDist)}}>
+              <div className='row align-items-center mt-1'>
+                <span className='medium white-no-wrap bar-txt'>Price</span>
+              </div>
+            </MenuItem>
+            <MenuItem
+              onClick = {() => {
+                  this.onAlertMenuClick(symbol, 'vwap', vWapDist)
+                  }} >
+              <div className='row align-items-center mt-1'>
+                <span className='medium white-no-wrap bar-txt'>VWAP</span>
+              </div>
+            </MenuItem>
+            <MenuItem
+              onClick = {() => {
+                  this.onAlertMenuClick(symbol, 'uv', vWapDist)
+                  }} >
+              <div className='row align-items-center mt-1'>
+                <span className='medium white-no-wrap bar-txt'>UnVol</span>
+              </div>
+            </MenuItem>
+            <MenuItem
+              onClick = {() => {
+                  this.onAlertMenuClick(symbol, 'hi/lo', vWapDist)
+                  }} >
+              <div className='row align-items-center mt-1'>
+                <span className='medium white-no-wrap bar-txt'>Hi/Lo</span>
+              </div>
+            </MenuItem>
+          </div>
+    </ContextMenu>)
+  }
+
   renderDiscovery = () => {
     const { discoveryFilter, max } = this.state;
 
@@ -1282,6 +1334,7 @@ export class Dashboard extends Component {
                     <h4 className='card-title mb-1 py-1'>Discovery</h4>
                     <div className='d-flex flex-row mT15'>
                       <div className='search-bar-wrapper search-bar-wrapper-hover'>
+                        
                         <Dropdown varaint='btn btn-outline-secondary'>
                           <Dropdown.Toggle className='industry_input'>
                             {this.state.discoverySector}
@@ -1381,6 +1434,7 @@ export class Dashboard extends Component {
                     }
                     id='discovery-table'
                   >
+                    
                     {this.renderDiscoveryTableResponsive()}
                   </div>
                 </div>
@@ -1418,7 +1472,6 @@ export class Dashboard extends Component {
       [name]: !this.state[name],
     });
   };
-
   render() {
     const {
       lows,
@@ -1580,8 +1633,12 @@ export class Dashboard extends Component {
                     </a> */}
                   </div>
                   {this.renderAddQuoteModal()}
-
-                  <Swiper {...params}>{this.renderQuoteCards()}</Swiper>
+                  {this.state.quotes.length>0 && 
+                  <Swiper {...params}> 
+                    {
+                      this.renderQuoteCards()
+                    } 
+                    </Swiper> }
                 </div>
               )}
 
@@ -1597,7 +1654,11 @@ export class Dashboard extends Component {
                           <h4 style={{ marginBottom: '0px' }}>Popular</h4>
                         </div>
                         <div
-                          style={{ marginLeft: '2rem', marginTop: '0.4rem', textTransform: 'uppercase' }}
+                          style={{
+                            marginLeft: '2rem',
+                            marginTop: '0.4rem',
+                            textTransform: 'uppercase',
+                          }}
                         >
                           <div className='d-flex flex-row flex-fill flex-wrap'>
                             {this.renderPopularData(0)}
@@ -1637,7 +1698,7 @@ export class Dashboard extends Component {
               </div>
 
               {/** Discovery */}
-
+              
               {this.props.isPro &&
                 this.state.showDiscovery &&
                 this.renderDiscovery()}
