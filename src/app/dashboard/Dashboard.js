@@ -46,6 +46,8 @@ export class Dashboard extends Component {
     this.statsTimer = setInterval(() => {
       this.getQuotes();
       this.getStats();
+      this.getPopularData();
+      this.getAlertHistory();
     }, 3 * 60 * 1000); // Update Every 3 minutes
 
     this.getPopularData();
