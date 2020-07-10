@@ -38,6 +38,7 @@ export class Dashboard extends Component {
     const handler = (e) => this.setState({ isSmallDevice: e.matches });
     window.matchMedia('(max-width: 767px)').addListener(handler);
     this.listenTrade();
+    this.listenAlert();
     this.buffer = [];
     this.flushBufferIntervalId = setInterval(this.flushBuffer, 2000);
     // this.requestNotificationPermissions().then(r => {});
@@ -234,6 +235,14 @@ export class Dashboard extends Component {
   onCompressedUpdate = (event) => {
     this._handleData(event.detail);
   };
+
+  onAlert = (event) => {
+    this.getAlertHistory()
+  }
+
+  listenAlert = () => {
+    window.addEventListener('alert', this.onAlert, false);
+  }
 
   listenTrade = () => {
     let data_filter
