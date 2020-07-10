@@ -950,7 +950,7 @@ export class Dashboard extends Component {
         <ArrowUp
           width={'10px'}
           height={'10px'}
-          fill={this.isSorted(field, 'up') ? '#00d25b' : '#ffff'}
+          fill={this.isSorted(field, 'up') ? '#ffff00' : '#ffff'}
         />
       </div>
       <div
@@ -962,7 +962,7 @@ export class Dashboard extends Component {
         <ArrowDown
           width={'10px'}
           height={'10px'}
-          fill={this.isSorted(field, 'down') ? '#00d25b' : '#ffff'}
+          fill={this.isSorted(field, 'down') ? '#ffff00' : '#ffff'}
         />
       </div>
     </div>
