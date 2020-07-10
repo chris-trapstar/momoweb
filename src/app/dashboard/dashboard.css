@@ -785,3 +785,7 @@ th {
   color: #fff !important;
   font-size: 0.9rem !important;
 }
+
+.alert-section {
+  height: 100%;
+}
