@@ -63,6 +63,7 @@ export class Dashboard extends Component {
   componentWillUnmount() {
     window.removeEventListener('compressedUpdate', this.onCompressedUpdate);
     window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('alert', this.onAlert)
   }
 
   getScrollPercent() {
