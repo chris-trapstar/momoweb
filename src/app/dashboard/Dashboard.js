@@ -1189,10 +1189,9 @@ export class Dashboard extends Component {
                       </td>
                       <td className='text-white'>
                         <div className='th-action-item-style'>
-                          <MenuItem>
                             <div className='row justify-content-center align-items-center'>
-                              <ContextMenuTrigger id={`alert_menu_${index}`} holdToDisplay={1}>
-                                <i className='mdi mdi-bell text-white popover-icon' />
+                              <ContextMenuTrigger id={`alert_menu_${index}`} holdToDisplay={0}>
+                                <span className='mdi mdi-bell text-white popover-icon' style={{marginRight:10}} />                                
                               </ContextMenuTrigger>
 
                               {this.renderAlertMenu(`alert_menu_${index}`,   
@@ -1201,7 +1200,6 @@ export class Dashboard extends Component {
                                 vWapDist)
                                 }
                             </div>
-                          </MenuItem>
                           <MenuItem
                             onClick={() => {
                               this.registerQuote(symbol);
@@ -1295,7 +1293,7 @@ export class Dashboard extends Component {
   }
   renderAlertMenu=(key,symbol,type, vWapDist)=>{
    return ( 
-   <ContextMenu id={key} className='p-0' key={`menu-item-${key}`}>
+   <ContextMenu id={key} className='p-0' key={`alert_menu-item-${key}`} >
         <div className='context-menu-alert-style'>
             <MenuItem
               onClick = {() => {
