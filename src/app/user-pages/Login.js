@@ -160,8 +160,6 @@ class Login extends Component {
                         onSuccess={this.onGoogleLogin}
                         onFailure={() => {}}
                         cookiePolicy={'single_host_origin'}
-                        uxMode='redirect'
-                        redirectUri={window.location.hostname ==='localhost' ? 'http://localhost:8000/auth/google': 'https://dev.mometic.com/auth/google'}
                       />
 
                     </div>
