@@ -16,8 +16,15 @@ import 'swiper/css/swiper.css';
 import { AuthActions } from '../store';
 import Meters from '../meters/Meters';
 import { ArrowDown, ArrowUp } from './../icons';
-import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX, SECTORS_FILTER, DEFAULT_FILTER } from '../constants'
-
+import {
+  PRICE_MIN,
+  PRICE_MAX,
+  AVG_VOL_MIN,
+  AVG_VOL_MAX,
+  SECTORS_FILTER,
+  DEFAULT_FILTER,
+} from '../constants';
+import DiscoveryTable from './DiscoveyTable';
 const params = {
   grabCursor: true,
   slidesPerView: 'auto',
@@ -148,7 +155,6 @@ export class Dashboard extends Component {
   getAlertHistory = () => {
     API.getAlertHistory()
       .then((alertHistory) => {
-        console.log('Alrt history: ',alertHistory)
         this.setState({ alertHistory });
       })
       .catch((error) => {
@@ -170,14 +176,14 @@ export class Dashboard extends Component {
   };
 
   getInitialState = () => {
-    let filter = { ...DEFAULT_FILTER }
+    let filter = { ...DEFAULT_FILTER };
 
     let data_filter = localStorage.getItem('filter');
     if (data_filter) {
       try {
         let cached_filter = JSON.parse(data_filter);
 
-        filter.industries = cached_filter.industries || filter.industries
+        filter.industries = cached_filter.industries || filter.industries;
         filter.price = cached_filter.price || filter.price;
         filter.volume = cached_filter.volume || filter.volume;
         localStorage.setItem('filter', JSON.stringify(filter));
@@ -187,7 +193,6 @@ export class Dashboard extends Component {
     } else {
       localStorage.setItem('filter', JSON.stringify(DEFAULT_FILTER));
     }
-    console.info('Filter Loaded:', filter)
 
     return {
       /* Widget Status */
@@ -220,6 +225,11 @@ export class Dashboard extends Component {
         type: 'none',
       },
       discoverySector: 'ALL',
+      discoverySelectedSymbol: '',
+      discoverAlerySelected: {
+        symbol: '',
+        vWapDist: '',
+      },
       max: false,
       new_quote: '',
       showSpinner: false,
@@ -234,18 +244,18 @@ export class Dashboard extends Component {
   };
 
   listenTrade = () => {
-    let data_filter
+    let data_filter;
     try {
-      data_filter = JSON.parse(localStorage.getItem('filter'))
-    } catch (e) { }
+      data_filter = JSON.parse(localStorage.getItem('filter'));
+    } catch (e) {}
     if (!data_filter) {
       data_filter = { ...DEFAULT_FILTER };
     }
     if (!data_filter.industries) {
-      data_filter.industries = DEFAULT_FILTER.industries
+      data_filter.industries = DEFAULT_FILTER.industries;
     }
     localStorage.setItem('filter', JSON.stringify(data_filter));
-    console.info('Category Loaded:', data_filter)
+    console.info('Category Loaded:', data_filter);
     window.addEventListener('compressedUpdate', this.onCompressedUpdate, false);
     // this.subscribeChannels(data_filter.category);
   };
@@ -284,10 +294,11 @@ export class Dashboard extends Component {
   applyFilter = (data) => {
     let self = this;
 
-    let dicSectors = {}
-    const industries = this.state.filter.industries || DEFAULT_FILTER.industries
+    let dicSectors = {};
+    const industries =
+      this.state.filter.industries || DEFAULT_FILTER.industries;
     for (let key in industries) {
-      dicSectors = { ...dicSectors, ...SECTORS_FILTER[key] }
+      dicSectors = { ...dicSectors, ...SECTORS_FILTER[key] };
     }
 
     return data
@@ -295,18 +306,20 @@ export class Dashboard extends Component {
         let price = item[1];
         let priceFilter = self.state.filter.price;
         const min = priceFilter.min || 0;
-        const max = priceFilter.max >= PRICE_MAX ? Infinity : priceFilter.max
-        return price >= min && price <= max
+        const max = priceFilter.max >= PRICE_MAX ? Infinity : priceFilter.max;
+        return price >= min && price <= max;
       })
       .filter((item, i) => {
         let volume = item[5];
         let volumeFilter = self.state.filter.volume;
         const min = volumeFilter.min || 0;
-        const max = volumeFilter.max >= (AVG_VOL_MAX * 1000) ? Infinity : volumeFilter.max
+        const max =
+          volumeFilter.max >= AVG_VOL_MAX * 1000 ? Infinity : volumeFilter.max;
         return volume >= min && volume <= max;
-      }).filter(item => {
+      })
+      .filter((item) => {
         if (item[6]) {
-          return dicSectors[item[6]]
+          return dicSectors[item[6]];
         }
       });
   };
@@ -321,7 +334,7 @@ export class Dashboard extends Component {
     }
     let highs = this.state.highs.slice();
     let lows = this.state.lows.slice();
-    this.buffer.forEach(function (item, i, arr) {
+    this.buffer.forEach(function(item, i, arr) {
       highs = item.highs.concat(highs).slice(0, 100);
       lows = item.lows.concat(lows).slice(0, 100);
     });
@@ -442,7 +455,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   low[3] === 1 ? 'stock-active-text stock-active-low' : ''
-                  }`}
+                }`}
               >
                 <ContextMenuTrigger
                   id={`low-context-menu_${index}`}
@@ -496,7 +509,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   high[3] === 1 ? 'stock-active-text stock-active-high' : ''
-                  }`}
+                }`}
               >
                 <ContextMenuTrigger
                   id={`high-context-menu_${index}`}
@@ -621,11 +634,10 @@ export class Dashboard extends Component {
           </div>
           <div className='bullets-section' />
         </div>
-       
       );
     });
 
-    return renderCards
+    return renderCards;
   };
 
   getMenuItems = (key, data, type) => {
@@ -636,7 +648,14 @@ export class Dashboard extends Component {
           <span>LINKS</span>
           <MenuItem
             data={{ data, type, domain: 'cnbc' }}
-            onClick={this.onPopover}
+            onClick={() =>
+              this.onPopover(
+                'cnbc',
+                key !== 'discovery-context-menu'
+                  ? data[0]
+                  : this.state.discoverySelectedSymbol
+              )
+            }
           >
             <div className='row align-items-center mt-1'>
               <img
@@ -649,7 +668,14 @@ export class Dashboard extends Component {
           </MenuItem>
           <MenuItem
             data={{ data, type, domain: 'marketwatch' }}
-            onClick={this.onPopover}
+            onClick={() =>
+              this.onPopover(
+                'marketwatch',
+                key !== 'discovery-context-menu'
+                  ? data[0]
+                  : this.state.discoverySelectedSymbol
+              )
+            }
           >
             <div className='row align-items-center mt-1'>
               <img
@@ -662,7 +688,14 @@ export class Dashboard extends Component {
           </MenuItem>
           <MenuItem
             data={{ data, type, domain: 'seekingalpha' }}
-            onClick={this.onPopover}
+            onClick={() =>
+              this.onPopover(
+                'seekingalpha',
+                key !== 'discovery-context-menu'
+                  ? data[0]
+                  : this.state.discoverySelectedSymbol
+              )
+            }
           >
             <div className='row align-items-center mt-1'>
               <img
@@ -677,7 +710,14 @@ export class Dashboard extends Component {
           </MenuItem>
           <MenuItem
             data={{ data, type, domain: 'nasdaq' }}
-            onClick={this.onPopover}
+            onClick={() =>
+              this.onPopover(
+                'nasdaq',
+                key !== 'discovery-context-menu'
+                  ? data[0]
+                  : this.state.discoverySelectedSymbol
+              )
+            }
           >
             <div className='row align-items-center mt-1'>
               <i
@@ -689,7 +729,14 @@ export class Dashboard extends Component {
           </MenuItem>
           <MenuItem
             data={{ data, type, domain: 'stocktwits' }}
-            onClick={this.onPopover}
+            onClick={() =>
+              this.onPopover(
+                'stocktwits',
+                key !== 'discovery-context-menu'
+                  ? data[0]
+                  : this.state.discoverySelectedSymbol
+              )
+            }
           >
             <div className='row align-items-center mt-1'>
               <img
@@ -736,11 +783,8 @@ export class Dashboard extends Component {
     );
   };
 
-  onPopover = async (e, data) => {
-    window.open(
-      API.getStockPageLink(`${data.domain}.com`, data.data[0]),
-      '_blank'
-    );
+  onPopover = async (domain, symbol) => {
+    window.open(API.getStockPageLink(`${domain}.com`, symbol), '_blank');
   };
 
   onRemoveQuote = async ({ symbol }) => {
@@ -781,11 +825,11 @@ export class Dashboard extends Component {
 
   registerAlert = async (symbol, type, high = 0, low = 0) => {
     const dic = {
-      trade: 'Trade',
-      uv: 'Unusual volume',
-      vwap: 'vWapDist',
-      price:"Price",
-      "hi/lo":'Hi/low'
+      'trade': 'Trade',
+      'uv': 'Unusual volume',
+      'vwap': 'vWapDist',
+      'price': 'Price',
+      'hi/lo': 'Hi/low',
     };
     try {
       const result = await API.addAlert({
@@ -845,8 +889,8 @@ export class Dashboard extends Component {
         sortOption.type === 'none'
           ? discoveryData
           : sortOption.type === 'up'
-            ? sorted.reverse()
-            : sorted,
+          ? sorted.reverse()
+          : sorted,
     });
   };
 
@@ -899,20 +943,20 @@ export class Dashboard extends Component {
               )}
             </div>
           ) : (
-                  <div key={`popular-data-h6-${index + i}`}>
-                    <ContextMenuTrigger
-                      id={`popular-data-h6-${index + i}`}
-                      holdToDisplay={0}
-                    >
-                      <h6 className='pr-2'>{item}</h6>
-                    </ContextMenuTrigger>
-                    {this.getMenuItems(
-                      `popular-data-h6-${index + i}`,
-                      [item, '', '', '', '', ''],
-                      ''
-                    )}
-                  </div>
-                )
+            <div key={`popular-data-h6-${index + i}`}>
+              <ContextMenuTrigger
+                id={`popular-data-h6-${index + i}`}
+                holdToDisplay={0}
+              >
+                <h6 className='pr-2'>{item}</h6>
+              </ContextMenuTrigger>
+              {this.getMenuItems(
+                `popular-data-h6-${index + i}`,
+                [item, '', '', '', '', ''],
+                ''
+              )}
+            </div>
+          )
         );
       });
     }
@@ -977,249 +1021,46 @@ export class Dashboard extends Component {
 
     return (
       <div>
-        <table className='table table-striped'>
-          <thead className='my-2 table-header'>
-            <tr>
-              <th className='th-item-style'>
-                <div className={'th-item-wrapper'}>
-                  <span style={{ marginRight: 8, alignSelf: 'center' }}>
-                    Symbol
-                  </span>
-                  {this.sortUI('symbol')}
-                </div>
-              </th>
-              <th className='th-item-style'>
-                <div className={'th-item-wrapper'}>
-                  <span style={{ marginRight: 8, alignSelf: 'center' }}>
-                    Last
-                  </span>
-                  {this.sortUI('last')}
-                </div>
-              </th>
-              <th className='th-item-style'>
-                <div className={'th-item-wrapper'}>
-                  <span style={{ marginRight: 8, alignSelf: 'center' }}>
-                    Volume
-                  </span>
-                  {this.sortUI('volume')}
-                </div>
-              </th>
-              <th className='th-item-style'>
-                <div className={'th-item-wrapper'}>
-                  <span style={{ marginRight: 8, alignSelf: 'center' }}>
-                    Momentum
-                  </span>
-                  {this.sortUI('momentum')}
-                </div>
-              </th>
-              <th className='th-item-style'>
-                <div className={'th-item-wrapper'}>
-                  <span style={{ marginRight: 8, alignSelf: 'center' }}>
-                    Unusual Vol
-                  </span>
-                  {this.sortUI('uVol')}
-                </div>
-              </th>
-              <th className='th-item-style'>
-                <div className={'th-item-wrapper'}>
-                  <span style={{ marginRight: 8, alignSelf: 'center' }}>
-                    vWapDist
-                  </span>
-                  {this.sortUI('vWapDist')}
-                </div>
-              </th>
-              <th
-                className='th-item-style'
-              // onClick={() => {
-              //   this.onFavPress();
-              // }}
-              >
-                <span className={'th-item-wrapper'}>Actions</span>
-              </th>
-            </tr>
-          </thead>
-
-          {discoveryDataFiltered
-            .slice(0, discoveryIndex)
-            .map(
-              (
-                { symbol, last, volume, momentum, uVol, vWapDist, short },
-                index
-              ) => {
-                let allow=false;
-                return (
-                  <tbody key={index}>
-                    <tr
-                      style={{
-                        background: index % 2 === 0 ? '#00000' : '#191C24',
-                      }}
-                    >
-                      <td className='text-white flex-fill text-center'>
-                        <ContextMenuTrigger
-                          id={`discovery-context-menu_${index}`}
-                          holdToDisplay={0}
-                        >
-                          <div
-                            style={{ cursor: 'pointer', fontSize: 18 }}
-                            className='py-1'
-                          >
-                            <b>{symbol}</b>
-                          </div>
-                        </ContextMenuTrigger>
-                        {this.getMenuItems(
-                          `discovery-context-menu_${index}`,
-                          [symbol, '', '', '', '', ''],
-                          ''
-                        )}
-                      </td>
-                      <td className='text-white flex-fill text-center'>
-                        <ContextMenuTrigger
-                          id={`discovery-context-menu_${index}`}
-                          holdToDisplay={0}
-                        >
-                          <div style={{ cursor: 'pointer', fontSize: 18 }}>
-                            {`$${this.round(last, 2)}`}
-                          </div>
-                        </ContextMenuTrigger>
-                        {this.getMenuItems(
-                          `discovery-context-menu_${index}`,
-                          [symbol, '', '', '', '', ''],
-                          ''
-                        )}
-                      </td>
-                      <td className='text-white flex-fill text-center'>
-                        <ContextMenuTrigger
-                          id={`discovery-context-menu_${index}`}
-                          holdToDisplay={0}
-                        >
-                          <div style={{ cursor: 'pointer', fontSize: 18 }}>
-                            {volume.toString()}
-                          </div>
-                        </ContextMenuTrigger>
-                        {this.getMenuItems(
-                          `discovery-context-menu_${index}`,
-                          [symbol, '', '', '', '', ''],
-                          ''
-                        )}
-                      </td>
-                      <td className='flex-fill text-center'>
-                        <ContextMenuTrigger
-                          id={`discovery-context-menu_${index}`}
-                          holdToDisplay={0}
-                        >
-                          <div
-                            style={{ cursor: 'pointer', fontSize: 18 }}
-                            className={
-                              momentum < 0 ? 'text-danger' : 'text-success'
-                            }
-                          >
-                            {momentum}
-                          </div>
-                        </ContextMenuTrigger>
-                        {this.getMenuItems(
-                          `discovery-context-menu_${index}`,
-                          [symbol, '', '', '', '', ''],
-                          ''
-                        )}
-                      </td>
-                      <td className='flex-fill text-center'>
-                        <ContextMenuTrigger
-                          id={`discovery-context-menu_${index}`}
-                          holdToDisplay={0}
-                        >
-                          <div
-                            style={{ cursor: 'pointer', fontSize: 18 }}
-                            className={`${
-                              uVol > 0
-                                ? 'text-success'
-                                : uVol < 0
-                                  ? 'text-danger'
-                                  : 'text-white'
-                              }`}
-                          >
-                            {isNaN(uVol)
-                              ? '_'
-                              : (uVol > 0 ? '+' : '') + `${uVol}%`}
-                          </div>
-                        </ContextMenuTrigger>
-                        {this.getMenuItems(
-                          `discovery-context-menu_${index}`,
-                          [symbol, '', '', '', '', ''],
-                          ''
-                        )}
-                      </td>
-                      <td className='text-white flex-fill text-center'>
-                        <ContextMenuTrigger
-                          id={`discovery-context-menu_${index}`}
-                          holdToDisplay={0}
-                        >
-                          <div
-                            style={{ cursor: 'pointer', fontSize: 18 }}
-                            className={`${
-                              vWapDist > 0
-                                ? 'text-success'
-                                : vWapDist < 0
-                                  ? 'text-danger'
-                                  : 'text-white'
-                              }`}
-                          >
-                            {(isNaN(vWapDist) || vWapDist == null)
-                              ? '_'
-                              : (vWapDist > 0 ? '+' : '') +
-                                `${vWapDist?.toFixed(2)}%`}
-                          </div>
-                        </ContextMenuTrigger>
-                        {this.getMenuItems(
-                          `discovery-context-menu_${index}`,
-                          [symbol, '', '', '', '', ''],
-                          ''
-                        )}
-                      </td>
-                      <td className='text-white'>
-                        <div className='th-action-item-style'>
-                            <div className='row justify-content-center align-items-center'>
-                              <ContextMenuTrigger id={`alert_menu_${index}`} holdToDisplay={0}>
-                                <span className='mdi mdi-bell text-white popover-icon' style={{marginRight:10}} />                                
-                              </ContextMenuTrigger>
-
-                              {this.renderAlertMenu(`alert_menu_${index}`,   
-                                symbol,
-                                'vwap',
-                                vWapDist)
-                                }
-                            </div>
-                          <MenuItem
-                            onClick={() => {
-                              this.registerQuote(symbol);
-                            }}
-                          >
-                            <div className='row'>
-                              <i
-                                className={`${
-                                  this.isSymbolFav(symbol)
-                                    ? 'mdi mdi-star quote-star popover-icon'
-                                    : 'mdi mdi-star text-white popover-icon'
-                                  }`}
-                              />
-                            </div>
-                          </MenuItem>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                );
-              }
-            )}
-        </table>
-        {(this.state.discoveryIndex < this.state.discoveryDataFiltered.length ||
-          this.state.discoveryDataFiltered.length === 0) && (
-            <Spinner
-              className={'overlay-content'}
-              style={{ margin: 8 }}
-              animation='border'
-              variant='success'
-            />
+        <DiscoveryTable
+          index={discoveryIndex}
+          discoveryData={discoveryDataFiltered.map(
+            (
+              { symbol, last, volume, momentum, uVol, vWapDist, short },
+              index
+            ) => {
+              return {
+                index: index,
+                symbol: symbol,
+                last: last,
+                volume: volume,
+                momentum: momentum,
+                uVol: uVol,
+                vWapDist: vWapDist,
+                short: short,
+                alert: symbol,
+              };
+            }
           )}
+          checkIsFavorite={(symbol) => this.isSymbolFav(symbol)}
+          onContextMenuTrigger={(symbol) =>
+            this.setState({ discoverySelectedSymbol: symbol })
+          }
+          onSetSymbolFav={this.registerQuote}
+          onAlertTrigger={(symbol, vWapDist) =>
+            this.setState({
+              discoverAlerySelected: {
+                symbol: symbol,
+                vWapDist: vWapDist,
+              },
+            })
+          }
+        />
+        {this.getMenuItems(
+          `discovery-context-menu`,
+          ['', '', '', '', '', ''],
+          ''
+        )}
+        {this.renderAlertMenu(`discovery-alert-context-menu`)}
       </div>
     );
   };
@@ -1232,8 +1073,8 @@ export class Dashboard extends Component {
           max
             ? 'w-100'
             : !this.state.showPopular && !this.state.showAlertHistory
-              ? 'w-100'
-              : 'grid-margin stretch-card px-0 flex-fill socket-table'
+            ? 'w-100'
+            : 'grid-margin stretch-card px-0 flex-fill socket-table'
         }
       >
         <div className='card'>
@@ -1258,65 +1099,67 @@ export class Dashboard extends Component {
               {this.renderData(highs, 'high')}
             </div>
           ) : (
-              <div className='card-body stream-body'>
-                <div className='row'>
-                  {this.renderData(lows, 'low')}
-                  {this.renderData(highs, 'high')}
-                </div>
+            <div className='card-body stream-body'>
+              <div className='row'>
+                {this.renderData(lows, 'low')}
+                {this.renderData(highs, 'high')}
               </div>
-            )}
+            </div>
+          )}
         </div>
       </div>
     );
   };
 
-
-  onAlertMenuClick(symbol, type, vWapDist){
-    this.registerAlert(
-      symbol,
-      type,
-      vWapDist,
-      vWapDist
-    );
+  onAlertMenuClick(symbol, type, vWapDist) {
+    this.registerAlert(symbol, type, vWapDist, vWapDist);
   }
-  renderAlertMenu=(key,symbol,type, vWapDist)=>{
-   return ( 
-   <ContextMenu id={key} className='p-0' key={`alert_menu-item-${key}`} >
+  renderAlertMenu = (key) => {
+    const symbol = this.state.discoverAlerySelected.symbol;
+    const vWapDist = this.state.discoverAlerySelected.vWapDist;
+    return (
+      <ContextMenu id={key} className='p-0' key={`alert_menu-item-${key}`}>
         <div className='context-menu-alert-style'>
-            <MenuItem
-              onClick = {() => {
-                  this.onAlertMenuClick(symbol, 'price', vWapDist)}}>
-              <div className='row align-items-center mt-1'>
-                <span className='medium white-no-wrap bar-txt'>Price</span>
-              </div>
-            </MenuItem>
-            <MenuItem
-              onClick = {() => {
-                  this.onAlertMenuClick(symbol, 'vwap', vWapDist)
-                  }} >
-              <div className='row align-items-center mt-1'>
-                <span className='medium white-no-wrap bar-txt'>VWAP</span>
-              </div>
-            </MenuItem>
-            <MenuItem
-              onClick = {() => {
-                  this.onAlertMenuClick(symbol, 'uv', vWapDist)
-                  }} >
-              <div className='row align-items-center mt-1'>
-                <span className='medium white-no-wrap bar-txt'>UnVol</span>
-              </div>
-            </MenuItem>
-            <MenuItem
-              onClick = {() => {
-                  this.onAlertMenuClick(symbol, 'hi/lo', vWapDist)
-                  }} >
-              <div className='row align-items-center mt-1'>
-                <span className='medium white-no-wrap bar-txt'>Hi/Lo</span>
-              </div>
-            </MenuItem>
-          </div>
-    </ContextMenu>)
-  }
+          <MenuItem
+            onClick={() => {
+              this.onAlertMenuClick(symbol, 'price', vWapDist);
+            }}
+          >
+            <div className='row align-items-center mt-1'>
+              <span className='medium white-no-wrap bar-txt'>Price</span>
+            </div>
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              this.onAlertMenuClick(symbol, 'vwap', vWapDist);
+            }}
+          >
+            <div className='row align-items-center mt-1'>
+              <span className='medium white-no-wrap bar-txt'>VWAP</span>
+            </div>
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              this.onAlertMenuClick(symbol, 'uv', vWapDist);
+            }}
+          >
+            <div className='row align-items-center mt-1'>
+              <span className='medium white-no-wrap bar-txt'>UnVol</span>
+            </div>
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              this.onAlertMenuClick(symbol, 'hi/lo', vWapDist);
+            }}
+          >
+            <div className='row align-items-center mt-1'>
+              <span className='medium white-no-wrap bar-txt'>Hi/Lo</span>
+            </div>
+          </MenuItem>
+        </div>
+      </ContextMenu>
+    );
+  };
 
   renderDiscovery = () => {
     const { discoveryFilter, max } = this.state;
@@ -1332,7 +1175,6 @@ export class Dashboard extends Component {
                     <h4 className='card-title mb-1 py-1'>Discovery</h4>
                     <div className='d-flex flex-row mT15'>
                       <div className='search-bar-wrapper search-bar-wrapper-hover'>
-                        
                         <Dropdown varaint='btn btn-outline-secondary'>
                           <Dropdown.Toggle className='industry_input'>
                             {this.state.discoverySector}
@@ -1369,7 +1211,7 @@ export class Dashboard extends Component {
                             this.state.isFavFilter
                               ? 'mdi mdi-star quote-star popover-icon'
                               : 'mdi mdi-star text-white popover-icon'
-                            }`}
+                          }`}
                           style={{ alignSelf: 'center' }}
                         />
                         <span style={{ alignSelf: 'center', marginLeft: 4 }}>
@@ -1432,7 +1274,6 @@ export class Dashboard extends Component {
                     }
                     id='discovery-table'
                   >
-                    
                     {this.renderDiscoveryTableResponsive()}
                   </div>
                 </div>
@@ -1513,7 +1354,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showStream ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showStream');
@@ -1527,7 +1368,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showAlertHistory ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showAlertHistory');
@@ -1543,7 +1384,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showMeters ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showMeters');
@@ -1557,7 +1398,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row  ${
                     this.state.showPopular ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showPopular');
@@ -1571,7 +1412,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showQuotes ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showQuotes');
@@ -1591,7 +1432,7 @@ export class Dashboard extends Component {
                         ? 'showWidget'
                         : 'hideWidget'
                       : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     if (this.props.isPro) this.onToggleWidget('showDiscovery');
@@ -1631,12 +1472,9 @@ export class Dashboard extends Component {
                     </a> */}
                   </div>
                   {this.renderAddQuoteModal()}
-                  {this.state.quotes.length>0 && 
-                  <Swiper {...params}> 
-                    {
-                      this.renderQuoteCards()
-                    } 
-                    </Swiper> }
+                  {this.state.quotes.length > 0 && (
+                    <Swiper {...params}>{this.renderQuoteCards()}</Swiper>
+                  )}
                 </div>
               )}
 
@@ -1696,7 +1534,7 @@ export class Dashboard extends Component {
               </div>
 
               {/** Discovery */}
-              
+
               {this.props.isPro &&
                 this.state.showDiscovery &&
                 this.renderDiscovery()}
