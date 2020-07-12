@@ -45,6 +45,7 @@ export class Dashboard extends Component {
     const handler = (e) => this.setState({ isSmallDevice: e.matches });
     window.matchMedia('(max-width: 767px)').addListener(handler);
     this.listenTrade();
+    this.listenAlert();
     this.buffer = [];
     this.flushBufferIntervalId = setInterval(this.flushBuffer, 2000);
     // this.requestNotificationPermissions().then(r => {});
@@ -53,6 +54,8 @@ export class Dashboard extends Component {
     this.statsTimer = setInterval(() => {
       this.getQuotes();
       this.getStats();
+      this.getPopularData();
+      this.getAlertHistory();
     }, 3 * 60 * 1000); // Update Every 3 minutes
 
     this.getPopularData();
@@ -67,6 +70,7 @@ export class Dashboard extends Component {
   componentWillUnmount() {
     window.removeEventListener('compressedUpdate', this.onCompressedUpdate);
     window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('alert', this.onAlert)
   }
 
   getScrollPercent() {
@@ -242,6 +246,14 @@ export class Dashboard extends Component {
   onCompressedUpdate = (event) => {
     this._handleData(event.detail);
   };
+
+  onAlert = (event) => {
+    this.getAlertHistory()
+  }
+
+  listenAlert = () => {
+    window.addEventListener('alert', this.onAlert, false);
+  }
 
   listenTrade = () => {
     let data_filter;
@@ -994,7 +1006,7 @@ export class Dashboard extends Component {
         <ArrowUp
           width={'10px'}
           height={'10px'}
-          fill={this.isSorted(field, 'up') ? '#00d25b' : '#ffff'}
+          fill={this.isSorted(field, 'up') ? '#ffff00' : '#ffff'}
         />
       </div>
       <div
@@ -1006,7 +1018,7 @@ export class Dashboard extends Component {
         <ArrowDown
           width={'10px'}
           height={'10px'}
-          fill={this.isSorted(field, 'down') ? '#00d25b' : '#ffff'}
+          fill={this.isSorted(field, 'down') ? '#ffff00' : '#ffff'}
         />
       </div>
     </div>

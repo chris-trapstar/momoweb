@@ -25,6 +25,8 @@ messaging.onMessage((payload) => {
   console.info('Firebase Notification Received:', payload)
   const message = payload.notification.body
   cogoToast.info(message)
+  const event = new CustomEvent('alert', { detail: message });
+  window.dispatchEvent(event)
 })
 
 class App extends Component {
