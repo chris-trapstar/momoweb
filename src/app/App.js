@@ -1,21 +1,21 @@
-import React, { Component, Fragment } from "react";
-import { withRouter } from "react-router-dom";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import * as firebase from "firebase/app";
+import React, { Component, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as firebase from 'firebase/app';
 import cogoToast from 'cogo-toast';
-import { withTranslation } from "react-i18next";
+import { withTranslation } from 'react-i18next';
 
-import "./App.scss";
+import './App.scss';
 import './firebase'; // Init Firebase SDK
-import AppRoutes from "./AppRoutes";
-import Navbar from "./shared/Navbar";
-import Sidebar from "./shared/Sidebar";
-import Footer from "./shared/Footer";
-import Login from "./user-pages/Login";
-import Register from "./user-pages/Register";
-import Spinner from "../app/shared/Spinner";
-import { AuthActions } from "./store";
+import AppRoutes from './AppRoutes';
+import Navbar from './shared/Navbar';
+import Sidebar from './shared/Sidebar';
+import Footer from './shared/Footer';
+import Login from './user-pages/Login';
+import Register from './user-pages/Register';
+import Spinner from '../app/shared/Spinner';
+import { AuthActions } from './store';
 import API from './api';
 import * as DataSource from './DataSource'
 
@@ -39,8 +39,8 @@ class App extends Component {
     const { loading, authenticated } = this.props;
     return (
       <Switch>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
+        <Route exact path='/login' component={Login} />
+        <Route exact path='/register' component={Register} />
         <ProtectedApp
           {...this.props}
           loading={loading}
@@ -88,7 +88,7 @@ class ProtectedApp extends Component {
     if (this.props.loading) {
       return <Spinner />;
     } else if (!this.props.authenticated) {
-      return <Redirect to="/login" />;
+      return <Redirect to='/login' />;
     }
 
     let navbarComponent = !this.state.isFullPageLayout && this.isVerified() ? <Navbar onLogout={this.onLogout} /> : null;
@@ -102,20 +102,20 @@ class ProtectedApp extends Component {
   
     if (!user.email_verified) {
       if (history.location.pathname !== '/verify') {
-        return <Redirect to="/verify" />;
+        return <Redirect to='/verify' />;
       }
     } else if (!user.subscription) {
       if (history.location.pathname !== '/plans') {
-        return <Redirect to="/plans" />;
+        return <Redirect to='/plans' />;
       }
     }
 
     return (
-      <div className="container-scroller">
-        <div className="container-fluid page-body-wrapper">
+      <div className='container-scroller'>
+        <div className='container-fluid page-body-wrapper'>
           {navbarComponent}
-          <div className="main-panel">
-            <div className="content-wrapper">
+          <div className='main-panel'>
+            <div className='content-wrapper'>
               <AppRoutes />
             </div>
             {footerComponent}

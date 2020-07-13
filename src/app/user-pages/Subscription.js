@@ -1,16 +1,16 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { Form, Button, Modal } from "react-bootstrap";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { Form, Button, Modal } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { Elements, CardElement, ElementsConsumer } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import cogoToast from 'cogo-toast';
 
 const stripePromise = loadStripe('pk_test_GfgTg1WYil3u1wBUbz8SgVoG');
 
-import { AuthActions } from "../store";
-import Api from "../api";
-import i18n from "../../i18n";
+import { AuthActions } from '../store';
+import Api from '../api';
+import i18n from '../../i18n';
 import './subscription.scss'
 
 
@@ -223,11 +223,11 @@ class Subscription extends Component {
     return <Modal
       show={this.state.showCardInput}
       onHide={() => { this.setState({ showCardInput: false, selectedPlan: null, changeCard: false, coupon: null, discountCode: '' }) }}
-      aria-labelledby="example-modal-sizes-title-md"
+      aria-labelledby='example-modal-sizes-title-md'
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          <span className="h1">MOMO</span>
+          <span className='h1'>MOMO</span>
         </Modal.Title>
       </Modal.Header>
 
@@ -235,16 +235,16 @@ class Subscription extends Component {
         {this.state.selectedPlan &&
           <React.Fragment>
             <h4>Payment</h4>
-            <h4> >> Selected Plan: <span className="text-success">{this.state.selectedPlan.nickname}</span></h4>
+            <h4> >> Selected Plan: <span className='text-success'>{this.state.selectedPlan.nickname}</span></h4>
           </React.Fragment>
         }
 
         {(this.props.user.customer && !this.state.changeCard) ?
           <Form.Group>
-            <label htmlFor="currentCard">Current Card</label>
-            <div id="currentCard">
+            <label htmlFor='currentCard'>Current Card</label>
+            <div id='currentCard'>
               {this.renderCurrentCard()}
-              <button className="mx-4 text-primary btn" onClick={() => { this.setState({ changeCard: true }) }}>
+              <button className='mx-4 text-primary btn' onClick={() => { this.setState({ changeCard: true }) }}>
                 <small>Change</small>
               </button>
             </div>
@@ -255,11 +255,11 @@ class Subscription extends Component {
           <React.Fragment>
             <Form.Group>
               <label>Name</label>
-              <div className="input-group">
-                <div className="input-group-prepend">
-                  <span className="input-group-text">@</span>
+              <div className='input-group'>
+                <div className='input-group-prepend'>
+                  <span className='input-group-text'>@</span>
                 </div>
-                <Form.Control type="text" className="form-control text-light" value={this.state.name} onChange={(e) => { this.setState({ name: e.target.value }) }} />
+                <Form.Control type='text' className='form-control text-light' value={this.state.name} onChange={(e) => { this.setState({ name: e.target.value }) }} />
               </div>
             </Form.Group>
 
@@ -271,19 +271,19 @@ class Subscription extends Component {
         }
 
         {this.state.selectedPlan ? <Form.Group>
-          <div className="row">
-            <div className="col-4 pt-2">
-              <span className="text-muted">Discount Code</span>
+          <div className='row'>
+            <div className='col-4 pt-2'>
+              <span className='text-muted'>Discount Code</span>
             </div>
-            <div className="col-4">
-              <Form.Control type="text" className="form-control" value={this.state.discountCode} onChange={(e) => {
+            <div className='col-4'>
+              <Form.Control type='text' className='form-control' value={this.state.discountCode} onChange={(e) => {
                 this.setState({
                   discountCode: e.target.value
                 })
               }} />
             </div>
-            <div className="col-4 pt-2">
-              <button className="text-success coupon-apply" onClick={this.onClickApplyCoupon}>apply</button>
+            <div className='col-4 pt-2'>
+              <button className='text-success coupon-apply' onClick={this.onClickApplyCoupon}>apply</button>
             </div>
           </div>
         </Form.Group> : null}
@@ -291,12 +291,12 @@ class Subscription extends Component {
       </Modal.Body>
 
       <Modal.Footer>
-        <div className="footer-container">
-          <Button variant="success col-12" onClick={this.onClickSaveCard} className="payBt">
+        <div className='footer-container'>
+          <Button variant='success col-12' onClick={this.onClickSaveCard} className='payBt'>
             {this.state.selectedPlan ? this.getPayAmount() : 'Save'}
           </Button>
         </div>
-        {/*<Button variant="light m-2" onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>*/}
+        {/*<Button variant='light m-2' onClick={() => { this.setState({ showCardInput: false }) }}>Cancel</Button>*/}
       </Modal.Footer>
     </Modal>
   }
@@ -310,25 +310,25 @@ class Subscription extends Component {
     >
       <Modal.Header closeButton>
         <Modal.Title>
-          <span className="h3">Payment complete</span>
+          <span className='h3'>Payment complete</span>
         </Modal.Title>
       </Modal.Header>
 
       <Modal.Body>
-        <div className="text-center">
-          <Button variant="success col-12" onClick={() => { this.props.history.replace('/dashboard') }} className="successBt">
+        <div className='text-center'>
+          <Button variant='success col-12' onClick={() => { this.props.history.replace('/dashboard') }} className='successBt'>
             Start using MOMO
           </Button>
         </div>
       </Modal.Body>
       <Modal.Footer>
-        <p className="text-muted text-center w-100">You may manage your account under settings</p>
+        <p className='text-muted text-center w-100'>You may manage your account under settings</p>
       </Modal.Footer>
     </Modal>
   }
 
   renderStripeCard() {
-    return <div className="p-1 card-container"><Elements stripe={stripePromise} className="p-4 b-1">
+    return <div className='p-1 card-container'><Elements stripe={stripePromise} className='p-4 b-1'>
       <ElementsConsumer>
         {({ elements, stripe }) => {
           this.elements = elements
@@ -362,54 +362,54 @@ class Subscription extends Component {
       <div>
         {this.renderCardInputModal()}
         {this.renderSuccessModal()}
-        <div className="align-items-center auth px-0">
-          <div className="row ">
-            <div className="col-2" />
-            <div className="col-8 text-center">
+        <div className='align-items-center auth px-0'>
+          <div className='row '>
+            <div className='col-2' />
+            <div className='col-8 text-center'>
               <h2>Select your Plan</h2>
               <p>Choose the plan that suits you the best. All plans come with a free no-risk 3 day trial. Cancel anytime via accounts</p>
             </div>
-            <div className="col-2" />
+            <div className='col-2' />
           </div>
-          <div className="div text-center">
-            <div className="card p-2 col-md-4 my_card">
+          <div className='div text-center'>
+            <div className='card p-2 col-md-4 my_card'>
               {customer && <Form.Group>
                 <label>Your Card</label>
-                <Button variant="primary" className="change_card" onClick={() => { this.setState({ showCardInput: true, changeCard: true }) }} size="md">Change</Button>
+                <Button variant='primary' className='change_card' onClick={() => { this.setState({ showCardInput: true, changeCard: true }) }} size='md'>Change</Button>
                 {this.renderCurrentCard()}
               </Form.Group>}
             </div>
           </div>
-          <div className="row">
+          <div className='row'>
             {this.state.plans.map((plan) => {
-              return <div className="col-md-4 p-4" key={plan.id}>
+              return <div className='col-md-4 p-4' key={plan.id}>
                 <div className={`card p-4 plan-card h-100`}>
-                  <h3 className="text-center">{plan.nickname}</h3>
-                  <p className="text-center">{plan.metadata.description}</p>
-                  <h2 className="text-center">${(plan.amount / 100).toFixed(2)}</h2>
+                  <h3 className='text-center'>{plan.nickname}</h3>
+                  <p className='text-center'>{plan.metadata.description}</p>
+                  <h2 className='text-center'>${(plan.amount / 100).toFixed(2)}</h2>
                   {
                     plan.metadata.features.split(', ').map((feature, index) => {
-                      return <h5 className="my-2" key={`feature:${index}`}> - {feature}</h5>
+                      return <h5 className='my-2' key={`feature:${index}`}> - {feature}</h5>
                     })
                   }
-                  <div className="pb-5" />
-                  <div className="pb-5" />
+                  <div className='pb-5' />
+                  <div className='pb-5' />
 
-                  <div className="bottomDiv text-center">
+                  <div className='bottomDiv text-center'>
                     {currentPlan && currentPlan.id === plan.id &&
                       <React.Fragment>
-                        <Button variant="secondary" onClick={this.onClickCancelSubscription} className="cardBt cancelBt mb-2">Cancel Subscription</Button>
+                        <Button variant='secondary' onClick={this.onClickCancelSubscription} className='cardBt cancelBt mb-2'>Cancel Subscription</Button>
                       </React.Fragment>
                     }
                     {(!currentPlan || currentPlan.id !== plan.id) &&
                       <React.Fragment>
-                        <Button variant="success" onClick={() => { this.onSelectPlan(plan) }} className="cardBt selectBt mb-2">
+                        <Button variant='success' onClick={() => { this.onSelectPlan(plan) }} className='cardBt selectBt mb-2'>
                           Select
                       </Button>
                       </React.Fragment>
                     }
-                    <div className="text-muted">Renews every {plan.interval}.</div>
-                    <div className="text-muted">Cancel anytime</div>
+                    <div className='text-muted'>Renews every {plan.interval}.</div>
+                    <div className='text-muted'>Cancel anytime</div>
                   </div>
                 </div>
               </div>
@@ -417,9 +417,9 @@ class Subscription extends Component {
             }
           </div>
           {!this.props.user.subscription &&
-            <div className="row">
-              <div className="text-center col-12">
-                <button className="btn btn-primary" onClick={this.onClickLogout}>Logout</button>
+            <div className='row'>
+              <div className='text-center col-12'>
+                <button className='btn btn-primary' onClick={this.onClickLogout}>Logout</button>
               </div>
             </div>
           }

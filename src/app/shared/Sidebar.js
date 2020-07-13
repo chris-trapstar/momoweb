@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { Collapse, Dropdown } from "react-bootstrap";
-import { Trans } from "react-i18next";
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { Collapse, Dropdown } from 'react-bootstrap';
+import { Trans } from 'react-i18next';
 
 class Sidebar extends Component {
   state = {};
@@ -26,25 +26,25 @@ class Sidebar extends Component {
   }
 
   onRouteChanged() {
-    document.querySelector("#sidebar").classList.remove("active");
+    document.querySelector('#sidebar').classList.remove('active');
     Object.keys(this.state).forEach(i => {
       this.setState({ [i]: false });
     });
 
     const dropdownPaths = [
-      { path: "/apps", state: "appsMenuOpen" },
-      { path: "/basic-ui", state: "basicUiMenuOpen" },
-      { path: "/advanced-ui", state: "advancedUiMenuOpen" },
-      { path: "/form-elements", state: "formElementsMenuOpen" },
-      { path: "/tables", state: "tablesMenuOpen" },
-      { path: "/maps", state: "mapsMenuOpen" },
-      { path: "/icons", state: "iconsMenuOpen" },
-      { path: "/charts", state: "chartsMenuOpen" },
-      { path: "/user-pages", state: "userPagesMenuOpen" },
-      { path: "/error-pages", state: "errorPagesMenuOpen" },
-      { path: "/general-pages", state: "generalPagesMenuOpen" },
-      { path: "/ecommerce", state: "ecommercePagesMenuOpen" },
-      { path: "/editors", state: "editorsMenuOpen" }
+      { path: '/apps', state: 'appsMenuOpen' },
+      { path: '/basic-ui', state: 'basicUiMenuOpen' },
+      { path: '/advanced-ui', state: 'advancedUiMenuOpen' },
+      { path: '/form-elements', state: 'formElementsMenuOpen' },
+      { path: '/tables', state: 'tablesMenuOpen' },
+      { path: '/maps', state: 'mapsMenuOpen' },
+      { path: '/icons', state: 'iconsMenuOpen' },
+      { path: '/charts', state: 'chartsMenuOpen' },
+      { path: '/user-pages', state: 'userPagesMenuOpen' },
+      { path: '/error-pages', state: 'errorPagesMenuOpen' },
+      { path: '/general-pages', state: 'generalPagesMenuOpen' },
+      { path: '/ecommerce', state: 'ecommercePagesMenuOpen' },
+      { path: '/editors', state: 'editorsMenuOpen' }
     ];
 
     dropdownPaths.forEach(obj => {
@@ -56,49 +56,49 @@ class Sidebar extends Component {
 
   render() {
     return (
-      <nav className="sidebar sidebar-offcanvas" id="sidebar">
-        <div className="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-          <a className="sidebar-brand brand-logo" href="index.html">
+      <nav className='sidebar sidebar-offcanvas' id='sidebar'>
+        <div className='sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top'>
+          <a className='sidebar-brand brand-logo' href='index.html'>
             <h3>Mometic</h3>
           </a>
-          <a className="sidebar-brand brand-logo-mini" href="index.html">
+          <a className='sidebar-brand brand-logo-mini' href='index.html'>
             <h3>M</h3>
           </a>
         </div>
-        <ul className="nav">
-          <li className="nav-item nav-category">
-            <span className="nav-link">
+        <ul className='nav'>
+          <li className='nav-item nav-category'>
+            <span className='nav-link'>
               <Trans>Navigation</Trans>
             </span>
           </li>
           <li
             className={
-              this.isPathActive("/dashboard")
-                ? "nav-item menu-items active"
-                : "nav-item menu-items"
+              this.isPathActive('/dashboard')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
             }
           >
-            <Link className="nav-link" to="/dashboard">
-              <span className="menu-icon">
-                <i className="mdi mdi-speedometer" />
+            <Link className='nav-link' to='/dashboard'>
+              <span className='menu-icon'>
+                <i className='mdi mdi-speedometer' />
               </span>
-              <span className="menu-title">
+              <span className='menu-title'>
                 <Trans>Dashboard</Trans>
               </span>
             </Link>
           </li>
           <li
             className={
-              this.isPathActive("/settings")
-                ? "nav-item menu-items active"
-                : "nav-item menu-items"
+              this.isPathActive('/settings')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
             }
           >
-            <Link className="nav-link" to="/settings">
-              <span className="menu-icon">
-                <i className="mdi mdi-speedometer" />
+            <Link className='nav-link' to='/settings'>
+              <span className='menu-icon'>
+                <i className='mdi mdi-speedometer' />
               </span>
-              <span className="menu-title">
+              <span className='menu-title'>
                 <Trans>Settings</Trans>
               </span>
             </Link>
@@ -106,16 +106,16 @@ class Sidebar extends Component {
 
           <li
             className={
-              this.isPathActive("/plans")
-                ? "nav-item menu-items active"
-                : "nav-item menu-items"
+              this.isPathActive('/plans')
+                ? 'nav-item menu-items active'
+                : 'nav-item menu-items'
             }
           >
-            <Link className="nav-link" to="/plans">
-              <span className="menu-icon">
-                <i className="mdi mdi-speedometer" />
+            <Link className='nav-link' to='/plans'>
+              <span className='menu-icon'>
+                <i className='mdi mdi-speedometer' />
               </span>
-              <span className="menu-title">
+              <span className='menu-title'>
                 <Trans>Subscription</Trans>
               </span>
             </Link>
@@ -135,19 +135,19 @@ class Sidebar extends Component {
     this.onRouteChanged();
     // default icon only
     if (document.body.classList.length === 0) {
-      document.body.classList.toggle("sidebar-icon-only");
+      document.body.classList.toggle('sidebar-icon-only');
     }
     // add class 'hover-open' to sidebar navitem while hover in sidebar-icon-only menu
-    const body = document.querySelector("body");
-    document.querySelectorAll(".sidebar .nav-item").forEach(el => {
-      el.addEventListener("mouseover", function() {
-        if (body.classList.contains("sidebar-icon-only")) {
-          el.classList.add("hover-open");
+    const body = document.querySelector('body');
+    document.querySelectorAll('.sidebar .nav-item').forEach(el => {
+      el.addEventListener('mouseover', function() {
+        if (body.classList.contains('sidebar-icon-only')) {
+          el.classList.add('hover-open');
         }
       });
-      el.addEventListener("mouseout", function() {
-        if (body.classList.contains("sidebar-icon-only")) {
-          el.classList.remove("hover-open");
+      el.addEventListener('mouseout', function() {
+        if (body.classList.contains('sidebar-icon-only')) {
+          el.classList.remove('hover-open');
         }
       });
     });

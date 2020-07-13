@@ -38,7 +38,7 @@ export class Settings extends Component {
     super(props);
     this.state = {
       alerts: [],
-      isSmallDevice: window.matchMedia("(max-width: 768px)").matches,
+      isSmallDevice: window.matchMedia('(max-width: 768px)').matches,
       currentAlert: { category: '', rate: '' },
       filter: null,
       editingAlertId: null
@@ -47,11 +47,11 @@ export class Settings extends Component {
 
   componentDidMount() {
     const handler = e => this.setState({ isSmallDevice: e.matches });
-    window.matchMedia("(max-width: 767px)").addListener(handler);
+    window.matchMedia('(max-width: 767px)').addListener(handler);
     this.getAlertSettings();
 
     let filter = { ...DEFAULT_FILTER }
-    let data_filter = localStorage.getItem("filter");
+    let data_filter = localStorage.getItem('filter');
     if (data_filter) {
       try {
         let cached_filter = JSON.parse(data_filter);
@@ -60,12 +60,12 @@ export class Settings extends Component {
         filter.price = cached_filter.price || filter.price;
         filter.volume = cached_filter.volume || filter.volume;
 
-        localStorage.setItem("filter", JSON.stringify(filter));
+        localStorage.setItem('filter', JSON.stringify(filter));
       } catch (e) {
         console.error(e);
       }
     } else {
-      localStorage.setItem("filter", JSON.stringify(filter));
+      localStorage.setItem('filter', JSON.stringify(filter));
     }
 
     console.info('Filter Loaded:', filter)
@@ -74,7 +74,7 @@ export class Settings extends Component {
 
   getAlertSettings = async () => {
     const alerts = await API.getAlerts();
-    console.info("Alert Settings:", alerts);
+    console.info('Alert Settings:', alerts);
 
     this.setState({
       alerts
@@ -156,13 +156,13 @@ export class Settings extends Component {
       return (
         <div
           key={`industry-${index}`}
-          className="d-flex flex-row align-items-center industry-row"
+          className='d-flex flex-row align-items-center industry-row'
           onClick={() => { this.updateFilterIndustry(item); }}
         >
           {
-            (filter && filter.industries && filter.industries[item]) ? <div className="industry-checked" /> : <div className="industry-unchecked" />
+            (filter && filter.industries && filter.industries[item]) ? <div className='industry-checked' /> : <div className='industry-unchecked' />
           }
-          <span className="small white-no-wrap industry-txt">{item}</span>
+          <span className='small white-no-wrap industry-txt'>{item}</span>
         </div>
       )
     })
@@ -275,7 +275,7 @@ export class Settings extends Component {
     const symbol = currentAlert.category.toUpperCase()
     const rate = currentAlert.rate
 
-    console.info("registerAlert:", symbol, type, rate);
+    console.info('registerAlert:', symbol, type, rate);
     const dic = {
       trade: 'Trade',
       uv: 'Unusual volume',
@@ -331,17 +331,17 @@ export class Settings extends Component {
     const { filter } = this.state;
 
     return (
-      <div className="settings-content">
+      <div className='settings-content'>
         {/** General */}
-        <div className="bb-title">
-          <i className="mdi mdi-pulse"></i>
-          <label className="ml-2 settings-label"> High/Low Stream</label>
+        <div className='bb-title'>
+          <i className='mdi mdi-pulse'></i>
+          <label className='ml-2 settings-label'> High/Low Stream</label>
         </div>
-        <div className="value-item">
-          <div className="mx-0 justify-content-between align-items-center item-content mt-1 padding-bottom-30">
-            <div className="pricing-container">
-              <span className="small company-name">PRICE</span>
-              <div className="d-flex flex-row flex-fill price-section">
+        <div className='value-item'>
+          <div className='mx-0 justify-content-between align-items-center item-content mt-1 padding-bottom-30'>
+            <div className='pricing-container'>
+              <span className='small company-name'>PRICE</span>
+              <div className='d-flex flex-row flex-fill price-section'>
                 <Slider
                   range={{ min: PRICE_MIN, max: PRICE_MAX }}
                   start={filter ? [filter.price.min, filter.price.max] : [PRICE_MIN, PRICE_MAX]}
@@ -352,13 +352,13 @@ export class Settings extends Component {
                     from: this.priceRangeFormatFrom,
                     to: this.priceRangeFormatTo
                   }}
-                  className="flex-fill slider-white slider-range"
+                  className='flex-fill slider-white slider-range'
                   onChange={(render, handle, value, un, percent) => { this.updateFilterPrice(value); }}
                 />
               </div>
-              <div className="pricing-separator" />
-              <div className="small company-name-margin">AVG VOL</div>
-              <div className="d-flex flex-row flex-fill price-section">
+              <div className='pricing-separator' />
+              <div className='small company-name-margin'>AVG VOL</div>
+              <div className='d-flex flex-row flex-fill price-section'>
                 <Slider
                   range={{ min: AVG_VOL_MIN, max: AVG_VOL_MAX }}
                   start={filter ? [Math.floor(filter.volume.min / 1000), Math.ceil(filter.volume.max / 1000)] : [AVG_VOL_MIN, AVG_VOL_MAX]}
@@ -369,17 +369,17 @@ export class Settings extends Component {
                     from: this.volRangeFormatFrom,
                     to: this.volRangeFormatTo
                   }}
-                  className="flex-fill slider-white slider-range"
+                  className='flex-fill slider-white slider-range'
                   onChange={(render, handle, value, un, percent) => { this.updateFilterVol(value); }}
                 />
               </div>
-              <div className="pricing-separator" />
+              <div className='pricing-separator' />
             </div>
-            <div className="industry-container">
-              <div className="pricing-container">
-                <div className="small company-name-margin">INDUSTRY</div>
+            <div className='industry-container'>
+              <div className='pricing-container'>
+                <div className='small company-name-margin'>INDUSTRY</div>
               </div>
-              <div className="d-flex flex-row flex-wrap margin-top-10">
+              <div className='d-flex flex-row flex-wrap margin-top-10'>
                 {this.renderFilterIndustries()}
               </div>
             </div>
@@ -387,30 +387,30 @@ export class Settings extends Component {
         </div>
 
         {/** Notifications */}
-        <div className="mt-5 bb-title">
-          <i className="mdi mdi-bell"></i>
-          <label className="ml-2 settings-label">Notifications</label>
+        <div className='mt-5 bb-title'>
+          <i className='mdi mdi-bell'></i>
+          <label className='ml-2 settings-label'>Notifications</label>
         </div>
         {
           alerts.map(({ type, valueLabel, label }, index) => {
             const disabled = !this.props.isPro && index > 0
             return <div key={type}>
               {!this.props.isPro && type === 'uv' &&
-                <div className="upgrade_pro mt-4 row">
-                  <div className="col-12">
+                <div className='upgrade_pro mt-4 row'>
+                  <div className='col-12'>
                     <label>--- PRO ONLY ---</label>
-                    <a className="btn btn-primary ml-1" href="/plans"> Upgrade Now</a>
+                    <a className='btn btn-primary ml-1' href='/plans'> Upgrade Now</a>
                   </div>
                 </div>
               }
 
-              <div className={disabled ? "value-item-disabled" : "value-item"}>
-                <label className={"small" + (disabled ? " text-muted" : "")}>{label}</label>
-                <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
-                  <label className="small text-symbol">Symbol</label>
-                  <label className="small text-symbol">{valueLabel}</label>
+              <div className={disabled ? 'value-item-disabled' : 'value-item'}>
+                <label className={'small' + (disabled ? ' text-muted' : '')}>{label}</label>
+                <div className='d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1'>
+                  <label className='small text-symbol'>Symbol</label>
+                  <label className='small text-symbol'>{valueLabel}</label>
                   <button
-                    className={"btn bg-transparent border-0 px-0 small text-alert cursor-pointer" + (disabled ? " text-muted" : " text-alert")}
+                    className={'btn bg-transparent border-0 px-0 small text-alert cursor-pointer' + (disabled ? ' text-muted' : ' text-alert')}
                     onClick={() => {
                       this.onClickAddAlert(type);
                     }}

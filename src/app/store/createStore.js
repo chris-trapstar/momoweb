@@ -5,18 +5,18 @@ import {
   applyMiddleware,
   compose,
   createStore as createReduxStore
-} from "redux";
-import thunk from "redux-thunk";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage";
-import makeRootReducer from "./reducers";
+} from 'redux';
+import thunk from 'redux-thunk';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import makeRootReducer from './reducers';
 
 const initialState = window.__INITIAL_STATE__;
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage,
-  blacklist: ["ui"]
+  blacklist: ['ui']
 };
 
 const persistedReducer = persistReducer(persistConfig, makeRootReducer());
@@ -38,8 +38,8 @@ const store = createReduxStore(
   composeEnhancers(applyMiddleware(...middleware), ...enhancers)
 );
 if (module.hot) {
-  module.hot.accept("./reducers", () =>
-    store.replaceReducer(require("./reducers"))
+  module.hot.accept('./reducers', () =>
+    store.replaceReducer(require('./reducers'))
   );
 }
 const persistor = persistStore(store, null, null);

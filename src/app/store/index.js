@@ -1,3 +1,3 @@
-import AuthActions from "./auth";
+import AuthActions from './auth';
 
 export { AuthActions };

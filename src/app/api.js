@@ -1,17 +1,17 @@
-import Axios from "axios";
-import jwtDecode from "jwt-decode";
+import Axios from 'axios';
+import jwtDecode from 'jwt-decode';
 
 const baseUrl =
-  window.location.hostname === "localhost"
-    ? "http://localhost:8080"
-    : "https://dev-api.mometic.com";
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:8080'
+    : 'https://dev-api.mometic.com';
 
-// const baseUrl = "https://dev-api.mometic.com";
+// const baseUrl = 'https://dev-api.mometic.com';
 
 const axios = Axios.create({
   baseURL: baseUrl,
   timeout: 5000,
-  headers: { "Content-Type": "application/json", Accept: "application/json" }
+  headers: { 'Content-Type': 'application/json', Accept: 'application/json' }
 });
 
 const STATS_API = 'https://beta-data.mometic.com/api/discovery'
@@ -23,7 +23,7 @@ class API {
   }
 
   emit() {
-    console.info("API.emit - ", arguments);
+    console.info('API.emit - ', arguments);
   }
 
   setInterceptors = () => {
@@ -41,7 +41,7 @@ class API {
             !err.config.__isRetryRequest
           ) {
             // if you ever get an unauthorized response, logout the user
-            this.emit("onAutoLogout", "Invalid access_token");
+            this.emit('onAutoLogout', 'Invalid access_token');
             this.setSession(null);
           }
           throw err;
@@ -52,9 +52,9 @@ class API {
 
   login = (email, password) => {
     const header = {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         email,
@@ -79,9 +79,9 @@ class API {
 
   signup = (email, username, password) => {
     const header = {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         email,
@@ -107,9 +107,9 @@ class API {
 
   verify = (email) => {
     const header = {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${this.getAccessToken()}`
       },
       body: JSON.stringify({
@@ -134,9 +134,9 @@ class API {
 
   getPopular = () => {
     const header = {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${this.getAccessToken()}`
       }
     };
@@ -158,9 +158,9 @@ class API {
 
   getAlertHistory = () => {
     const header = {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${this.getAccessToken()}`
       }
     };
@@ -180,23 +180,23 @@ class API {
     let access_token = this.getAccessToken();
 
     if (!access_token) {
-      this.emit("onNoAccessToken");
+      this.emit('onNoAccessToken');
 
       return;
     }
 
     if (this.isAuthTokenValid(access_token)) {
       this.setSession(access_token);
-      this.emit("onAutoLogin", true);
+      this.emit('onAutoLogin', true);
     } else {
       this.setSession(null);
-      this.emit("onAutoLogout", "access_token expired");
+      this.emit('onAutoLogout', 'access_token expired');
     }
   };
 
   createUser = data => {
     return new Promise((resolve, reject) => {
-      axios.post("/api/auth/register", data).then(response => {
+      axios.post('/api/auth/register', data).then(response => {
         if (response.data.user) {
           this.setSession(response.data.access_token);
           resolve(response.data.user);
@@ -210,7 +210,7 @@ class API {
   signInWithEmailAndPassword = (email, password) => {
     return new Promise((resolve, reject) => {
       axios
-        .post("/api/auth/login", {
+        .post('/api/auth/login', {
           email,
           password
         })
@@ -230,9 +230,9 @@ class API {
 
   signInWithToken = () => {
     const header = {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${this.getAccessToken()}`
       }
     };
@@ -253,7 +253,7 @@ class API {
 
   signInWithGoogle = async (payload) => {
     const response = await axios
-      .post("/api/auth/google", payload)
+      .post('/api/auth/google', payload)
     if (response.data.user) {
       this.setSession(response.data.access_token);
       return response.data
@@ -263,18 +263,18 @@ class API {
   }
 
   updateUserData = user => {
-    return axios.post("/api/auth/user/update", {
+    return axios.post('/api/auth/user/update', {
       user: user
     });
   };
 
   setSession = access_token => {
     if (access_token) {
-      localStorage.setItem("jwt_access_token", access_token);
-      axios.defaults.headers.common["Authorization"] = "Bearer " + access_token;
+      localStorage.setItem('jwt_access_token', access_token);
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
     } else {
-      localStorage.removeItem("jwt_access_token");
-      delete axios.defaults.headers.common["Authorization"];
+      localStorage.removeItem('jwt_access_token');
+      delete axios.defaults.headers.common['Authorization'];
     }
   };
 
@@ -289,7 +289,7 @@ class API {
     const decoded = jwtDecode(access_token);
     const currentTime = Date.now() / 1000;
     if (decoded.exp < currentTime) {
-      console.warn("access token expired");
+      console.warn('access token expired');
       return false;
     } else {
       return true;
@@ -297,7 +297,7 @@ class API {
   };
 
   getAccessToken = () => {
-    return window.localStorage.getItem("jwt_access_token");
+    return window.localStorage.getItem('jwt_access_token');
   };
 
   addAlert = async ({

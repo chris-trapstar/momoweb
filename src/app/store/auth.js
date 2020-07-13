@@ -1,10 +1,10 @@
-import { createReducer, createActions } from "reduxsauce";
+import { createReducer, createActions } from 'reduxsauce';
 
 /* ------------- Types and Action Creators ------------- */
 const { Types, Creators } = createActions({
-  setAuthenticated: ["authenticated"],
-  setLoading: ["loading"],
-  setUser: ["user"]
+  setAuthenticated: ['authenticated'],
+  setLoading: ['loading'],
+  setUser: ['user']
 });
 
 export const AuthTypes = Types;
