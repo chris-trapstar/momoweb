@@ -156,7 +156,7 @@ class Login extends Component {
                   </div>
                   <div className='row'>
 
-                    <div className='mb-2 col'>
+                    {/*<div className='mb-2 col'>
                       <button
                         type='button'
                         className='btn btn-block btn-facebook auth-form-btn'
@@ -164,7 +164,7 @@ class Login extends Component {
                       >
                         <i className='mdi mdi-facebook mr-2'></i>Facebook
                       </button>
-                    </div>
+                    </div>*/}
 
                     <div className='mb-2 col'>
                       <GoogleLogin
