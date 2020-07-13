@@ -63,6 +63,8 @@ class Login extends Component {
 
   onGoogleLogin = (response) => {
     console.info('Google Login:', response)
+    var id_token = response.getAuthResponse().id_token;
+    console.info('Google id_token:', id_token)
   }
 
   render() {
@@ -135,7 +137,8 @@ class Login extends Component {
                     </a>
                   </div>
                   <div className="row">
-                    <div className="mb-2 col">
+                    { /*
+<div className="mb-2 col">
                       <button
                         type="button"
                         className="btn btn-block btn-facebook auth-form-btn"
@@ -159,6 +162,19 @@ class Login extends Component {
                         buttonText="Login"
                         onSuccess={this.onGoogleLogin}
                         onFailure={() => {}}
+                        cookiePolicy={'single_host_origin'}
+                      />
+
+                    </div>
+*/
+                    }
+                    <div className="mb-2 col">
+                      <GoogleLogin
+                      className="btn btn-block btn-google auth-form-btn"
+                        clientId="4608974693-t302rfequk782c3b4bjhr15jfb90u80i.apps.googleusercontent.com"
+                        buttonText="Sign In With Google"
+                        onSuccess={this.onGoogleLogin}
+                        onFailure={() => { }}
                         cookiePolicy={'single_host_origin'}
                       />
 
