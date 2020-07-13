@@ -604,7 +604,7 @@ export class Dashboard extends Component {
                 {item.symbol}
               </label>
               <div
-                className='d-flex flex-row-reverse'
+                className='d-flex flex-row-reverse remove-cursor'
                 onClick={() => {
                   this.onRemoveQuote(item);
                 }}
