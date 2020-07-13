@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { connect } from "react-redux";
 import GoogleLogin from 'react-google-login';
+import cogoToast from 'cogo-toast'
 
 import { AuthActions } from "../store";
 import Api from "../api";
@@ -61,10 +62,26 @@ class Login extends Component {
 
   onFacebook = () => { };
 
-  onGoogleLogin = (response) => {
+  onGoogleLogin = async (response) => {
     console.info('Google Login:', response)
     var id_token = response.getAuthResponse().id_token;
     console.info('Google id_token:', id_token)
+    try {
+      const { user, access_token } = await Api.signInWithGoogle({
+        id_token
+      })
+      Api.setSession(access_token);
+      this.props.setUser(user);
+      this.props.setLoading(false);
+      this.props.setAuthenticated(true);
+      if (!user.subscription) {
+        this.props.history.push('/plans');
+      } else {
+        this.props.history.push('/dashboard');
+      }
+    } catch (e) {
+      cogoToast.error('Failed to sign in with Google, please try again.')
+    }
   }
 
   render() {
@@ -170,11 +187,13 @@ class Login extends Component {
                     }
                     <div className="mb-2 col">
                       <GoogleLogin
-                      className="btn btn-block btn-google auth-form-btn"
+                        className="btn btn-block btn-google auth-form-btn"
                         clientId="4608974693-t302rfequk782c3b4bjhr15jfb90u80i.apps.googleusercontent.com"
                         buttonText="Sign In With Google"
                         onSuccess={this.onGoogleLogin}
-                        onFailure={() => { }}
+                        onFailure={() => {
+                          cogoToast.error('Failed to sign in with Google')
+                        }}
                         cookiePolicy={'single_host_origin'}
                       />
 
