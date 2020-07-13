@@ -155,8 +155,8 @@ class Login extends Component {
                     </a>
                   </div>
                   <div className="row">
-                    { /*
-<div className="mb-2 col">
+
+                    <div className="mb-2 col">
                       <button
                         type="button"
                         className="btn btn-block btn-facebook auth-form-btn"
@@ -167,26 +167,6 @@ class Login extends Component {
                     </div>
 
                     <div className="mb-2 col">
-                      <button
-                        type="button"
-                        className="btn btn-block btn-google auth-form-btn"
-                        onClick={this.onGoogleLogin}
-                      >
-                        <i className="mdi mdi-google mr-2"></i>Google
-                      </button>
-
-                      <GoogleLogin
-                        clientId="4608974693-t302rfequk782c3b4bjhr15jfb90u80i.apps.googleusercontent.com"
-                        buttonText="Login"
-                        onSuccess={this.onGoogleLogin}
-                        onFailure={() => {}}
-                        cookiePolicy={'single_host_origin'}
-                      />
-
-                    </div>
-*/
-                    }
-                    <div className="mb-2 col">
                       <GoogleLogin
                         className="btn btn-block btn-google auth-form-btn"
                         clientId="4608974693-t302rfequk782c3b4bjhr15jfb90u80i.apps.googleusercontent.com"
@@ -196,6 +176,15 @@ class Login extends Component {
                           cogoToast.error('Failed to sign in with Google')
                         }}
                         cookiePolicy={'single_host_origin'}
+                        render={({ onClick }) => {
+                          return <button
+                            onClick={onClick}
+                            type="button"
+                            className="btn btn-block btn-google auth-form-btn"
+                          >
+                            <i className="mdi mdi-google mr-2"></i>Google
+                        </button>
+                        }}
                       />
 
                     </div>
