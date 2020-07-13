@@ -61,6 +61,7 @@
     "react-dropzone": "^10.1.9",
     "react-gauge-chart": "^0.2.1",
     "react-google-charts": "^3.0.15",
+    "react-google-login": "^5.1.21",
     "react-grid-gallery": "^0.5.5",
     "react-i18next": "^11.1.0",
     "react-id-swiper": "^3.0.0",

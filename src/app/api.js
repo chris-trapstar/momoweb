@@ -1,12 +1,12 @@
 import Axios from "axios";
 import jwtDecode from "jwt-decode";
 
-// const baseUrl =
-//   window.location.hostname === "localhost"
-//     ? "http://localhost:8080"
-//     : "https://dev-api.mometic.com";
+const baseUrl =
+  window.location.hostname === "localhost"
+    ? "http://localhost:8080"
+    : "https://dev-api.mometic.com";
 
-const baseUrl = "https://dev-api.mometic.com";
+// const baseUrl = "https://dev-api.mometic.com";
 
 const axios = Axios.create({
   baseURL: baseUrl,
@@ -251,6 +251,17 @@ class API {
     });
   };
 
+  signInWithGoogle = async (payload) => {
+    const response = await axios
+      .post("/api/auth/google", payload)
+    if (response.data.user) {
+      this.setSession(response.data.access_token);
+      return response.data
+    } else {
+      throw response.data.error;
+    }
+  }
+
   updateUserData = user => {
     return axios.post("/api/auth/user/update", {
       user: user
@@ -368,7 +379,7 @@ class API {
     console.info('registerQuotes:', symbol)
     const response = await fetch(`${baseUrl}/api/quotes`, {
       method: 'POST',
-      body: JSON.stringify({symbol}),
+      body: JSON.stringify({ symbol }),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
@@ -383,7 +394,7 @@ class API {
     console.info('deleteQuote:', symbol)
     const response = await fetch(`${baseUrl}/api/quotes/${symbol}`, {
       method: 'DELETE',
-      body: JSON.stringify({symbol}),
+      body: JSON.stringify({ symbol }),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
@@ -474,7 +485,7 @@ class API {
     try {
       const res = await fetch(`${baseUrl}/api/stripe/subscription`, {
         method: 'POST',
-        body: JSON.stringify({plan, coupon}),
+        body: JSON.stringify({ plan, coupon }),
         headers: {
           Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
           'Content-Type': 'application/json'
@@ -505,7 +516,7 @@ class API {
     }
   }
 
-  getCoupon = async(code) => {
+  getCoupon = async (code) => {
     try {
       const res = await fetch(`${baseUrl}/api/stripe/coupon/${code}`, {
         method: 'GET',

@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Link, withRouter } from "react-router-dom";
 import { Form } from "react-bootstrap";
 import { connect } from "react-redux";
+import GoogleLogin from 'react-google-login';
+import cogoToast from 'cogo-toast'
+
 import { AuthActions } from "../store";
 import Api from "../api";
 import i18n from "../../i18n";
@@ -59,6 +62,29 @@ class Login extends Component {
 
   onFacebook = () => { };
 
+  onGoogleLogin = async (response) => {
+    console.info('Google Login:', response)
+    var id_token = response.getAuthResponse().id_token;
+    console.info('Google id_token:', id_token)
+    try {
+      const { user, access_token } = await Api.signInWithGoogle({
+        id_token
+      })
+      Api.setSession(access_token);
+      this.props.setUser(user);
+      this.props.setLoading(false);
+      this.props.setAuthenticated(true);
+      if (!user.subscription) {
+        this.props.history.push('/plans');
+      } else {
+        this.props.history.push('/dashboard');
+      }
+    } catch (e) {
+      console.error(e)
+      cogoToast.error('Failed to sign in with Google, please try again.')
+    }
+  }
+
   render() {
     const { loginErrTxt } = this.state;
     return (
@@ -77,7 +103,7 @@ class Login extends Component {
                     <label>Email</label>
                     <div className="input-group">
                       <div className="input-group-prepend">
-                        <i className="input-group-text mdi mdi-email text-success"/>
+                        <i className="input-group-text mdi mdi-email text-success" />
                       </div>
                       <Form.Control type="text" className="form-control text-light" placeholder="Email"
                         ref={ref => {
@@ -91,7 +117,7 @@ class Login extends Component {
                     <label>Password</label>
                     <div className="input-group">
                       <div className="input-group-prepend">
-                        <i className="input-group-text mdi mdi-lock text-success"/>
+                        <i className="input-group-text mdi mdi-lock text-success" />
                       </div>
                       <Form.Control type="password" className="form-control text-light" placeholder="Password"
                         ref={ref => {
@@ -129,7 +155,8 @@ class Login extends Component {
                     </a>
                   </div>
                   <div className="row">
-                    <div className="mb-2 col">
+                    { /*
+<div className="mb-2 col">
                       <button
                         type="button"
                         className="btn btn-block btn-facebook auth-form-btn"
@@ -143,10 +170,34 @@ class Login extends Component {
                       <button
                         type="button"
                         className="btn btn-block btn-google auth-form-btn"
-                        onClick={this.onFacebook}
+                        onClick={this.onGoogleLogin}
                       >
                         <i className="mdi mdi-google mr-2"></i>Google
                       </button>
+
+                      <GoogleLogin
+                        clientId="4608974693-t302rfequk782c3b4bjhr15jfb90u80i.apps.googleusercontent.com"
+                        buttonText="Login"
+                        onSuccess={this.onGoogleLogin}
+                        onFailure={() => {}}
+                        cookiePolicy={'single_host_origin'}
+                      />
+
+                    </div>
+*/
+                    }
+                    <div className="mb-2 col">
+                      <GoogleLogin
+                        className="btn btn-block btn-google auth-form-btn"
+                        clientId="4608974693-t302rfequk782c3b4bjhr15jfb90u80i.apps.googleusercontent.com"
+                        buttonText="Sign In With Google"
+                        onSuccess={this.onGoogleLogin}
+                        onFailure={() => {
+                          cogoToast.error('Failed to sign in with Google')
+                        }}
+                        cookiePolicy={'single_host_origin'}
+                      />
+
                     </div>
                   </div>
 
