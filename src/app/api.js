@@ -253,10 +253,7 @@ class API {
 
   signInWithGoogle = async (payload) => {
     const response = await axios
-      .post("/api/auth/google", {
-        email,
-        password
-      })
+      .post("/api/auth/google", payload)
     if (response.data.user) {
       this.setSession(response.data.access_token);
       resolve(response.data.user);
