@@ -80,6 +80,7 @@ class Login extends Component {
         this.props.history.push('/dashboard');
       }
     } catch (e) {
+      console.error(e)
       cogoToast.error('Failed to sign in with Google, please try again.')
     }
   }
