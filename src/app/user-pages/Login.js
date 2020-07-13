@@ -172,8 +172,8 @@ class Login extends Component {
                         clientId='4608974693-t302rfequk782c3b4bjhr15jfb90u80i.apps.googleusercontent.com'
                         buttonText='Sign In With Google'
                         onSuccess={this.onGoogleLogin}
-                        onFailure={() => {
-                          cogoToast.error('Failed to sign in with Google')
+                        onFailure={(e) => {
+                          console.error('Failed to sign in with Google')
                         }}
                         cookiePolicy={'single_host_origin'}
                         render={({ onClick }) => {
