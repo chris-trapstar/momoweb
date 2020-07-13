@@ -787,3 +787,7 @@ th {
 .alert-section {
   height: 100%;
 }
+
+.remove-cursor {
+  cursor: pointer !important;
+}
