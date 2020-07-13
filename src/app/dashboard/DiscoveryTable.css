@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  height: 200px;
+  margin-left: 0;
+  flex-direction: column;
+}
+
+.table-row {
+  display: flex;
+  overflow-x: auto;
+  flex-direction: row;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.ReactVirtualized__Table__Grid {
+    outline: none;
+}
+
+.ReactVirtualized__Table__headerRow {
+  border: 0;
+}
+
+.ReactVirtualized__Table__headerColumn {
+  display: flex;
+  flex-direction: row;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.evenRow {
+  cursor: pointer;
+  background-color: #191c24;
+}
+
+.oddRow {
+  cursor: pointer;
+  background-color: black;
+}
+
+.action-column {
+  display: flex;
+  flex-direction: row;
+}
