@@ -173,7 +173,7 @@ class Login extends Component {
                         buttonText='Sign In With Google'
                         onSuccess={this.onGoogleLogin}
                         onFailure={(e) => {
-                          console.error('Failed to sign in with Google')
+                          console.error('Failed to sign in with Google', e)
                         }}
                         cookiePolicy={'single_host_origin'}
                         render={({ onClick }) => {
