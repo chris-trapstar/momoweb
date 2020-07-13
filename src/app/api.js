@@ -256,9 +256,9 @@ class API {
       .post("/api/auth/google", payload)
     if (response.data.user) {
       this.setSession(response.data.access_token);
-      resolve(response.data.user);
+      return response.data.user
     } else {
-      reject(response.data.error);
+      throw response.data.error;
     }
   }
 
