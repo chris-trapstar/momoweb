@@ -127,7 +127,7 @@ export default class Meters extends Component {
     const { lows, highs } = this.getValues()
 
     return <div className='d-flex  card m-2 p-2' style={{ flex: 1, }}>
-      <h4>MOMO Meters</h4>
+      <h4 className='meter-label'>MOMO Meters</h4>
       {
         indexes.map((name, i) => {
           return <div key={i} className='flex-row justify-content-center meters-body w-100'>
