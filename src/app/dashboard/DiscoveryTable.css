@@ -32,6 +32,9 @@
   cursor: pointer;
   background-color: #191c24;
 }
+.tableTextColor{
+  color:'#9B9B9C'
+}
 
 .oddRow {
   cursor: pointer;
