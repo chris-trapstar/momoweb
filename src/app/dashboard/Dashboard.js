@@ -358,7 +358,12 @@ export class Dashboard extends Component {
   };
 
   round = (value, decimals) => {
-    return parseFloat(value).toFixed(decimals);
+    const num = parseFloat(value)
+    if (isNaN(num)) {
+      return '__'
+    } else {
+      return num.toFixed(decimals);
+    }
   };
 
   getLast = (OTC, ticker) => {
