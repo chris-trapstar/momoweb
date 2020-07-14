@@ -987,7 +987,7 @@ export class Dashboard extends Component {
       data.push(
         <div key={`render-alert-history-${index}`}>
           <div className='d-flex flex-row flex-fill flex-wrap'>
-            <div className='font-13 alert-history-color'>{item.msg} {new Date(item.date).toLoc}</div>
+            <div className='font-13 alert-history-color'>{item.msg} {this.getAlertDate(item)}</div>
           </div>
           <div className='d-flex flex-row flex-fill alert-history-separator' />
         </div>
