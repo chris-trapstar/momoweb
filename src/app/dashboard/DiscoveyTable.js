@@ -143,7 +143,9 @@ class DiscoveryTable extends Component {
                     cellRenderer={({ cellData, rowData }) => (
                       <div onClick={(e) => this.toggleMenu(e, rowData.symbol)}>
                         <div>{rowData.last}</div>
-                        {rowData.price_dist !== 0 ? <small className={'price-dist ' + (rowData.price_dist > 0 ? 'text-success' : 'text-danger')}>{rowData.price_dist}%</small> : null}
+                        <small className={'price-dist ' + (rowData.price_dist == 0 ? '' : (rowData.price_dist > 0 ? 'text-success' : 'text-danger'))}>
+                          {rowData.price_dist > 0 ? '+' : ''}{rowData.price_dist}%
+                        </small>
                       </div>
                     )}
                   />
