@@ -1072,7 +1072,7 @@ export class Dashboard extends Component {
           index={discoveryIndex}
           discoveryData={discoveryDataFiltered.map(
             (
-              { symbol, last, volume, momentum, uVol, vWapDist, short },
+              { symbol, last, volume, momentum, uVol, vWapDist, short, price_dist },
               index
             ) => {
               return {
@@ -1085,6 +1085,7 @@ export class Dashboard extends Component {
                 vWapDist: vWapDist,
                 short: short,
                 alert: symbol,
+                price_dist,
               };
             }
           )}
