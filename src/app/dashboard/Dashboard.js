@@ -1538,7 +1538,7 @@ export class Dashboard extends Component {
                         <div className='d-flex flex-row justify-content-between'>
                           <h4 style={{ marginBottom: '0px' }}>Alert History</h4>
                         </div>
-                        <div className='data-section'>
+                        <div className='data-section alert-section'>
                           <div className='d-flex flex-row flex-fill alert-history-separator' />
                           <div className='alert-history-data'>
                             {this.renderAlertHistory()}

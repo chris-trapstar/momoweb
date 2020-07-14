@@ -113,7 +113,6 @@
 }
 
 .alert-history-data {
-  height: 120px;
   overflow-y: scroll;
 }
 
@@ -790,4 +789,10 @@ th {
 
 .remove-cursor {
   cursor: pointer !important;
+}
+
+.alert-section {
+  height: 100%;
+  overflow: scroll;
+  max-height: 240px;
 }
