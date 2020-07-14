@@ -139,10 +139,11 @@ class DiscoveryTable extends Component {
                   <Column
                     width={200}
                     label='Last'
-                    dataKey='last'
+                    dataKey='price_dist'
                     cellRenderer={({ cellData, rowData }) => (
                       <div onClick={(e) => this.toggleMenu(e, rowData.symbol)}>
-                        {cellData}
+                        <div>{rowData.last}</div>
+                        {rowData.price_dist !== 0 ? <small className={'price-dist ' + (rowData.price_dist > 0 ? 'text-success' : 'text-danger')}>{rowData.price_dist}%</small> : null}
                       </div>
                     )}
                   />
@@ -202,7 +203,7 @@ class DiscoveryTable extends Component {
                             this.props.checkIsFavorite(cellData)
                               ? 'mdi mdi-star quote-star popover-icon'
                               : 'mdi mdi-star text-white popover-icon'
-                          }`}
+                            }`}
                           style={{ cursor: 'pointer' }}
                           onClick={() => this.props.onSetSymbolFav(cellData)}
                         />
