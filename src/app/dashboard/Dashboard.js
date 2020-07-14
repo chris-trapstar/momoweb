@@ -975,6 +975,11 @@ export class Dashboard extends Component {
     return data;
   };
 
+  getAlertDate = (item) => {
+    const date = new Date(item.date)
+    return date.toLocaleDateString()
+  }
+
   renderAlertHistory = () => {
     let data = [];
     const { alertHistory } = this.state;
@@ -982,7 +987,7 @@ export class Dashboard extends Component {
       data.push(
         <div key={`render-alert-history-${index}`}>
           <div className='d-flex flex-row flex-fill flex-wrap'>
-            <div className='font-13 alert-history-color'>{item.msg}</div>
+      <div className='font-13 alert-history-color'>{item.msg} {new Date(item.date).toLoc}</div>
           </div>
           <div className='d-flex flex-row flex-fill alert-history-separator' />
         </div>
