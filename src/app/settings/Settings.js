@@ -99,8 +99,16 @@ export class Settings extends Component {
 
   onClickAddAlert = alertType => {
     /** alertType 1 -> High/Low, 2 -> Unusual Vol, 3 -> VWAP */
-    const initProgress = 20 // 20 or 
-
+    let initProgress = 20 // 20 or 
+    if (alertType == 'trade') {
+      initProgress = 10
+    } else if (alertType == 'uv') {
+      initProgress = 20
+    } else if (alertType == 'vwap') {
+      initProgress = 2
+    } else if (alertType == 'price') {
+      initProgress = 2
+    }
     const currentAlert = {
       category: '',
       rate: initProgress
