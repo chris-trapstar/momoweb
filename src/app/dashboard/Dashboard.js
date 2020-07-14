@@ -977,7 +977,7 @@ export class Dashboard extends Component {
 
   getAlertDate = (item) => {
     const date = new Date(item.date)
-    return date.toLocaleDateString()
+    return date.toLocaleString()
   }
 
   renderAlertHistory = () => {
