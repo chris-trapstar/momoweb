@@ -55,3 +55,7 @@
 .empty {
   background-color: rgba(0, 0, 0, 0.1);
 }
+
+.meter-label {
+  margin-left: 12px;
+}
