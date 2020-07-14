@@ -544,14 +544,25 @@ th {
 .data-separator {
   height: 1em;
 }
-
+.basic-container {
+  width: 100%;
+  flex-direction: row;
+  display: flex;
+  padding: 1em 0px;
+}
+.basic-popular {
+  width: 35%;
+}
+.basic-data-separator {
+  border: 1em solid black;
+}
 .quote-card {
   padding: 0.5em;
   overflow: hidden;
 }
 
 .quote-star {
-  color: yellow;
+  color: #f6c548;
 }
 
 .table-header {
@@ -735,6 +746,7 @@ th {
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
+  padding: 0px 12px;
 }
 
 .industry_span {

@@ -77,10 +77,20 @@
   cursor: pointer;
   width: 20%;
 }
+@media only screen and (max-width: 1400px) {
+  .industry-row {
+    width: 30%;
+  }
+}
+@media only screen and (max-width: 1190px) {
+  .industry-row {
+    width: 50%;
+  }
+}
 
 @media only screen and (max-width: 1024px) {
   .industry-row {
-    width: 40%;
+    width: 50%;
   }
 }
 @media only screen and (max-width: 812px) {

@@ -61,12 +61,15 @@ class DiscoveryTable extends Component {
   _round = (value, decimals) => parseFloat(value).toFixed(decimals);
 
   _setColorOnValue(symbol, data, type, decimals) {
+    const roundedValue = this._round(data, decimals);
     return (
       <div
         style={{ color: data > 0 ? '#00d25b' : '#fc424a' }}
         onClick={(e) => this.toggleMenu(e, symbol)}
       >
-        {`${this._round(data, decimals)}${type}`}
+        {roundedValue > 0
+          ? `+${roundedValue}${type}`
+          : `${roundedValue}${type}`}
       </div>
     );
   }
@@ -154,7 +157,10 @@ class DiscoveryTable extends Component {
                     label='Volume'
                     dataKey='volume'
                     cellRenderer={({ cellData, rowData }) => (
-                      <div onClick={(e) => this.toggleMenu(e, rowData.symbol)}>
+                      <div
+                        onClick={(e) => this.toggleMenu(e, rowData.symbol)}
+                        style={{ color: '#9B9B9C' }}
+                      >
                         {cellData}
                       </div>
                     )}

@@ -32,6 +32,7 @@ const params = {
   pagination: {
     el: '.swiper-pagination',
   },
+  shouldSwiperUpdate: true,
 };
 
 export class Dashboard extends Component {
@@ -49,7 +50,6 @@ export class Dashboard extends Component {
     this.buffer = [];
     this.flushBufferIntervalId = setInterval(this.flushBuffer, 2000);
     // this.requestNotificationPermissions().then(r => {});
-
     this.getStats();
     this.statsTimer = setInterval(() => {
       this.getQuotes();
@@ -70,7 +70,7 @@ export class Dashboard extends Component {
   componentWillUnmount() {
     window.removeEventListener('compressedUpdate', this.onCompressedUpdate);
     window.removeEventListener('scroll', this.handleScroll);
-    window.removeEventListener('alert', this.onAlert)
+    window.removeEventListener('alert', this.onAlert);
   }
 
   getScrollPercent() {
@@ -228,7 +228,7 @@ export class Dashboard extends Component {
         field: 'symbol',
         type: 'none',
       },
-      discoverySector: 'ALL',
+      discoverySector: 'Industry',
       discoverySelectedSymbol: '',
       discoverAlerySelected: {
         symbol: '',
@@ -239,7 +239,7 @@ export class Dashboard extends Component {
       showSpinner: false,
       showAddQuote: false,
       isFavFilter: false,
-      sectors: ['ALL', ...Object.keys(SECTORS_FILTER)],
+      sectors: ['Industry', ...Object.keys(SECTORS_FILTER)],
     };
   };
 
@@ -248,18 +248,18 @@ export class Dashboard extends Component {
   };
 
   onAlert = (event) => {
-    this.getAlertHistory()
-  }
+    this.getAlertHistory();
+  };
 
   listenAlert = () => {
     window.addEventListener('alert', this.onAlert, false);
-  }
+  };
 
   listenTrade = () => {
     let data_filter;
     try {
       data_filter = JSON.parse(localStorage.getItem('filter'));
-    } catch (e) { }
+    } catch (e) {}
     if (!data_filter) {
       data_filter = { ...DEFAULT_FILTER };
     }
@@ -307,6 +307,7 @@ export class Dashboard extends Component {
     let self = this;
 
     let dicSectors = {};
+    // console.log("this.state.filter.industries", this.state.filter.industries);
     const industries =
       this.state.filter.industries || DEFAULT_FILTER.industries;
     for (let key in industries) {
@@ -346,7 +347,7 @@ export class Dashboard extends Component {
     }
     let highs = this.state.highs.slice();
     let lows = this.state.lows.slice();
-    this.buffer.forEach(function (item, i, arr) {
+    this.buffer.forEach(function(item, i, arr) {
       highs = item.highs.concat(highs).slice(0, 100);
       lows = item.lows.concat(lows).slice(0, 100);
     });
@@ -358,9 +359,9 @@ export class Dashboard extends Component {
   };
 
   round = (value, decimals) => {
-    const num = parseFloat(value)
+    const num = parseFloat(value);
     if (isNaN(num)) {
-      return '__'
+      return '__';
     } else {
       return num.toFixed(decimals);
     }
@@ -398,7 +399,7 @@ export class Dashboard extends Component {
 
   sectorFilter = (item) => {
     const { discoverySector } = this.state;
-    if (discoverySector === 'ALL') {
+    if (discoverySector === 'Industry') {
       return true;
     }
     const filters = SECTORS_FILTER[discoverySector];
@@ -472,7 +473,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   low[3] === 1 ? 'stock-active-text stock-active-low' : ''
-                  }`}
+                }`}
               >
                 <ContextMenuTrigger
                   id={`low-context-menu_${index}`}
@@ -526,7 +527,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   high[3] === 1 ? 'stock-active-text stock-active-high' : ''
-                  }`}
+                }`}
               >
                 <ContextMenuTrigger
                   id={`high-context-menu_${index}`}
@@ -791,7 +792,7 @@ export class Dashboard extends Component {
             >
               <div className='row justify-content-center align-items-center'>
                 <i className='mdi mdi-star text-white popover-icon' />
-                <span className='ml-1'>Favorite</span>
+                <span className='ml-1'>Favorites</span>
               </div>
             </MenuItem>
           </div>
@@ -906,8 +907,8 @@ export class Dashboard extends Component {
         sortOption.type === 'none'
           ? discoveryData
           : sortOption.type === 'up'
-            ? sorted.reverse()
-            : sorted,
+          ? sorted.reverse()
+          : sorted,
     });
   };
 
@@ -960,29 +961,50 @@ export class Dashboard extends Component {
               )}
             </div>
           ) : (
-                  <div key={`popular-data-h6-${index + i}`}>
-                    <ContextMenuTrigger
-                      id={`popular-data-h6-${index + i}`}
-                      holdToDisplay={0}
-                    >
-                      <h6 className='pr-2'>{item}</h6>
-                    </ContextMenuTrigger>
-                    {this.getMenuItems(
-                      `popular-data-h6-${index + i}`,
-                      [item, '', '', '', '', ''],
-                      ''
-                    )}
-                  </div>
-                )
+            <div key={`popular-data-h6-${index + i}`}>
+              <ContextMenuTrigger
+                id={`popular-data-h6-${index + i}`}
+                holdToDisplay={0}
+              >
+                <h6 className='pr-2'>{item}</h6>
+              </ContextMenuTrigger>
+              {this.getMenuItems(
+                `popular-data-h6-${index + i}`,
+                [item, '', '', '', '', ''],
+                ''
+              )}
+            </div>
+          )
         );
       });
     }
     return data;
   };
 
-  getAlertDate = (item) => {
-    const date = new Date(item.date)
-    return date.toLocaleString()
+  formatDate(inputDate) {
+    const date = new Date(inputDate);
+
+    let diff = new Date() - date;
+
+    if (diff < 1000) return 'right now';
+
+    let sec = Math.floor(diff / 1000);
+
+    if (sec < 60) return sec + ' sec. ago';
+
+    let min = Math.floor(diff / 60000);
+    if (min < 60) return min + ' min. ago';
+
+    let d = date;
+    d = [
+      '0' + d.getDate(),
+      '0' + (d.getMonth() + 1),
+      '' + d.getFullYear(),
+      '0' + d.getHours(),
+      '0' + d.getMinutes(),
+    ].map((component) => component.slice(-2));
+
+    return d.slice(0, 3).join('.') + ' ' + d.slice(3).join(':');
   }
 
   renderAlertHistory = () => {
@@ -992,7 +1014,10 @@ export class Dashboard extends Component {
       data.push(
         <div key={`render-alert-history-${index}`}>
           <div className='d-flex flex-row flex-fill flex-wrap'>
-            <div className='font-13 alert-history-color'>{item.msg} {this.getAlertDate(item)}</div>
+            {/* <div className='font-13 alert-history-color'>{item.msg}</div> */}
+            <div className='font-13 alert-history-color'>{`${
+              item.msg
+            } - ${this.formatDate(item.date)}`}</div>
           </div>
           <div className='d-flex flex-row flex-fill alert-history-separator' />
         </div>
@@ -1093,11 +1118,11 @@ export class Dashboard extends Component {
     return (
       <div
         className={
-          max
+          max || !this.props.isPro
             ? 'w-100'
             : !this.state.showPopular && !this.state.showAlertHistory
-              ? 'w-100'
-              : 'grid-margin stretch-card px-0 flex-fill socket-table'
+            ? 'w-100'
+            : 'grid-margin stretch-card px-0 flex-fill socket-table'
         }
       >
         <div className='card'>
@@ -1122,13 +1147,13 @@ export class Dashboard extends Component {
               {this.renderData(highs, 'high')}
             </div>
           ) : (
-              <div className='card-body stream-body'>
-                <div className='row'>
-                  {this.renderData(lows, 'low')}
-                  {this.renderData(highs, 'high')}
-                </div>
+            <div className='card-body stream-body'>
+              <div className='row'>
+                {this.renderData(lows, 'low')}
+                {this.renderData(highs, 'high')}
               </div>
-            )}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -1195,7 +1220,25 @@ export class Dashboard extends Component {
               <div className='row'>
                 <div className='col-12 '>
                   <div className='d-flex flex-row justify-content-between text-center flex-wrap mb-2'>
-                    <h4 className='card-title mb-1 py-1'>Discovery</h4>
+                    <h4
+                      className='card-title mb-1 py-1'
+                      style={{ display: 'flex' }}
+                    >
+                      Discovery
+                      <span
+                        style={{
+                          paddingLeft: 2,
+                          paddingRight: 2,
+                          fontSize: '10px',
+                          color: '#000000',
+                          background: '#ffff',
+                          marginLeft: '5px',
+                          height: '11px',
+                        }}
+                      >
+                        PRO
+                      </span>
+                    </h4>
                     <div className='d-flex flex-row mT15'>
                       <div className='search-bar-wrapper search-bar-wrapper-hover'>
                         <Dropdown varaint='btn btn-outline-secondary'>
@@ -1234,11 +1277,17 @@ export class Dashboard extends Component {
                             this.state.isFavFilter
                               ? 'mdi mdi-star quote-star popover-icon'
                               : 'mdi mdi-star text-white popover-icon'
-                            }`}
+                          }`}
                           style={{ alignSelf: 'center' }}
                         />
-                        <span style={{ alignSelf: 'center', marginLeft: 4 }}>
-                          Favorite
+                        <span
+                          style={{
+                            alignSelf: 'center',
+                            marginLeft: 4,
+                            fontSize: 15,
+                          }}
+                        >
+                          Favorites
                         </span>
                       </div>
                     </div>
@@ -1377,7 +1426,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showStream ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showStream');
@@ -1391,7 +1440,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showAlertHistory ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showAlertHistory');
@@ -1407,7 +1456,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showMeters ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showMeters');
@@ -1421,7 +1470,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row  ${
                     this.state.showPopular ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showPopular');
@@ -1435,7 +1484,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showQuotes ? 'showWidget' : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showQuotes');
@@ -1455,7 +1504,7 @@ export class Dashboard extends Component {
                         ? 'showWidget'
                         : 'hideWidget'
                       : 'hideWidget'
-                    }`}
+                  }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     if (this.props.isPro) this.onToggleWidget('showDiscovery');
@@ -1465,7 +1514,29 @@ export class Dashboard extends Component {
                   <span className='bar-icon'>
                     <i className='mdi mdi-content-copy text-success' />
                   </span>
-                  <span className='small white-no-wrap bar-txt'>DISCOVERY</span>
+                  <span
+                    className='small white-no-wrap bar-txt'
+                    style={{ display: 'flex' }}
+                  >
+                    DISCOVERY
+                    <span
+                      style={{
+                        paddingLeft: 2,
+                        paddingRight: 2,
+                        fontSize: '10px',
+                        color: 'black',
+                        background: this.props.isPro
+                          ? this.state.showDiscovery
+                            ? '#ffff'
+                            : 'gray'
+                          : 'gray',
+                        marginLeft: '5px',
+                        height: '12px',
+                      }}
+                    >
+                      PRO
+                    </span>
+                  </span>
                 </div>
               </div>
               {this.state.showMeters && (
@@ -1503,12 +1574,30 @@ export class Dashboard extends Component {
 
               {/** Table | (Popular vs Alert History) */}
               <div className='d-flex flex-row data-section-small flex-wrap'>
-                {this.state.showStream && this.renderStream()}
+                {this.props.isPro &&
+                  this.state.showStream &&
+                  this.renderStream()}
 
-                <div className='d-flex grid-margin stretch-card flex-column pr-0 popular-table'>
+                <div
+                  className={
+                    this.props.isPro
+                      ? 'd-flex grid-margin stretch-card flex-column pr-0 popular-table'
+                      : 'basic-container'
+                  }
+                >
                   {this.state.showPopular && (
-                    <div className='card'>
-                      <div style={{ flex: '1 1 auto', padding: '1rem' }}>
+                    <div
+                      className={
+                        this.props.isPro ? 'card' : 'card basic-popular'
+                      }
+                    >
+                      <div
+                        style={{
+                          flex: '1 1 auto',
+                          padding: '1rem',
+                          maxHeight: 167,
+                        }}
+                      >
                         <div className='d-flex flex-row justify-content-between'>
                           <h4 style={{ marginBottom: '0px' }}>Popular</h4>
                         </div>
@@ -1535,11 +1624,22 @@ export class Dashboard extends Component {
                       </div>
                     </div>
                   )}
-                  {this.state.showAlertHistory && this.state.showPopular && (
-                    <div className='data-separator'></div>
-                  )}
+                  {this.state.showAlertHistory &&
+                    this.state.showPopular &&
+                    (this.props.isPro ? (
+                      <div className='data-separator'></div>
+                    ) : (
+                      <div className='basic-data-separator' />
+                    ))}
                   {this.state.showAlertHistory && (
-                    <div className='card flex-fill'>
+                    <div
+                      className='card flex-fill'
+                      style={{
+                        height: this.props.isPro ? 263 : 200,
+                        overflow: 'hidden',
+                        paddingBottom: 8,
+                      }}
+                    >
                       <div style={{ flex: '1 1 auto', padding: '1rem' }}>
                         <div className='d-flex flex-row justify-content-between'>
                           <h4 style={{ marginBottom: '0px' }}>Alert History</h4>
@@ -1556,8 +1656,12 @@ export class Dashboard extends Component {
                 </div>
               </div>
 
-              {/** Discovery */}
+              {/** Basic Stream */}
+              {!this.props.isPro &&
+                this.state.showStream &&
+                this.renderStream()}
 
+              {/** Discovery */}
               {this.props.isPro &&
                 this.state.showDiscovery &&
                 this.renderDiscovery()}
