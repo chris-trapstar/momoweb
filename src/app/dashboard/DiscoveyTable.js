@@ -64,7 +64,7 @@ class DiscoveryTable extends Component {
     const roundedValue = this._round(data, decimals);
     return (
       <div
-        style={{ color: data > 0 ? "#00d25b" : "#fc424a" }}
+        style={{ color: data > 0 ? '#00d25b' : '#fc424a' }}
         onClick={(e) => this.toggleMenu(e, symbol)}
       >
         {roundedValue > 0
@@ -143,17 +143,10 @@ class DiscoveryTable extends Component {
                     width={200}
                     label='Last'
                     dataKey='last'
-                    
                     cellRenderer={({ cellData, rowData }) => (
-                      
-                      <div onClick={(e) => this.toggleMenu(e, rowData.symbol)} >
-                        <div style={{width:50}}>
-                         
-                          <span style={{color:'#9B9B9C'}}>{cellData}</span>
-                          <div style={{fontSize:9, marginLeft:20}}>
-                          {/* TODO: chnaged it according to requirements as the rate of change is provided (very next line)*/}
-                            {this._setColorOnValue(rowData.symbol, rowData.uVol, '', '')}
-                          </div>
+                      <div onClick={(e) => this.toggleMenu(e, rowData.symbol)}>
+                        <div style={{ width: 50 }}>
+                          <span style={{ color: '#9B9B9C' }}>{cellData}</span>
                         </div>
                       </div>
                     )}
@@ -163,7 +156,10 @@ class DiscoveryTable extends Component {
                     label='Volume'
                     dataKey='volume'
                     cellRenderer={({ cellData, rowData }) => (
-                      <div onClick={(e) => this.toggleMenu(e, rowData.symbol)} style={{color:'#9B9B9C'}}>
+                      <div
+                        onClick={(e) => this.toggleMenu(e, rowData.symbol)}
+                        style={{ color: '#9B9B9C' }}
+                      >
                         {cellData}
                       </div>
                     )}
