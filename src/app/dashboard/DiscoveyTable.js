@@ -118,10 +118,9 @@ class DiscoveryTable extends Component {
                 <Table
                   height={600}
                   rowHeight={65}
-                  headerHeight={50}
                   sort={this._sort}
-                  height={600}
-                  width={width+270}
+                  headerHeight={50}
+                  width={width+360}
                   style={{ fontSize: 14 }}
                   sortBy={this.state.sortBy}
                   onRowsRendered={onRowsRendered}
@@ -133,7 +132,7 @@ class DiscoveryTable extends Component {
                   }
                 >
                   <Column
-                    width={220}
+                    width={200}
                     label='Symbol'
                     dataKey='symbol'
                     style={{ fontWeight: 600 }}
