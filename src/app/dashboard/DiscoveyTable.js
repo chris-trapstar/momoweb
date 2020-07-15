@@ -12,6 +12,7 @@ import { ContextMenuTrigger } from 'react-contextmenu';
 let contextTrigger = null;
 let alertContextTrigger = null;
 class DiscoveryTable extends Component {
+  
   constructor() {
     super();
     this._sort = this._sort.bind(this);
@@ -21,10 +22,11 @@ class DiscoveryTable extends Component {
     this.state = {
       items: [],
       sortedList: [],
-      sortBy: 'symbol',
+      sortBy: '',
       sortDirection: SortDirection.DESC,
     };
   }
+  
   componentWillReceiveProps(props) {
     if (props.discoveryData)
       this.setState({
@@ -33,6 +35,7 @@ class DiscoveryTable extends Component {
       });
   }
 
+  
   loadMore() {
     return new Promise((resolve, reject) => {
       this.promiseResolve = resolve;
@@ -113,11 +116,11 @@ class DiscoveryTable extends Component {
             <AutoSizer>
               {({ width }) => (
                 <Table
-                  width={1320}
                   height={600}
                   rowHeight={65}
-                  headerHeight={50}
                   sort={this._sort}
+                  headerHeight={50}
+                  width={width+360}
                   style={{ fontSize: 14 }}
                   sortBy={this.state.sortBy}
                   onRowsRendered={onRowsRendered}
@@ -129,7 +132,7 @@ class DiscoveryTable extends Component {
                   }
                 >
                   <Column
-                    width={220}
+                    width={200}
                     label='Symbol'
                     dataKey='symbol'
                     style={{ fontWeight: 600 }}

@@ -468,7 +468,10 @@ export class Dashboard extends Component {
         /** Cover Table Cell With Popover Trigger */
         renderData.push(
           // high[3] === 1 means Active
-          <tr key={`render-stock-data-table-low-${index}`}>
+          <tr
+            key={`render-stock-data-table-low-${index}`}
+            style={{ height: '100%' }}
+          >
             <td className='text-low flex-fill'>
               <label
                 className={`stock-text ${
@@ -522,7 +525,10 @@ export class Dashboard extends Component {
         /** Cover Table Cell With Popover Trigger */
         renderData.push(
           // high[3] === 1 means Active
-          <tr key={`render-stock-data-table-high-${index}`}>
+          <tr
+            key={`render-stock-data-table-high-${index}`}
+            style={{ height: '100%' }}
+          >
             <td className='text-high flex-fill'>
               <label
                 className={`stock-text ${
@@ -1072,7 +1078,16 @@ export class Dashboard extends Component {
           index={discoveryIndex}
           discoveryData={discoveryDataFiltered.map(
             (
-              { symbol, last, volume, momentum, uVol, vWapDist, short, price_dist },
+              {
+                symbol,
+                last,
+                volume,
+                momentum,
+                uVol,
+                vWapDist,
+                short,
+                price_dist,
+              },
               index
             ) => {
               return {
@@ -1147,8 +1162,11 @@ export class Dashboard extends Component {
               {this.renderData(highs, 'high')}
             </div>
           ) : (
-            <div className='card-body stream-body'>
-              <div className='row'>
+            <div
+              className={'card-body stream-body'}
+              style={{ height: max ? '80vh' : '48vh' }}
+            >
+              <div className='row' style={{ height: '100%' }}>
                 {this.renderData(lows, 'low')}
                 {this.renderData(highs, 'high')}
               </div>
@@ -1635,7 +1653,7 @@ export class Dashboard extends Component {
                     <div
                       className='card flex-fill'
                       style={{
-                        height: this.props.isPro ? 263 : 200,
+                        height: 200,
                         overflow: 'hidden',
                         paddingBottom: 8,
                       }}
