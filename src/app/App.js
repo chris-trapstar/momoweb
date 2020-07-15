@@ -19,15 +19,16 @@ import { AuthActions } from './store';
 import API from './api';
 import * as DataSource from './DataSource'
 
-const messaging = firebase.messaging();
-
-messaging.onMessage((payload) => {
-  console.info('Firebase Notification Received:', payload)
-  const message = payload.notification.body
-  cogoToast.info(message)
-  const event = new CustomEvent('alert', { detail: message });
-  window.dispatchEvent(event)
-})
+if (firebase.messaging.isSupported()) {
+  const messaging = firebase.messaging();
+  messaging.onMessage((payload) => {
+    console.info('Firebase Notification Received:', payload)
+    const message = payload.notification.body
+    cogoToast.info(message)
+    const event = new CustomEvent('alert', { detail: message });
+    window.dispatchEvent(event)
+  })
+}
 
 class App extends Component {
   onLogout = () => {
