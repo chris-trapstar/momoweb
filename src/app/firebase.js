@@ -12,6 +12,7 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-
-const messaging = firebase.messaging();
-messaging.usePublicVapidKey('BK2-U9-08q7v1U1Bs2UltDFqCLSNlEcUuI2ZuWm_KRd4UbVADuJFjnRawWFYdbWfa2ig2Rd0H-ewJY7H6bBYp8o');
+if (firebase.messaging.isSupported()) {
+  const messaging = firebase.messaging();
+  messaging.usePublicVapidKey('BK2-U9-08q7v1U1Bs2UltDFqCLSNlEcUuI2ZuWm_KRd4UbVADuJFjnRawWFYdbWfa2ig2Rd0H-ewJY7H6bBYp8o');
+}
