@@ -26,6 +26,7 @@ jobs:
       - run: yarn
       - run: npm run build
       - run: aws s3 sync ./build s3://momoweb.com --delete
+      - run: aws cloudfront create-invalidation --distribution-id E2QQY99V5G57TD --paths "/*"
 
       - save_cache:
           paths:
