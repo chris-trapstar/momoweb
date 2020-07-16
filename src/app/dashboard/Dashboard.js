@@ -953,15 +953,15 @@ export class Dashboard extends Component {
               )}
             </div>
           ) : index === 2 ? (
-            <div key={`popular-data-h5-${index + i}`}>
+            <div key={`popular-data-h6-${index + i}`}>
               <ContextMenuTrigger
-                id={`popular-data-h5${index + i}`}
+                id={`popular-data-h6-${index + i}`}
                 holdToDisplay={0}
               >
-                <h6 className='pr-2 '>{item}</h6>
+                <h6 className='pr-2'>{item}</h6>
               </ContextMenuTrigger>
               {this.getMenuItems(
-                `popular-data-h5-${index + i}`,
+                `popular-data-h6-${index + i}`,
                 [item, '', '', '', '', ''],
                 ''
               )}
@@ -1624,7 +1624,6 @@ export class Dashboard extends Component {
                             marginLeft: '2rem',
                             marginTop: '0.4rem',
                             textTransform: 'uppercase',
-                            
                           }}
                         >
                           <div className='d-flex flex-row flex-fill flex-wrap'>
@@ -1659,13 +1658,16 @@ export class Dashboard extends Component {
                         paddingBottom: 8,
                       }}
                     >
-                      <div style={{ height:200, padding: '1rem' , }}>
+                      <div style={{ height: 200, padding: '1rem' }}>
                         <div className='d-flex flex-row justify-content-between'>
                           <h4 style={{ marginBottom: '0px' }}>Alert History</h4>
                         </div>
-                        <div className='data-section alert-section' style={{maxHeight:'148px'}}>
+                        <div
+                          className='data-section alert-section'
+                          style={{ maxHeight: '148px' }}
+                        >
                           <div className='d-flex flex-row flex-fill alert-history-separator' />
-                          <div className='alert-history-data' >
+                          <div className='alert-history-data'>
                             {this.renderAlertHistory()}
                           </div>
                         </div>
