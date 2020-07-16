@@ -135,7 +135,7 @@ class DiscoveryTable extends Component {
                     width={200}
                     label='Symbol'
                     dataKey='symbol'
-                    style={{ fontWeight: 600 }}
+                    style={{ fontWeight: 600 , paddingLeft:10}}
                     cellRenderer={({ cellData }) => (
                       <div onClick={(e) => this.toggleMenu(e, cellData)}>
                         {cellData}

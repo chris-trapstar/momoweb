@@ -1613,7 +1613,7 @@ export class Dashboard extends Component {
                         style={{
                           flex: '1 1 auto',
                           padding: '1rem',
-                          maxHeight: 167,
+                          maxHeight: 400,
                         }}
                       >
                         <div className='d-flex flex-row justify-content-between'>
@@ -1624,6 +1624,7 @@ export class Dashboard extends Component {
                             marginLeft: '2rem',
                             marginTop: '0.4rem',
                             textTransform: 'uppercase',
+                            
                           }}
                         >
                           <div className='d-flex flex-row flex-fill flex-wrap'>
@@ -1658,13 +1659,13 @@ export class Dashboard extends Component {
                         paddingBottom: 8,
                       }}
                     >
-                      <div style={{ flex: '1 1 auto', padding: '1rem' }}>
+                      <div style={{ height:200, padding: '1rem' , }}>
                         <div className='d-flex flex-row justify-content-between'>
                           <h4 style={{ marginBottom: '0px' }}>Alert History</h4>
                         </div>
-                        <div className='data-section alert-section'>
+                        <div className='data-section alert-section' style={{maxHeight:'148px'}}>
                           <div className='d-flex flex-row flex-fill alert-history-separator' />
-                          <div className='alert-history-data'>
+                          <div className='alert-history-data' >
                             {this.renderAlertHistory()}
                           </div>
                         </div>
