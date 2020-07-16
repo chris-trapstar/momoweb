@@ -28,6 +28,23 @@
   text-transform: capitalize;
 }
 
+.table-style{
+  width: 1320px;
+  font-size: 14px;
+}
+@media only screen and (max-width: 768px) {
+  .table-style{
+    width: 600px;
+  }
+}
+
+.ReactVirtualized__Table__sortableHeaderIcon{
+  align-self: center;
+  height: 24px !important;
+  width: 24px !important;
+  fill: #FFFF00 !important;
+}
+
 .evenRow {
   cursor: pointer;
   background-color: #191c24;
