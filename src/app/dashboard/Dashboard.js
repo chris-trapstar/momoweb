@@ -1234,10 +1234,18 @@ export class Dashboard extends Component {
       <div className={max ? 'w-100' : 'd-flex flex-row data-section'}>
         <div className='col-12 px-0'>
           <div className='card'>
-            <div style={{ flex: '1 1 auto', padding: '1rem' }}>
+            <div style={{ flex: '1 1 auto' }}>
               <div className='row'>
                 <div className='col-12 '>
-                  <div className='d-flex flex-row justify-content-between text-center flex-wrap mb-2'>
+                  <div
+                    className='d-flex flex-row justify-content-between text-center flex-wrap mb-2'
+                    style={{
+                      paddingLeft: '1rem',
+                      paddingRight: '1rem',
+                      paddingBottom: '0.4rem',
+                      paddingTop: '1rem',
+                    }}
+                  >
                     <h4
                       className='card-title mb-1 py-1'
                       style={{ display: 'flex' }}

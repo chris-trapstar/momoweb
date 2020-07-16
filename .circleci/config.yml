@@ -26,7 +26,10 @@ jobs:
       - run: yarn
       - run: npm run build
       - run: aws s3 sync ./build s3://momoweb.com --delete
+      # Invalidate CloudFront - beta.momoweb.mometic.com 
       - run: aws cloudfront create-invalidation --distribution-id E2QQY99V5G57TD --paths "/*"
+      # Invalidate CloudFront - dev.mometic.com
+      - run: aws cloudfront create-invalidation --distribution-id EXFVBC592C5U9 --paths "/*"
 
       - save_cache:
           paths:
