@@ -807,3 +807,11 @@ th {
   height: 100%;
   overflow: scroll;
 }
+
+.alert-container {
+  flex: '1 1 auto'; 
+  padding: '1rem';
+  display: 'flex'; 
+  flex-direction: 'column'; 
+  height: 100%;
+}

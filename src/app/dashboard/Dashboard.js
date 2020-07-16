@@ -1658,7 +1658,7 @@ export class Dashboard extends Component {
                         paddingBottom: 8,
                       }}
                     >
-                      <div style={{ flex: '1 1 auto', padding: '1rem' }}>
+                      <div style={{ flex: '1 1 auto', padding: '1rem', display: 'flex', flexDirection: 'column' }} className="alert-container">
                         <div className='justify-content-between'>
                           <h4 style={{ marginBottom: '0px' }}>Alert History</h4>
                         </div>
