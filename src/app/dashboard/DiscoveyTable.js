@@ -120,7 +120,7 @@ class DiscoveryTable extends Component {
                   rowHeight={65}
                   sort={this._sort}
                   headerHeight={50}
-                  width={width+360}
+                  width={width+280}
                   style={{ fontSize: 14 }}
                   sortBy={this.state.sortBy}
                   onRowsRendered={onRowsRendered}
@@ -135,7 +135,7 @@ class DiscoveryTable extends Component {
                     width={200}
                     label='Symbol'
                     dataKey='symbol'
-                    style={{ fontWeight: 600 }}
+                    style={{ fontWeight: 600 , paddingLeft:10}}
                     cellRenderer={({ cellData }) => (
                       <div onClick={(e) => this.toggleMenu(e, cellData)}>
                         {cellData}
@@ -193,7 +193,7 @@ class DiscoveryTable extends Component {
                     }
                   />
                   <Column
-                    width={120}
+                    width={160}
                     dataKey='alert'
                     label='Actions'
                     cellRenderer={({ cellData, rowData }) => (
