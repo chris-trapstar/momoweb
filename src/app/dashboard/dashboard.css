@@ -796,10 +796,6 @@ th {
   font-size: 0.9rem !important;
 }
 
-.alert-section {
-  height: 100%;
-}
-
 .remove-cursor {
   cursor: pointer !important;
 }
@@ -808,4 +804,12 @@ th {
   height: 100%;
   overflow: scroll;
   max-height: 240px;
+}
+
+.alert-container {
+  flex: '1 1 auto'; 
+  padding: '1rem';
+  display: 'flex'; 
+  flex-direction: 'column'; 
+  height: 100%;
 }
