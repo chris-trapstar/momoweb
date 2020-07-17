@@ -3,6 +3,35 @@
   height: 200px;
   margin-left: 0;
   flex-direction: column;
+  max-width: 100% !important;
+}
+@media (min-width: 992px){
+  .container{
+    max-width: 100% !important;
+  }
+}
+@media (min-width: 768px){
+  .container{
+    max-width: 100% !important;
+  }
+
+}
+@media (min-width: 576px){
+  .container{
+    max-width: 100% !important;
+  }
+}
+@media (min-width: 1200px){
+  .container{
+    max-width: 130% !important;
+  }
+}
+
+.ReactVirtualized__Table__headerRow{
+  justify-content: space-between;
+}
+.ReactVirtualized__Table__row{
+  justify-content: space-between;
 }
 
 .table-row {
@@ -52,7 +81,6 @@
 .tableTextColor{
   color:'#9B9B9C'
 }
-
 .oddRow {
   cursor: pointer;
   background-color: black;

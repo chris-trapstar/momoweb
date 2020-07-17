@@ -463,6 +463,8 @@ export class Dashboard extends Component {
     const { isSmallDevice, max } = this.state;
     let renderData = [];
     let renderMenuItems = [];
+
+
     if (type === 'low') {
       data.map((low, index) => {
         /** Cover Table Cell With Popover Trigger */
@@ -571,7 +573,6 @@ export class Dashboard extends Component {
             </td>
           </tr>
         );
-
         /** Add Popover For this item */
 
         renderMenuItems.push(
@@ -581,7 +582,7 @@ export class Dashboard extends Component {
     }
     return (
       <div
-        className={'col-md-6 tableFixHead nopadding' + (max ? 'table-max' : '')}
+        className={'col-md-6 tableFixHead nopadding' + (max ? ' table-max' : '')}
       >
         <table className='table table-striped'>
           <thead>
@@ -1076,6 +1077,8 @@ export class Dashboard extends Component {
       <div>
         <DiscoveryTable
           index={discoveryIndex}
+          discoverySector={this.state.discoverySector}
+          discoveryFilter={this.state.discoveryFilter}
           discoveryData={discoveryDataFiltered.map(
             (
               {
@@ -1157,7 +1160,7 @@ export class Dashboard extends Component {
             />
           </div>
           {isSmallDevice ? (
-            <div className='d-flex flex-row'>
+            <div className='d-flex flex-row'  >
               {this.renderData(lows, 'low')}
               {this.renderData(highs, 'high')}
             </div>
@@ -1672,7 +1675,7 @@ export class Dashboard extends Component {
                         </div>
                         <div
                           className='data-section alert-section'
-                          style={{ maxHeight: '148px' }}
+                          
                         >
                           <div className='d-flex flex-row flex-fill alert-history-separator' />
                           <div className='alert-history-data'>

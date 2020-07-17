@@ -566,12 +566,11 @@ th {
 }
 
 .table-max {
-  height: calc(100vh - 15rem) !important;
+  height: calc(100vh - 20vh) !important;
   overflow: scroll;
 }
 
 .discovery-normal {
-  padding-right: 1rem;
   height: calc(50vh);
 }
 

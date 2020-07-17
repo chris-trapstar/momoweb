@@ -24,15 +24,23 @@ class DiscoveryTable extends Component {
       sortedList: [],
       sortBy: '',
       sortDirection: SortDirection.DESC,
+      discoverySector:'Industry'
+
     };
   }
-  
+
+
   componentWillReceiveProps(props) {
     if (props.discoveryData)
       this.setState({
         items: props.discoveryData,
-        sortedList: props.discoveryData,
-      });
+        sortedList:this.state.sortBy===''? 
+                    props.discoveryData:this.state.sortedList,
+        sortBy:this.state.discoverySector===props.discoverySector  
+                && props.discoveryFilter ===''
+                ?this.state.sortBy:'',
+        discoverySector:props.discoverySector,
+      });      
   }
 
   
@@ -43,15 +51,18 @@ class DiscoveryTable extends Component {
   }
 
   _sort({ sortBy }) {
-    const sortedList = this._sortList(sortBy, this.state.sortDirection);
-    this.setState({
-      sortBy,
-      sortDirection:
-        this.state.sortDirection === SortDirection.DESC
-          ? SortDirection.ASC
-          : SortDirection.DESC,
-      sortedList,
-    });
+    if(sortBy!=='alert')
+    { 
+      const sortedList = this._sortList(sortBy, this.state.sortDirection);
+      this.setState({
+        sortBy,
+        sortDirection:
+          this.state.sortDirection === SortDirection.DESC
+            ? SortDirection.ASC
+            : SortDirection.DESC,
+        sortedList,
+      });
+    }
   }
 
   _sortList(sortBy, sortDirection) {
@@ -113,14 +124,14 @@ class DiscoveryTable extends Component {
           rowCount={this.state.sortedList.length}
         >
           {({ onRowsRendered }) => (
-            <AutoSizer>
+            <AutoSizer >
               {({ width }) => (
                 <Table
                   height={600}
                   rowHeight={65}
                   sort={this._sort}
                   headerHeight={50}
-                  width={width+280}
+                  width={width}
                   style={{ fontSize: 14 }}
                   sortBy={this.state.sortBy}
                   onRowsRendered={onRowsRendered}
