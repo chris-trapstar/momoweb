@@ -31,12 +31,8 @@ class DiscoveryTable extends Component {
     if (props.discoveryData)
       this.setState({
         items: props.discoveryData,
-        sortedList: props.discoveryData,
-      });
-      if(this.state.sortBy!==''){
-        this._sort({sortBy:this.state.sortBy})
-      }
-      
+        sortedList:this.state.sortBy===''? props.discoveryData:this.state.sortedList,
+      });      
   }
 
   
@@ -47,15 +43,18 @@ class DiscoveryTable extends Component {
   }
 
   _sort({ sortBy }) {
-    const sortedList = this._sortList(sortBy, this.state.sortDirection);
-    this.setState({
-      sortBy,
-      sortDirection:
-        this.state.sortDirection === SortDirection.DESC
-          ? SortDirection.ASC
-          : SortDirection.DESC,
-      sortedList,
-    });
+    if(sortBy!=='alert')
+    { 
+      const sortedList = this._sortList(sortBy, this.state.sortDirection);
+      this.setState({
+        sortBy,
+        sortDirection:
+          this.state.sortDirection === SortDirection.DESC
+            ? SortDirection.ASC
+            : SortDirection.DESC,
+        sortedList,
+      });
+    }
   }
 
   _sortList(sortBy, sortDirection) {

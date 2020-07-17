@@ -566,7 +566,7 @@ th {
 }
 
 .table-max {
-  height: calc(100vh - 15rem) !important;
+  height: calc(100vh - 20vh) !important;
   overflow: scroll;
 }
 
