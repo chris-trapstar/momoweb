@@ -463,6 +463,7 @@ export class Dashboard extends Component {
     const { isSmallDevice, max } = this.state;
     let renderData = [];
     let renderMenuItems = [];
+
     if (type === 'low') {
       data.map((low, index) => {
         /** Cover Table Cell With Popover Trigger */
@@ -582,7 +583,7 @@ export class Dashboard extends Component {
     return (
       <div
         className={'col-md-6 tableFixHead nopadding' + (max ? 'table-max' : '')}
-        style={{height:max?'100vh':'calc(45vh)'}}
+        style={{height:max?'80vh':'calc(45vh)'}}
       >
         <table className='table table-striped'>
           <thead>
