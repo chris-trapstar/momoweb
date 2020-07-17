@@ -684,7 +684,7 @@ export class Dashboard extends Component {
             <div className='row align-items-center mt-1'>
               <img
                 className={'context-menu-item-icon-style'}
-                style={{ height: 16, width: 16 }}
+                style={{ height: 16, width: 25 }}
                 src={require('../../assets/images/dashboard/cnbc.png')}
               />
               <span className='medium white-no-wrap bar-txt'>CNBC</span>
@@ -704,7 +704,7 @@ export class Dashboard extends Component {
             <div className='row align-items-center mt-1'>
               <img
                 className={'context-menu-item-icon-style'}
-                style={{ height: 16, width: 16 }}
+                style={{ height: 13, width: 25 }}
                 src={require('../../assets/images/dashboard/marketwatch.png')}
               />
               <span className='medium white-no-wrap bar-txt'>MarketWatch</span>
@@ -724,7 +724,7 @@ export class Dashboard extends Component {
             <div className='row align-items-center mt-1'>
               <img
                 className={'context-menu-item-icon-style'}
-                style={{ height: 16, width: 16 }}
+                style={{ height: 22, width: 25 }}
                 src={require('../../assets/images/dashboard/seekingalpha.png')}
               />
               <span className='medium white-no-wrap bar-txt'>
@@ -746,7 +746,7 @@ export class Dashboard extends Component {
             <div className='row align-items-center mt-1'>
               <i
                 className='mdi mdi-chart-line-variant popover-icon context-menu-item-icon-style'
-                style={{ height: 16, width: 16, marginTop: -10 }}
+                style={{ height: 21, width: 25, marginTop: -10 }}
               />
               <span className='medium white-no-wrap bar-txt'>Nasdaq</span>
             </div>
@@ -765,7 +765,7 @@ export class Dashboard extends Component {
             <div className='row align-items-center mt-1'>
               <img
                 className={'context-menu-item-icon-style'}
-                style={{ height: 16, width: 16 }}
+                style={{ height: 25, width: 24 }}
                 src={require('../../assets/images/dashboard/stocktwits.png')}
               />
               <span className='medium white-no-wrap bar-txt'>Stocktwits</span>
@@ -1658,7 +1658,7 @@ export class Dashboard extends Component {
                         paddingBottom: 8,
                       }}
                     >
-                      <div style={{ flex: '1 1 auto', padding: '1rem', display: 'flex', flexDirection: 'column' }} className="alert-container">
+                      <div style={{}} className="alert-container">
                         <div className='justify-content-between'>
                           <h4 style={{ marginBottom: '0px' }}>Alert History</h4>
                         </div>
