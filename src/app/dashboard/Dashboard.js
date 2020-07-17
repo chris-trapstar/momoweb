@@ -228,7 +228,7 @@ export class Dashboard extends Component {
         field: 'symbol',
         type: 'none',
       },
-      discoverySector: 'Industry',
+      discoverySector: '',
       discoverySelectedSymbol: '',
       discoverAlerySelected: {
         symbol: '',
@@ -1077,6 +1077,7 @@ export class Dashboard extends Component {
       <div>
         <DiscoveryTable
           index={discoveryIndex}
+          discoverySector={this.state.discoverySector}
           discoveryData={discoveryDataFiltered.map(
             (
               {

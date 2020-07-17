@@ -24,14 +24,19 @@ class DiscoveryTable extends Component {
       sortedList: [],
       sortBy: '',
       sortDirection: SortDirection.DESC,
+      discoverySector:'industry'
+
     };
   }
-  
+
+
   componentWillReceiveProps(props) {
     if (props.discoveryData)
       this.setState({
         items: props.discoveryData,
-        sortedList:this.state.sortBy===''? props.discoveryData:this.state.sortedList,
+        sortedList:this.sortBy!==''? props.discoveryData:this.state.sortedList,
+        sortBy:this.state.discoverySector===props.discoverySector?this.state.sortBy:'',
+        discoverySector:props.discoverySector,
       });      
   }
 
