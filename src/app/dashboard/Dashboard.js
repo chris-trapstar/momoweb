@@ -1675,7 +1675,7 @@ export class Dashboard extends Component {
                         </div>
                         <div
                           className='data-section alert-section'
-                          style={{ maxHeight: '148px' }}
+                          
                         >
                           <div className='d-flex flex-row flex-fill alert-history-separator' />
                           <div className='alert-history-data'>
