@@ -953,15 +953,15 @@ export class Dashboard extends Component {
               )}
             </div>
           ) : index === 2 ? (
-            <div key={`popular-data-h5-${index + i}`}>
+            <div key={`popular-data-h6-${index + i}`}>
               <ContextMenuTrigger
-                id={`popular-data-h5${index + i}`}
+                id={`popular-data-h6-${index + i}`}
                 holdToDisplay={0}
               >
-                <h6 className='pr-2 '>{item}</h6>
+                <h6 className='pr-2'>{item}</h6>
               </ContextMenuTrigger>
               {this.getMenuItems(
-                `popular-data-h5-${index + i}`,
+                `popular-data-h6-${index + i}`,
                 [item, '', '', '', '', ''],
                 ''
               )}
@@ -1234,10 +1234,18 @@ export class Dashboard extends Component {
       <div className={max ? 'w-100' : 'd-flex flex-row data-section'}>
         <div className='col-12 px-0'>
           <div className='card'>
-            <div style={{ flex: '1 1 auto', padding: '1rem' }}>
+            <div style={{ flex: '1 1 auto' }}>
               <div className='row'>
                 <div className='col-12 '>
-                  <div className='d-flex flex-row justify-content-between text-center flex-wrap mb-2'>
+                  <div
+                    className='d-flex flex-row justify-content-between text-center flex-wrap mb-2'
+                    style={{
+                      paddingLeft: '1rem',
+                      paddingRight: '1rem',
+                      paddingBottom: '0.4rem',
+                      paddingTop: '1rem',
+                    }}
+                  >
                     <h4
                       className='card-title mb-1 py-1'
                       style={{ display: 'flex' }}
@@ -1613,7 +1621,7 @@ export class Dashboard extends Component {
                         style={{
                           flex: '1 1 auto',
                           padding: '1rem',
-                          maxHeight: 167,
+                          maxHeight: 400,
                         }}
                       >
                         <div className='d-flex flex-row justify-content-between'>
@@ -1662,7 +1670,10 @@ export class Dashboard extends Component {
                         <div className='justify-content-between'>
                           <h4 style={{ marginBottom: '0px' }}>Alert History</h4>
                         </div>
-                        <div className='data-section alert-section'>
+                        <div
+                          className='data-section alert-section'
+                          style={{ maxHeight: '148px' }}
+                        >
                           <div className='d-flex flex-row flex-fill alert-history-separator' />
                           <div className='alert-history-data'>
                             {this.renderAlertHistory()}
