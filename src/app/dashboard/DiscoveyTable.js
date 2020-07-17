@@ -24,7 +24,7 @@ class DiscoveryTable extends Component {
       sortedList: [],
       sortBy: '',
       sortDirection: SortDirection.DESC,
-      discoverySector:'industry'
+      discoverySector:'Industry'
 
     };
   }
@@ -34,8 +34,8 @@ class DiscoveryTable extends Component {
     if (props.discoveryData)
       this.setState({
         items: props.discoveryData,
-        sortedList:this.sortBy!==''? props.discoveryData:this.state.sortedList,
-        sortBy:this.state.discoverySector===props.discoverySector?this.state.sortBy:'',
+        sortedList:this.state.sortBy==='' || props.discoveryFilter !=[]? props.discoveryData:this.state.sortedList,
+        sortBy:this.state.discoverySector===props.discoverySector && props.discoveryFilter===[] ?this.state.sortBy:'',
         discoverySector:props.discoverySector,
       });      
   }

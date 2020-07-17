@@ -228,7 +228,7 @@ export class Dashboard extends Component {
         field: 'symbol',
         type: 'none',
       },
-      discoverySector: '',
+      discoverySector: 'Industry',
       discoverySelectedSymbol: '',
       discoverAlerySelected: {
         symbol: '',
@@ -1078,6 +1078,7 @@ export class Dashboard extends Component {
         <DiscoveryTable
           index={discoveryIndex}
           discoverySector={this.state.discoverySector}
+          discoveryFilter={this.discoveryFilter}
           discoveryData={discoveryDataFiltered.map(
             (
               {
@@ -1403,6 +1404,7 @@ export class Dashboard extends Component {
         .filter(this.favFilter)
         .filter(this.sectorFilter);
     }
+    console.log(discoveryDataFiltered)
     this.setState({ discoveryFilter, discoveryDataFiltered });
   };
 
