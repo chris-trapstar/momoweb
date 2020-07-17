@@ -33,6 +33,10 @@ class DiscoveryTable extends Component {
         items: props.discoveryData,
         sortedList: props.discoveryData,
       });
+      if(this.state.sortBy!==''){
+        this._sort({sortBy:this.state.sortBy})
+      }
+      
   }
 
   
@@ -113,14 +117,14 @@ class DiscoveryTable extends Component {
           rowCount={this.state.sortedList.length}
         >
           {({ onRowsRendered }) => (
-            <AutoSizer>
+            <AutoSizer >
               {({ width }) => (
                 <Table
                   height={600}
                   rowHeight={65}
                   sort={this._sort}
                   headerHeight={50}
-                  width={width+280}
+                  width={width}
                   style={{ fontSize: 14 }}
                   sortBy={this.state.sortBy}
                   onRowsRendered={onRowsRendered}

@@ -582,6 +582,7 @@ export class Dashboard extends Component {
     return (
       <div
         className={'col-md-6 tableFixHead nopadding' + (max ? 'table-max' : '')}
+        style={{height:max?'100vh':'calc(45vh)'}}
       >
         <table className='table table-striped'>
           <thead>
@@ -1157,7 +1158,7 @@ export class Dashboard extends Component {
             />
           </div>
           {isSmallDevice ? (
-            <div className='d-flex flex-row'>
+            <div className='d-flex flex-row'  >
               {this.renderData(lows, 'low')}
               {this.renderData(highs, 'high')}
             </div>
