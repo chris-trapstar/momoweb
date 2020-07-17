@@ -1078,7 +1078,7 @@ export class Dashboard extends Component {
         <DiscoveryTable
           index={discoveryIndex}
           discoverySector={this.state.discoverySector}
-          discoveryFilter={this.discoveryFilter}
+          discoveryFilter={this.state.discoveryFilter}
           discoveryData={discoveryDataFiltered.map(
             (
               {
@@ -1404,7 +1404,6 @@ export class Dashboard extends Component {
         .filter(this.favFilter)
         .filter(this.sectorFilter);
     }
-    console.log(discoveryDataFiltered)
     this.setState({ discoveryFilter, discoveryDataFiltered });
   };
 

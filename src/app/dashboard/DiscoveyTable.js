@@ -34,8 +34,11 @@ class DiscoveryTable extends Component {
     if (props.discoveryData)
       this.setState({
         items: props.discoveryData,
-        sortedList:this.state.sortBy==='' || props.discoveryFilter !=[]? props.discoveryData:this.state.sortedList,
-        sortBy:this.state.discoverySector===props.discoverySector && props.discoveryFilter===[] ?this.state.sortBy:'',
+        sortedList:this.state.sortBy===''? 
+                    props.discoveryData:this.state.sortedList,
+        sortBy:this.state.discoverySector===props.discoverySector  
+                && props.discoveryFilter ===''
+                ?this.state.sortBy:'',
         discoverySector:props.discoverySector,
       });      
   }
