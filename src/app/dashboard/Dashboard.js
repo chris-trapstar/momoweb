@@ -225,7 +225,7 @@ export class Dashboard extends Component {
       discoveryNoDataText: 'Loading...',
       discoveryIndex: 50,
       discoverySort: {
-        field: 'symbol',
+        field: 'price_dist',
         type: 'none',
       },
       discoverySector: 'Industry',
