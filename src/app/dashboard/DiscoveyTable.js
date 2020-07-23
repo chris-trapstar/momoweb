@@ -146,7 +146,7 @@ class DiscoveryTable extends Component {
                     width={200}
                     label='Symbol'
                     dataKey='symbol'
-                    style={{ fontWeight: 600 , paddingLeft:10}}
+                    style={{ fontWeight: 600 , paddingLeft:10 }}
                     cellRenderer={({ cellData }) => (
                       <div onClick={(e) => this.toggleMenu(e, cellData)}>
                         {cellData}
@@ -197,8 +197,8 @@ class DiscoveryTable extends Component {
                   />
                   <Column
                     width={200}
-                    label='WWAPDist'
-                    dataKey='vWapDist'
+                    label='VWAPDist'
+                    dataKey='vWAPDist'
                     cellRenderer={({ cellData, rowData }) =>
                       this._setColorOnValue(rowData.symbol, cellData, '%', '2')
                     }
@@ -216,7 +216,7 @@ class DiscoveryTable extends Component {
                             alertContextTrigger.handleContextClick(e);
                             this.props.onAlertTrigger(
                               cellData,
-                              rowData.vWapDist
+                              rowData.vWAPDist
                             );
                           }}
                         />
