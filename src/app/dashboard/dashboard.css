@@ -769,6 +769,7 @@ th {
 }
 
 .search-bar {
+  width: 70px;
   height: 26px;
   color: white;
   font-size: 14px;
@@ -784,6 +785,15 @@ th {
   cursor: default;
   background-color: rgba(0, 0, 0, 0.9);
   border-left: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+  @media all and (max-width: 374px) {
+  .item-wrap {
+    flex-wrap: wrap;
+  }
+  .search-bar {
+    width: 100%;
+  }
 }
 
 .no-wrap {
