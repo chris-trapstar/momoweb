@@ -287,7 +287,7 @@ export class Settings extends Component {
     const dic = {
       trade: 'Trade',
       uv: 'Unusual volume',
-      vwap: 'vWapDist',
+      vwap: 'vWAPDist',
       price: 'Price'
     }
     try {

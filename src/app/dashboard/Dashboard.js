@@ -232,7 +232,7 @@ export class Dashboard extends Component {
       discoverySelectedSymbol: '',
       discoverAlerySelected: {
         symbol: '',
-        vWapDist: '',
+        vWAPDist: '',
       },
       max: false,
       new_quote: '',
@@ -852,7 +852,7 @@ export class Dashboard extends Component {
     const dic = {
       'trade': 'Trade',
       'uv': 'Unusual volume',
-      'vwap': 'vWapDist',
+      'vwap': 'vWAPDist',
       'price': 'Price',
       'hi/lo': 'Hi/low',
     };
@@ -1087,7 +1087,7 @@ export class Dashboard extends Component {
                 volume,
                 momentum,
                 uVol,
-                vWapDist,
+                vWAPDist,
                 short,
                 price_dist,
               },
@@ -1100,7 +1100,7 @@ export class Dashboard extends Component {
                 volume: volume,
                 momentum: momentum,
                 uVol: uVol,
-                vWapDist: vWapDist,
+                vWAPDist: vWAPDist,
                 short: short,
                 alert: symbol,
                 price_dist,
@@ -1112,11 +1112,11 @@ export class Dashboard extends Component {
             this.setState({ discoverySelectedSymbol: symbol })
           }
           onSetSymbolFav={this.registerQuote}
-          onAlertTrigger={(symbol, vWapDist) =>
+          onAlertTrigger={(symbol, vWAPDist) =>
             this.setState({
               discoverAlerySelected: {
                 symbol: symbol,
-                vWapDist: vWapDist,
+                vWAPDist: vWAPDist,
               },
             })
           }
@@ -1180,18 +1180,18 @@ export class Dashboard extends Component {
     );
   };
 
-  onAlertMenuClick(symbol, type, vWapDist) {
-    this.registerAlert(symbol, type, vWapDist, vWapDist);
+  onAlertMenuClick(symbol, type, vWAPDist) {
+    this.registerAlert(symbol, type, vWAPDist, vWAPDist);
   }
   renderAlertMenu = (key) => {
     const symbol = this.state.discoverAlerySelected.symbol;
-    const vWapDist = this.state.discoverAlerySelected.vWapDist;
+    const vWAPDist = this.state.discoverAlerySelected.vWAPDist;
     return (
       <ContextMenu id={key} className='p-0' key={`alert_menu-item-${key}`}>
         <div className='context-menu-alert-style'>
           <MenuItem
             onClick={() => {
-              this.onAlertMenuClick(symbol, 'price', vWapDist);
+              this.onAlertMenuClick(symbol, 'price', vWAPDist);
             }}
           >
             <div className='row align-items-center mt-1'>
@@ -1200,7 +1200,7 @@ export class Dashboard extends Component {
           </MenuItem>
           <MenuItem
             onClick={() => {
-              this.onAlertMenuClick(symbol, 'vwap', vWapDist);
+              this.onAlertMenuClick(symbol, 'vwap', vWAPDist);
             }}
           >
             <div className='row align-items-center mt-1'>
@@ -1209,7 +1209,7 @@ export class Dashboard extends Component {
           </MenuItem>
           <MenuItem
             onClick={() => {
-              this.onAlertMenuClick(symbol, 'uv', vWapDist);
+              this.onAlertMenuClick(symbol, 'uv', vWAPDist);
             }}
           >
             <div className='row align-items-center mt-1'>
@@ -1218,7 +1218,7 @@ export class Dashboard extends Component {
           </MenuItem>
           <MenuItem
             onClick={() => {
-              this.onAlertMenuClick(symbol, 'hi/lo', vWapDist);
+              this.onAlertMenuClick(symbol, 'hi/lo', vWAPDist);
             }}
           >
             <div className='row align-items-center mt-1'>
@@ -1250,8 +1250,8 @@ export class Dashboard extends Component {
                     }}
                   >
                     <h4
-                      className='card-title mb-1 py-1'
-                      style={{ display: 'flex' }}
+                      className='d-flex card-title mb-1 py-1'
+                      style={{ flex: '1' }}
                     >
                       Discovery
                       <span
@@ -1268,103 +1268,105 @@ export class Dashboard extends Component {
                         PRO
                       </span>
                     </h4>
-                    <div className='d-flex flex-row mT15'>
-                      <div className='search-bar-wrapper search-bar-wrapper-hover'>
-                        <Dropdown varaint='btn btn-outline-secondary'>
-                          <Dropdown.Toggle className='industry_input'>
-                            {this.state.discoverySector}
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu>
-                            {this.state.sectors.map((sector) => {
-                              return (
-                                <Dropdown.Item
-                                  key={sector}
-                                  onClick={() => {
-                                    this.onChangeSector(sector);
-                                  }}
-                                  tabIndex='1'
-                                >
-                                  {sector}
-                                </Dropdown.Item>
-                              );
-                            })}
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </div>
+                    <div className='d-flex justify-content-between item-wrap' style={{ flex: '2' }}>
+                      <div className='d-flex flex-row mT15'>
+                        <div className='search-bar-wrapper search-bar-wrapper-hover'>
+                          <Dropdown varaint='btn btn-outline-secondary'>
+                            <Dropdown.Toggle className='industry_input'>
+                              {this.state.discoverySector}
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                              {this.state.sectors.map((sector) => {
+                                return (
+                                  <Dropdown.Item
+                                    key={sector}
+                                    onClick={() => {
+                                      this.onChangeSector(sector);
+                                    }}
+                                    tabIndex='1'
+                                  >
+                                    {sector}
+                                  </Dropdown.Item>
+                                );
+                              })}
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </div>
 
-                      <div
-                        className='search-bar-wrapper search-bar-wrapper-hover'
-                        style={{
-                          cursor: 'pointer',
-                          padding: 16,
-                          marginLeft: 8,
-                        }}
-                        onClick={this.onFavPress}
-                      >
-                        <i
-                          className={`${
-                            this.state.isFavFilter
-                              ? 'mdi mdi-star quote-star popover-icon'
-                              : 'mdi mdi-star text-white popover-icon'
-                          }`}
-                          style={{ alignSelf: 'center' }}
-                        />
-                        <span
+                        <div
+                          className='search-bar-wrapper search-bar-wrapper-hover'
                           style={{
-                            alignSelf: 'center',
-                            marginLeft: 4,
-                            fontSize: 15,
+                            cursor: 'pointer',
+                            padding: 16,
+                            marginLeft: 8,
                           }}
+                          onClick={this.onFavPress}
                         >
-                          Favorites
-                        </span>
-                      </div>
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'row' }}>
-                      <div
-                        className='search-bar-wrapper search-bar-wrapper-hover'
-                        style={{ marginRight: 40 }}
-                      >
-                        <input
-                          className='search-bar'
-                          placeholder='Symbol Search'
-                          onChange={this.onChangeDiscoveryFilter}
-                          ref={(ref) => {
-                            this.refDiscoveryFilter = ref;
-                          }}
-                        />
-                        <div className='search-icon-wrapper'>
                           <i
-                            className='fa fa-search text-white'
-                            style={{ cursor: 'default' }}
+                            className={`${
+                              this.state.isFavFilter
+                                ? 'mdi mdi-star quote-star popover-icon'
+                                : 'mdi mdi-star text-white popover-icon'
+                            }`}
+                            style={{ alignSelf: 'center' }}
                           />
+                          <span
+                            style={{
+                              alignSelf: 'center',
+                              marginLeft: 4,
+                              fontSize: 15,
+                            }}
+                          >
+                            Favorites
+                          </span>
                         </div>
                       </div>
-                      <div
-                        className='btn btn-icon btn-max'
-                        style={{ marginRight: 32, cursor: 'pointer' }}
-                        onClick={() => {
-                          this.setState(
-                            {
-                              max: max ? null : 'discovery',
-                              discoveryIndex: 50,
-                            },
-                            () => {
-                              window.scrollTo(0, 0);
-                              document
-                                .getElementById('discovery-table')
-                                .addEventListener('scroll', this.handleScroll);
+                      <div className='d-flex flex-row align-items-center'>
+                        <div
+                          className='search-bar-wrapper search-bar-wrapper-hover'
+                          style={{ marginRight: 40, marginLeft: 8 }}
+                        >
+                          <input
+                            className='search-bar'
+                            placeholder='Symbol...'
+                            onChange={this.onChangeDiscoveryFilter}
+                            ref={(ref) => {
+                              this.refDiscoveryFilter = ref;
+                            }}
+                          />
+                          <div className='search-icon-wrapper'>
+                            <i
+                              className='fa fa-search text-white'
+                              style={{ cursor: 'default' }}
+                            />
+                          </div>
+                        </div>
+                        <div
+                          className='btn btn-icon btn-max'
+                          style={{ marginRight: 32, cursor: 'pointer' }}
+                          onClick={() => {
+                            this.setState(
+                              {
+                                max: max ? null : 'discovery',
+                                discoveryIndex: 50,
+                              },
+                              () => {
+                                window.scrollTo(0, 0);
+                                document
+                                  .getElementById('discovery-table')
+                                  .addEventListener('scroll', this.handleScroll);
+                              }
+                            );
+                          }}
+                        >
+                          <i
+                            className={
+                              max
+                                ? 'mdi mdi-window-close'
+                                : 'mdi mdi-window-maximize'
                             }
-                          );
-                        }}
-                      >
-                        <i
-                          className={
-                            max
-                              ? 'mdi mdi-window-close'
-                              : 'mdi mdi-window-maximize'
-                          }
-                        />
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>

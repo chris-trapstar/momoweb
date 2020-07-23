@@ -12,7 +12,7 @@ import { ContextMenuTrigger } from 'react-contextmenu';
 let contextTrigger = null;
 let alertContextTrigger = null;
 class DiscoveryTable extends Component {
-  
+
   constructor() {
     super();
     this._sort = this._sort.bind(this);
@@ -197,7 +197,7 @@ class DiscoveryTable extends Component {
                   />
                   <Column
                     width={200}
-                    label='vWapDist'
+                    label='WWAPDist'
                     dataKey='vWapDist'
                     cellRenderer={({ cellData, rowData }) =>
                       this._setColorOnValue(rowData.symbol, cellData, '%', '2')
