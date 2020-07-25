@@ -28,22 +28,23 @@ class DiscoveryTable extends Component {
 
     };
   }
-
-
   componentWillReceiveProps(props) {
-    if (props.discoveryData)
+    if (props.discoveryData) {
+      const { sortBy, sortDirection } = this.state;
+      const sortedList = this._sortList(sortBy, sortDirection, props.discoveryData);
       this.setState({
         items: props.discoveryData,
-        sortedList:this.state.sortBy===''? 
-                    props.discoveryData:this.state.sortedList,
-        sortBy:this.state.discoverySector===props.discoverySector  
-                && props.discoveryFilter ===''
-                ?this.state.sortBy:'',
+        sortedList: this.state.sortBy === ''
+                ? props.discoveryData
+                : sortedList,
+        sortBy: this.state.discoverySector === props.discoverySector && props.discoveryFilter === ''
+                ? this.state.sortBy
+                : '',
         discoverySector:props.discoverySector,
-      });      
+      });
+    }
   }
 
-  
   loadMore() {
     return new Promise((resolve, reject) => {
       this.promiseResolve = resolve;
@@ -52,24 +53,24 @@ class DiscoveryTable extends Component {
 
   _sort({ sortBy }) {
     if(sortBy!=='alert')
-    { 
-      const sortedList = this._sortList(sortBy, this.state.sortDirection);
+    {
       this.setState({
         sortBy,
         sortDirection:
-          this.state.sortDirection === SortDirection.DESC
-            ? SortDirection.ASC
-            : SortDirection.DESC,
-        sortedList,
+        this.state.sortDirection === SortDirection.DESC
+        ? SortDirection.ASC
+        : SortDirection.DESC,
+      }, () => {
+        const sortedList = this._sortList(sortBy, this.state.sortDirection, this.state.items);
+        this.setState({ sortedList })
       });
     }
   }
 
-  _sortList(sortBy, sortDirection) {
-    const { items } = this.state;
+  _sortList(sortBy, sortDirection, items) {
     return sortDirection === SortDirection.ASC
-      ? _.sortBy(items, sortBy).reverse()
-      : _.sortBy(items, sortBy);
+      ? _.sortBy(items, sortBy)
+      : _.sortBy(items, sortBy).reverse();
   }
 
   _round = (value, decimals) => parseFloat(value).toFixed(decimals);
@@ -210,8 +211,7 @@ class DiscoveryTable extends Component {
                     cellRenderer={({ cellData, rowData }) => (
                       <div className='action-column'>
                         <span
-                          className='mdi mdi-bell text-white popover-icon'
-                          style={{ marginRight: 16, cursor: 'pointer' }}
+                          className='mdi mdi-bell text-white popover-icon action-button-margin'
                           onClick={(e) => {
                             alertContextTrigger.handleContextClick(e);
                             this.props.onAlertTrigger(

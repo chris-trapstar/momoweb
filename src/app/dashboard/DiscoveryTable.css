@@ -55,6 +55,7 @@
   font-weight: 600;
   font-size: 14px;
   text-transform: capitalize;
+  outline: none;
 }
 
 .table-style{
@@ -89,6 +90,19 @@
 .action-column {
   display: flex;
   flex-direction: row;
+}
+.action-button-margin {
+  margin-right: 16px;
+  cursor: pointer;
+}
+@media (max-width: 599px) {
+  .action-column {
+    flex-direction: column;
+    align-items: center;
+  }
+  .action-button-margin {
+    margin-right: 0;
+  }
 }
 
 .price-dist {
