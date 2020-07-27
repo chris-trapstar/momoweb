@@ -93,7 +93,7 @@
 }
 
 .overflow-scroll {
-  overflow: scroll;
+  overflow: auto;
 }
 
 .border-radius-10 {
@@ -113,7 +113,7 @@
 }
 
 .alert-history-data {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .stockwits {
@@ -177,12 +177,12 @@
 }
 
 .table-scroll {
-  overflow: scroll;
+  overflow: auto;
 }
 
 .tableFixHead {
   overflow-y: auto;
-  height: calc(45vh);
+  height: calc(47vh);
 }
 
 .tableFixHead thead th {
@@ -240,7 +240,7 @@ th {
 }
 
 .stock-text {
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
   margin-bottom: 0;
   cursor: pointer;
@@ -374,13 +374,13 @@ th {
 
   .tableFixHead {
     overflow-y: auto;
-    height: calc(45vh);
+    height: calc(47vh);
     padding-left: 0;
     padding-right: 0;
   }
 
   .stock-text {
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
     margin-bottom: 0;
     cursor: 'pointer';
@@ -406,7 +406,7 @@ th {
 
   .tableFixHead {
     overflow-y: auto;
-    height: calc(45vh);
+    height: calc(47vh);
     padding-left: 0;
     padding-right: 0;
   }
@@ -452,7 +452,7 @@ th {
 
   .tableFixHead {
     overflow-y: auto;
-    height: calc(45vh);
+    height: calc(47vh);
     padding-left: 0;
     padding-right: 0;
   }
@@ -567,7 +567,7 @@ th {
 
 .table-max {
   height: calc(100vh - 20vh) !important;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .discovery-normal {
@@ -811,13 +811,13 @@ th {
 
 .alert-section {
   height: 100%;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .alert-container {
-  flex: 1 1 auto; 
+  flex: 1 1 auto;
   padding: 1rem;
-  display: flex; 
-  flex-direction: column; 
+  display: flex;
+  flex-direction: column;
   height: 100%;
 }
