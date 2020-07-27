@@ -1667,8 +1667,7 @@ export class Dashboard extends Component {
                       className='card flex-fill'
                       style={{
                         height: 200,
-                        overflow: 'hidden',
-                        paddingBottom: 8,
+                        overflow: 'hidden'
                       }}
                     >
                       <div style={{}} className="alert-container">

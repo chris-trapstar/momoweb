@@ -208,7 +208,7 @@ class DiscoveryTable extends Component {
                     width={160}
                     dataKey='alert'
                     label='Actions'
-                    style={{ overflowX: "scroll" }}
+                    style={{ overflowX: "auto" }}
                     cellRenderer={({ cellData, rowData }) => (
                       <div className='action-column'>
                         <span
