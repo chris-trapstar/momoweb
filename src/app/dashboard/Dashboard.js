@@ -1096,12 +1096,12 @@ export class Dashboard extends Component {
               return {
                 index: index,
                 symbol: symbol,
-                last: last,
-                volume: volume,
-                momentum: momentum,
-                uVol: uVol,
-                vWAPDist: vWapDist,
-                short: short,
+                last: last || '__',
+                volume: volume || '__',
+                momentum: momentum || '__',
+                uVol: uVol || '__',
+                vWAPDist: vWapDist || '__',
+                short: short || '__',
                 alert: symbol,
                 price_dist,
               };
