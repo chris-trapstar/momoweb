@@ -1094,14 +1094,14 @@ export class Dashboard extends Component {
               index
             ) => {
               return {
-                index: index,
-                symbol: symbol,
-                last: last || '__',
-                volume: volume || '__',
-                momentum: momentum || '__',
-                uVol: uVol || '__',
-                vWAPDist: vWapDist || '__',
-                short: short || '__',
+                index,
+                symbol,
+                last,
+                volume,
+                momentum,
+                uVol,
+                vWAPDist: vWapDist,
+                short,
                 alert: symbol,
                 price_dist,
               };

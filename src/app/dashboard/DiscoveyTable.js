@@ -24,7 +24,7 @@ class DiscoveryTable extends Component {
       sortedList: [],
       sortBy: '',
       sortDirection: SortDirection.DESC,
-      discoverySector:'Industry'
+      discoverySector: 'Industry'
 
     };
   }
@@ -35,12 +35,12 @@ class DiscoveryTable extends Component {
       this.setState({
         items: props.discoveryData,
         sortedList: this.state.sortBy === ''
-                ? props.discoveryData
-                : sortedList,
+          ? props.discoveryData
+          : sortedList,
         sortBy: this.state.discoverySector === props.discoverySector && props.discoveryFilter === ''
-                ? this.state.sortBy
-                : '',
-        discoverySector:props.discoverySector,
+          ? this.state.sortBy
+          : '',
+        discoverySector: props.discoverySector,
       });
     }
   }
@@ -52,14 +52,13 @@ class DiscoveryTable extends Component {
   }
 
   _sort({ sortBy }) {
-    if(sortBy!=='alert')
-    {
+    if (sortBy !== 'alert') {
       this.setState({
         sortBy,
         sortDirection:
-        this.state.sortDirection === SortDirection.DESC
-        ? SortDirection.ASC
-        : SortDirection.DESC,
+          this.state.sortDirection === SortDirection.DESC
+            ? SortDirection.ASC
+            : SortDirection.DESC,
       }, () => {
         const sortedList = this._sortList(sortBy, this.state.sortDirection, this.state.items);
         this.setState({ sortedList })
@@ -76,15 +75,16 @@ class DiscoveryTable extends Component {
   _round = (value, decimals) => parseFloat(value).toFixed(decimals);
 
   _setColorOnValue(symbol, data, type, decimals) {
-    const roundedValue = this._round(data, decimals);
+    const roundedValue = isNaN(data) ? '__' : this._round(data, decimals);
     return (
       <div
         style={{ color: data > 0 ? '#00d25b' : '#fc424a' }}
         onClick={(e) => this.toggleMenu(e, symbol)}
       >
-        {roundedValue > 0
+        {isNaN(data) ? '__' : (roundedValue > 0
           ? `+${roundedValue}${type}`
-          : `${roundedValue}${type}`}
+          : `${roundedValue}${type}`)
+        }
       </div>
     );
   }
@@ -147,7 +147,7 @@ class DiscoveryTable extends Component {
                     width={200}
                     label='Symbol'
                     dataKey='symbol'
-                    style={{ fontWeight: 600 , paddingLeft:10 }}
+                    style={{ fontWeight: 600, paddingLeft: 10 }}
                     cellRenderer={({ cellData }) => (
                       <div onClick={(e) => this.toggleMenu(e, cellData)}>
                         {cellData}
