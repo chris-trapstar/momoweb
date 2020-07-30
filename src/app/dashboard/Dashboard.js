@@ -470,10 +470,7 @@ export class Dashboard extends Component {
         /** Cover Table Cell With Popover Trigger */
         renderData.push(
           // high[3] === 1 means Active
-          <tr
-            key={`render-stock-data-table-low-${index}`}
-            style={{ height: '100%' }}
-          >
+          <tr key={`render-stock-data-table-low-${index}`}>
             <td className='text-low flex-fill'>
               <label
                 className={`stock-text ${
@@ -527,10 +524,7 @@ export class Dashboard extends Component {
         /** Cover Table Cell With Popover Trigger */
         renderData.push(
           // high[3] === 1 means Active
-          <tr
-            key={`render-stock-data-table-high-${index}`}
-            style={{ height: '100%' }}
-          >
+          <tr key={`render-stock-data-table-high-${index}`}>
             <td className='text-high flex-fill'>
               <label
                 className={`stock-text ${
@@ -584,7 +578,7 @@ export class Dashboard extends Component {
       <div
         className={'col-md-6 tableFixHead nopadding' + (max ? ' table-max' : '')}
       >
-        <table className='table table-striped'>
+        <table className='table table-striped h-100'>
           <thead>
             <tr>
               <th className='text-white'>
@@ -1074,7 +1068,7 @@ export class Dashboard extends Component {
     } = this.state;
 
     return (
-      <div>
+      <div style={{ height: '100%' }}>
         <DiscoveryTable
           index={discoveryIndex}
           discoverySector={this.state.discoverySector}
@@ -1146,7 +1140,7 @@ export class Dashboard extends Component {
         <div className='card'>
           <div
             className='btn btn-icon btn-max'
-            style={{ marginRight: 28, cursor: 'pointer' }}
+            style={ max ? { marginRight: 24, marginTop: -6 } : { marginRight: 16 } }
             onClick={() => {
               this.setState({
                 max: max ? null : 'stream',
@@ -1154,9 +1148,7 @@ export class Dashboard extends Component {
             }}
           >
             <i
-              className={
-                max ? 'mdi mdi-window-close' : 'mdi mdi-window-maximize'
-              }
+              className={ max ? 'fa fa-times' : 'fa fa-expand' }
             />
           </div>
           {isSmallDevice ? (
@@ -1167,7 +1159,7 @@ export class Dashboard extends Component {
           ) : (
             <div
               className={'card-body stream-body'}
-              style={{ height: max ? '80vh' : '48vh' }}
+              style={ max ? {} : { height: '48vh' } }
             >
               <div className='row' style={{ height: '100%' }}>
                 {this.renderData(lows, 'low')}
@@ -1343,7 +1335,7 @@ export class Dashboard extends Component {
                         </div>
                         <div
                           className='btn btn-icon btn-max'
-                          style={{ marginRight: 32, cursor: 'pointer' }}
+                          style={ max ? { marginRight: 36 } : { marginRight: 28 } }
                           onClick={() => {
                             this.setState(
                               {
@@ -1362,8 +1354,8 @@ export class Dashboard extends Component {
                           <i
                             className={
                               max
-                                ? 'mdi mdi-window-close'
-                                : 'mdi mdi-window-maximize'
+                                ? 'fa fa-times'
+                                : 'fa fa-expand'
                             }
                           />
                         </div>
@@ -1449,7 +1441,7 @@ export class Dashboard extends Component {
             this.container = ref;
           }}
         >
-          <div className='col-12 grid-margin stretch-card px-0'>
+          <div className='col-12 stretch-card px-0'>
             <div className='col-12 card-body py-0 px-0'>
               {/** Static Bar */}
 
