@@ -295,7 +295,7 @@ export class Settings extends Component {
         category: symbol,
         rate,
         high: 0,
-        low: 10000,
+        low: 0,
         type
       })
       if (result && result.success) {
