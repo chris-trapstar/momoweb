@@ -199,6 +199,7 @@
 
 .tableFixHead tbody tr {
   display: flex;
+  position: relative;
 }
 
 .tableFixHead tbody td.flex-fill {
@@ -441,14 +442,12 @@ th {
   }
 
   .btn-max {
-    position: absolute;
-    right: 0.1em;
-    top: 0px;
-    z-index: 100;
+    right: -0.2em;
   }
 
   th.text-white {
-    padding: 0.2em;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
   }
 
   .socket-table {

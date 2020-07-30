@@ -1140,7 +1140,7 @@ export class Dashboard extends Component {
         <div className='card'>
           <div
             className='btn btn-icon btn-max'
-            style={ max ? { marginRight: 24, marginTop: -6 } : { marginRight: 16 } }
+            style={ max ? { marginRight: 30, marginTop: -6 } : { marginRight: 16 } }
             onClick={() => {
               this.setState({
                 max: max ? null : 'stream',
@@ -1148,7 +1148,7 @@ export class Dashboard extends Component {
             }}
           >
             <i
-              className={ max ? 'fa fa-times' : 'fa fa-expand' }
+              className={ max ? 'mdi mdi-close' : 'fa fa-expand' }
             />
           </div>
           {isSmallDevice ? (
@@ -1335,7 +1335,7 @@ export class Dashboard extends Component {
                         </div>
                         <div
                           className='btn btn-icon btn-max'
-                          style={ max ? { marginRight: 36 } : { marginRight: 28 } }
+                          style={ max ? { marginRight: 42 } : { marginRight: 30 } }
                           onClick={() => {
                             this.setState(
                               {
@@ -1351,13 +1351,7 @@ export class Dashboard extends Component {
                             );
                           }}
                         >
-                          <i
-                            className={
-                              max
-                                ? 'fa fa-times'
-                                : 'fa fa-expand'
-                            }
-                          />
+                          <i className={ max? 'mdi mdi-close' : 'fa fa-expand' } />
                         </div>
                       </div>
                     </div>
