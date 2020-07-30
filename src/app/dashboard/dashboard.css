@@ -180,18 +180,29 @@
   overflow: auto;
 }
 
-.tableFixHead {
-  overflow-y: auto;
-  height: calc(47vh);
+.tableFixHead thead tr {
+  display: flex;
+  flex-grow: 1;
 }
 
 .tableFixHead thead th {
   position: sticky;
   top: 0;
+  flex: 1 1 0;
 }
 
-.table td {
-  /* padding: 1rem 0.5rem; */
+.tableFixHead tbody {
+  display: block;
+  overflow: auto;
+  height: 100%;
+}
+
+.tableFixHead tbody tr {
+  display: flex;
+}
+
+.tableFixHead tbody td.flex-fill {
+  flex: 1 1 0 !important;
 }
 
 .discovery-table {
@@ -356,9 +367,11 @@ th {
 
 .btn-max {
   position: absolute;
-  right: 0.1em;
-  top: 0.1em;
+  right: 0.2em;
+  top: -0.2em;
   z-index: 100;
+  font-size: 1.2em;
+  cursor: pointer;
 }
 
 /** Small iPads */
@@ -373,8 +386,6 @@ th {
   }
 
   .tableFixHead {
-    overflow-y: auto;
-    height: calc(47vh);
     padding-left: 0;
     padding-right: 0;
   }
@@ -383,7 +394,7 @@ th {
     font-size: 16px;
     text-align: center;
     margin-bottom: 0;
-    cursor: 'pointer';
+    cursor: pointer;
   }
 
   .rt-resizable-header-content {
@@ -405,8 +416,7 @@ th {
   }
 
   .tableFixHead {
-    overflow-y: auto;
-    height: calc(47vh);
+    height: 47vh;
     padding-left: 0;
     padding-right: 0;
   }
@@ -451,8 +461,6 @@ th {
   }
 
   .tableFixHead {
-    overflow-y: auto;
-    height: calc(47vh);
     padding-left: 0;
     padding-right: 0;
   }
@@ -513,13 +521,6 @@ th {
   }
 }
 
-@media only screen and (max-height: 415px) {
-  .tableFixHead {
-    overflow-y: auto;
-    height: calc(60vh);
-  }
-}
-
 .hideWidget {
   color: gray;
 }
@@ -566,7 +567,7 @@ th {
 }
 
 .table-max {
-  height: calc(100vh - 20vh) !important;
+  height: calc(100vh - 25vh) !important;
   overflow: auto;
 }
 
@@ -575,7 +576,7 @@ th {
 }
 
 .discovery-max {
-  padding-right: 1rem;
+  /* padding-right: 1rem; */
   height: 75vh;
 }
 
@@ -618,7 +619,7 @@ th {
 }
 
 .stream-body {
-  padding-top: 0px !important;
+  padding: 0 1.5rem 1rem !important;
 }
 
 .pr-2 {

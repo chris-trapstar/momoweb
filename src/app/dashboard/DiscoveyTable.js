@@ -106,7 +106,7 @@ class DiscoveryTable extends Component {
 
   render() {
     return (
-      <div className='container'>
+      <div className='container h-100'>
         <ContextMenuTrigger
           id={`discovery-context-menu`}
           ref={(c) => (contextTrigger = c)}
@@ -126,14 +126,14 @@ class DiscoveryTable extends Component {
         >
           {({ onRowsRendered }) => (
             <AutoSizer >
-              {({ width }) => (
+              {({ width, height }) => (
                 <Table
-                  height={600}
+                  height={height}
                   rowHeight={65}
                   sort={this._sort}
                   headerHeight={50}
                   width={width}
-                  style={{ fontSize: 14 }}
+                  style={{ fontSize: 14, height: '100%' }}
                   sortBy={this.state.sortBy}
                   onRowsRendered={onRowsRendered}
                   rowCount={this.state.sortedList.length}
