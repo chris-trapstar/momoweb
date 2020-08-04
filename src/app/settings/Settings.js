@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import API from '../api';
 import './settings.css';
-import Slider from './LogSlider'
+import Slider from 'nouislider-react';
+import LogSlider, { toValue, fromValue } from './LogSlider'
 import cogoToast from 'cogo-toast';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
@@ -43,12 +44,6 @@ export class Settings extends Component {
       filter: null,
       editingAlertId: null
     };
-  }
-
-  componentDidMount() {
-    const handler = e => this.setState({ isSmallDevice: e.matches });
-    window.matchMedia('(max-width: 767px)').addListener(handler);
-    this.getAlertSettings();
 
     let filter = { ...DEFAULT_FILTER }
     let data_filter = localStorage.getItem('filter');
@@ -69,7 +64,13 @@ export class Settings extends Component {
     }
 
     console.info('Filter Loaded:', filter)
-    this.setState({ filter });
+    this.state.filter = filter
+  }
+
+  componentDidMount() {
+    const handler = e => this.setState({ isSmallDevice: e.matches });
+    window.matchMedia('(max-width: 767px)').addListener(handler);
+    this.getAlertSettings();
   }
 
   getAlertSettings = async () => {
@@ -137,22 +138,52 @@ export class Settings extends Component {
   }
 
   volRangeFormatFrom = value => {
+    console.info('volRangeFormatFrom:', value)
     if (value === 'MIN') {
-      return AVG_VOL_MIN;
+      return 0;
     } else if (value === 'MAX') {
-      return AVG_VOL_MAX;
+      return 40;
+    } else if (value == Infinity) {
+      return 40
     } else {
-      return value.replace('K', '');
+      if (value.indexOf('K') > -1) {
+        return fromValue(value.replace('K', ''));
+      } else if (value.indexOf('M') > -1) {
+        return fromValue(value.replace('M', '') * 1000);
+      } else {
+        return value
+      }
+    }
+  }
+
+  getVolNumber = (strValue) => {
+    if (strValue === 'MIN') {
+      return AVG_VOL_MIN * 1000
+    } else if (strValue === 'MAX') {
+      return AVG_VOL_MAX * 1000
+    } else if (strValue.indexOf('K') > -1) {
+      return parseInt(strValue.replace('K', '')) * 1000;
+    } else {
+      return parseInt(strValue.replace('M', '') * 1000000);
     }
   }
 
   volRangeFormatTo = value => {
-    if (value === AVG_VOL_MIN) {
+    if (value === 0) {
       return 'MIN'
-    } else if (value === AVG_VOL_MAX) {
+    } else if (value === 40) {
       return 'MAX';
     } else {
-      return parseInt(value) + 'K';
+      const kValue = toValue(value)
+      if (kValue >= 1000) {
+        return parseInt(kValue / 1000) + 'M';
+      } else {
+        if (kValue > 1) {
+          return parseInt(kValue) + 'K';
+        } else {
+          return parseInt(kValue * 10) / 10 + 'K'
+        }
+      }
     }
   }
 
@@ -196,9 +227,9 @@ export class Settings extends Component {
     this.setState({ filter });
   }
 
-  updateFilterVol = value => {
-    let filter = { ...this.state.filter };
-    filter.volume = { min: parseInt(value[0]) * 1000, max: parseInt(value[1]) * 1000 };
+  updateFilterVol = values => {
+    const filter = { ...this.state.filter };
+    filter.volume = { min: this.getVolNumber(values[0]), max: this.getVolNumber(values[1]) };
     console.info('Filter updated:', filter);
     localStorage.setItem('filter', JSON.stringify(filter));
     this.setState({ filter });
@@ -367,9 +398,8 @@ export class Settings extends Component {
               <div className='pricing-separator' />
               <div className='small company-name-margin'>AVG VOL</div>
               <div className='d-flex flex-row flex-fill price-section'>
-                <Slider
-                  range={{ min: AVG_VOL_MIN, max: AVG_VOL_MAX }}
-                  start={filter ? [Math.floor(filter.volume.min / 1000), Math.ceil(filter.volume.max / 1000)] : [AVG_VOL_MIN, AVG_VOL_MAX]}
+                <LogSlider
+                  start={filter ? [fromValue(filter.volume.min / 1000 || AVG_VOL_MIN), fromValue(filter.volume.max / 1000 || AVG_VOL_MAX)] : [0, 40]}
                   connect
                   tooltips={true}
                   step={1}
@@ -378,7 +408,9 @@ export class Settings extends Component {
                     to: this.volRangeFormatTo
                   }}
                   className='flex-fill slider-white slider-range'
-                  onChange={(render, handle, value, un, percent) => { this.updateFilterVol(value); }}
+                  onChange={(strValues, handle, values, un, percent) => {
+                    this.updateFilterVol(strValues);
+                  }}
                 />
               </div>
               <div className='pricing-separator' />
