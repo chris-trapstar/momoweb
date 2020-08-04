@@ -1131,13 +1131,13 @@ export class Dashboard extends Component {
       <div
         className={
           max || !this.props.isPro
-            ? 'w-100'
+            ? 'w-100 h-100'
             : !this.state.showPopular && !this.state.showAlertHistory
             ? 'w-100'
             : 'grid-margin stretch-card px-0 flex-fill socket-table'
         }
       >
-        <div className='card'>
+        <div className='card h-100'>
           <div
             className='btn btn-icon btn-max'
             style={ max ? { marginRight: 30, marginTop: -6 } : { marginRight: 16 } }
@@ -1412,7 +1412,7 @@ export class Dashboard extends Component {
     } = this.state;
     if (max) {
       return (
-        <div className='row dashboard-content'>
+        <div className='row dashboard-content h-100'>
           {max === 'stream' && this.renderStream()}
           {max === 'discovery' && this.renderDiscovery()}
         </div>
@@ -1430,7 +1430,7 @@ export class Dashboard extends Component {
           </div>
         )}
         <div
-          className='row dashboard-content'
+          className='row dashboard-content h-100'
           ref={(ref) => {
             this.container = ref;
           }}

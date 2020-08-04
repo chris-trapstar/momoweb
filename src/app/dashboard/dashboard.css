@@ -566,7 +566,7 @@ th {
 }
 
 .table-max {
-  height: calc(100vh - 25vh) !important;
+  height: 100%;
   overflow: auto;
 }
 
