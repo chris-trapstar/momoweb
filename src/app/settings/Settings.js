@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import API from '../api';
 import './settings.css';
-import Slider from 'nouislider-react';
+import Slider from './LogSlider'
 import cogoToast from 'cogo-toast';
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
