@@ -73,8 +73,10 @@ class Verification extends Component {
                 <h4>Verify Email</h4>
                 <div>An email was sent to your registered email account.</div>
                 <div>Please click the confirmation link in email to continue.</div>
+
+                <small className='text-center text-muted mt-3 mb-1'>You may change your email if you didn't receive the verification email at <u>{this.props.user.email}</u>.</small>
+
                 <Form.Group>
-                  <label>Email</label>
                   <div className='input-group'>
                     <div className='input-group-prepend'>
                       <i className='input-group-text mdi mdi-email text-success' />
@@ -86,7 +88,6 @@ class Verification extends Component {
                     />
                   </div>
                 </Form.Group>
-                <small className='text-center text-muted'>You may change your email if you didn't receive the verification email at <u>{this.props.user.email}</u>.</small>
 
                 {errTxt !== '' && (
                   <label className='text-danger'>{`${errTxt}`}</label>
