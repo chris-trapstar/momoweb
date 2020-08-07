@@ -820,25 +820,32 @@ export class Dashboard extends Component {
   };
 
   registerQuote = async (symbol) => {
-    try {
-      this.setState({ showSpinner: true });
-      const result = await API.registerQuote(symbol.toUpperCase());
-      if (result && result.success && result.data) {
-        cogoToast.success(`Quote added for ${symbol}`);
-        this.setState({
-          quotes: result.data,
-        });
-      } else if (result && result.error) {
-        throw result.error;
+    console.info('registerQuote - ', symbol, this.state.quotes)
+
+    const quote = this.state.quotes.find((q) => (q.symbol === symbol))
+    if (quote) {
+
+    } else {
+      try {
+        this.setState({ showSpinner: true });
+        const result = await API.registerQuote(symbol.toUpperCase());
+        if (result && result.success && result.data) {
+          cogoToast.success(`Quote added for ${symbol}`);
+          this.setState({
+            quotes: result.data,
+          });
+        } else if (result && result.error) {
+          throw result.error;
+        }
+        this.setState({ showSpinner: false });
+      } catch (e) {
+        if (e === 'SequelizeUniqueConstraintError: Validation error') {
+          cogoToast.error(`${symbol} is already registered!`);
+        } else {
+          cogoToast.error(`Failed to mark ${symbol} as favorite!`);
+        }
+        this.setState({ showSpinner: false });
       }
-      this.setState({ showSpinner: false });
-    } catch (e) {
-      if (e === 'SequelizeUniqueConstraintError: Validation error') {
-        cogoToast.error(`${symbol} is already registered!`);
-      } else {
-        cogoToast.error(`Failed to mark ${symbol} as favorite!`);
-      }
-      this.setState({ showSpinner: false });
     }
   };
 
