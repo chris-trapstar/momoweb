@@ -824,7 +824,7 @@ export class Dashboard extends Component {
 
     const quote = this.state.quotes.find((q) => (q.symbol === symbol))
     if (quote) {
-
+      this.onRemoveQuote({ symbol })
     } else {
       try {
         this.setState({ showSpinner: true });
