@@ -1152,7 +1152,7 @@ export class Dashboard extends Component {
             />
           </div>
           {isSmallDevice ? (
-            <div className='d-flex flex-row'  >
+            <div className='d-flex flex-row h-100'  >
               {this.renderData(lows, 'low')}
               {this.renderData(highs, 'high')}
             </div>
@@ -1227,7 +1227,7 @@ export class Dashboard extends Component {
 
     return (
       <div className={max ? 'w-100' : 'd-flex flex-row data-section'}>
-        <div className='col-12 px-0'>
+        <div className='col-12 px-0 h-100'>
           <div className='card'>
             <div style={{ flex: '1 1 auto' }}>
               <div className='row'>
