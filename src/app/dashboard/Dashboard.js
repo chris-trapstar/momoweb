@@ -259,7 +259,7 @@ export class Dashboard extends Component {
     let data_filter;
     try {
       data_filter = JSON.parse(localStorage.getItem('filter'));
-    } catch (e) {}
+    } catch (e) { }
     if (!data_filter) {
       data_filter = { ...DEFAULT_FILTER };
     }
@@ -347,7 +347,7 @@ export class Dashboard extends Component {
     }
     let highs = this.state.highs.slice();
     let lows = this.state.lows.slice();
-    this.buffer.forEach(function(item, i, arr) {
+    this.buffer.forEach(function (item, i, arr) {
       highs = item.highs.concat(highs).slice(0, 100);
       lows = item.lows.concat(lows).slice(0, 100);
     });
@@ -475,7 +475,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   low[3] === 1 ? 'stock-active-text stock-active-low' : ''
-                }`}
+                  }`}
               >
                 <ContextMenuTrigger
                   id={`low-context-menu_${index}`}
@@ -529,7 +529,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   high[3] === 1 ? 'stock-active-text stock-active-high' : ''
-                }`}
+                  }`}
               >
                 <ContextMenuTrigger
                   id={`high-context-menu_${index}`}
@@ -908,8 +908,8 @@ export class Dashboard extends Component {
         sortOption.type === 'none'
           ? discoveryData
           : sortOption.type === 'up'
-          ? sorted.reverse()
-          : sorted,
+            ? sorted.reverse()
+            : sorted,
     });
   };
 
@@ -962,20 +962,20 @@ export class Dashboard extends Component {
               )}
             </div>
           ) : (
-            <div key={`popular-data-h6-${index + i}`}>
-              <ContextMenuTrigger
-                id={`popular-data-h6-${index + i}`}
-                holdToDisplay={0}
-              >
-                <h6 className='pr-2'>{item}</h6>
-              </ContextMenuTrigger>
-              {this.getMenuItems(
-                `popular-data-h6-${index + i}`,
-                [item, '', '', '', '', ''],
-                ''
-              )}
-            </div>
-          )
+                  <div key={`popular-data-h6-${index + i}`}>
+                    <ContextMenuTrigger
+                      id={`popular-data-h6-${index + i}`}
+                      holdToDisplay={0}
+                    >
+                      <h6 className='pr-2'>{item}</h6>
+                    </ContextMenuTrigger>
+                    {this.getMenuItems(
+                      `popular-data-h6-${index + i}`,
+                      [item, '', '', '', '', ''],
+                      ''
+                    )}
+                  </div>
+                )
         );
       });
     }
@@ -1018,7 +1018,7 @@ export class Dashboard extends Component {
             {/* <div className='font-13 alert-history-color'>{item.msg}</div> */}
             <div className='font-13 alert-history-color'>{`${
               item.msg
-            } - ${this.formatDate(item.date)}`}</div>
+              } - ${this.formatDate(item.date)}`}</div>
           </div>
           <div className='d-flex flex-row flex-fill alert-history-separator' />
         </div>
@@ -1133,14 +1133,14 @@ export class Dashboard extends Component {
           max || !this.props.isPro
             ? 'w-100 h-100'
             : !this.state.showPopular && !this.state.showAlertHistory
-            ? 'w-100'
-            : 'grid-margin stretch-card px-0 flex-fill socket-table'
+              ? 'w-100'
+              : 'grid-margin stretch-card px-0 flex-fill socket-table'
         }
       >
         <div className='card h-100'>
           <div
             className='btn btn-icon btn-max'
-            style={ max ? { marginRight: 30, marginTop: -6 } : { marginRight: 16 } }
+            style={max ? { marginRight: 30, marginTop: -6 } : { marginRight: 16 }}
             onClick={() => {
               this.setState({
                 max: max ? null : 'stream',
@@ -1148,7 +1148,7 @@ export class Dashboard extends Component {
             }}
           >
             <i
-              className={ max ? 'mdi mdi-close' : 'fa fa-expand' }
+              className={max ? 'mdi mdi-close' : 'fa fa-expand'}
             />
           </div>
           {isSmallDevice ? (
@@ -1157,16 +1157,16 @@ export class Dashboard extends Component {
               {this.renderData(highs, 'high')}
             </div>
           ) : (
-            <div
-              className={'card-body stream-body'}
-              style={ max ? {} : { height: '48vh' } }
-            >
-              <div className='row' style={{ height: '100%' }}>
-                {this.renderData(lows, 'low')}
-                {this.renderData(highs, 'high')}
+              <div
+                className={'card-body stream-body'}
+                style={max ? {} : { height: '48vh' }}
+              >
+                <div className='row' style={{ height: '100%' }}>
+                  {this.renderData(lows, 'low')}
+                  {this.renderData(highs, 'high')}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     );
@@ -1228,10 +1228,10 @@ export class Dashboard extends Component {
     return (
       <div className={max ? 'w-100' : 'd-flex flex-row data-section'}>
         <div className='col-12 px-0 h-100'>
-          <div className='card'>
+          <div className='card h-100'>
             <div style={{ flex: '1 1 auto' }}>
-              <div className='row'>
-                <div className='col-12 '>
+              <div className='row h-100'>
+                <div className='col-12 ' style={{ display: 'flex', flexDirection: 'column' }}>
                   <div
                     className='d-flex flex-row justify-content-between text-center flex-wrap mb-2'
                     style={{
@@ -1299,7 +1299,7 @@ export class Dashboard extends Component {
                               this.state.isFavFilter
                                 ? 'mdi mdi-star quote-star popover-icon'
                                 : 'mdi mdi-star text-white popover-icon'
-                            }`}
+                              }`}
                             style={{ alignSelf: 'center' }}
                           />
                           <span
@@ -1335,7 +1335,7 @@ export class Dashboard extends Component {
                         </div>
                         <div
                           className='btn btn-icon btn-max'
-                          style={ max ? { marginRight: 42 } : { marginRight: 30 } }
+                          style={max ? { marginRight: 42 } : { marginRight: 30 }}
                           onClick={() => {
                             this.setState(
                               {
@@ -1351,7 +1351,7 @@ export class Dashboard extends Component {
                             );
                           }}
                         >
-                          <i className={ max? 'mdi mdi-close' : 'fa fa-expand' } />
+                          <i className={max ? 'mdi mdi-close' : 'fa fa-expand'} />
                         </div>
                       </div>
                     </div>
@@ -1443,7 +1443,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showStream ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showStream');
@@ -1457,7 +1457,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showAlertHistory ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showAlertHistory');
@@ -1473,7 +1473,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showMeters ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showMeters');
@@ -1487,7 +1487,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row  ${
                     this.state.showPopular ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showPopular');
@@ -1501,7 +1501,7 @@ export class Dashboard extends Component {
                 <div
                   className={`d-flex flex-row align-items-center static-row ${
                     this.state.showQuotes ? 'showWidget' : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     this.onToggleWidget('showQuotes');
@@ -1521,7 +1521,7 @@ export class Dashboard extends Component {
                         ? 'showWidget'
                         : 'hideWidget'
                       : 'hideWidget'
-                  }`}
+                    }`}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     if (this.props.isPro) this.onToggleWidget('showDiscovery');
@@ -1646,8 +1646,8 @@ export class Dashboard extends Component {
                     (this.props.isPro ? (
                       <div className='data-separator'></div>
                     ) : (
-                      <div className='basic-data-separator' />
-                    ))}
+                        <div className='basic-data-separator' />
+                      ))}
                   {this.state.showAlertHistory && (
                     <div
                       className='card flex-fill'
@@ -1662,7 +1662,7 @@ export class Dashboard extends Component {
                         </div>
                         <div
                           className='data-section alert-section'
-                          
+
                         >
                           <div className='d-flex flex-row flex-fill alert-history-separator' />
                           <div className='alert-history-data'>
