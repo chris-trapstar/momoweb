@@ -87,9 +87,6 @@ class Navbar extends Component {
               </Dropdown.Toggle>
 
               <Dropdown.Menu className='navbar-dropdown preview-list navbar-profile-dropdown-menu'>
-                <h6 className='p-3 mb-0'>
-                  <Trans>Profile</Trans>
-                </h6>
                 <Dropdown.Divider />
                 <Dropdown.Item
                   onClick={(evt) => {

@@ -258,7 +258,9 @@
                 left: 0;
               }
               padding: 0;
-
+              right: 30px !important;
+              left: auto !important;
+              transform: translate3d(0px, 45.5px, 0px) !important;
               .dropdown-item {
                 @extend .d-flex;
                 @extend .align-items-center;
