@@ -146,13 +146,12 @@ class Login extends Component {
                         Keep me signed in
                       </label>
                     </div>
-                    <a
-                      href='!#'
-                      onClick={event => event.preventDefault()}
+                    <Link
+                      to='/forgot-password'
                       className='auth-link text-success'
                     >
                       Forgot password?
-                    </a>
+                    </Link>
                   </div>
                   <div className='row'>
 
