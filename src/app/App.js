@@ -14,6 +14,8 @@ import Sidebar from './shared/Sidebar';
 import Footer from './shared/Footer';
 import Login from './user-pages/Login';
 import Register from './user-pages/Register';
+import ForgotPassword from './user-pages/ForgotPassword';
+
 import Spinner from '../app/shared/Spinner';
 import { AuthActions } from './store';
 import API from './api';
@@ -42,6 +44,8 @@ class App extends Component {
       <Switch>
         <Route exact path='/login' component={Login} />
         <Route exact path='/register' component={Register} />
+        <Route exact path='/forgot-password' component={ForgotPassword} />
+
         <ProtectedApp
           {...this.props}
           loading={loading}
