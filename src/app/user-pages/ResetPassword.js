@@ -31,6 +31,10 @@ export class ResetPassword extends Component {
             return cogoToast.error('Password not matched!')
         }
         await Api.resetPassword(password, token)
+        cogoToast.success('The password is successfully reset! You will be redirected to the login page.')
+        setTimeout(() => {
+            this.props.history.replace('/login')
+        }, 2000)
     };
 
     render() {
