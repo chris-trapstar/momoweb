@@ -13,7 +13,7 @@ export class ResetPassword extends Component {
         errTxt: '',
     };
 
-    onSubmit = (e) => {
+    onSubmit = async (e) => {
         e.preventDefault()
         const query = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
         console.info('Props:', query)
@@ -26,6 +26,7 @@ export class ResetPassword extends Component {
         if (password != rePassword) {
             return cogoToast.error('Password not matched!')
         }
+        await Api.resetPassword(password, token)
     };
 
     render() {
