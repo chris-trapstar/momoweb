@@ -535,7 +535,7 @@ class API {
 
   sendForgotPasswordEmail = async (email) => {
     try {
-      const res = await fetch(`${baseUrl}/api/auth/forgot-password`, {
+      const res = await fetch(`${baseUrl}/api/auth/forgot_password`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
