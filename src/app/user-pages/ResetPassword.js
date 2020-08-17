@@ -13,6 +13,10 @@ export class ResetPassword extends Component {
         errTxt: '',
     };
 
+    componentDidMount() {
+        window.localStorage.removeItem('jwt_access_token')
+    }
+
     onSubmit = async (e) => {
         e.preventDefault()
         const query = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
