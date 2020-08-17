@@ -12,45 +12,15 @@ class ForgotPassword extends Component {
     sendErrTxt: ''
   };
 
-  onSubmit = () => {
+  onSubmit = async (e) => {
+    e.preventDefault()
     this.setState({ sendErrTxt: '' });
     const email = this.refEmail.value;
 
     this.props.setLoading(true);
-
-    Api.login(email, password)
-      .then(({ user, access_token }) => {
-
-        // Save Session
-        Api.setSession(access_token);
-        this.props.setUser(user);
-        this.props.setLoading(false);
-        this.props.setAuthenticated(true);
-
-        if (!user.email_verified) {
-          this.props.history.push('/verify');
-        } else if (!user.subscription) {
-          this.props.history.push('/plans');
-        } else {
-          this.props.history.push('/dashboard');
-        }
-      })
-      .catch(error => {
-        const errTxt = error.toString()
-        let sendErrTxt
-        if (error.toString() === 'TypeError: Failed to fetch') {
-          sendErrTxt = 'Service not available';
-        } else {
-          sendErrTxt = i18n.getResource('en', ['translations'], errTxt);
-          if (!sendErrTxt) {
-            sendErrTxt = 'Unknown problem';
-          }
-        }
-
-        this.setState({ sendErrTxt });
-        this.props.setLoading(false);
-        this.props.setAuthenticated(true);
-      });
+    this.props.setLoading(false);
+    await Api.sendForgotPasswordEmail(email)
+    this.props.setLoading(false);
   };
 
   render() {
@@ -85,12 +55,12 @@ class ForgotPassword extends Component {
                     <label className='text-danger'>{`${sendErrTxt}`}</label>
                   )}
                   <div className='mt-3'>
-                    <a
-                      className='btn btn-block btn-success btn-lg font-weight-medium auth-form-btn'
-                      onClick={this.onLogin}
+                    <button
+                      type='submit'
+                      className='btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn'
                     >
                       SEND
-                    </a>
+                    </button>
                   </div>
                   <div className='text-center mt-4 font-weight-light'>
                     <Link to='/login' className='text-success'>
