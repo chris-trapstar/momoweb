@@ -14,6 +14,10 @@ class ForgotPassword extends Component {
     email: ''
   };
 
+  componentDidMount() {
+    window.localStorage.removeItem('jwt_access_token')
+  }
+
   onSubmit = async (e) => {
 
     e.preventDefault()
@@ -41,39 +45,49 @@ class ForgotPassword extends Component {
                   <span className='h2 pr-2'>MOMO</span>
                 </div>
                 <h4>Forgot password</h4>
-                <h6 className='font-weight-light'>Please enter your email.</h6>
-                <div className='text-muted'>We will send instructions to your email.</div>
-                <Form className='pt-3' onSubmit={this.onSubmit}>
-                  <Form.Group>
-                    <div className='input-group'>
-                      <div className='input-group-prepend'>
-                        <i className='input-group-text mdi mdi-email text-success' />
-                      </div>
-                      <Form.Control type='text' className='form-control text-light' placeholder='Email'
-                        ref={ref => {
-                          this.refEmail = ref;
-                        }}
-                      />
-                    </div>
-                  </Form.Group>
 
-                  {sendErrTxt !== '' && (
-                    <label className='text-danger'>{`${sendErrTxt}`}</label>
-                  )}
-                  <div className='mt-3'>
-                    <button
-                      type='submit'
-                      className='btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn'
-                    >
-                      SEND
-                    </button>
-                  </div>
+                {this.state.sent ? <>
+                  <div className='text-muted'>We have sent an email to reset your password: {this.state.email}</div>
                   <div className='text-center mt-4 font-weight-light'>
                     <Link to='/login' className='text-success'>
                       Log in
-                    </Link>
+                      </Link>
                   </div>
-                </Form>
+                </> : <>
+                    <h6 className='font-weight-light'>Please enter your email.</h6>
+                    <div className='text-muted'>We will send instructions to your email.</div>
+                    <Form className='pt-3' onSubmit={this.onSubmit}>
+                      <Form.Group>
+                        <div className='input-group'>
+                          <div className='input-group-prepend'>
+                            <i className='input-group-text mdi mdi-email text-success' />
+                          </div>
+                          <Form.Control type='text' className='form-control text-light' placeholder='Email'
+                            ref={ref => {
+                              this.refEmail = ref;
+                            }}
+                          />
+                        </div>
+                      </Form.Group>
+
+                      {sendErrTxt !== '' && (
+                        <label className='text-danger'>{`${sendErrTxt}`}</label>
+                      )}
+                      <div className='mt-3'>
+                        <button
+                          type='submit'
+                          className='btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn'
+                        >
+                          SEND
+                      </button>
+                      </div>
+                      <div className='text-center mt-4 font-weight-light'>
+                        <Link to='/login' className='text-success'>
+                          Log in
+                      </Link>
+                      </div>
+                    </Form>
+                  </>}
               </div>
             </div>
           </div>
