@@ -6,22 +6,26 @@ import qs from 'qs'
 import { AuthActions } from '../store';
 import Api from '../api';
 import i18n from '../../i18n';
+import cogoToast from 'cogo-toast';
 
 export class ResetPassword extends Component {
     state = {
         errTxt: '',
     };
 
-    componentDidMount() {
-        const query = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
-        console.info('Props:', query)
-    }
-
     onSubmit = (e) => {
         e.preventDefault()
         const query = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
         console.info('Props:', query)
         const { token } = query
+        const password = this.refPassword.value
+        const rePassword = this.refConfirm.value
+        if (password.length < 6) {
+            return cogoToast.error('At least 6 characters required!')
+        }
+        if (password != rePassword) {
+            return cogoToast.error('Password not matched!')
+        }
     };
 
     render() {
