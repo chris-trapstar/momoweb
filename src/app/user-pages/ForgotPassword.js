@@ -13,6 +13,7 @@ class ForgotPassword extends Component {
   };
 
   onSubmit = async (e) => {
+
     e.preventDefault()
     this.setState({ sendErrTxt: '' });
     const email = this.refEmail.value;
@@ -37,7 +38,7 @@ class ForgotPassword extends Component {
                 <h4>Forgot password</h4>
                 <h6 className='font-weight-light'>Please enter your email.</h6>
                 <div className='text-muted'>We will send instructions to your email.</div>
-                <Form className='pt-3'>
+                <Form className='pt-3' onSubmit={this.onSubmit}>
                   <Form.Group>
                     <div className='input-group'>
                       <div className='input-group-prepend'>
