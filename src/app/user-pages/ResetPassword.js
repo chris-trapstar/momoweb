@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
-
+import qs from 'qs'
 import { AuthActions } from '../store';
 import Api from '../api';
 import i18n from '../../i18n';
@@ -12,7 +12,17 @@ export class ResetPassword extends Component {
         errTxt: '',
     };
 
-    onSubmit = (e) => { };
+    componentDidMount() {
+        const query = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
+        console.info('Props:', query)
+    }
+
+    onSubmit = (e) => {
+        e.preventDefault()
+        const query = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
+        console.info('Props:', query)
+        const { token } = query
+    };
 
     render() {
         const { errTxt } = this.state;
@@ -27,7 +37,7 @@ export class ResetPassword extends Component {
                                 </div>
                                 <h4>Reset your password</h4>
                                 <h6 className='font-weight-light'>Please enter a new password.</h6>
-                                <form className='pt-3' onSubmit={this.onRegister}>
+                                <form className='pt-3' onSubmit={this.onSubmit}>
                                     <Form.Group>
                                         <label>Password</label>
                                         <div className='input-group'>
@@ -89,4 +99,4 @@ const mapStateToProps = state => ({
     authenticated: state.auth.authenticated
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResetPassword);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ResetPassword));
