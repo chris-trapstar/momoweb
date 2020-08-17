@@ -34,7 +34,7 @@ export class ResetPassword extends Component {
         cogoToast.success('The password is successfully reset! You will be redirected to the login page.')
         setTimeout(() => {
             this.props.history.replace('/login')
-        }, 2000)
+        }, 3000)
     };
 
     render() {
