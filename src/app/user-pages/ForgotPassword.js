@@ -9,7 +9,9 @@ import i18n from '../../i18n';
 
 class ForgotPassword extends Component {
   state = {
-    sendErrTxt: ''
+    sendErrTxt: '',
+    sent: true,
+    email: ''
   };
 
   onSubmit = async (e) => {
@@ -19,9 +21,12 @@ class ForgotPassword extends Component {
     const email = this.refEmail.value;
 
     this.props.setLoading(true);
-    this.props.setLoading(false);
     await Api.sendForgotPasswordEmail(email)
     this.props.setLoading(false);
+    this.setState({
+      sent: true,
+      email
+    })
   };
 
   render() {
