@@ -773,7 +773,8 @@ export class Dashboard extends Component {
               data={{ data, type }}
               onClick={() => {
                 this.registerAlert(
-                  data[0],
+                  key === 'discovery-context-menu'
+                  ? this.state.discoverySelectedSymbol : data[0],
                   'trade',
                   type === 'high' ? data[1] : 0,
                   type === 'low' ? data[1] : 0
@@ -786,9 +787,12 @@ export class Dashboard extends Component {
               </div>
             </MenuItem>
             <MenuItem
-              data={{ data, type }}
+              data={{ data, type, }}
               onClick={() => {
-                this.registerQuote(data[0]);
+                console.info('MenuItem.registerQuote - ', data, type)
+                this.registerQuote(key === 'discovery-context-menu'
+                  ? this.state.discoverySelectedSymbol : data[0]
+                );
               }}
             >
               <div className='row justify-content-center align-items-center'>
@@ -1576,7 +1580,7 @@ export class Dashboard extends Component {
                 />
               )}
               {/** Favorite(Quote) Stocks */}
-              {this.state.showQuotes && (
+              {this.state.showQuotes && this.state.quotes.length > 0 && (
                 <div className='quotes-area'>
                   <div className='quote-tools card'>
                     <a
