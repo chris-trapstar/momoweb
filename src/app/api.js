@@ -557,7 +557,7 @@ class API {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({email})
+        body: JSON.stringify({password, token})
       })
       const data = await res.json()
       console.info('Reset Password Result:', data)
