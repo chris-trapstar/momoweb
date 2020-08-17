@@ -15,6 +15,7 @@ import Footer from './shared/Footer';
 import Login from './user-pages/Login';
 import Register from './user-pages/Register';
 import ForgotPassword from './user-pages/ForgotPassword';
+import ResetPassword from './user-pages/ResetPassword';
 
 import Spinner from '../app/shared/Spinner';
 import { AuthActions } from './store';
@@ -45,6 +46,7 @@ class App extends Component {
         <Route exact path='/login' component={Login} />
         <Route exact path='/register' component={Register} />
         <Route exact path='/forgot-password' component={ForgotPassword} />
+        <Route exact path='/reset-password' component={ResetPassword} />
 
         <ProtectedApp
           {...this.props}
@@ -74,9 +76,9 @@ class ProtectedApp extends Component {
       this.props.setUser(data.user);
       this.props.setLoading(false);
       this.props.setAuthenticated(true);
-    }).catch(error => { 
+    }).catch(error => {
       console.info('sign in with token error', error);
-     })
+    })
   }
 
   onLogout = () => {
@@ -101,10 +103,10 @@ class ProtectedApp extends Component {
     let footerComponent = !this.state.isFullPageLayout && this.isVerified() ? <Footer /> : null;
 
     const { user, history } = this.props
-    
+
     console.info('Path:', this.props.history)
     console.info('User:', user)
-  
+
     if (!user.email_verified) {
       if (history.location.pathname !== '/verify') {
         return <Redirect to='/verify' />;
