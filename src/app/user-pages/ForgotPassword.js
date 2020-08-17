@@ -7,7 +7,7 @@ import { AuthActions } from '../store';
 import Api from '../api';
 import i18n from '../../i18n';
 
-class Login extends Component {
+class ForgotPassword extends Component {
   state = {
     sendErrTxt: ''
   };
@@ -117,4 +117,4 @@ const mapStateToProps = state => ({
   authenticated: state.auth.authenticated
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword);
