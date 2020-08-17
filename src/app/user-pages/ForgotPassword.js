@@ -10,7 +10,7 @@ import i18n from '../../i18n';
 class ForgotPassword extends Component {
   state = {
     sendErrTxt: '',
-    sent: true,
+    sent: false,
     email: ''
   };
 
