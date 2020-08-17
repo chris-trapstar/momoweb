@@ -532,6 +532,23 @@ class API {
       console.error('Failed to getCoupon', e)
     }
   }
+
+  setForgotPasswordEmail = async (email) => {
+    try {
+      const res = await fetch(`${baseUrl}/api/auth/forgot-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email})
+      })
+      const data = await res.json()
+      console.info('Forgot Password Result:', data)
+      return data
+    } catch (e) {
+      console.error('Failed to setForgotPasswordEmail', e)
+    }
+  }
 }
 
 const instance = new API();
