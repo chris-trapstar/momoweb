@@ -147,9 +147,7 @@ export class Dashboard extends Component {
   getPopularData = () => {
     API.getPopular()
       .then((popular) => {
-        let { popularData } = this.state;
-        popularData.push(popular[0], popular[1], popular[2], popular[3]);
-        this.setState({ popularData });
+        this.setState({ popularData: popular });
       })
       .catch((error) => {
         console.info(error);
