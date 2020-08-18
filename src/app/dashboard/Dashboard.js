@@ -66,6 +66,7 @@ export class Dashboard extends Component {
       discoveryTable.addEventListener('scroll', this.handleScroll);
     }
     window.onscroll = () => {
+      // console.info('Scroll Offset Set:', window.pageYOffset)
       this.setState({
         pageYOffset: window.pageYOffset
       })
@@ -250,6 +251,7 @@ export class Dashboard extends Component {
       showAddQuote: false,
       isFavFilter: false,
       sectors: ['Industry', ...Object.keys(SECTORS_FILTER)],
+      pageYOffset: 0
     };
   };
 
@@ -671,7 +673,7 @@ export class Dashboard extends Component {
 
   getMenuItems = (key, data, type) => {
     return (
-      <ContextMenu id={key} className='p-0' key={`menu-item-${key}`} style={{ marginTop: `-${window.pageYOffset}px` }}>
+      <ContextMenu id={key} className='p-0' key={`menu-item-${key}`} style={{ marginTop: `-${this.state.pageYOffset}px` }}>
         <div className='context-menu-style'>
           <div className='mt-2' />
           <span>LINKS</span>
