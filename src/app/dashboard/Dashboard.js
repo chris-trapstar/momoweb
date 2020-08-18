@@ -169,7 +169,9 @@ export class Dashboard extends Component {
   getAlertHistory = () => {
     API.getAlertHistory()
       .then((alertHistory) => {
-        this.setState({ alertHistory });
+        if (Array.isArray(alertHistory)) {
+          this.setState({ alertHistory });
+        }
       })
       .catch((error) => {
         console.info(error);
@@ -950,7 +952,7 @@ export class Dashboard extends Component {
           holdToDisplay={0}
         >
           <div className='pr-2' style={{
-            fontSize: `${Math.floor(36 - 24 * ((i) / len))}px`
+            fontSize: `${Math.floor(32 - 20 * ((i) / len))}px`
           }}>
             {item}{' '}
           </div>
@@ -1592,6 +1594,9 @@ export class Dashboard extends Component {
                       className={
                         this.props.isPro ? 'card' : 'card basic-popular'
                       }
+                      style={{
+                        overflow: 'scroll'
+                      }}
                     >
                       <div
                         style={{
