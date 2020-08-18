@@ -11660,10 +11660,9 @@ react-color@^2.17.3:
     reactcss "^1.2.0"
     tinycolor2 "^1.4.1"
 
-react-contextmenu@^2.13.0:
+"react-contextmenu@https://github.com/tengis/react-contextmenu":
   version "2.14.0"
-  resolved "https://registry.yarnpkg.com/react-contextmenu/-/react-contextmenu-2.14.0.tgz#d8966f30614b9b780b928be4c8d92bd740d55cdd"
-  integrity sha512-ktqMOuad6sCFNJs/ltEwppN8F0YeXmqoZfwycgtZR/MxOXMYx1xgYC44SzWH259HdGyshk1/7sXGuIRwj9hzbw==
+  resolved "https://github.com/tengis/react-contextmenu#114e83439d9106f8c19e0576adcd068b5286c409"
   dependencies:
     classnames "^2.2.5"
     object-assign "^4.1.0"
