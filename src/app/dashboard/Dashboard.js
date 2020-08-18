@@ -65,6 +65,11 @@ export class Dashboard extends Component {
     if (discoveryTable) {
       discoveryTable.addEventListener('scroll', this.handleScroll);
     }
+    window.onscroll = () => {
+      this.setState({
+        pageYOffset: window.pageYOffset
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -666,7 +671,7 @@ export class Dashboard extends Component {
 
   getMenuItems = (key, data, type) => {
     return (
-      <ContextMenu id={key} className='p-0' key={`menu-item-${key}`}>
+      <ContextMenu id={key} className='p-0' key={`menu-item-${key}`} style={{ marginTop: `-${window.pageYOffset}px` }}>
         <div className='context-menu-style'>
           <div className='mt-2' />
           <span>LINKS</span>
@@ -935,65 +940,25 @@ export class Dashboard extends Component {
   renderPopularData = (index) => {
     let data = [];
     const { popularSymbols } = this.state;
+    const len = popularSymbols.length
     popularSymbols.map((item, i) => {
-      data.push(
-        index === 0 ? (
-          <div key={`popular-data-h3-${index + i}`}>
-            <ContextMenuTrigger
-              id={`popular-data-h3-${index + i}`}
-              holdToDisplay={0}
-            >
-              <h4 className='pr-2'>{item}</h4>
-            </ContextMenuTrigger>
-            {this.getMenuItems(
-              `popular-data-h3-${index + i}`,
-              [item, '', '', '', '', ''],
-              ''
-            )}
+      data.push(<div key={`popular-data-h3-${index + i}`}>
+        <ContextMenuTrigger
+          id={`popular-data-h3-${index + i}`}
+          holdToDisplay={0}
+        >
+          <div className='pr-2' style={{
+            fontSize: `${Math.floor(36 - 24 * ((i) / len))}px`
+          }}>
+            {item}{' '}
           </div>
-        ) : index === 1 ? (
-          <div key={`popular-data-h4-${index + i}`}>
-            <ContextMenuTrigger
-              id={`popular-data-h4-${index + i}`}
-              holdToDisplay={0}
-            >
-              <h5 className='pr-2'>{item}</h5>
-            </ContextMenuTrigger>
-            {this.getMenuItems(
-              `popular-data-h4-${index + i}`,
-              [item, '', '', '', '', ''],
-              ''
-            )}
-          </div>
-        ) : index === 2 ? (
-          <div key={`popular-data-h6-${index + i}`}>
-            <ContextMenuTrigger
-              id={`popular-data-h6-${index + i}`}
-              holdToDisplay={0}
-            >
-              <h6 className='pr-2'>{item}</h6>
-            </ContextMenuTrigger>
-            {this.getMenuItems(
-              `popular-data-h6-${index + i}`,
-              [item, '', '', '', '', ''],
-              ''
-            )}
-          </div>
-        ) : (
-                <div key={`popular-data-h6-${index + i}`}>
-                  <ContextMenuTrigger
-                    id={`popular-data-h6-${index + i}`}
-                    holdToDisplay={0}
-                  >
-                    <h6 className='pr-2'>{item}</h6>
-                  </ContextMenuTrigger>
-                  {this.getMenuItems(
-                    `popular-data-h6-${index + i}`,
-                    [item, '', '', '', '', ''],
-                    ''
-                  )}
-                </div>
-              )
+        </ContextMenuTrigger>
+        {this.getMenuItems(
+          `popular-data-h3-${index + i}`,
+          [item, '', '', '', '', ''],
+          ''
+        )}
+      </div>
       );
     });
 
