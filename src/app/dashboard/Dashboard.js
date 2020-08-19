@@ -1128,7 +1128,7 @@ export class Dashboard extends Component {
             />
           </div>
           {isSmallDevice ? (
-            <div className='d-flex flex-row h-100'  >
+            <div className='d-flex flex-row h-100' style={{ minHeight: this.state.showDiscovery ?  '48vh' : '80vh'}} >
               {this.renderData(lows, 'low')}
               {this.renderData(highs, 'high')}
             </div>
