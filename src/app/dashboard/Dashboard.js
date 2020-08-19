@@ -1134,8 +1134,8 @@ export class Dashboard extends Component {
             </div>
           ) : (
               <div
-                className={'card-body stream-body'}
-                style={max ? {} : { height: '48vh' }}
+                className='card-body stream-body'
+                style={max ? {} : { height: this.state.showDiscovery ?  '48vh' : '80vh' }}
               >
                 <div className='row' style={{ height: '100%' }}>
                   {this.renderData(lows, 'low')}
