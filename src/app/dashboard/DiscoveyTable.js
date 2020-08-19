@@ -79,6 +79,7 @@ class DiscoveryTable extends Component {
     return (
       <div
         style={{ color: data > 0 ? '#00d25b' : '#fc424a' }}
+        onContextMenu={(e) => this.toggleMenu(e, symbol)}
         onClick={(e) => this.toggleMenu(e, symbol)}
       >
         {isNaN(data) ? '__' : (roundedValue > 0
@@ -149,7 +150,10 @@ class DiscoveryTable extends Component {
                     dataKey='symbol'
                     style={{ fontWeight: 600, paddingLeft: 10 }}
                     cellRenderer={({ cellData }) => (
-                      <div onClick={(e) => this.toggleMenu(e, cellData)}>
+                      <div
+                          onContextMenu={(e) => this.toggleMenu(e, cellData)}
+                          onClick={(e) => this.toggleMenu(e, cellData)}
+                      >
                         {cellData}
                       </div>
                     )}
@@ -159,7 +163,10 @@ class DiscoveryTable extends Component {
                     label='Last'
                     dataKey='price_dist'
                     cellRenderer={({ cellData, rowData }) => (
-                      <div onClick={(e) => this.toggleMenu(e, rowData.symbol)}>
+                      <div
+                          onContextMenu={(e) => this.toggleMenu(e, rowData.symbol)}
+                          onClick={(e) => this.toggleMenu(e, rowData.symbol)}
+                      >
                         <div>{rowData.last}</div>
                         <small className={'price-dist ' + (rowData.price_dist == 0 ? '' : (rowData.price_dist > 0 ? 'text-success' : 'text-danger'))}>
                           {rowData.price_dist > 0 ? '+' : ''}{rowData.price_dist}%
@@ -173,8 +180,9 @@ class DiscoveryTable extends Component {
                     dataKey='volume'
                     cellRenderer={({ cellData, rowData }) => (
                       <div
-                        onClick={(e) => this.toggleMenu(e, rowData.symbol)}
-                        style={{ color: '#9B9B9C' }}
+                          onContextMenu={(e) => this.toggleMenu(e, rowData.symbol)}
+                          onClick={(e) => this.toggleMenu(e, rowData.symbol)}
+                          style={{ color: '#9B9B9C' }}
                       >
                         {cellData}
                       </div>

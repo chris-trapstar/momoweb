@@ -147,12 +147,10 @@ export class Dashboard extends Component {
   getPopularData = () => {
     API.getPopular()
       .then((popular) => {
-        console.info('Popular Data:', popular)
         let symbols = []
         popular.forEach((arr) => {
           symbols = [...symbols, ...arr]
         })
-        console.info('Popular Symbols:', symbols)
         this.setState({ popularData: popular, popularSymbols: symbols });
       })
       .catch((error) => {
