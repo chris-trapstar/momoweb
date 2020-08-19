@@ -65,12 +65,6 @@ export class Dashboard extends Component {
     if (discoveryTable) {
       discoveryTable.addEventListener('scroll', this.handleScroll);
     }
-    window.onscroll = () => {
-      // console.info('Scroll Offset Set:', window.pageYOffset)
-      this.setState({
-        pageYOffset: window.pageYOffset
-      })
-    }
   }
 
   componentWillUnmount() {
@@ -153,12 +147,10 @@ export class Dashboard extends Component {
   getPopularData = () => {
     API.getPopular()
       .then((popular) => {
-        console.info('Popular Data:', popular)
         let symbols = []
         popular.forEach((arr) => {
           symbols = [...symbols, ...arr]
         })
-        console.info('Popular Symbols:', symbols)
         this.setState({ popularData: popular, popularSymbols: symbols });
       })
       .catch((error) => {
@@ -169,9 +161,7 @@ export class Dashboard extends Component {
   getAlertHistory = () => {
     API.getAlertHistory()
       .then((alertHistory) => {
-        if (Array.isArray(alertHistory)) {
-          this.setState({ alertHistory });
-        }
+        this.setState({ alertHistory });
       })
       .catch((error) => {
         console.info(error);
@@ -253,7 +243,6 @@ export class Dashboard extends Component {
       showAddQuote: false,
       isFavFilter: false,
       sectors: ['Industry', ...Object.keys(SECTORS_FILTER)],
-      pageYOffset: 0
     };
   };
 
@@ -675,7 +664,7 @@ export class Dashboard extends Component {
 
   getMenuItems = (key, data, type) => {
     return (
-      <ContextMenu id={key} className='p-0' key={`menu-item-${key}`} style={{ marginTop: `-${this.state.pageYOffset}px` }}>
+      <ContextMenu id={key} className='p-0' key={`menu-item-${key}`}>
         <div className='context-menu-style'>
           <div className='mt-2' />
           <span>LINKS</span>
@@ -947,22 +936,22 @@ export class Dashboard extends Component {
     const len = popularSymbols.length
     popularSymbols.map((item, i) => {
       data.push(<div key={`popular-data-h3-${index + i}`}>
-        <ContextMenuTrigger
-          id={`popular-data-h3-${index + i}`}
-          holdToDisplay={0}
-        >
-          <div className='pr-2' style={{
-            fontSize: `${Math.floor(32 - 20 * ((i) / len))}px`
-          }}>
-            {item}{' '}
+            <ContextMenuTrigger
+                id={`popular-data-h3-${index + i}`}
+                holdToDisplay={0}
+            >
+              <div className='pr-2' style={{
+                fontSize: `${Math.floor(32 - 20 * ((i) / len))}px`
+              }}>
+                {item}{' '}
+              </div>
+            </ContextMenuTrigger>
+            {this.getMenuItems(
+                `popular-data-h3-${index + i}`,
+                [item, '', '', '', '', ''],
+                ''
+            )}
           </div>
-        </ContextMenuTrigger>
-        {this.getMenuItems(
-          `popular-data-h3-${index + i}`,
-          [item, '', '', '', '', ''],
-          ''
-        )}
-      </div>
       );
     });
 
@@ -1594,25 +1583,22 @@ export class Dashboard extends Component {
                       className={
                         this.props.isPro ? 'card' : 'card basic-popular'
                       }
-                      style={{
-                        overflow: 'scroll'
-                      }}
                     >
                       <div
                         style={{
-                          flex: '1 1 auto',
-                          padding: '1rem',
                           maxHeight: 400,
                         }}
+                        className="d-flex flex-column p-3"
                       >
                         <div className='d-flex flex-row justify-content-between'>
                           <h4 style={{ marginBottom: '0px' }}>Popular</h4>
                         </div>
                         <div
                           style={{
-                            marginLeft: '2rem',
-                            marginTop: '0.4rem',
+                            marginLeft: '1rem',
                             textTransform: 'uppercase',
+                            height: '95%',
+                            overflow: 'scroll'
                           }}
                         >
                           <div className='d-flex flex-row flex-fill flex-wrap'>
