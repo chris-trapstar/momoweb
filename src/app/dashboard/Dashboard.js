@@ -1588,19 +1588,19 @@ export class Dashboard extends Component {
                     >
                       <div
                         style={{
-                          flex: '1 1 auto',
-                          padding: '1rem',
                           maxHeight: 400,
                         }}
+                        className="d-flex flex-column p-3"
                       >
                         <div className='d-flex flex-row justify-content-between'>
                           <h4 style={{ marginBottom: '0px' }}>Popular</h4>
                         </div>
                         <div
                           style={{
-                            marginLeft: '2rem',
-                            marginTop: '0.4rem',
+                            marginLeft: '1rem',
                             textTransform: 'uppercase',
+                            height: '95%',
+                            overflow: 'scroll'
                           }}
                         >
                           <div className='d-flex flex-row flex-fill flex-wrap'>
