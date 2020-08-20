@@ -1,12 +1,12 @@
 import Axios from 'axios';
 import jwtDecode from 'jwt-decode';
 
-const baseUrl =
-  window.location.hostname === 'localhost'
-    ? 'http://localhost:8080'
-    : 'https://dev-api.mometic.com';
+// const baseUrl =
+//   window.location.hostname === 'localhost'
+//     ? 'http://localhost:8080'
+//     : 'https://dev-api.mometic.com';
 
-// const baseUrl = 'https://dev-api.mometic.com';
+const baseUrl = 'https://dev-api.mometic.com';
 
 const axios = Axios.create({
   baseURL: baseUrl,

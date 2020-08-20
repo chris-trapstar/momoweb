@@ -67,7 +67,7 @@ export const DEFAULT_FILTER = {
         'SERVICES': true,
         'ENERGY': true,
         'FINANCE': true,
-        'HEALTH CARE': true,
+        'HEALTHCARE': true,
         'PUBLIC UTILITIES': true,
         'COMMUNICATIONS': true,
         'TRANSPORTION': true,
