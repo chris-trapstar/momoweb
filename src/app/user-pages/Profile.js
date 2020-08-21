@@ -26,7 +26,13 @@ export class Profile extends Component {
   };
 
   render() {
-    const { errTxt } = this.state;
+    const {
+      errTxt,
+      name,
+      email,
+      password,
+      confirm,
+    } = this.state;
     return (
       <div>
         <div className='d-flex align-items-center auth px-0 h-100'>
@@ -45,8 +51,11 @@ export class Profile extends Component {
                         <i className='input-group-text mdi mdi-account text-success' />
                       </div>
                       <Form.Control className='form-control text-light' placeholder='John Doe'
-                        ref={ref => {
-                          this.refConfirm = ref;
+                        value={name}
+                        onChange={(e) => {
+                          this.setState({
+                            name: e.target.value
+                          })
                         }}
                       />
                     </div>
@@ -59,9 +68,13 @@ export class Profile extends Component {
                         <i className='input-group-text mdi mdi-email text-success' />
                       </div>
                       <Form.Control className='form-control text-light' placeholder='Email'
-                        ref={ref => {
-                          this.refConfirm = ref;
+                        value={email}
+                        onChange={(e) => {
+                          this.setState({
+                            email: e.target.value
+                          })
                         }}
+                        disabled
                       />
                     </div>
                   </Form.Group>
@@ -74,8 +87,11 @@ export class Profile extends Component {
                         <i className='input-group-text mdi mdi-lock text-success' />
                       </div>
                       <Form.Control type='password' className='form-control text-light' placeholder='Password'
-                        ref={ref => {
-                          this.refPassword = ref;
+                        value={password}
+                        onChange={(e) => {
+                          this.setState({
+                            password: e.target.value
+                          })
                         }}
                       />
                     </div>
@@ -87,8 +103,11 @@ export class Profile extends Component {
                         <i className='input-group-text mdi mdi-lock text-success' />
                       </div>
                       <Form.Control type='password' className='form-control text-light' placeholder='Confirm Password'
-                        ref={ref => {
-                          this.refConfirm = ref;
+                        value={confirm}
+                        onChange={(e) => {
+                          this.setState({
+                            confirm: e.target.value
+                          })
                         }}
                       />
                     </div>
