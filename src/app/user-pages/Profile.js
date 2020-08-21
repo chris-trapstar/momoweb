@@ -11,6 +11,10 @@ import cogoToast from 'cogo-toast';
 export class Profile extends Component {
   state = {
     errTxt: '',
+    name: '',
+    email: '',
+    password: '',
+    confirm: ''
   };
 
   componentDidMount() {
@@ -19,22 +23,6 @@ export class Profile extends Component {
 
   onSubmit = async (e) => {
     e.preventDefault()
-    const query = qs.parse(this.props.location.search, { ignoreQueryPrefix: true })
-    console.info('Props:', query)
-    const { token } = query
-    const password = this.refPassword.value
-    const rePassword = this.refConfirm.value
-    if (password.length < 6) {
-      return cogoToast.error('At least 6 characters required!')
-    }
-    if (password != rePassword) {
-      return cogoToast.error('Password not matched!')
-    }
-    await Api.resetPassword(password, token)
-    cogoToast.success('The password is successfully reset! You will be redirected to the login page.')
-    setTimeout(() => {
-      this.props.history.replace('/login')
-    }, 3000)
   };
 
   render() {
