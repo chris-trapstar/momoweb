@@ -161,7 +161,9 @@ export class Dashboard extends Component {
   getAlertHistory = () => {
     API.getAlertHistory()
       .then((alertHistory) => {
-        this.setState({ alertHistory });
+        if (Array.isArray(alertHistory)) {
+          this.setState({ alertHistory });
+        }
       })
       .catch((error) => {
         console.info(error);
