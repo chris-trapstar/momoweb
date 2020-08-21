@@ -3,6 +3,7 @@ import { Link, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import qs from 'qs'
+
 import { AuthActions } from '../store';
 import Api from '../api';
 import i18n from '../../i18n';
@@ -134,13 +135,12 @@ export class Profile extends Component {
 }
 
 const mapDispatchToProps = {
-  setAuthenticated: AuthActions.setAuthenticated,
-  setLoading: AuthActions.setLoading,
   setUser: AuthActions.setUser,
 };
 
 const mapStateToProps = state => ({
-  authenticated: state.auth.authenticated
+  authenticated: state.auth.authenticated,
+  user: state.auth.user
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Profile));
