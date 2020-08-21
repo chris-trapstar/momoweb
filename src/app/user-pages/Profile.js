@@ -48,8 +48,7 @@ export class Profile extends Component {
                                 <div className='brand-logo'>
                                     <span className='h2 pr-2'>MOMO</span>
                                 </div>
-                                <h4>Reset your password</h4>
-                                <h6 className='font-weight-light'>Please enter a new password.</h6>
+                                <h4>Profile</h4>
                                 <form className='pt-3' onSubmit={this.onSubmit}>
                                     <Form.Group>
                                         <label>Password</label>
