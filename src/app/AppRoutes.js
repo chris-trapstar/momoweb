@@ -6,6 +6,7 @@ import Dashboard from './dashboard/Dashboard';
 import Settings from './settings/Settings';
 import Verification from './user-pages/Verification';
 import Subscription from './user-pages/Subscription';
+import Profile from './user-pages/Profile';
 
 import API from './api'
 import cogoToast from 'cogo-toast';
@@ -38,6 +39,7 @@ class AppRoutes extends Component {
         <Route exact path='/plans' component={Subscription} />
         <Route exact path='/dashboard' component={Dashboard} />
         <Route exact path='/settings' component={Settings} />
+        <Route exact path='/profile' component={Profile} />
         <Redirect to='/dashboard' />
       </Switch>
     );
