@@ -146,6 +146,26 @@ class Navbar extends Component {
                 </Dropdown.Item>
                 <Dropdown.Divider />
                 <Dropdown.Item
+                  href='!#'
+                  onClick={(evt) => {
+                    evt.preventDefault();
+                    this.props.history.push('/profile');
+                  }}
+                  className='preview-item'
+                >
+                  <div className='preview-thumbnail'>
+                    <div className='preview-icon bg-dark rounded-circle'>
+                      <i className='mdi mdi-account-outline text-success'></i>
+                    </div>
+                  </div>
+                  <div className='preview-item-content'>
+                    <p className='preview-subject mb-1'>
+                      <Trans>My Profile</Trans>
+                    </p>
+                  </div>
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item
                   onClick={() => {
                     window.open(
                       'https://www.mometic.com/momowebpro-help/',
@@ -166,6 +186,7 @@ class Navbar extends Component {
                   </div>
                 </Dropdown.Item>
                 <Dropdown.Divider />
+
                 <Dropdown.Item
                   href='!#'
                   onClick={(evt) => {
