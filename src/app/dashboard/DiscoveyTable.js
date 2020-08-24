@@ -1,18 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Table,
   Column,
   InfiniteLoader,
   AutoSizer,
   SortDirection,
-} from 'react-virtualized';
-import './DiscoveryTable.css';
-import 'react-virtualized/styles.css';
-import { ContextMenuTrigger } from 'react-contextmenu';
+} from "react-virtualized";
+import "./DiscoveryTable.css";
+import "react-virtualized/styles.css";
+import { ContextMenuTrigger } from "react-contextmenu";
 let contextTrigger = null;
 let alertContextTrigger = null;
 class DiscoveryTable extends Component {
-
   constructor() {
     super();
     this._sort = this._sort.bind(this);
@@ -22,24 +21,27 @@ class DiscoveryTable extends Component {
     this.state = {
       items: [],
       sortedList: [],
-      sortBy: '',
+      sortBy: "",
       sortDirection: SortDirection.DESC,
-      discoverySector: 'Industry'
-
+      discoverySector: "Industry",
     };
   }
   componentWillReceiveProps(props) {
     if (props.discoveryData) {
       const { sortBy, sortDirection } = this.state;
-      const sortedList = this._sortList(sortBy, sortDirection, props.discoveryData);
+      const sortedList = this._sortList(
+        sortBy,
+        sortDirection,
+        props.discoveryData
+      );
       this.setState({
         items: props.discoveryData,
-        sortedList: this.state.sortBy === ''
-          ? props.discoveryData
-          : sortedList,
-        sortBy: this.state.discoverySector === props.discoverySector && props.discoveryFilter === ''
-          ? this.state.sortBy
-          : '',
+        sortedList: this.state.sortBy === "" ? props.discoveryData : sortedList,
+        sortBy:
+          this.state.discoverySector === props.discoverySector &&
+          props.discoveryFilter === ""
+            ? this.state.sortBy
+            : "",
         discoverySector: props.discoverySector,
       });
     }
@@ -52,17 +54,24 @@ class DiscoveryTable extends Component {
   }
 
   _sort({ sortBy }) {
-    if (sortBy !== 'alert') {
-      this.setState({
-        sortBy,
-        sortDirection:
-          this.state.sortDirection === SortDirection.DESC
-            ? SortDirection.ASC
-            : SortDirection.DESC,
-      }, () => {
-        const sortedList = this._sortList(sortBy, this.state.sortDirection, this.state.items);
-        this.setState({ sortedList })
-      });
+    if (sortBy !== "alert") {
+      this.setState(
+        {
+          sortBy,
+          sortDirection:
+            this.state.sortDirection === SortDirection.DESC
+              ? SortDirection.ASC
+              : SortDirection.DESC,
+        },
+        () => {
+          const sortedList = this._sortList(
+            sortBy,
+            this.state.sortDirection,
+            this.state.items
+          );
+          this.setState({ sortedList });
+        }
+      );
     }
   }
 
@@ -75,26 +84,23 @@ class DiscoveryTable extends Component {
   _round = (value, decimals) => parseFloat(value).toFixed(decimals);
 
   _setColorOnValue(symbol, data, type, decimals) {
-    const roundedValue = isNaN(data) ? '__' : this._round(data, decimals);
+    const roundedValue = isNaN(data) ? "__" : this._round(data, decimals);
     return (
-      <div
-        style={{ color: data > 0 ? '#00d25b' : '#fc424a' }}
-        onContextMenu={(e) => this.toggleMenu(e, symbol)}
-        onClick={(e) => this.toggleMenu(e, symbol)}
-      >
-        {isNaN(data) ? '__' : (roundedValue > 0
+      <div style={{ color: data > 0 ? "#00d25b" : "#fc424a" }}>
+        {isNaN(data)
+          ? "__"
+          : roundedValue > 0
           ? `+${roundedValue}${type}`
-          : `${roundedValue}${type}`)
-        }
+          : `${roundedValue}${type}`}
       </div>
     );
   }
 
   _rowClassName({ index }) {
     if (index < 0) {
-      return 'row-color-grey';
+      return "row-color-grey";
     } else {
-      return index % 2 === 0 ? 'row-color-grey' : 'row-color-black';
+      return index % 2 === 0 ? "row-color-grey" : "row-color-black";
     }
   }
 
@@ -107,7 +113,7 @@ class DiscoveryTable extends Component {
 
   render() {
     return (
-      <div className='container h-100'>
+      <div className="container h-100">
         <ContextMenuTrigger
           id={`discovery-context-menu`}
           ref={(c) => (contextTrigger = c)}
@@ -115,7 +121,7 @@ class DiscoveryTable extends Component {
           <></>
         </ContextMenuTrigger>
         <ContextMenuTrigger
-          id={'discovery-alert-context-menu'}
+          id={"discovery-alert-context-menu"}
           ref={(c) => (alertContextTrigger = c)}
         >
           <></>
@@ -126,7 +132,7 @@ class DiscoveryTable extends Component {
           rowCount={this.state.sortedList.length}
         >
           {({ onRowsRendered }) => (
-            <AutoSizer >
+            <AutoSizer>
               {({ width, height }) => (
                 <Table
                   height={height}
@@ -134,25 +140,25 @@ class DiscoveryTable extends Component {
                   sort={this._sort}
                   headerHeight={50}
                   width={width}
-                  style={{ fontSize: 14, height: '100%' }}
+                  style={{ fontSize: 14, height: "100%" }}
                   sortBy={this.state.sortBy}
                   onRowsRendered={onRowsRendered}
                   rowCount={this.state.sortedList.length}
                   sortDirection={this.state.sortDirection}
                   rowGetter={({ index }) => this.state.sortedList[index]}
                   rowClassName={(index) =>
-                    index.index % 2 === 0 ? 'oddRow' : 'evenRow'
+                    index.index % 2 === 0 ? "oddRow" : "evenRow"
                   }
                 >
                   <Column
                     width={200}
-                    label='Symbol'
-                    dataKey='symbol'
+                    label="Symbol"
+                    dataKey="symbol"
                     style={{ fontWeight: 600, paddingLeft: 10 }}
                     cellRenderer={({ cellData }) => (
                       <div
-                          onContextMenu={(e) => this.toggleMenu(e, cellData)}
-                          onClick={(e) => this.toggleMenu(e, cellData)}
+                        onContextMenu={(e) => this.toggleMenu(e, cellData)}
+                        onClick={(e) => this.toggleMenu(e, cellData)}
                       >
                         {cellData}
                       </div>
@@ -160,67 +166,68 @@ class DiscoveryTable extends Component {
                   />
                   <Column
                     width={200}
-                    label='Last'
-                    dataKey='price_dist'
+                    label="Last"
+                    dataKey="price_dist"
                     cellRenderer={({ cellData, rowData }) => (
-                      <div
-                          onContextMenu={(e) => this.toggleMenu(e, rowData.symbol)}
-                          onClick={(e) => this.toggleMenu(e, rowData.symbol)}
-                      >
+                      <div>
                         <div>{rowData.last}</div>
-                        <small className={'price-dist ' + (rowData.price_dist == 0 ? '' : (rowData.price_dist > 0 ? 'text-success' : 'text-danger'))}>
-                          {rowData.price_dist > 0 ? '+' : ''}{rowData.price_dist}%
+                        <small
+                          className={
+                            "price-dist " +
+                            (rowData.price_dist == 0
+                              ? ""
+                              : rowData.price_dist > 0
+                              ? "text-success"
+                              : "text-danger")
+                          }
+                        >
+                          {rowData.price_dist > 0 ? "+" : ""}
+                          {rowData.price_dist}%
                         </small>
                       </div>
                     )}
                   />
                   <Column
                     width={200}
-                    label='Volume'
-                    dataKey='volume'
+                    label="Volume"
+                    dataKey="volume"
                     cellRenderer={({ cellData, rowData }) => (
-                      <div
-                          onContextMenu={(e) => this.toggleMenu(e, rowData.symbol)}
-                          onClick={(e) => this.toggleMenu(e, rowData.symbol)}
-                          style={{ color: '#9B9B9C' }}
-                      >
-                        {cellData}
-                      </div>
+                      <div style={{ color: "#9B9B9C" }}>{cellData}</div>
                     )}
                   />
                   <Column
                     width={200}
-                    label='Momentum'
-                    dataKey='momentum'
+                    label="Momentum"
+                    dataKey="momentum"
                     cellRenderer={({ cellData, rowData }) =>
-                      this._setColorOnValue(rowData.symbol, cellData, '', '')
+                      this._setColorOnValue(rowData.symbol, cellData, "", "")
                     }
                   />
                   <Column
                     width={200}
-                    label='UVol'
-                    dataKey='uVol'
+                    label="UVol"
+                    dataKey="uVol"
                     cellRenderer={({ cellData, rowData }) =>
-                      this._setColorOnValue(rowData.symbol, cellData, '%', '2')
+                      this._setColorOnValue(rowData.symbol, cellData, "%", "2")
                     }
                   />
                   <Column
                     width={200}
-                    label='VWAPDist'
-                    dataKey='vWAPDist'
+                    label="VWAPDist"
+                    dataKey="vWAPDist"
                     cellRenderer={({ cellData, rowData }) =>
-                      this._setColorOnValue(rowData.symbol, cellData, '%', '2')
+                      this._setColorOnValue(rowData.symbol, cellData, "%", "2")
                     }
                   />
                   <Column
                     width={160}
-                    dataKey='alert'
-                    label='Actions'
+                    dataKey="alert"
+                    label="Actions"
                     style={{ overflowX: "auto" }}
                     cellRenderer={({ cellData, rowData }) => (
-                      <div className='action-column'>
+                      <div className="action-column">
                         <span
-                          className='mdi mdi-bell text-white popover-icon action-button-margin'
+                          className="mdi mdi-bell text-white popover-icon action-button-margin"
                           onClick={(e) => {
                             alertContextTrigger.handleContextClick(e);
                             this.props.onAlertTrigger(
@@ -232,10 +239,10 @@ class DiscoveryTable extends Component {
                         <i
                           className={`${
                             this.props.checkIsFavorite(cellData)
-                              ? 'mdi mdi-star quote-star popover-icon'
-                              : 'mdi mdi-star text-white popover-icon'
-                            }`}
-                          style={{ cursor: 'pointer' }}
+                              ? "mdi mdi-star quote-star popover-icon"
+                              : "mdi mdi-star text-white popover-icon"
+                          }`}
+                          style={{ cursor: "pointer" }}
                           onClick={() => this.props.onSetSymbolFav(cellData)}
                         />
                       </div>

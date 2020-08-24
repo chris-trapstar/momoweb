@@ -489,23 +489,11 @@ export class Dashboard extends Component {
               )}
             </td>
             <td className="text-low flex-fill">
-              <label className="stock-text">
-                <ContextMenuTrigger
-                  id={`low-context-menu_${index}`}
-                  holdToDisplay={0}
-                >
-                  {low[2]}
-                </ContextMenuTrigger>
-              </label>
+              <label className="stock-text">{low[2]}</label>
             </td>
             <td className="text-low flex-fill">
               <label className="stock-text">
-                <ContextMenuTrigger
-                  id={`low-context-menu_${index}`}
-                  holdToDisplay={0}
-                >
-                  {`${this.round(this.getLast(low[6], low[1]), 2)}`}
-                </ContextMenuTrigger>
+                {`${this.round(this.getLast(low[6], low[1]), 2)}`}
               </label>
             </td>
           </tr>
@@ -543,23 +531,11 @@ export class Dashboard extends Component {
               )}
             </td>
             <td className="text-high flex-fill">
-              <label className="stock-text">
-                <ContextMenuTrigger
-                  id={`high-context-menu_${index}`}
-                  holdToDisplay={0}
-                >
-                  {high[2]}
-                </ContextMenuTrigger>
-              </label>
+              <label className="stock-text">{high[2]}</label>
             </td>
             <td className="text-high flex-fill">
               <label className="stock-text">
-                <ContextMenuTrigger
-                  id={`high-context-menu_${index}`}
-                  holdToDisplay={0}
-                >
-                  {`${this.round(this.getLast(high[6], high[1]), 2)}`}
-                </ContextMenuTrigger>
+                {`${this.round(this.getLast(high[6], high[1]), 2)}`}
               </label>
             </td>
           </tr>
