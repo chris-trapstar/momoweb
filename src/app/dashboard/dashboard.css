@@ -30,13 +30,6 @@
   }
 }
 
-.static-row {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
 .static-img {
   width: 1.5em;
   height: 1.5em;
@@ -520,21 +513,7 @@ th {
   }
 }
 
-.hideWidget {
-  color: gray;
-}
 
-.hideWidget:hover {
-  color: yellow;
-}
-
-.showWidget {
-  color: white;
-}
-
-.showWidget:hover {
-  color: yellow;
-}
 .data-separator {
   height: 1em;
 }

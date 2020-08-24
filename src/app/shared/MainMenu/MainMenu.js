@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { MenuActions } from "../store";
+import { MenuActions } from "../../store";
 import { withRouter } from "react-router-dom";
+import "./MainMenu.scss";
 
 const MainMenu = (props) => {
   const {
@@ -17,7 +18,7 @@ const MainMenu = (props) => {
   return (
     <div className="d-flex justify-content-start flex-wrap static-bar pl-3">
       <div
-        className={`d-flex flex-row align-items-center static-row ${
+        className={`d-flex flex-row align-items-center p-2 ${
           stream ? "showWidget" : "hideWidget"
         }`}
         style={{ cursor: "pointer" }}
@@ -26,10 +27,12 @@ const MainMenu = (props) => {
         <span className="bar-icon">
           <i className="mdi mdi-speedometer text-primary" />
         </span>
-        <span className="small white-no-wrap bar-txt">STREAM</span>
+        <span className="small white-no-wrap bar-txt d-none d-sm-block">
+          STREAM
+        </span>
       </div>
       <div
-        className={`d-flex flex-row align-items-center static-row ${
+        className={`d-flex flex-row align-items-center p-2 ${
           alertHistory ? "showWidget" : "hideWidget"
         }`}
         style={{ cursor: "pointer" }}
@@ -38,10 +41,12 @@ const MainMenu = (props) => {
         <span className="bar-icon">
           <i className="mdi mdi-file-restore text-success" />
         </span>
-        <span className="small white-no-wrap bar-txt">ALERT HISTORY</span>
+        <span className="small white-no-wrap bar-txt d-none d-sm-block">
+          ALERT HISTORY
+        </span>
       </div>
       <div
-        className={`d-flex flex-row align-items-center static-row ${
+        className={`d-flex flex-row align-items-center p-2 ${
           meters ? "showWidget" : "hideWidget"
         }`}
         style={{ cursor: "pointer" }}
@@ -50,10 +55,12 @@ const MainMenu = (props) => {
         <span className="bar-icon">
           <i className="mdi mdi-crosshairs-gps text-warning" />
         </span>
-        <span className="small white-no-wrap bar-txt">METERS</span>
+        <span className="small white-no-wrap bar-txt d-none d-sm-block">
+          METERS
+        </span>
       </div>
       <div
-        className={`d-flex flex-row align-items-center static-row  ${
+        className={`d-flex flex-row align-items-center p-2  ${
           popular ? "showWidget" : "hideWidget"
         }`}
         style={{ cursor: "pointer" }}
@@ -62,10 +69,12 @@ const MainMenu = (props) => {
         <span className="bar-icon">
           <i className="mdi mdi-clipboard-text text-danger" />
         </span>
-        <span className="small white-no-wrap bar-txt">POPULAR</span>
+        <span className="small white-no-wrap bar-txt d-none d-sm-block">
+          POPULAR
+        </span>
       </div>
       <div
-        className={`d-flex flex-row align-items-center static-row ${
+        className={`d-flex flex-row align-items-center p-2 ${
           quotes ? "showWidget" : "hideWidget"
         }`}
         style={{ cursor: "pointer" }}
@@ -74,12 +83,14 @@ const MainMenu = (props) => {
         <span className="bar-icon">
           <i className="mdi mdi-chart-bar text-primary" />
         </span>
-        <span className="small white-no-wrap bar-txt">QUOTE</span>
+        <span className="small white-no-wrap bar-txt d-none d-sm-block">
+          QUOTE
+        </span>
       </div>
 
       <div
         style={{ cursor: "pointer" }}
-        className={`d-flex flex-row align-items-center static-row ${
+        className={`d-flex flex-row align-items-center p-2 ${
           isPro ? (discovery ? "showWidget" : "hideWidget") : "hideWidget"
         }`}
         style={{ cursor: "pointer" }}
@@ -92,23 +103,24 @@ const MainMenu = (props) => {
           <i className="mdi mdi-content-copy text-success" />
         </span>
         <span
-          className="small white-no-wrap bar-txt"
+          className="small white-no-wrap bar-txt d-none d-sm-block"
           style={{ display: "flex" }}
         >
           DISCOVERY
-          <span
-            style={{
-              paddingLeft: 2,
-              paddingRight: 2,
-              fontSize: "10px",
-              color: "black",
-              background: isPro ? (discovery ? "#ffff" : "gray") : "gray",
-              marginLeft: "5px",
-              height: "12px",
-            }}
-          >
-            PRO
-          </span>
+        </span>
+
+        <span
+          style={{
+            paddingLeft: 2,
+            paddingRight: 2,
+            fontSize: "10px",
+            color: "black",
+            background: isPro ? (discovery ? "#ffff" : "gray") : "gray",
+            marginLeft: "5px",
+            height: "12px",
+          }}
+        >
+          PRO
         </span>
       </div>
     </div>

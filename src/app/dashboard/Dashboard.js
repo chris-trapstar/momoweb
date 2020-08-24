@@ -25,7 +25,7 @@ import {
   DEFAULT_FILTER,
 } from "../constants";
 import DiscoveryTable from "./DiscoveyTable";
-import MainMenu from "./MainMenu";
+import MainMenu from "../shared/MainMenu/MainMenu";
 const params = {
   grabCursor: true,
   slidesPerView: "auto",
