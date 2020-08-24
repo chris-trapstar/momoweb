@@ -1,3 +1,4 @@
-import AuthActions from './auth';
+import AuthActions from "./auth";
+import MenuActions from "./menu";
 
-export { AuthActions };
+export { AuthActions, MenuActions };
