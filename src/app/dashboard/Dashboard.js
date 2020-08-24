@@ -204,14 +204,6 @@ export class Dashboard extends Component {
     }
 
     return {
-      /* Widget Status */
-      stream: true,
-      meters: true,
-      popular: true,
-      discovery: true,
-      showAlertHistory: true,
-      showQuotes: true,
-
       quotes: [],
       highs: [],
       lows: [],

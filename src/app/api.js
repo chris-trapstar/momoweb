@@ -9,6 +9,8 @@ const axios = Axios.create({
   headers: { "Content-Type": "application/json", Accept: "application/json" },
 });
 
+const baseUrl = REACT_APP_BASE_URL;
+
 const STATS_API = "https://beta-data.mometic.com/api/discovery";
 
 class API {
