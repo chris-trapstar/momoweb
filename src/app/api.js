@@ -1,20 +1,15 @@
-import Axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import Axios from "axios";
+import jwtDecode from "jwt-decode";
 
-// const baseUrl =
-//   window.location.hostname === 'localhost'
-//     ? 'http://localhost:8080'
-//     : 'https://dev-api.mometic.com';
-
-const baseUrl = 'https://dev-api.mometic.com';
+const { REACT_APP_BASE_URL } = process.env; // https://create-react-app.dev/docs/adding-custom-environment-variables/
 
 const axios = Axios.create({
-  baseURL: baseUrl,
+  baseURL: REACT_APP_BASE_URL,
   timeout: 5000,
-  headers: { 'Content-Type': 'application/json', Accept: 'application/json' }
+  headers: { "Content-Type": "application/json", Accept: "application/json" },
 });
 
-const STATS_API = 'https://beta-data.mometic.com/api/discovery'
+const STATS_API = "https://beta-data.mometic.com/api/discovery";
 
 class API {
   init() {
@@ -23,15 +18,15 @@ class API {
   }
 
   emit() {
-    console.info('API.emit - ', arguments);
+    console.info("API.emit - ", arguments);
   }
 
   setInterceptors = () => {
     axios.interceptors.response.use(
-      response => {
+      (response) => {
         return response;
       },
-      err => {
+      (err) => {
         return new Promise((resolve, reject) => {
           if (
             err &&
@@ -41,7 +36,7 @@ class API {
             !err.config.__isRetryRequest
           ) {
             // if you ever get an unauthorized response, logout the user
-            this.emit('onAutoLogout', 'Invalid access_token');
+            this.emit("onAutoLogout", "Invalid access_token");
             this.setSession(null);
           }
           throw err;
@@ -52,18 +47,18 @@ class API {
 
   login = (email, password) => {
     const header = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email,
-        password
-      })
+        password,
+      }),
     };
     return new Promise((resolve, reject) => {
       fetch(`${baseUrl}/api/auth/login`, header)
-        .then(async response => {
+        .then(async (response) => {
           let data = await response.json();
           if (data.access_token) {
             resolve(data);
@@ -71,7 +66,7 @@ class API {
             reject(data.error);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -79,19 +74,19 @@ class API {
 
   signup = (email, username, password) => {
     const header = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email,
         username,
-        password
-      })
+        password,
+      }),
     };
     return new Promise((resolve, reject) => {
       fetch(`${baseUrl}/api/auth/signup`, header)
-        .then(async response => {
+        .then(async (response) => {
           let data = await response.json();
           if (data.access_token) {
             resolve(data);
@@ -99,7 +94,7 @@ class API {
             reject(data.error);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -107,18 +102,18 @@ class API {
 
   verify = (email) => {
     const header = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.getAccessToken()}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getAccessToken()}`,
       },
       body: JSON.stringify({
-        email
-      })
+        email,
+      }),
     };
     return new Promise((resolve, reject) => {
       fetch(`${baseUrl}/api/auth/verify_email`, header)
-        .then(async response => {
+        .then(async (response) => {
           let data = await response.json();
           if (data.sent) {
             resolve();
@@ -126,7 +121,7 @@ class API {
             reject(data.error);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
@@ -134,69 +129,69 @@ class API {
 
   getPopular = () => {
     const header = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.getAccessToken()}`
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getAccessToken()}`,
+      },
     };
     return new Promise((resolve, reject) => {
       fetch(`${baseUrl}/api/stock_stats/top`, header)
-        .then(async response => {
+        .then(async (response) => {
           const data = await response.json();
           resolve(data);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
-  }
+  };
 
   getStockPageLink = (domain, stock) => {
-    return `${baseUrl}/api/stock/${domain}/${stock}/`
-  }
+    return `${baseUrl}/api/stock/${domain}/${stock}/`;
+  };
 
   getAlertHistory = () => {
     const header = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.getAccessToken()}`
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getAccessToken()}`,
+      },
     };
     return new Promise((resolve, reject) => {
       fetch(`${baseUrl}/api/alert_history`, header)
-        .then(async response => {
+        .then(async (response) => {
           const data = await response.json();
           resolve(data);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
-  }
+  };
 
   handleAuthentication = () => {
     let access_token = this.getAccessToken();
 
     if (!access_token) {
-      this.emit('onNoAccessToken');
+      this.emit("onNoAccessToken");
 
       return;
     }
 
     if (this.isAuthTokenValid(access_token)) {
       this.setSession(access_token);
-      this.emit('onAutoLogin', true);
+      this.emit("onAutoLogin", true);
     } else {
       this.setSession(null);
-      this.emit('onAutoLogout', 'access_token expired');
+      this.emit("onAutoLogout", "access_token expired");
     }
   };
 
-  createUser = data => {
+  createUser = (data) => {
     return new Promise((resolve, reject) => {
-      axios.post('/api/auth/register', data).then(response => {
+      axios.post("/api/auth/register", data).then((response) => {
         if (response.data.user) {
           this.setSession(response.data.access_token);
           resolve(response.data.user);
@@ -210,11 +205,11 @@ class API {
   signInWithEmailAndPassword = (email, password) => {
     return new Promise((resolve, reject) => {
       axios
-        .post('/api/auth/login', {
+        .post("/api/auth/login", {
           email,
-          password
+          password,
         })
-        .then(response => {
+        .then((response) => {
           if (response.data.user) {
             this.setSession(response.data.access_token);
             resolve(response.data.user);
@@ -222,7 +217,7 @@ class API {
             reject(response.data.error);
           }
         })
-        .catch(e => {
+        .catch((e) => {
           reject(e);
         });
     });
@@ -230,51 +225,50 @@ class API {
 
   signInWithToken = () => {
     const header = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.getAccessToken()}`
-      }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this.getAccessToken()}`,
+      },
     };
     return new Promise((resolve, reject) => {
       fetch(`${baseUrl}/api/auth/user`, header)
-        .then(async response => {
+        .then(async (response) => {
           const data = await response.json();
           if (data.error) {
             reject(data.error);
           }
           resolve(data);
         })
-        .catch(error => {
+        .catch((error) => {
           reject(error);
         });
     });
   };
 
   signInWithGoogle = async (payload) => {
-    const response = await axios
-      .post('/api/auth/google', payload)
+    const response = await axios.post("/api/auth/google", payload);
     if (response.data.user) {
       this.setSession(response.data.access_token);
-      return response.data
+      return response.data;
     } else {
       throw response.data.error;
     }
-  }
+  };
 
-  updateUserData = user => {
-    return axios.post('/api/auth/user/update', {
-      user: user
+  updateUserData = (user) => {
+    return axios.post("/api/auth/user/update", {
+      user: user,
     });
   };
 
-  setSession = access_token => {
+  setSession = (access_token) => {
     if (access_token) {
-      localStorage.setItem('jwt_access_token', access_token);
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + access_token;
+      localStorage.setItem("jwt_access_token", access_token);
+      axios.defaults.headers.common["Authorization"] = "Bearer " + access_token;
     } else {
-      localStorage.removeItem('jwt_access_token');
-      delete axios.defaults.headers.common['Authorization'];
+      localStorage.removeItem("jwt_access_token");
+      delete axios.defaults.headers.common["Authorization"];
     }
   };
 
@@ -282,14 +276,14 @@ class API {
     this.setSession(null);
   };
 
-  isAuthTokenValid = access_token => {
+  isAuthTokenValid = (access_token) => {
     if (!access_token) {
       return false;
     }
     const decoded = jwtDecode(access_token);
     const currentTime = Date.now() / 1000;
     if (decoded.exp < currentTime) {
-      console.warn('access token expired');
+      console.warn("access token expired");
       return false;
     } else {
       return true;
@@ -297,275 +291,285 @@ class API {
   };
 
   getAccessToken = () => {
-    return window.localStorage.getItem('jwt_access_token');
+    return window.localStorage.getItem("jwt_access_token");
   };
 
-  addAlert = async ({
-    category,
-    rate,
-    high,
-    low,
-    type
-  }) => {
+  addAlert = async ({ category, rate, high, low, type }) => {
     const response = await fetch(`${baseUrl}/api/alerts`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({
-        category, rate, high, low, type
+        category,
+        rate,
+        high,
+        low,
+        type,
       }),
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
-      }
-    })
-    const data = await response.json()
-    console.info('POST /api/alerts - response - ', data)
-    return data
-  }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt_access_token")}`,
+      },
+    });
+    const data = await response.json();
+    console.info("POST /api/alerts - response - ", data);
+    return data;
+  };
 
   updateAlert = async (id, alert) => {
     const response = await fetch(`${baseUrl}/api/alerts/${id}`, {
-      method: 'PUT',
+      method: "PUT",
       body: JSON.stringify(alert),
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
-      }
-    })
-    const data = await response.json()
-    console.info('PUT /api/alerts/:id - response - ', data)
-    return data
-  }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt_access_token")}`,
+      },
+    });
+    const data = await response.json();
+    console.info("PUT /api/alerts/:id - response - ", data);
+    return data;
+  };
 
   deleteAlert = async (id) => {
     const response = await fetch(`${baseUrl}/api/alerts/${id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
-      }
-    })
-    const data = await response.json()
-    console.info('DELETE /api/alerts/:id - response - ', data)
-    return data
-  }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt_access_token")}`,
+      },
+    });
+    const data = await response.json();
+    console.info("DELETE /api/alerts/:id - response - ", data);
+    return data;
+  };
 
   getAlerts = async () => {
     const response = await fetch(`${baseUrl}/api/alerts`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
-      }
-    })
-    const data = await response.json()
-    console.info('GET /api/alerts - response - ', data)
-    return data
-  }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt_access_token")}`,
+      },
+    });
+    const data = await response.json();
+    console.info("GET /api/alerts - response - ", data);
+    return data;
+  };
 
   getQuotes = async () => {
     const response = await fetch(`${baseUrl}/api/quotes`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
-      }
-    })
-    const data = await response.json()
-    console.info('GET /api/quotes - response - ', data)
-    return data
-  }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt_access_token")}`,
+      },
+    });
+    const data = await response.json();
+    console.info("GET /api/quotes - response - ", data);
+    return data;
+  };
 
   registerQuote = async (symbol) => {
-    console.info('registerQuotes:', symbol)
+    console.info("registerQuotes:", symbol);
     const response = await fetch(`${baseUrl}/api/quotes`, {
-      method: 'POST',
+      method: "POST",
       body: JSON.stringify({ symbol }),
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
-      }
-    })
-    const data = await response.json()
-    console.info('POST /api/quotes - response - ', data)
-    return data
-  }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt_access_token")}`,
+      },
+    });
+    const data = await response.json();
+    console.info("POST /api/quotes - response - ", data);
+    return data;
+  };
 
   deleteQuote = async (symbol) => {
-    console.info('deleteQuote:', symbol)
+    console.info("deleteQuote:", symbol);
     const response = await fetch(`${baseUrl}/api/quotes/${symbol}`, {
-      method: 'DELETE',
+      method: "DELETE",
       body: JSON.stringify({ symbol }),
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
-      }
-    })
-    const data = await response.json()
-    console.info('DELETE /api/quotes - response - ', data)
-    return data
-  }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt_access_token")}`,
+      },
+    });
+    const data = await response.json();
+    console.info("DELETE /api/quotes - response - ", data);
+    return data;
+  };
 
   registerPushToken = async (registration_id) => {
     try {
       const res = await fetch(`${baseUrl}/api/alerts/device/fcm`, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({
-          registration_id
+          registration_id,
         }),
         headers: {
-          Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      const data = await res.json()
-      console.info('Push Token Registered:', data)
-      return data
+          Authorization: `Bearer ${window.localStorage.getItem(
+            "jwt_access_token"
+          )}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.info("Push Token Registered:", data);
+      return data;
     } catch (e) {
-      console.error('Failed to register the push token', e)
+      console.error("Failed to register the push token", e);
     }
-  }
+  };
 
   getStats = async () => {
-    const res = await fetch(STATS_API)
-    const data = await res.json()
-    return data
-  }
+    const res = await fetch(STATS_API);
+    const data = await res.json();
+    return data;
+  };
 
   getStripePlans = async () => {
     const response = await fetch(`${baseUrl}/api/stripe/plans`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('jwt_access_token')}`
-      }
-    })
-    const data = await response.json()
-    console.info('GET /api/stripe/plans - response - ', data)
-    return data
-  }
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("jwt_access_token")}`,
+      },
+    });
+    const data = await response.json();
+    console.info("GET /api/stripe/plans - response - ", data);
+    return data;
+  };
 
   createCustomer = async (token) => {
     try {
       const res = await fetch(`${baseUrl}/api/stripe/customer`, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({
-          token
+          token,
         }),
         headers: {
-          Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      const data = await res.json()
-      console.info('Stripe Customer Created:', data)
-      return data
+          Authorization: `Bearer ${window.localStorage.getItem(
+            "jwt_access_token"
+          )}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.info("Stripe Customer Created:", data);
+      return data;
     } catch (e) {
-      console.error('Failed to create stripe customer', e)
+      console.error("Failed to create stripe customer", e);
     }
-  }
+  };
 
   getCustomer = async () => {
     try {
       const res = await fetch(`${baseUrl}/api/stripe/customer`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      const data = await res.json()
-      console.info('Stripe Customer:', data)
-      return data
+          Authorization: `Bearer ${window.localStorage.getItem(
+            "jwt_access_token"
+          )}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.info("Stripe Customer:", data);
+      return data;
     } catch (e) {
-      console.error('Failed to create stripe customer', e)
+      console.error("Failed to create stripe customer", e);
     }
-  }
+  };
 
   createSubscription = async (plan, coupon) => {
     try {
       const res = await fetch(`${baseUrl}/api/stripe/subscription`, {
-        method: 'POST',
+        method: "POST",
         body: JSON.stringify({ plan, coupon }),
         headers: {
-          Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      const data = await res.json()
-      console.info('createSubscription:', data)
-      return data
+          Authorization: `Bearer ${window.localStorage.getItem(
+            "jwt_access_token"
+          )}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.info("createSubscription:", data);
+      return data;
     } catch (e) {
-      console.error('Failed to create createSubscription', e)
+      console.error("Failed to create createSubscription", e);
     }
-  }
+  };
 
   cancelSubscription = async (id) => {
     try {
       const res = await fetch(`${baseUrl}/api/stripe/subscription/${id}`, {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      const data = await res.json()
-      console.info('delete subscription:', data)
-      return data
+          Authorization: `Bearer ${window.localStorage.getItem(
+            "jwt_access_token"
+          )}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.info("delete subscription:", data);
+      return data;
     } catch (e) {
-      console.error('Failed to cancelSubscription', e)
+      console.error("Failed to cancelSubscription", e);
     }
-  }
+  };
 
   getCoupon = async (code) => {
     try {
       const res = await fetch(`${baseUrl}/api/stripe/coupon/${code}`, {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Authorization: `Bearer ${window.localStorage.getItem('jwt_access_token')}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      const data = await res.json()
-      console.info('coupon data:', data)
-      return data
+          Authorization: `Bearer ${window.localStorage.getItem(
+            "jwt_access_token"
+          )}`,
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await res.json();
+      console.info("coupon data:", data);
+      return data;
     } catch (e) {
-      console.error('Failed to getCoupon', e)
+      console.error("Failed to getCoupon", e);
     }
-  }
+  };
 
   sendForgotPasswordEmail = async (email) => {
     try {
       const res = await fetch(`${baseUrl}/api/auth/forgot_password`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({email})
-      })
-      const data = await res.json()
-      console.info('Forgot Password Result:', data)
-      return data
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      console.info("Forgot Password Result:", data);
+      return data;
     } catch (e) {
-      console.error('Failed to setForgotPasswordEmail', e)
+      console.error("Failed to setForgotPasswordEmail", e);
     }
-  }
+  };
 
   resetPassword = async (password, token) => {
     try {
       const res = await fetch(`${baseUrl}/api/auth/reset_password`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({password, token})
-      })
-      const data = await res.json()
-      console.info('Reset Password Result:', data)
-      return data
+        body: JSON.stringify({ password, token }),
+      });
+      const data = await res.json();
+      console.info("Reset Password Result:", data);
+      return data;
     } catch (e) {
-      console.error('Failed to resetPassword', e)
+      console.error("Failed to resetPassword", e);
     }
-  }
+  };
 }
 
 const instance = new API();

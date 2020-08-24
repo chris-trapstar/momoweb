@@ -29,6 +29,7 @@
     "flag-icon-css": "^3.3.0",
     "font-awesome": "^4.7.0",
     "history": "^4.10.1",
+    "http-proxy-middleware": "^1.0.5",
     "i18next": "^19.0.0",
     "i18next-browser-languagedetector": "^4.0.1",
     "jwt-decode": "^2.2.0",
