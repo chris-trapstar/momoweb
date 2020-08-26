@@ -185,30 +185,11 @@ export class Dashboard extends Component {
   };
 
   getInitialState = () => {
-    let filter = { ...DEFAULT_FILTER };
-
-    let data_filter = localStorage.getItem("filter");
-    if (data_filter) {
-      try {
-        let cached_filter = JSON.parse(data_filter);
-
-        filter.industries = cached_filter.industries || filter.industries;
-        filter.price = cached_filter.price || filter.price;
-        filter.volume = cached_filter.volume || filter.volume;
-        localStorage.setItem("filter", JSON.stringify(filter));
-      } catch (e) {
-        console.error(e);
-      }
-    } else {
-      localStorage.setItem("filter", JSON.stringify(DEFAULT_FILTER));
-    }
-
     return {
       quotes: [],
       highs: [],
       lows: [],
       bars: [1, 0.6, -1],
-      filter,
       stats: [],
       popoverOpened: false,
       stockCards: [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}],
@@ -254,18 +235,6 @@ export class Dashboard extends Component {
   };
 
   listenTrade = () => {
-    let data_filter;
-    try {
-      data_filter = JSON.parse(localStorage.getItem("filter"));
-    } catch (e) {}
-    if (!data_filter) {
-      data_filter = { ...DEFAULT_FILTER };
-    }
-    if (!data_filter.industries) {
-      data_filter.industries = DEFAULT_FILTER.industries;
-    }
-    localStorage.setItem("filter", JSON.stringify(data_filter));
-    console.info("Category Loaded:", data_filter);
     window.addEventListener("compressedUpdate", this.onCompressedUpdate, false);
     // this.subscribeChannels(data_filter.category);
   };
@@ -302,27 +271,24 @@ export class Dashboard extends Component {
   };
 
   applyFilter = (data) => {
-    let self = this;
+    const { filter } = this.props.config;
 
     let dicSectors = {};
-    // console.log("this.state.filter.industries", this.state.filter.industries);
-    const industries =
-      this.state.filter.industries || DEFAULT_FILTER.industries;
-    for (let key in industries) {
+    for (let key in filter.industries) {
       dicSectors = { ...dicSectors, ...SECTORS_FILTER[key] };
     }
 
     return data
       .filter((item, i) => {
         let price = item[1];
-        let priceFilter = self.state.filter.price;
+        let priceFilter = filter.price;
         const min = priceFilter.min || 0;
         const max = priceFilter.max >= PRICE_MAX ? Infinity : priceFilter.max;
         return price >= min && price <= max;
       })
       .filter((item, i) => {
         let volume = item[5];
-        let volumeFilter = self.state.filter.volume;
+        let volumeFilter = filter.volume;
         const min = volumeFilter.min || 0;
         const max =
           volumeFilter.max >= AVG_VOL_MAX * 1000 ? Infinity : volumeFilter.max;
@@ -1369,21 +1335,8 @@ export class Dashboard extends Component {
     this.setState({ discoveryFilter, discoveryDataFiltered });
   };
 
-  onToggleWidget = (name) => {
-    this.setState({
-      [name]: !this.state[name],
-    });
-  };
   render() {
-    const {
-      lows,
-      highs,
-      isSmallDevice,
-      discoveryDataFiltered,
-      discoveryFilter,
-      discoveryNoDataText,
-      max,
-    } = this.state;
+    const { max } = this.state;
     if (max) {
       return (
         <div className="row dashboard-content h-100">
@@ -1548,6 +1501,7 @@ const mapStateToProps = (state, props) => ({
   loading: state.auth.loading,
   user: state.auth.user,
   menu: state.menu,
+  config: state.config,
   isPro:
     state.auth.user.subscription.plan === "pro_monthly" ||
     state.auth.user.subscription.plan === "pro_semi_annual",

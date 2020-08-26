@@ -15,7 +15,6 @@ import {
   AVG_VOL_MIN,
   AVG_VOL_MAX,
   SECTORS_FILTER,
-  DEFAULT_FILTER,
 } from "../constants";
 
 const alerts = [
