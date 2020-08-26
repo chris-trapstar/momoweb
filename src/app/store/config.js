@@ -1,5 +1,11 @@
 import { createReducer, createActions } from "reduxsauce";
-import { AVG_VOL_MAX, AVG_VOL_MIN, DEFAULT_FILTER } from "../constants";
+import {
+  AVG_VOL_MAX,
+  AVG_VOL_MIN,
+  DEFAULT_FILTER,
+  PRICE_MAX,
+  PRICE_MIN,
+} from "../constants";
 
 const defaultState = {
   filter: DEFAULT_FILTER,
@@ -13,7 +19,7 @@ export const { Types, Creators } = createActions({
 
 export const ConfigTypes = Types;
 
-const getVolNumber = (strValue) => {
+export const getVolNumber = (strValue) => {
   if (strValue === "MIN") {
     return AVG_VOL_MIN * 1000;
   } else if (strValue === "MAX") {
@@ -25,9 +31,22 @@ const getVolNumber = (strValue) => {
   }
 };
 
+export const priceRangeFormat = (value) => {
+  if (value === "MIN") {
+    return 0;
+  } else if (value === "MAX") {
+    return PRICE_MAX;
+  } else {
+    return value;
+  }
+};
+
 const updatePriceFilter = (state, { value }) => {
   const filter = { ...state.filter };
-  filter.price = { min: value[0], max: value[1] };
+  filter.price = {
+    min: priceRangeFormat(value[0]),
+    max: priceRangeFormat(value[1]),
+  };
   return {
     ...state,
     filter,

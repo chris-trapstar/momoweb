@@ -16,6 +16,9 @@ import {
   AVG_VOL_MAX,
   SECTORS_FILTER,
 } from "../constants";
+import abbreviate from "number-abbreviate";
+
+const currencyFormatter = new Intl.NumberFormat();
 
 const alerts = [
   {
@@ -330,7 +333,7 @@ export class Settings extends Component {
   };
 
   render() {
-    const { filter } = this.state;
+    const { filter } = this.props.config;
 
     return (
       <div className="settings-content">
@@ -341,9 +344,9 @@ export class Settings extends Component {
         </div>
         <div className="value-item">
           <div className="mx-0 item-content mt-1 p-4 pr-5">
-            <div className="d-flex pt-5 pb-5 align-items-center">
+            <div className="d-flex pt-5 pb-5 align-items-baseline">
               <span className="small w-25">PRICE</span>
-              <div className="d-flex flex-row flex-fill">
+              <div className="d-flex flex-column flex-fill">
                 <Slider
                   range={{ min: PRICE_MIN, max: PRICE_MAX }}
                   start={
@@ -361,12 +364,23 @@ export class Settings extends Component {
                   className="flex-fill slider-white slider-range"
                   onChange={this.props.updatePriceFilter}
                 />
+                <div
+                  className="d-flex justify-content-between mt-3"
+                  style={{ fontSize: 12 }}
+                >
+                  <div className="small">
+                    MIN: ${currencyFormatter.format(filter.price.min)}
+                  </div>
+                  <div className="small">
+                    MAX: ${currencyFormatter.format(filter.price.max)}
+                  </div>
+                </div>
               </div>
             </div>
 
-            <div className="d-flex pt-5 pb-5 align-items-center">
+            <div className="d-flex pt-5 pb-5 align-items-baseline">
               <div className="small w-25">AVG VOL</div>
-              <div className="d-flex flex-row flex-fill">
+              <div className="d-flex flex-column flex-fill">
                 <LogSlider
                   start={
                     filter
@@ -386,6 +400,17 @@ export class Settings extends Component {
                   className="flex-fill slider-white slider-range"
                   onChange={this.props.updateVolumeFilter}
                 />
+                <div
+                  className="d-flex justify-content-between mt-3"
+                  style={{ fontSize: 12 }}
+                >
+                  <div className="small">
+                    MIN: {abbreviate(filter.volume.min)}
+                  </div>
+                  <div className="small">
+                    MAX: {abbreviate(filter.volume.max)}
+                  </div>
+                </div>
               </div>
             </div>
 
