@@ -27,6 +27,8 @@ import {
 } from "../constants";
 import DiscoveryTable from "./DiscoveyTable";
 import MainMenu from "../shared/MainMenu/MainMenu";
+import * as DataSource from '../DataSource'
+
 const params = {
   grabCursor: true,
   slidesPerView: "auto",
@@ -67,6 +69,7 @@ export class Dashboard extends Component {
     if (discoveryTable) {
       discoveryTable.addEventListener("scroll", this.handleScroll);
     }
+    DataSource.connect()
   }
 
   componentWillUnmount() {
@@ -131,6 +134,7 @@ export class Dashboard extends Component {
       clearInterval(this.flushBufferIntervalId);
     }
     clearInterval(this.statsTimer);
+    DataSource.disconnect()
   }
 
   getStats = async () => {
