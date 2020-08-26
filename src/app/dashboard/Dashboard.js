@@ -10,6 +10,7 @@ import * as _ from "lodash";
 import { withTranslation } from "react-i18next";
 // import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
 import { Form, Button, Modal, Spinner, Dropdown } from "react-bootstrap";
+import abbreviate from "number-abbreviate";
 
 import "./dashboard.css";
 import "swiper/css/swiper.css";
@@ -1047,6 +1048,9 @@ export class Dashboard extends Component {
 
   renderStream = () => {
     const { isSmallDevice, lows, highs, max } = this.state;
+    const {
+      filter: { price, volume },
+    } = this.props.config;
     return (
       <div
         className={
@@ -1058,6 +1062,15 @@ export class Dashboard extends Component {
         }
       >
         <div className="card h-100">
+          <div
+            className="text-muted mb-0 pl-3 small d-flex align-items-center"
+            style={{ height: "1.5rem" }}
+          >
+            <i className="mdi mdi-filter mr-1" aria-hidden="true"></i>
+            {`PRICE: $${price.min} - $${price.max}, VOLUME: ${abbreviate(
+              volume.min
+            )} - ${abbreviate(volume.max)}`}
+          </div>
           <div
             className="btn btn-icon btn-max"
             style={
