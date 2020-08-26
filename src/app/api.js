@@ -1,7 +1,7 @@
 import Axios from "axios";
 import jwtDecode from "jwt-decode";
 
-const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL || 'https://dev-api.mometic.com'; // https://create-react-app.dev/docs/adding-custom-environment-variables/
+const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL; // https://create-react-app.dev/docs/adding-custom-environment-variables/
 
 const axios = Axios.create({
   baseURL: REACT_APP_BASE_URL,

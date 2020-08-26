@@ -1,425 +1,398 @@
-import React, { Component } from 'react';
-import API from '../api';
-import './settings.css';
-import Slider from 'nouislider-react';
-import LogSlider, { toValue, fromValue } from './LogSlider'
-import cogoToast from 'cogo-toast';
-import { withTranslation } from 'react-i18next';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { AuthActions } from '../store';
-import AlertInput from './alertInput';
-import { PRICE_MIN, PRICE_MAX, AVG_VOL_MIN, AVG_VOL_MAX, SECTORS_FILTER, DEFAULT_FILTER } from '../constants'
+import React, { Component } from "react";
+import API from "../api";
+import "./settings.css";
+import Slider from "nouislider-react";
+import LogSlider, { toValue, fromValue } from "./LogSlider";
+import cogoToast from "cogo-toast";
+import { withTranslation } from "react-i18next";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { AuthActions, ConfigActions } from "../store";
+import AlertInput from "./alertInput";
+import {
+  PRICE_MIN,
+  PRICE_MAX,
+  AVG_VOL_MIN,
+  AVG_VOL_MAX,
+  SECTORS_FILTER,
+  DEFAULT_FILTER,
+} from "../constants";
 
 const alerts = [
   {
-    type: 'trade',
-    label: 'High/Low',
-    valueLabel: 'Sensitivity',
-  }, {
-    type: 'uv',
-    label: 'Unusual Volume (%)',
-    valueLabel: '% Deviation',
-    pro: true
-  }, {
-    type: 'vwap',
-    label: 'VWAP dist (%)',
-    valueLabel: '% Dist VWAP',
-    pro: true
-  }, {
-    type: 'price',
-    label: 'Price',
-    valueLabel: '% Change',
-    pro: true
-  }
-]
+    type: "trade",
+    label: "High/Low",
+    valueLabel: "Sensitivity",
+  },
+  {
+    type: "uv",
+    label: "Unusual Volume (%)",
+    valueLabel: "% Deviation",
+    pro: true,
+  },
+  {
+    type: "vwap",
+    label: "VWAP dist (%)",
+    valueLabel: "% Dist VWAP",
+    pro: true,
+  },
+  {
+    type: "price",
+    label: "Price",
+    valueLabel: "% Change",
+    pro: true,
+  },
+];
 
 export class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
       alerts: [],
-      isSmallDevice: window.matchMedia('(max-width: 768px)').matches,
-      currentAlert: { category: '', rate: '' },
-      filter: null,
-      editingAlertId: null
+      isSmallDevice: window.matchMedia("(max-width: 768px)").matches,
+      currentAlert: { category: "", rate: "" },
+      editingAlertId: null,
     };
-
-    let filter = { ...DEFAULT_FILTER }
-    let data_filter = localStorage.getItem('filter');
-    if (data_filter) {
-      try {
-        let cached_filter = JSON.parse(data_filter);
-
-        filter.industries = cached_filter.industries || filter.industries
-        filter.price = cached_filter.price || filter.price;
-        filter.volume = cached_filter.volume || filter.volume;
-
-        localStorage.setItem('filter', JSON.stringify(filter));
-      } catch (e) {
-        console.error(e);
-      }
-    } else {
-      localStorage.setItem('filter', JSON.stringify(filter));
-    }
-
-    console.info('Filter Loaded:', filter)
-    this.state.filter = filter
   }
 
   componentDidMount() {
-    const handler = e => this.setState({ isSmallDevice: e.matches });
-    window.matchMedia('(max-width: 767px)').addListener(handler);
+    const handler = (e) => this.setState({ isSmallDevice: e.matches });
+    window.matchMedia("(max-width: 767px)").addListener(handler);
     this.getAlertSettings();
   }
 
   getAlertSettings = async () => {
     const alerts = await API.getAlerts();
-    console.info('Alert Settings:', alerts);
+    console.info("Alert Settings:", alerts);
 
     this.setState({
-      alerts
+      alerts,
     });
   };
 
   getAlertsByType = (type) => {
-    const { alerts } = this.state
-    return alerts.filter((alert) => (alert.type === type))
-  }
+    const { alerts } = this.state;
+    return alerts.filter((alert) => alert.type === type);
+  };
 
   onChangeAlert = (value) => {
     const index = this.state.alerts.findIndex(({ id }) => {
-      return id === value.id
-    })
-    const alerts = [...this.state.alerts]
-    alerts[index] = value
+      return id === value.id;
+    });
+    const alerts = [...this.state.alerts];
+    alerts[index] = value;
     this.setState({
-      alerts
-    })
-  }
+      alerts,
+    });
+  };
 
-  onClickAddAlert = alertType => {
+  onClickAddAlert = (alertType) => {
     /** alertType 1 -> High/Low, 2 -> Unusual Vol, 3 -> VWAP */
-    let initProgress = 20 // 20 or 
-    if (alertType == 'trade') {
-      initProgress = 10
-    } else if (alertType == 'uv') {
-      initProgress = 20
-    } else if (alertType == 'vwap') {
-      initProgress = 2
-    } else if (alertType == 'price') {
-      initProgress = 2
+    let initProgress = 20; // 20 or
+    if (alertType == "trade") {
+      initProgress = 10;
+    } else if (alertType == "uv") {
+      initProgress = 20;
+    } else if (alertType == "vwap") {
+      initProgress = 2;
+    } else if (alertType == "price") {
+      initProgress = 2;
     }
     const currentAlert = {
-      category: '',
-      rate: initProgress
-    }
+      category: "",
+      rate: initProgress,
+    };
     this.setState({ alertType, currentAlert });
   };
 
-  priceRangeFormatFrom = value => {
-    if (value === 'MIN') {
+  priceRangeFormatFrom = (value) => {
+    if (value === "MIN") {
       return 0;
-    } else if (value === 'MAX') {
+    } else if (value === "MAX") {
       return PRICE_MAX;
     } else {
       return value;
     }
-  }
+  };
 
-  priceRangeFormatTo = value => {
+  priceRangeFormatTo = (value) => {
     if (value === 0) {
-      return 'MIN'
+      return "MIN";
     } else if (value === PRICE_MAX) {
-      return 'MAX';
+      return "MAX";
     } else {
       return parseInt(value);
     }
-  }
+  };
 
-  volRangeFormatFrom = value => {
-    console.info('volRangeFormatFrom:', value)
-    if (value === 'MIN') {
+  volRangeFormatFrom = (value) => {
+    console.info("volRangeFormatFrom:", value);
+    if (value === "MIN") {
       return 0;
-    } else if (value === 'MAX') {
+    } else if (value === "MAX") {
       return 40;
     } else if (value == Infinity) {
-      return 40
+      return 40;
     } else {
-      if (value.indexOf('K') > -1) {
-        return fromValue(value.replace('K', ''));
-      } else if (value.indexOf('M') > -1) {
-        return fromValue(value.replace('M', '') * 1000);
+      if (value.indexOf("K") > -1) {
+        return fromValue(value.replace("K", ""));
+      } else if (value.indexOf("M") > -1) {
+        return fromValue(value.replace("M", "") * 1000);
       } else {
-        return value
+        return value;
       }
     }
-  }
+  };
 
-  getVolNumber = (strValue) => {
-    if (strValue === 'MIN') {
-      return AVG_VOL_MIN * 1000
-    } else if (strValue === 'MAX') {
-      return AVG_VOL_MAX * 1000
-    } else if (strValue.indexOf('K') > -1) {
-      return parseInt(strValue.replace('K', '')) * 1000;
-    } else {
-      return parseInt(strValue.replace('M', '') * 1000000);
-    }
-  }
-
-  volRangeFormatTo = value => {
+  volRangeFormatTo = (value) => {
     if (value === 0) {
-      return 'MIN'
+      return "MIN";
     } else if (value === 40) {
-      return 'MAX';
+      return "MAX";
     } else {
-      const kValue = toValue(value)
+      const kValue = toValue(value);
       if (kValue >= 1000) {
-        return parseInt(kValue / 1000) + 'M';
+        return parseInt(kValue / 1000) + "M";
       } else {
         if (kValue > 1) {
-          return parseInt(kValue) + 'K';
+          return parseInt(kValue) + "K";
         } else {
-          return parseInt(kValue * 10) / 10 + 'K'
+          return parseInt(kValue * 10) / 10 + "K";
         }
       }
     }
-  }
+  };
 
   renderFilterIndustries = () => {
-    const { filter } = this.state;
-    const industries = Object.keys(SECTORS_FILTER)
+    const { filter } = this.props.config;
+    const industries = Object.keys(SECTORS_FILTER);
 
     return industries.map((item, index) => {
       return (
         <div
           key={`industry-${index}`}
-          className='d-flex flex-row align-items-center industry-row'
-          onClick={() => { this.updateFilterIndustry(item); }}
+          className="d-flex flex-row align-items-center industry-row"
+          onClick={() => {
+            this.props.updateIndustryFilter(item);
+          }}
         >
-          {
-            (filter && filter.industries && filter.industries[item]) ? <div className='industry-checked' /> : <div className='industry-unchecked' />
-          }
-          <span className='small white-no-wrap industry-txt'>{item}</span>
+          {filter && filter.industries && filter.industries[item] ? (
+            <div className="industry-checked" />
+          ) : (
+            <div className="industry-unchecked" />
+          )}
+          <span className="small white-no-wrap industry-txt">{item}</span>
         </div>
-      )
-    })
-  }
-
-  updateFilterIndustry = item => {
-    const filter = { ...this.state.filter }
-    if (!filter.industries) {
-      filter.industries = {}
-    }
-    filter.industries[item] = !filter.industries[item]
-
-    localStorage.setItem('filter', JSON.stringify(filter));
-    console.info('Filter updated:', filter)
-    this.setState({ filter });
-  }
-
-  updateFilterPrice = value => {
-    let filter = { ...this.state.filter };
-    filter.price = { min: value[0], max: value[1] };
-    console.info('Filter Updated:', filter);
-    localStorage.setItem('filter', JSON.stringify(filter));
-    this.setState({ filter });
-  }
-
-  updateFilterVol = values => {
-    const filter = { ...this.state.filter };
-    filter.volume = { min: this.getVolNumber(values[0]), max: this.getVolNumber(values[1]) };
-    console.info('Filter updated:', filter);
-    localStorage.setItem('filter', JSON.stringify(filter));
-    this.setState({ filter });
-  }
+      );
+    });
+  };
 
   cancelEditAlert = ({ id }) => {
-    const index = this.state.alerts.findIndex((alert) => (alert.id === id))
-    const { prevAlert } = this.state
-    if (index > -1 && prevAlert && prevAlert.id === id) { // restore prev alert
-      const alerts = [...this.state.alerts]
-      alerts[index] = prevAlert
+    const index = this.state.alerts.findIndex((alert) => alert.id === id);
+    const { prevAlert } = this.state;
+    if (index > -1 && prevAlert && prevAlert.id === id) {
+      // restore prev alert
+      const alerts = [...this.state.alerts];
+      alerts[index] = prevAlert;
       this.setState({
         prevAlert: null,
         alerts,
-        editingAlertId: null
-      })
+        editingAlertId: null,
+      });
     }
-  }
+  };
 
   onEditAlert = (alert) => {
     if (this.state.editingAlertId === alert.id) {
-
     } else if (this.state.editingAlertId == null) {
       this.setState({
         prevAlert: { ...alert },
-        editingAlertId: alert.id
-      })
-    } else { // editing alert is ignored
+        editingAlertId: alert.id,
+      });
+    } else {
+      // editing alert is ignored
       // save ?
       // const prevAlert = this.state.alerts.find(({id}) => (this.state.editingAlertId === id))
       // if (prevAlert) {
       //   this.updateAlert(prevAlert)
       // }
-      this.cancelEditAlert(this.state.prevAlert)
+      this.cancelEditAlert(this.state.prevAlert);
       this.setState({
         prevAlert: { ...alert },
-        editingAlertId: alert.id
-      })
+        editingAlertId: alert.id,
+      });
     }
-  }
+  };
 
   updateAlert = async (alert) => {
-    console.info('updateAlert', alert);
+    console.info("updateAlert", alert);
     try {
       const result = await API.updateAlert(alert.id, {
         category: alert.category,
-        rate: alert.rate
-      })
+        rate: alert.rate,
+      });
       if (result && result.success) {
-        cogoToast.success('Alert setting updated for ' + alert.category)
+        cogoToast.success("Alert setting updated for " + alert.category);
         this.setState({
           alerts: result.data.list,
           prevAlert: null,
-          editingAlertId: null
-        })
+          editingAlertId: null,
+        });
       } else {
-        throw result
+        throw result;
       }
     } catch (e) {
-      cogoToast.error(`Failed to update the alert setting for ${alert.category}`)
+      cogoToast.error(
+        `Failed to update the alert setting for ${alert.category}`
+      );
     }
-  }
+  };
 
   deleteAlert = async (alert) => {
-    console.info('deleteAlert - ', alert)
+    console.info("deleteAlert - ", alert);
     try {
-      const result = await API.deleteAlert(alert.id)
+      const result = await API.deleteAlert(alert.id);
       if (result && result.success) {
         this.setState({
-          alerts: result.data // result.data is the remaining alert settings
-        })
+          alerts: result.data, // result.data is the remaining alert settings
+        });
       } else {
-        throw result
+        throw result;
       }
     } catch (e) {
-      cogoToast.error(`Failed to delete the alert setting for ${alert.category}`)
+      cogoToast.error(
+        `Failed to delete the alert setting for ${alert.category}`
+      );
     }
-  }
+  };
 
   registerAlert = async (type) => {
-    const { currentAlert } = this.state
-    const symbol = currentAlert.category.toUpperCase()
-    const rate = currentAlert.rate
+    const { currentAlert } = this.state;
+    const symbol = currentAlert.category.toUpperCase();
+    const rate = currentAlert.rate;
 
-    console.info('registerAlert:', symbol, type, rate);
+    console.info("registerAlert:", symbol, type, rate);
     const dic = {
-      trade: 'Trade',
-      uv: 'Unusual volume',
-      vwap: 'vWAPDist',
-      price: 'Price'
-    }
+      trade: "Trade",
+      uv: "Unusual volume",
+      vwap: "vWAPDist",
+      price: "Price",
+    };
     try {
       const result = await API.addAlert({
         category: symbol,
         rate,
         high: 0,
         low: 0,
-        type
-      })
+        type,
+      });
       if (result && result.success) {
         cogoToast.success(`${dic[type]} alert added for ${symbol}`);
         this.setState({
           alerts: result.data.list,
-          alertType: null
-        })
+          alertType: null,
+        });
       } else if (result && result.error) {
-        throw result.error
+        throw result.error;
       }
     } catch (e) {
-      if (e === 'SequelizeUniqueConstraintError: Validation error') {
-        cogoToast.error(`${dic[type]} alert for ${symbol} is already registered!`)
+      if (e === "SequelizeUniqueConstraintError: Validation error") {
+        cogoToast.error(
+          `${dic[type]} alert for ${symbol} is already registered!`
+        );
       } else {
         cogoToast.error(`Failed to register ${dic[type]} alert for ${symbol}`);
       }
     }
-  }
+  };
 
   renderAlertInput = (type) => {
-    return this.state.alertType === type &&
-      <AlertInput value={this.state.currentAlert} editing={true}
-        onChange={(value) => {
-          this.setState({
-            currentAlert: value
-          })
-        }}
-        onDelete={() => {
-          this.setState({
-            alertType: null
-          })
-        }}
-        onSubmit={() => {
-          this.registerAlert(type)
-        }}
-      />
-  }
+    return (
+      this.state.alertType === type && (
+        <AlertInput
+          value={this.state.currentAlert}
+          editing={true}
+          onChange={(value) => {
+            this.setState({
+              currentAlert: value,
+            });
+          }}
+          onDelete={() => {
+            this.setState({
+              alertType: null,
+            });
+          }}
+          onSubmit={() => {
+            this.registerAlert(type);
+          }}
+        />
+      )
+    );
+  };
 
   render() {
     const { filter } = this.state;
 
     return (
-      <div className='settings-content'>
+      <div className="settings-content">
         {/** General */}
-        <div className='bb-title'>
-          <i className='mdi mdi-pulse'></i>
-          <label className='ml-2 settings-label'> High/Low Stream</label>
+        <div className="bb-title">
+          <i className="mdi mdi-pulse"></i>
+          <label className="ml-2 settings-label"> High/Low Stream</label>
         </div>
-        <div className='value-item'>
-          <div className='mx-0 justify-content-between align-items-center item-content mt-1 padding-bottom-30'>
-            <div className='pricing-container'>
-              <span className='small company-name'>PRICE</span>
-              <div className='d-flex flex-row flex-fill price-section'>
+        <div className="value-item">
+          <div className="mx-0 item-content mt-1 p-4 pr-5">
+            <div className="d-flex pt-5 pb-5 align-items-center">
+              <span className="small w-25">PRICE</span>
+              <div className="d-flex flex-row flex-fill">
                 <Slider
                   range={{ min: PRICE_MIN, max: PRICE_MAX }}
-                  start={filter ? [filter.price.min, filter.price.max] : [PRICE_MIN, PRICE_MAX]}
+                  start={
+                    filter
+                      ? [filter.price.min, filter.price.max]
+                      : [PRICE_MIN, PRICE_MAX]
+                  }
                   connect
                   tooltips={true}
                   step={1}
                   format={{
                     from: this.priceRangeFormatFrom,
-                    to: this.priceRangeFormatTo
+                    to: this.priceRangeFormatTo,
                   }}
-                  className='flex-fill slider-white slider-range'
-                  onChange={(render, handle, value, un, percent) => { this.updateFilterPrice(value); }}
+                  className="flex-fill slider-white slider-range"
+                  onChange={this.props.updatePriceFilter}
                 />
               </div>
-              <div className='pricing-separator' />
-              <div className='small company-name-margin'>AVG VOL</div>
-              <div className='d-flex flex-row flex-fill price-section'>
+            </div>
+
+            <div className="d-flex pt-5 pb-5 align-items-center">
+              <div className="small w-25">AVG VOL</div>
+              <div className="d-flex flex-row flex-fill">
                 <LogSlider
-                  start={filter ? [fromValue(filter.volume.min / 1000 || AVG_VOL_MIN), fromValue(filter.volume.max / 1000 || AVG_VOL_MAX)] : [0, 40]}
+                  start={
+                    filter
+                      ? [
+                          fromValue(filter.volume.min / 1000 || AVG_VOL_MIN),
+                          fromValue(filter.volume.max / 1000 || AVG_VOL_MAX),
+                        ]
+                      : [0, 40]
+                  }
                   connect
                   tooltips={true}
                   step={1}
                   format={{
                     from: this.volRangeFormatFrom,
-                    to: this.volRangeFormatTo
+                    to: this.volRangeFormatTo,
                   }}
-                  className='flex-fill slider-white slider-range'
-                  onChange={(strValues, handle, values, un, percent) => {
-                    this.updateFilterVol(strValues);
-                  }}
+                  className="flex-fill slider-white slider-range"
+                  onChange={this.props.updateVolumeFilter}
                 />
               </div>
-              <div className='pricing-separator' />
             </div>
-            <div className='industry-container'>
-              <div className='pricing-container'>
-                <div className='small company-name-margin'>INDUSTRY</div>
-              </div>
-              <div className='d-flex flex-row flex-wrap margin-top-10'>
+
+            <div className="mt-5">
+              <div className="small">INDUSTRY</div>
+              <div className="d-flex flex-row flex-wrap margin-top-10">
                 {this.renderFilterIndustries()}
               </div>
             </div>
@@ -427,30 +400,38 @@ export class Settings extends Component {
         </div>
 
         {/** Notifications */}
-        <div className='mt-5 bb-title'>
-          <i className='mdi mdi-bell'></i>
-          <label className='ml-2 settings-label'>Notifications</label>
+        <div className="mt-5 bb-title">
+          <i className="mdi mdi-bell"></i>
+          <label className="ml-2 settings-label">Notifications</label>
         </div>
-        {
-          alerts.map(({ type, valueLabel, label }, index) => {
-            const disabled = !this.props.isPro && index > 0
-            return <div key={type}>
-              {!this.props.isPro && type === 'uv' &&
-                <div className='upgrade_pro mt-4 row'>
-                  <div className='col-12'>
+        {alerts.map(({ type, valueLabel, label }, index) => {
+          const disabled = !this.props.isPro && index > 0;
+          return (
+            <div key={type}>
+              {!this.props.isPro && type === "uv" && (
+                <div className="upgrade_pro mt-4 row">
+                  <div className="col-12">
                     <label>--- PRO ONLY ---</label>
-                    <a className='btn btn-primary ml-1' href='/plans'> Upgrade Now</a>
+                    <a className="btn btn-primary ml-1" href="/plans">
+                      {" "}
+                      Upgrade Now
+                    </a>
                   </div>
                 </div>
-              }
+              )}
 
-              <div className={disabled ? 'value-item-disabled' : 'value-item'}>
-                <label className={'small' + (disabled ? ' text-muted' : '')}>{label}</label>
-                <div className='d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1'>
-                  <label className='small text-symbol'>Symbol</label>
-                  <label className='small text-symbol'>{valueLabel}</label>
+              <div className={disabled ? "value-item-disabled" : "value-item"}>
+                <label className={"small" + (disabled ? " text-muted" : "")}>
+                  {label}
+                </label>
+                <div className="d-flex flex-row justify-content-between align-items-center mx-0 symbol mt-1">
+                  <label className="small text-symbol">Symbol</label>
+                  <label className="small text-symbol">{valueLabel}</label>
                   <button
-                    className={'btn bg-transparent border-0 px-0 small text-alert cursor-pointer' + (disabled ? ' text-muted' : ' text-alert')}
+                    className={
+                      "btn bg-transparent border-0 px-0 small text-alert cursor-pointer" +
+                      (disabled ? " text-muted" : " text-alert")
+                    }
                     onClick={() => {
                       this.onClickAddAlert(type);
                     }}
@@ -459,54 +440,61 @@ export class Settings extends Component {
                     Add Alert
                   </button>
                 </div>
-                {!disabled &&
+                {!disabled && (
                   <>
                     {this.renderAlertInput(type)}
-                    {
-                      this.getAlertsByType(type).map((alert) => {
-                        return <AlertInput key={alert.id} value={alert} editing={this.state.editingAlertId === alert.id} type={type}
+                    {this.getAlertsByType(type).map((alert) => {
+                      return (
+                        <AlertInput
+                          key={alert.id}
+                          value={alert}
+                          editing={this.state.editingAlertId === alert.id}
+                          type={type}
                           onChange={(value) => {
-                            this.onChangeAlert(value)
+                            this.onChangeAlert(value);
                           }}
                           onEdit={() => {
-                            this.onEditAlert(alert)
+                            this.onEditAlert(alert);
                           }}
                           onDelete={() => {
                             if (this.state.editingAlertId === alert.id) {
-                              this.cancelEditAlert(alert)
+                              this.cancelEditAlert(alert);
                             } else {
-                              this.deleteAlert(alert)
+                              this.deleteAlert(alert);
                             }
                           }}
                           onSubmit={() => {
-                            this.updateAlert(alert)
+                            this.updateAlert(alert);
                           }}
                         />
-                      })
-                    }
+                      );
+                    })}
                   </>
-                }
-
+                )}
               </div>
             </div>
-          })
-        }
+          );
+        })}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state, props) => ({
-  authenticated: state.auth.authenticated,
-  loading: state.auth.loading,
-  user: state.auth.user,
-  isPro: state.auth.user.subscription.plan === 'pro_monthly' || state.auth.user.subscription.plan === 'pro_semi_annual'
+  ...state.auth,
+  config: state.config,
+  isPro:
+    state.auth.user.subscription.plan === "pro_monthly" ||
+    state.auth.user.subscription.plan === "pro_semi_annual",
 });
 
 const mapDispatchToProps = {
   setAuthenticated: AuthActions.setAuthenticated,
   setLoading: AuthActions.setLoading,
   setUser: AuthActions.setUser,
+  updateVolumeFilter: ConfigActions.updateVolumeFilter,
+  updatePriceFilter: ConfigActions.updatePriceFilter,
+  updateIndustryFilter: ConfigActions.updateIndustryFilter,
 };
 
 export default withTranslation()(
