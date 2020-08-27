@@ -1452,7 +1452,7 @@ export class Dashboard extends Component {
                             overflow: "scroll",
                           }}
                         >
-                          <div className="d-flex flex-row flex-fill flex-wrap">
+                          <div className="d-flex flex-row flex-fill flex-wrap" style={{ alignItems: 'baseline'}}>
                             {this.renderPopularData(0)}
                           </div>
                         </div>
