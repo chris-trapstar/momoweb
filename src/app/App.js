@@ -20,7 +20,6 @@ import ResetPassword from './user-pages/ResetPassword';
 import Spinner from '../app/shared/Spinner';
 import { AuthActions } from './store';
 import API from './api';
-import * as DataSource from './DataSource'
 
 if (firebase.messaging.isSupported()) {
   const messaging = firebase.messaging();
@@ -67,7 +66,6 @@ class ProtectedApp extends Component {
 
   componentDidMount() {
     this.checkEmailVerified()
-    DataSource.connect()
   }
 
   checkEmailVerified = () => {
