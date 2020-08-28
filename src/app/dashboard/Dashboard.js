@@ -27,7 +27,7 @@ import {
 } from "../constants";
 import DiscoveryTable from "./DiscoveyTable";
 import MainMenu from "../shared/MainMenu/MainMenu";
-import * as DataSource from '../DataSource'
+import * as DataSource from "../DataSource";
 
 const params = {
   grabCursor: true,
@@ -69,7 +69,7 @@ export class Dashboard extends Component {
     if (discoveryTable) {
       discoveryTable.addEventListener("scroll", this.handleScroll);
     }
-    DataSource.connect()
+    DataSource.connect();
   }
 
   componentWillUnmount() {
@@ -134,7 +134,7 @@ export class Dashboard extends Component {
       clearInterval(this.flushBufferIntervalId);
     }
     clearInterval(this.statsTimer);
-    DataSource.disconnect()
+    DataSource.disconnect();
   }
 
   getStats = async () => {
@@ -296,7 +296,7 @@ export class Dashboard extends Component {
         let volumeFilter = filter.volume;
         const min = volumeFilter.min || 0;
         const max =
-          volumeFilter.max >= AVG_VOL_MAX * 1000 ? Infinity : volumeFilter.max;
+          volumeFilter.max >= AVG_VOL_MAX ? Infinity : volumeFilter.max;
         return volume >= min && volume <= max;
       })
       .filter((item) => {
@@ -1055,6 +1055,10 @@ export class Dashboard extends Component {
     const {
       filter: { price, volume },
     } = this.props.config;
+    const minPrice = price.min;
+    const maxPrice = price.max === PRICE_MAX ? "∞" : price.max;
+    const minVolume = abbreviate(volume.min);
+    const maxVolume = volume.max === AVG_VOL_MAX ? "∞" : abbreviate(volume.max);
     return (
       <div
         className={
@@ -1071,9 +1075,7 @@ export class Dashboard extends Component {
             style={{ height: "1.5rem" }}
           >
             <i className="mdi mdi-filter mr-1" aria-hidden="true"></i>
-            {`PRICE: $${price.min} - $${price.max}, VOLUME: ${abbreviate(
-              volume.min
-            )} - ${abbreviate(volume.max)}`}
+            {`PRICE: $${minPrice} - ${maxPrice}, VOLUME: ${minVolume} - ${maxVolume}`}
           </div>
           <div
             className="btn btn-icon btn-max"
@@ -1452,7 +1454,10 @@ export class Dashboard extends Component {
                             overflow: "scroll",
                           }}
                         >
-                          <div className="d-flex flex-row flex-fill flex-wrap" style={{ alignItems: 'baseline'}}>
+                          <div
+                            className="d-flex flex-row flex-fill flex-wrap"
+                            style={{ alignItems: "baseline" }}
+                          >
                             {this.renderPopularData(0)}
                           </div>
                         </div>

@@ -42,10 +42,11 @@ export const priceRangeFormat = (value) => {
 };
 
 const updatePriceFilter = (state, { value }) => {
+  console.log(value);
   const filter = { ...state.filter };
   filter.price = {
-    min: priceRangeFormat(value[0]),
-    max: priceRangeFormat(value[1]),
+    min: value.low, //priceRangeFormat(value[0]),
+    max: value.high, //priceRangeFormat(value[1]),
   };
   return {
     ...state,
@@ -56,8 +57,8 @@ const updatePriceFilter = (state, { value }) => {
 const updateVolumeFilter = (state, { value }) => {
   const filter = { ...state.filter };
   filter.volume = {
-    min: getVolNumber(value[0]),
-    max: getVolNumber(value[1]),
+    min: value.low,
+    max: value.high,
   };
   return {
     ...state,

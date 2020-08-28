@@ -15,8 +15,11 @@ import {
   AVG_VOL_MIN,
   AVG_VOL_MAX,
   SECTORS_FILTER,
+  PRICE_RANGE,
+  VOLUME_RANGE,
 } from "../constants";
 import abbreviate from "number-abbreviate";
+import StepRangeSlider from "../shared/StepRangeSlider/StepRangeSlider";
 
 const currencyFormatter = new Intl.NumberFormat();
 
@@ -128,7 +131,6 @@ export class Settings extends Component {
   };
 
   volRangeFormatFrom = (value) => {
-    console.info("volRangeFormatFrom:", value);
     if (value === "MIN") {
       return 0;
     } else if (value === "MAX") {
@@ -347,7 +349,7 @@ export class Settings extends Component {
             <div className="d-flex pt-5 pb-5 align-items-baseline">
               <span className="small w-25">PRICE</span>
               <div className="d-flex flex-column flex-fill">
-                <Slider
+                {/*<Slider
                   range={{ min: PRICE_MIN, max: PRICE_MAX }}
                   start={
                     filter
@@ -363,6 +365,11 @@ export class Settings extends Component {
                   }}
                   className="flex-fill slider-white slider-range"
                   onChange={this.props.updatePriceFilter}
+                />*/}
+                <StepRangeSlider
+                  values={{ low: filter.price.min, high: filter.price.max }}
+                  range={PRICE_RANGE}
+                  onChange={this.props.updatePriceFilter}
                 />
                 <div
                   className="d-flex justify-content-between mt-3"
@@ -372,7 +379,12 @@ export class Settings extends Component {
                     MIN: ${currencyFormatter.format(filter.price.min)}
                   </div>
                   <div className="small">
-                    MAX: ${currencyFormatter.format(filter.price.max)}
+                    MAX:{" "}
+                    {filter.price.max === PRICE_MAX ? (
+                      <span>&infin;</span>
+                    ) : (
+                      `$${currencyFormatter.format(filter.price.max)}`
+                    )}
                   </div>
                 </div>
               </div>
@@ -381,7 +393,7 @@ export class Settings extends Component {
             <div className="d-flex pt-5 pb-5 align-items-baseline">
               <div className="small w-25">AVG VOL</div>
               <div className="d-flex flex-column flex-fill">
-                <LogSlider
+                {/*<LogSlider
                   start={
                     filter
                       ? [
@@ -399,6 +411,11 @@ export class Settings extends Component {
                   }}
                   className="flex-fill slider-white slider-range"
                   onChange={this.props.updateVolumeFilter}
+                />*/}
+                <StepRangeSlider
+                  values={{ low: filter.volume.min, high: filter.volume.max }}
+                  range={VOLUME_RANGE}
+                  onChange={this.props.updateVolumeFilter}
                 />
                 <div
                   className="d-flex justify-content-between mt-3"
@@ -408,7 +425,12 @@ export class Settings extends Component {
                     MIN: {abbreviate(filter.volume.min)}
                   </div>
                   <div className="small">
-                    MAX: {abbreviate(filter.volume.max)}
+                    MAX:{" "}
+                    {filter.volume.max === AVG_VOL_MAX ? (
+                      <span>&infin;</span>
+                    ) : (
+                      abbreviate(filter.volume.max)
+                    )}
                   </div>
                 </div>
               </div>
