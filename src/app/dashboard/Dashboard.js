@@ -443,7 +443,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   low[3] === 1 ? "stock-active-text stock-active-low" : ""
-                }`}
+                  }`}
               >
                 <ContextMenuTrigger
                   id={`low-context-menu_${index}`}
@@ -485,7 +485,7 @@ export class Dashboard extends Component {
               <label
                 className={`stock-text ${
                   high[3] === 1 ? "stock-active-text stock-active-high" : ""
-                }`}
+                  }`}
               >
                 <ContextMenuTrigger
                   id={`high-context-menu_${index}`}
@@ -870,8 +870,8 @@ export class Dashboard extends Component {
         sortOption.type === "none"
           ? discoveryData
           : sortOption.type === "up"
-          ? sorted.reverse()
-          : sorted,
+            ? sorted.reverse()
+            : sorted,
     });
   };
 
@@ -943,7 +943,7 @@ export class Dashboard extends Component {
             {/* <div className='font-13 alert-history-color'>{item.msg}</div> */}
             <div className="font-13 alert-history-color">{`${
               item.msg
-            } - ${this.formatDate(item.date)}`}</div>
+              } - ${this.formatDate(item.date)}`}</div>
           </div>
           <div className="d-flex flex-row flex-fill alert-history-separator" />
         </div>
@@ -1065,8 +1065,8 @@ export class Dashboard extends Component {
           max || !this.props.isPro
             ? "w-100 h-100"
             : !this.props.menu.popular && !this.props.menu.alertHistory
-            ? "w-100"
-            : "grid-margin stretch-card px-0 flex-fill socket-table"
+              ? "w-100"
+              : "grid-margin stretch-card px-0 flex-fill socket-table"
         }
       >
         <div className="card h-100">
@@ -1099,20 +1099,20 @@ export class Dashboard extends Component {
               {this.renderData(highs, "high")}
             </div>
           ) : (
-            <div
-              className="card-body stream-body"
-              style={
-                max
-                  ? {}
-                  : { height: this.props.menu.discovery ? "48vh" : "80vh" }
-              }
-            >
-              <div className="row" style={{ height: "100%" }}>
-                {this.renderData(lows, "low")}
-                {this.renderData(highs, "high")}
+              <div
+                className="card-body stream-body"
+                style={
+                  max
+                    ? {}
+                    : { height: this.props.menu.discovery ? "48vh" : "80vh" }
+                }
+              >
+                <div className="row" style={{ height: "100%" }}>
+                  {this.renderData(lows, "low")}
+                  {this.renderData(highs, "high")}
+                </div>
               </div>
-            </div>
-          )}
+            )}
         </div>
       </div>
     );
@@ -1251,7 +1251,7 @@ export class Dashboard extends Component {
                               this.state.isFavFilter
                                 ? "mdi mdi-star quote-star popover-icon"
                                 : "mdi mdi-star text-white popover-icon"
-                            }`}
+                              }`}
                             style={{ alignSelf: "center" }}
                           />
                           <span
@@ -1418,6 +1418,20 @@ export class Dashboard extends Component {
                 </div>
               )}
 
+              {this.props.menu.quotes && this.state.quotes.length === 0 && (
+                <div className="card add-quote-empty">
+                  <a
+                    onClick={() => {
+                      this.setState({
+                        showAddQuote: true,
+                      });
+                    }}
+                  >
+                    <i className="mdi mdi-plus cursor-pointer add-quoute-icon" />
+                  </a>
+                </div>
+              )}
+
               {/** Table | (Popular vs Alert History) */}
               <div className="d-flex flex-row data-section-small flex-wrap">
                 {this.props.isPro &&
@@ -1469,8 +1483,8 @@ export class Dashboard extends Component {
                     (this.props.isPro ? (
                       <div className="data-separator"></div>
                     ) : (
-                      <div className="basic-data-separator" />
-                    ))}
+                        <div className="basic-data-separator" />
+                      ))}
                   {this.props.menu.alertHistory && (
                     <div
                       className="card flex-fill"
