@@ -1,8 +1,26 @@
 export const PRICE_MIN = 0;
 export const PRICE_MAX = 5000;
 
-export const AVG_VOL_MIN = 1;
-export const AVG_VOL_MAX = 200000; // Max 2M, unit is K
+export const AVG_VOL_MIN = 0;
+export const AVG_VOL_MAX = 200000000; // Max 2M, unit is K
+
+export const PRICE_RANGE = [
+  { value: PRICE_MIN, step: 1 }, // acts as min value
+  { value: 10, step: 10 },
+  { value: 100, step: 100 },
+  { value: 1000, step: 1000 }, // acts as max value
+  { value: PRICE_MAX },
+];
+
+export const VOLUME_RANGE = [
+  { value: AVG_VOL_MIN, step: 10000 }, // acts as min value
+  { value: 100000, step: 100000 },
+  { value: 500000, step: 500000 },
+  { value: 1000000, step: 1000000 }, // acts as max value
+  { value: 5000000, step: 5000000 },
+  { value: 10000000, step: 10000000 },
+  { value: AVG_VOL_MAX },
+];
 
 export const SECTORS_FILTER = {
   "BASIC INDUSTRIES": {
