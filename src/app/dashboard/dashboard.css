@@ -800,3 +800,7 @@ th {
   flex-direction: column;
   height: 100%;
 }
+
+.add-quote-empty {
+  text-align: center;
+}
