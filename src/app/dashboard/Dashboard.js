@@ -1411,13 +1411,12 @@ export class Dashboard extends Component {
                       <i className='mdi mdi-chevron-down cursor-pointer add-quoute-icon' />
                     </a> */}
                   </div>
-                  {this.renderAddQuoteModal()}
                   {this.state.quotes.length > 0 && (
                     <Swiper {...params}>{this.renderQuoteCards()}</Swiper>
                   )}
                 </div>
               )}
-
+              {this.renderAddQuoteModal()}
               {this.props.menu.quotes && this.state.quotes.length === 0 && (
                 <div className="card add-quote-empty">
                   <a
