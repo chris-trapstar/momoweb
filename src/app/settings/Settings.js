@@ -444,7 +444,7 @@ export class Settings extends Component {
                 </div>
               )}
 
-              <div className={disabled ? "value-item-disabled" : "value-item"}>
+              <div className={disabled ? "value-item-disabled" : "value-item" + (index === alerts.length - 1) ? ' pb-3' : ''}>
                 <label className={"small" + (disabled ? " text-muted" : "")}>
                   {label}
                 </label>
